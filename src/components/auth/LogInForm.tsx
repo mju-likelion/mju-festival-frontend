@@ -12,16 +12,19 @@ const encryptFunc = (value: string) => {
   return encrypt.encrypt(value) || '';
 };
 
+const loginFormData = {
+  studentId: '',
+  password: '',
+  decryptionMethod: 'TOKEN' as 'TOKEN' | 'KEY',
+  decryptionValue: '',
+};
+
 const LogInForm = () => {
   const { register, handleSubmit } = useForm<AuthFormValues>();
 
   const onSubmit = handleSubmit((formData) => {
-    const encryptDataObj: Partial<AuthFormValues> = {};
-
-    Object.keys(formData).forEach((key) => {
-      const authFormKey = key as keyof AuthFormValues;
-      encryptDataObj[authFormKey] = encryptFunc(formData[authFormKey]);
-    });
+    loginFormData.studentId = encryptFunc(formData.id) || '';
+    loginFormData.password = encryptFunc(formData.password) || '';
   });
 
   return (
