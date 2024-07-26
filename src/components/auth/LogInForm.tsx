@@ -34,8 +34,7 @@ const setEncryptData = (
 
   if (path === '/login') {
     loginFormData.studentId = encryptFunc(formData.id, rsaPublicKey) || '';
-  }
-  if (path === '/admin/login') {
+  } else if (path === '/admin/login') {
     loginFormData.loginId = encryptFunc(formData.id, rsaPublicKey) || '';
   }
   loginFormData.password = encryptFunc(formData.password, rsaPublicKey) || '';
