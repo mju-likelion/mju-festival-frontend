@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useLocation } from 'react-router-dom';
 import { JSEncrypt } from 'jsencrypt';
-import { logIn, requestKey } from '../../api/LogIn.ts';
+import { logIn, requestKey } from '../../api/logIn.ts';
 import {
   AuthFormValues,
   EncryptKeyInfo,
