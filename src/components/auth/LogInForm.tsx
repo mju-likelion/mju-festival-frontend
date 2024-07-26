@@ -38,6 +38,7 @@ const setEncryptData = (
   if (path === '/admin/login') {
     loginFormData.loginId = encryptFunc(formData.id, rsaPublicKey) || '';
   }
+  loginFormData.password = encryptFunc(formData.password, rsaPublicKey) || '';
   loginFormData.decryptionMethod = keyStorageStrategy;
   loginFormData.decryptionValue = credential;
 
