@@ -4,7 +4,8 @@ export interface AuthFormValues {
 }
 
 export interface LogInFormDataValues {
-  studentId: string;
+  studentId?: string;
+  loginId?: string;
   password: string;
   decryptionMethod: 'TOKEN' | 'KEY';
   decryptionValue: string;
@@ -12,10 +13,10 @@ export interface LogInFormDataValues {
 
 export interface EncryptKeyInformaion {
   message: string;
-  data: EncryptKey;
+  data: EncryptKeyInfo;
 }
 
-export interface EncryptKey {
+export interface EncryptKeyInfo {
   rsaPublicKey: string;
   keyStorageStrategy: 'TOKEN' | 'KEY';
   credential: string;
