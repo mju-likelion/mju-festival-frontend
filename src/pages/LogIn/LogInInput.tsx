@@ -1,6 +1,6 @@
 import { FieldPath, FieldValues, UseFormRegister } from 'react-hook-form';
 
-interface InputType<T extends FieldValues> {
+interface InputPropTypes<T extends FieldValues> {
   type: string;
   name: keyof T;
   placeholder: string;
@@ -12,7 +12,7 @@ const LogInInput = <T extends FieldValues>({
   name,
   placeholder,
   register,
-}: InputType<T>) => {
+}: InputPropTypes<T>) => {
   return (
     <div>
       <input

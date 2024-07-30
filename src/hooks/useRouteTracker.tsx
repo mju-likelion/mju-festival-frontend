@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import ReactGA from 'react-ga4';
 
-const RouteChangeTracker = () => {
+const useRouteTracker = () => {
   useEffect(() => {
     if (!window.location.href.includes('localhost')) {
       ReactGA.initialize(import.meta.env.VITE_GA_TRACKING_ID, {
@@ -12,4 +12,4 @@ const RouteChangeTracker = () => {
   return null;
 };
 
-export default RouteChangeTracker;
+export default useRouteTracker;

@@ -1,20 +1,20 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import LogInForm from '../components/auth/LogInForm.tsx';
+import LogInForm from './LogInForm.tsx';
 
 const UserLogIn = () => {
   const navigate = useNavigate();
   return (
-    <Container>
+    <Wrapper>
       <LogInForm />
       <button type="button" onClick={() => navigate('/admin/login')}>
         관리자로 로그인하기
       </button>
-    </Container>
+    </Wrapper>
   );
 };
 
-const Container = styled.div`
+const Wrapper = styled.div`
   border: 1px solid dodgerblue;
 `;
 

@@ -1,7 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useLocation } from 'react-router-dom';
 import { JSEncrypt } from 'jsencrypt';
-import { logIn, requestKey } from '../../api/logIn.ts';
 import {
   AuthFormValues,
   EncryptKeyInfo,
@@ -9,6 +8,7 @@ import {
 } from '../../types';
 import LogInInput from './LogInInput.tsx';
 import LogInButton from './LogInButton.tsx';
+import { logIn, requestKey } from '../../api/LogIn.ts';
 
 const encrypt = new JSEncrypt();
 const encryptFunc = (value: string, key: string) => {
