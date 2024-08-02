@@ -11,11 +11,6 @@ export interface LogInFormDataValues {
   decryptionValue: string;
 }
 
-export interface EncryptKeyInformaion {
-  message: string;
-  data: EncryptKeyInfo;
-}
-
 export interface EncryptKeyInfo {
   rsaPublicKey: string;
   keyStorageStrategy: 'TOKEN' | 'KEY';
