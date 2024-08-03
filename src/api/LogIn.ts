@@ -6,6 +6,13 @@ export const requestKey = async () => {
   return response.data;
 };
 
-export const logIn = async (logInFormData: LogInFormDataValues) => {
-  await Axios.post('/auth/user/login', logInFormData);
+export const logIn = async (
+  logInFormData: LogInFormDataValues,
+  auth: 'user' | 'admin',
+  rsaKeyStrategy: string
+) => {
+  await Axios.post(
+    `/auth/${auth}/login?rsaKeyStrategy=${rsaKeyStrategy}`,
+    logInFormData
+  );
 };

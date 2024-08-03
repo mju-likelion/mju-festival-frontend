@@ -8,6 +8,7 @@ import {
 } from '../../types';
 import LogInInput from './LogInInput.tsx';
 import LogInButton from './LogInButton.tsx';
+import CheckBox from './CheckBox.tsx';
 import { logIn, requestKey } from '../../api/LogIn.ts';
 
 const encrypt = new JSEncrypt();
@@ -24,22 +25,26 @@ const setEncryptData = (
   encryptInfo: EncryptKeyInfo,
   path: string
 ): LogInFormDataValues => {
-  const { rsaPublicKey, keyStorageStrategy, credential } = encryptInfo;
+  const { rsaPublicKey, credentialKey } = encryptInfo;
 
   const loginFormData: LogInFormDataValues = {
-    password: '',
-    decryptionMethod: 'TOKEN',
-    decryptionValue: '',
+    encryptedPassword: '',
+    key: '',
   };
 
   if (path === '/login') {
-    loginFormData.studentId = encryptFunc(formData.id, rsaPublicKey) || '';
+    loginFormData.encryptedStudentId =
+      encryptFunc(formData.id, rsaPublicKey) || '';
+    const terms = import.meta.env.VITE_DUMMY_TERMS;
+    const termsArray = JSON.parse(terms);
+    loginFormData.terms = new Map(termsArray);
   } else if (path === '/admin/login') {
-    loginFormData.loginId = encryptFunc(formData.id, rsaPublicKey) || '';
+    loginFormData.encryptedLoginId =
+      encryptFunc(formData.id, rsaPublicKey) || '';
   }
-  loginFormData.password = encryptFunc(formData.password, rsaPublicKey) || '';
-  loginFormData.decryptionMethod = keyStorageStrategy;
-  loginFormData.decryptionValue = credential;
+  loginFormData.encryptedPassword =
+    encryptFunc(formData.password, rsaPublicKey) || '';
+  loginFormData.key = credentialKey;
 
   return loginFormData;
 };
@@ -47,6 +52,17 @@ const setEncryptData = (
 const LogInForm = () => {
   const { register, handleSubmit } = useForm<AuthFormValues>();
   const location = useLocation();
+
+  const getAuth = () => {
+    if (location.pathname === '/login') {
+      return 'user';
+    }
+    if (location.pathname === '/admin/login') {
+      return 'admin';
+    }
+    throw new Error('로그인 외 경로');
+  };
+
   const onSubmit = handleSubmit(async (formData) => {
     try {
       const encryptInfo = await requestKey();
@@ -55,7 +71,7 @@ const LogInForm = () => {
         encryptInfo,
         location.pathname
       );
-      await logIn(encryptLogInData);
+      await logIn(encryptLogInData, getAuth(), encryptInfo.rsaKeyStrategy);
     } catch (e) {
       if (e instanceof Error) {
         console.error(e.message);
@@ -79,6 +95,7 @@ const LogInForm = () => {
         placeholder="비밀번호를 입력해주세요"
         register={register}
       />
+      <CheckBox name="checkbox" register={register} />
       <LogInButton />
     </form>
   );

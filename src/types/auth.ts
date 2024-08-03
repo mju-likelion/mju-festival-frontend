@@ -1,18 +1,19 @@
 export interface AuthFormValues {
   id: string;
   password: string;
+  checkbox: boolean;
 }
 
 export interface LogInFormDataValues {
-  studentId?: string;
-  loginId?: string;
-  password: string;
-  decryptionMethod: 'TOKEN' | 'KEY';
-  decryptionValue: string;
+  encryptedStudentId?: string;
+  encryptedLoginId?: string;
+  encryptedPassword: string;
+  key: string;
+  terms?: object;
 }
 
 export interface EncryptKeyInfo {
   rsaPublicKey: string;
-  keyStorageStrategy: 'TOKEN' | 'KEY';
-  credential: string;
+  rsaKeyStrategy: 'REDIS' | 'TOKEN';
+  credentialKey: string;
 }
