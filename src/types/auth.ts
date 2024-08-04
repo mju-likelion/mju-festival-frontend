@@ -1,7 +1,7 @@
 export interface AuthFormValues {
   id: string;
   password: string;
-  checkbox: boolean;
+  terms: Record<string, boolean>;
 }
 
 export interface LogInFormDataValues {
@@ -9,11 +9,17 @@ export interface LogInFormDataValues {
   encryptedLoginId?: string;
   encryptedPassword: string;
   key: string;
-  terms?: object;
+  terms?: Map<string, boolean>;
 }
 
 export interface EncryptKeyInfo {
   rsaPublicKey: string;
   rsaKeyStrategy: 'REDIS' | 'TOKEN';
   credentialKey: string;
+}
+
+export interface Terms {
+  id: string;
+  title: string;
+  content: string;
 }

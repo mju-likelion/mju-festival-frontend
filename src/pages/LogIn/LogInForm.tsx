@@ -1,15 +1,17 @@
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation } from 'react-router-dom';
 import { JSEncrypt } from 'jsencrypt';
+import { getTerms, logIn, requestKey } from '../../api/LogIn.ts';
+import LogInInput from './LogInInput.tsx';
+import LogInButton from './LogInButton.tsx';
+import CheckBox from './CheckBox.tsx';
 import {
   AuthFormValues,
   EncryptKeyInfo,
   LogInFormDataValues,
+  Terms,
 } from '../../types';
-import LogInInput from './LogInInput.tsx';
-import LogInButton from './LogInButton.tsx';
-import CheckBox from './CheckBox.tsx';
-import { logIn, requestKey } from '../../api/LogIn.ts';
 
 const encrypt = new JSEncrypt();
 const encryptFunc = (value: string, key: string) => {
@@ -23,7 +25,8 @@ const encryptFunc = (value: string, key: string) => {
 const setEncryptData = (
   formData: AuthFormValues,
   encryptInfo: EncryptKeyInfo,
-  path: string
+  path: string,
+  terms?: Map<string, boolean>
 ): LogInFormDataValues => {
   const { rsaPublicKey, credentialKey } = encryptInfo;
 
@@ -35,9 +38,7 @@ const setEncryptData = (
   if (path === '/login') {
     loginFormData.encryptedStudentId =
       encryptFunc(formData.id, rsaPublicKey) || '';
-    const terms = import.meta.env.VITE_DUMMY_TERMS;
-    const termsArray = JSON.parse(terms);
-    loginFormData.terms = new Map(termsArray);
+    loginFormData.terms = terms;
   } else if (path === '/admin/login') {
     loginFormData.encryptedLoginId =
       encryptFunc(formData.id, rsaPublicKey) || '';
@@ -50,6 +51,7 @@ const setEncryptData = (
 };
 
 const LogInForm = () => {
+  const [termsList, setTermsList] = useState<Terms[]>([]);
   const { register, handleSubmit } = useForm<AuthFormValues>();
   const location = useLocation();
 
@@ -66,10 +68,15 @@ const LogInForm = () => {
   const onSubmit = handleSubmit(async (formData) => {
     try {
       const encryptInfo = await requestKey();
+      const terms = new Map<string, boolean>(
+        termsList.map((term) => [term.id, formData?.terms?.[term.id]] ?? false)
+      );
+
       const encryptLogInData = setEncryptData(
         formData,
         encryptInfo,
-        location.pathname
+        location.pathname,
+        terms
       );
       await logIn(encryptLogInData, getAuth(), encryptInfo.rsaKeyStrategy);
     } catch (e) {
@@ -80,6 +87,15 @@ const LogInForm = () => {
       }
     }
   });
+
+  const getTermsData = async () => {
+    const termsList = await getTerms();
+    setTermsList(termsList);
+  };
+
+  useEffect(() => {
+    getTermsData();
+  }, []);
 
   return (
     <form onSubmit={onSubmit}>
@@ -95,7 +111,14 @@ const LogInForm = () => {
         placeholder="비밀번호를 입력해주세요"
         register={register}
       />
-      <CheckBox name="checkbox" register={register} />
+      {location.pathname === '/login' &&
+        termsList.map((t) => (
+          <div key={t.id}>
+            <p>{t.title}</p>
+            <p>{t.content}</p>
+            <CheckBox name={`terms.${t.id}`} register={register} />
+          </div>
+        ))}
       <LogInButton />
     </form>
   );

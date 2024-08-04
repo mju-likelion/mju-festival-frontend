@@ -1,7 +1,7 @@
 import { FieldPath, FieldValues, UseFormRegister } from 'react-hook-form';
 
 interface InputPropTypes<T extends FieldValues> {
-  name: keyof T;
+  name: string;
   register: UseFormRegister<T>;
 }
 
