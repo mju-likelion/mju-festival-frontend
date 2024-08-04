@@ -8,6 +8,7 @@ import LogInInput from './LogInInput.tsx';
 import LogInButton from './LogInButton.tsx';
 import CheckBox from './CheckBox.tsx';
 import { AuthFormValues, Terms } from '../../types';
+import { handleError } from '../../utils/errorUtils.ts';
 
 const LogInForm = () => {
   const [termsList, setTermsList] = useState<Terms[]>([]);
@@ -28,17 +29,17 @@ const LogInForm = () => {
       );
       await logIn(encryptLogInData, auth, encryptInfo.rsaKeyStrategy);
     } catch (e) {
-      if (e instanceof Error) {
-        console.error(e.message);
-      } else {
-        console.error('알 수 없는 에러', e);
-      }
+      handleError(e);
     }
   });
 
   const getTermsData = async () => {
-    const termsList = await getTerms();
-    setTermsList(termsList);
+    try {
+      const termsList = await getTerms();
+      setTermsList(termsList);
+    } catch (e) {
+      handleError(e);
+    }
   };
 
   useEffect(() => {
