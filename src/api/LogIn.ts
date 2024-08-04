@@ -7,7 +7,7 @@ export const requestKey = async () => {
 };
 
 export const getTerms = async () => {
-  const response = await Axios.get<Terms[]>('/auth/terms');
+  const response = await Axios.get<Terms[]>('/terms');
   return response.data;
 };
 
