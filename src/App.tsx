@@ -6,6 +6,7 @@ import useRouteTracker from './hooks/useRouteTracker.tsx';
 import Main from './pages/Main.tsx';
 import UserLogIn from './pages/LogIn/indexUser.tsx';
 import AdminLogIn from './pages/LogIn/indexAdmin.tsx';
+import ViewDetailNotice from './pages/ViewDetailNotice/index.tsx';
 
 function App() {
   useRouteTracker();
@@ -17,6 +18,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/login" element={<UserLogIn />} />
           <Route path="/admin/login" element={<AdminLogIn />} />
+          <Route path="/view/detail-notice" element={<ViewDetailNotice />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
