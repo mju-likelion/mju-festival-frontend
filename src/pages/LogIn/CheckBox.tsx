@@ -9,7 +9,7 @@ const CheckBox = <T extends FieldValues>({
   name,
   register,
 }: InputPropTypes<T>) => {
-  return <input type="checkbox" {...register(name as FieldPath<T>)} />;
+  return <input type="checkbox" {...register(name as FieldPath<T>)} required />;
 };
 
 export default CheckBox;
