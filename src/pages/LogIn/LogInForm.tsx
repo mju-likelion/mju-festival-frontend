@@ -7,7 +7,7 @@ import { setEncryptData } from '../../utils/encryptionUtils.ts';
 import LogInInput from './LogInInput.tsx';
 import LogInButton from './LogInButton.tsx';
 import CheckBox from './CheckBox.tsx';
-import { AuthFormValues, Terms } from '../../types';
+import { AuthFormValues, Terms, TermsMap } from '../../types';
 import { handleError } from '../../utils/errorUtils.ts';
 
 const LogInForm = () => {
@@ -18,9 +18,12 @@ const LogInForm = () => {
   const onSubmit = handleSubmit(async (formData) => {
     try {
       const encryptInfo = await requestKey();
-      const terms = new Map<string, boolean>(
-        termsList.map((term) => [term.id, formData?.terms?.[term.id] ?? false])
-      );
+
+      const terms: TermsMap = {};
+      termsList.forEach((term) => {
+        terms[term.id] = formData.terms?.[term.id] ?? false;
+      });
+
       const encryptLogInData = setEncryptData(
         formData,
         encryptInfo,
