@@ -14,7 +14,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/view/all-notice" element={<ViewAllNotice />} />
+          <Route path="/view/all-notices" element={<ViewAllNotice />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

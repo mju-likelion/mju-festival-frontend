@@ -1,18 +1,46 @@
 import styled from 'styled-components';
+import { useCallback, useEffect, useState } from 'react';
 import Header from './Header';
 import NoticeCard from './NoticeCard';
-import { noticeData } from '../data/noticeData';
+import { Axios } from '../../api/Axios';
+
+interface NoticeType {
+  id: string;
+  title: string;
+  content: string;
+}
 
 const ViewAllNotice = () => {
+  //  Todo: isLoading finally에 추가하기
+  const [notices, setNotices] = useState<NoticeType[]>([]);
+  const [isSorted, setIsSorted] = useState('desc');
+  const [page, setPage] = useState(1);
+  const size = 4;
+
+  const getNotices = useCallback(async () => {
+    try {
+      const response = await Axios.get(
+        `/announcements?sort=${isSorted}&page=${page}&size=${size}`
+      );
+      setNotices(response.data);
+    } catch (err) {
+      console.error(err);
+    }
+  }, [isSorted, page, size]);
+
+  useEffect(() => {
+    getNotices();
+  }, [getNotices]);
   return (
     <Wrapper>
       <Header />
-      {Object.keys(noticeData).map((key) => {
-        const notice = noticeData[Number(key)];
-        return (
-          <NoticeCard key={key} title={notice.title} content={notice.content} />
-        );
-      })}
+      {notices.map((notice) => (
+        <NoticeCard
+          key={notice.id}
+          title={notice.title}
+          content={notice.content}
+        />
+      ))}
     </Wrapper>
   );
 };
