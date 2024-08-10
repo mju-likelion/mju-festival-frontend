@@ -1,24 +1,27 @@
 import styled from 'styled-components';
-import { useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import Header from './Header';
 import NoticeCard from './NoticeCard';
 import { Axios } from '../../api/Axios';
 import { NoticeType } from '../../types/notice';
 
+type SortKey = 'asc' | 'desc';
+type SortOptions = Record<SortKey, string>;
+
 const ViewAllNotice = () => {
   //  Todo: isLoading finally에 추가하기
   const [notices, setNotices] = useState<NoticeType[]>([]);
   const [isSorted, setIsSorted] = useState('desc');
-  const [page, setPage] = useState(1);
+  const sortOptions: SortOptions = { desc: '최신순', asc: '오래된순' };
+  const [page, setPage] = useState(0);
   const size = 4;
-  // 첫 게시물의 인덱스
-  const offset = (page - 1) * size;
 
   const getNotices = useCallback(async () => {
     try {
       const response = await Axios.get(
         `/announcements?sort=${isSorted}&page=${page}&size=${size}`
       );
+      // console.log(response);
       setNotices(response.data);
     } catch (err) {
       console.error(err);
@@ -28,9 +31,21 @@ const ViewAllNotice = () => {
   useEffect(() => {
     getNotices();
   }, [getNotices]);
+
+  const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
+    setIsSorted(e.target.value);
+  };
+
   return (
     <Wrapper>
       <Header />
+      <select onChange={handleSort}>
+        {Object.entries(sortOptions).map(([key, value]) => (
+          <option value={key} key={key}>
+            {value}
+          </option>
+        ))}
+      </select>
       {notices.map((notice) => (
         <NoticeCard
           key={notice.id}
@@ -38,10 +53,17 @@ const ViewAllNotice = () => {
           content={notice.content}
         />
       ))}
+      <Layout />
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div``;
 
+const Layout = styled.div`
+  display: flex;
+`;
+const TempP = styled.p`
+  margin: 0 10px;
+`;
 export default ViewAllNotice;
