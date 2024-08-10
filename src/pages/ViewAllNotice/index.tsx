@@ -40,6 +40,7 @@ const ViewAllNotice = () => {
   const handlePage = (index: number) => {
     setPage(index === 1 ? page + 1 : page - 1);
   };
+  console.log(page);
 
   return (
     <Wrapper>
@@ -62,7 +63,7 @@ const ViewAllNotice = () => {
       <Layout>
         <button
           type="button"
-          disabled={isLoading}
+          disabled={page === 0 || isLoading}
           onClick={() => handlePage(-1)}
         >
           {'<'}
@@ -70,7 +71,7 @@ const ViewAllNotice = () => {
         <TempP>{`${page + 1}/${totalPage}`}</TempP>
         <button
           type="button"
-          disabled={isLoading}
+          disabled={page + 1 === totalPage || isLoading}
           onClick={() => handlePage(1)}
         >
           {'>'}
