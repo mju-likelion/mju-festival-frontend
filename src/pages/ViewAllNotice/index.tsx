@@ -6,11 +6,11 @@ import { Axios } from '../../api/Axios';
 import { NoticeType, SortOptions } from '../../types/notice';
 
 const ViewAllNotice = () => {
-  //  Todo: isLoading finally에 추가하기
   const [notices, setNotices] = useState<NoticeType[]>([]);
   const [isSorted, setIsSorted] = useState('desc');
   const [page, setPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const sortOptions: SortOptions = { desc: '최신순', asc: '오래된순' };
   const size = 4;
 
@@ -22,7 +22,10 @@ const ViewAllNotice = () => {
       setTotalPage(response.data.totalPage);
       setNotices(response.data.simpleAnnouncements);
     } catch (err) {
-      console.error(err);
+      alert('올바른 동작을 해주세요');
+      setIsLoading(true);
+    } finally {
+      setIsLoading(false);
     }
   }, [isSorted, page, size]);
 
@@ -57,11 +60,19 @@ const ViewAllNotice = () => {
       ))}
 
       <Layout>
-        <button type="button" onClick={() => handlePage(-1)}>
+        <button
+          type="button"
+          disabled={isLoading}
+          onClick={() => handlePage(-1)}
+        >
           {'<'}
         </button>
         <TempP>{`${page + 1}/${totalPage}`}</TempP>
-        <button type="button" onClick={() => handlePage(1)}>
+        <button
+          type="button"
+          disabled={isLoading}
+          onClick={() => handlePage(1)}
+        >
           {'>'}
         </button>
       </Layout>
