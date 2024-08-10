@@ -3,10 +3,7 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import Header from './Header';
 import NoticeCard from './NoticeCard';
 import { Axios } from '../../api/Axios';
-import { NoticeType } from '../../types/notice';
-
-type SortKey = 'asc' | 'desc';
-type SortOptions = Record<SortKey, string>;
+import { NoticeType, SortOptions } from '../../types/notice';
 
 const ViewAllNotice = () => {
   //  Todo: isLoading finally에 추가하기
@@ -21,7 +18,6 @@ const ViewAllNotice = () => {
       const response = await Axios.get(
         `/announcements?sort=${isSorted}&page=${page}&size=${size}`
       );
-      // console.log(response);
       setNotices(response.data);
     } catch (err) {
       console.error(err);

@@ -8,3 +8,6 @@ export interface NoticeCardPropTypes {
   title: string;
   content: string;
 }
+
+type SortKey = 'asc' | 'desc';
+export type SortOptions = Record<SortKey, string>;
