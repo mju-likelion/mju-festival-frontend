@@ -9,8 +9,9 @@ const ViewAllNotice = () => {
   //  Todo: isLoading finally에 추가하기
   const [notices, setNotices] = useState<NoticeType[]>([]);
   const [isSorted, setIsSorted] = useState('desc');
-  const sortOptions: SortOptions = { desc: '최신순', asc: '오래된순' };
   const [page, setPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(0);
+  const sortOptions: SortOptions = { desc: '최신순', asc: '오래된순' };
   const size = 4;
 
   const getNotices = useCallback(async () => {
@@ -18,7 +19,8 @@ const ViewAllNotice = () => {
       const response = await Axios.get(
         `/announcements?sort=${isSorted}&page=${page}&size=${size}`
       );
-      setNotices(response.data);
+      setTotalPage(response.data.totalPage);
+      setNotices(response.data.simpleAnnouncements);
     } catch (err) {
       console.error(err);
     }
@@ -30,6 +32,10 @@ const ViewAllNotice = () => {
 
   const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
     setIsSorted(e.target.value);
+  };
+
+  const handlePage = (index: number) => {
+    setPage(index === 1 ? page + 1 : page - 1);
   };
 
   return (
@@ -49,7 +55,16 @@ const ViewAllNotice = () => {
           content={notice.content}
         />
       ))}
-      <Layout />
+
+      <Layout>
+        <button type="button" onClick={() => handlePage(-1)}>
+          {'<'}
+        </button>
+        <TempP>{`${page + 1}/${totalPage}`}</TempP>
+        <button type="button" onClick={() => handlePage(1)}>
+          {'>'}
+        </button>
+      </Layout>
     </Wrapper>
   );
 };
