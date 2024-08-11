@@ -3,7 +3,7 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import Header from './Header';
 import NoticeCard from './NoticeCard';
 import { Axios } from '../../api/Axios';
-import { NoticeType, SortOptions } from '../../types/notice';
+import { NoticeType, SortOptions } from '../../types';
 
 const ViewAllNotice = () => {
   const [notices, setNotices] = useState<NoticeType[]>([]);
@@ -14,13 +14,18 @@ const ViewAllNotice = () => {
   const sortOptions: SortOptions = { desc: '최신순', asc: '오래된순' };
   const size = 4;
 
+  const fetchNotices = async (isSorted: string, page: number, size: number) => {
+    const response = await Axios.get(
+      `/announcements?sort=${isSorted}&page=${page}&size=${size}`
+    );
+    return response.data;
+  };
+
   const getNotices = useCallback(async () => {
     try {
-      const response = await Axios.get(
-        `/announcements?sort=${isSorted}&page=${page}&size=${size}`
-      );
-      setTotalPage(response.data.totalPage);
-      setNotices(response.data.simpleAnnouncements);
+      const response = await fetchNotices(isSorted, page, size);
+      setTotalPage(response.totalPage);
+      setNotices(response.simpleAnnouncements);
     } catch (err) {
       alert('올바른 동작을 해주세요');
       setIsLoading(true);
@@ -40,7 +45,6 @@ const ViewAllNotice = () => {
   const handlePage = (index: number) => {
     setPage(index === 1 ? page + 1 : page - 1);
   };
-  console.log(page);
 
   return (
     <Wrapper>
