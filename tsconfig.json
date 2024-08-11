@@ -18,5 +18,7 @@
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true
   },
+
   "include": ["src/**/*", "vite.config.dev.ts", "vite.config.prod.ts", "vite.config.ts"]
 }
+
