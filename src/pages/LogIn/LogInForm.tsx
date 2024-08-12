@@ -12,7 +12,10 @@ import CheckBox from './CheckBox.tsx';
 import { AuthFormValues, Terms, TermsMap } from '../../types';
 import { schema } from '../../validation/schema.ts';
 
-const LogInForm = () => {
+interface LogInFormProps {
+  setIsModalOpen: (b: boolean) => void;
+}
+const LogInForm: React.FC<LogInFormProps> = ({ setIsModalOpen }) => {
   const [termsList, setTermsList] = useState<Terms[]>([]);
   const {
     register,
@@ -27,20 +30,18 @@ const LogInForm = () => {
   const onSubmit = handleSubmit(async (formData) => {
     try {
       const encryptInfo = await requestKey();
-
       const terms: TermsMap = {};
       termsList.forEach((term) => {
         terms[term.id] = formData.terms?.[term.id] ?? false;
       });
-
       const encryptLogInData = setEncryptData(
         formData,
         encryptInfo,
         auth,
         terms
       );
-
       await logIn(encryptLogInData, auth, encryptInfo.rsaKeyStrategy);
+      setIsModalOpen(true);
     } catch (e) {
       handleError(e as Error);
     }
