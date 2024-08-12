@@ -42,7 +42,7 @@ const LogInForm = () => {
 
       await logIn(encryptLogInData, auth, encryptInfo.rsaKeyStrategy);
     } catch (e) {
-      handleError(e);
+      handleError(e as Error);
     }
   });
 
@@ -51,7 +51,7 @@ const LogInForm = () => {
       const termsList = await getTerms();
       setTermsList(termsList);
     } catch (e) {
-      handleError(e);
+      handleError(e as Error);
     }
   };
 
