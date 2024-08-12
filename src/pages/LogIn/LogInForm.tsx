@@ -15,8 +15,10 @@ import { schema } from '../../validation/schema.ts';
 interface LogInFormProps {
   setIsModalOpen: (b: boolean) => void;
 }
-const LogInForm: React.FC<LogInFormProps> = ({ setIsModalOpen }) => {
+const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
   const [termsList, setTermsList] = useState<Terms[]>([]);
+  const [isOpen, setIsOpen] = useState(false); // 상태로 관리
+
   const {
     register,
     handleSubmit,
@@ -25,6 +27,11 @@ const LogInForm: React.FC<LogInFormProps> = ({ setIsModalOpen }) => {
     resolver: yupResolver(schema),
     mode: 'onChange',
   });
+
+  const toggleEye = () => {
+    setIsOpen((prevIsOpen) => !prevIsOpen);
+  };
+
   const auth = getAuth();
 
   const onSubmit = handleSubmit(async (formData) => {
@@ -70,10 +77,11 @@ const LogInForm: React.FC<LogInFormProps> = ({ setIsModalOpen }) => {
       />
       <p>{errors.id?.message}</p>
       <LogInInput
-        type="password"
+        type={isOpen ? 'text' : 'password'}
         name="password"
         placeholder="비밀번호를 입력해주세요"
         register={register}
+        toggleEye={toggleEye}
       />
       <p>{errors.password?.message}</p>
       {auth === 'user' &&
