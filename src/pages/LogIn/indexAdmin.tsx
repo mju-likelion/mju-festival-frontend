@@ -9,7 +9,7 @@ const AdminLogIn = () => {
       <button type="button" onClick={() => navigate('/login')}>
         뒤로가기
       </button>
-      <LogInForm />
+      <LogInForm setIsModalOpen={() => {}} />
     </Wrapper>
   );
 };
