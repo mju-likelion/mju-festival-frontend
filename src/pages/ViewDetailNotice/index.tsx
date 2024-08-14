@@ -41,12 +41,27 @@ const ViewDetailNotice = () => {
           .replace(/-/gi, ' . ')}`}
       </p>
       <img src={imageUrl} alt="사진" />
-      <p>{notice.title}</p>
-      <p>{notice.content}</p>
+      <div>
+        <span>제목 : </span>
+        <Title>{notice.title}</Title>
+      </div>
+      <Content>{notice.content}</Content>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div``;
+
+const Title = styled.span`
+  font-weight: bold;
+`;
+
+const Content = styled.p`
+  background-color: #eff0f6;
+  max-width: 330px;
+  height: 220px;
+  padding: 18px 15px;
+  line-height: 22px;
+`;
 
 export default ViewDetailNotice;
