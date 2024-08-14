@@ -4,8 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { getTerms, logIn, requestKey } from '../../api/LogIn.ts';
 import getAuth from '../../utils/getAuth.ts';
 import { handleError } from '../../utils/errorUtils.ts';
-
 import { setEncryptData } from '../../utils/encryptionUtils.ts';
+import { useAuthStore } from '../../store';
+
 import LogInInput from './LogInInput.tsx';
 import LogInButton from './LogInButton.tsx';
 import CheckBox from './CheckBox.tsx';
@@ -17,7 +18,8 @@ interface LogInFormProps {
 }
 const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
   const [termsList, setTermsList] = useState<Terms[]>([]);
-  const [isOpen, setIsOpen] = useState(false); // 상태로 관리
+  const [isOpen, setIsOpen] = useState(false);
+  const { token, setToken } = useAuthStore();
 
   const {
     register,
@@ -47,7 +49,13 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
         auth,
         terms
       );
-      await logIn(encryptLogInData, auth, encryptInfo.rsaKeyStrategy);
+      const accessToken = await logIn(
+        encryptLogInData,
+        auth,
+        encryptInfo.rsaKeyStrategy
+      );
+      setToken(accessToken);
+      console.log(token);
       setIsModalOpen(true);
     } catch (e) {
       handleError(e as Error);
