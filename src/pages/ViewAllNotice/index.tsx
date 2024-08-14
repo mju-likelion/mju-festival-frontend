@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import NoticeCard from './NoticeCard';
 import { Axios } from '../../api/Axios';
@@ -13,6 +14,7 @@ const ViewAllNotice = () => {
   const [isLoading, setIsLoading] = useState(false);
   const sortOptions: SortOptions = { desc: '최신순', asc: '오래된순' };
   const size = 4;
+  const navigate = useNavigate();
 
   const fetchNotices = async (isSorted: string, page: number, size: number) => {
     const response = await Axios.get(
@@ -61,6 +63,7 @@ const ViewAllNotice = () => {
           key={notice.id}
           title={notice.title}
           content={notice.content}
+          onClick={() => navigate(`/view/detail-notice/${notice.id}`)}
         />
       ))}
 

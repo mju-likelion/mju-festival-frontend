@@ -20,7 +20,10 @@ function App() {
           <Route path="/view/all-notices" element={<ViewAllNotice />} />
           <Route path="/login" element={<UserLogIn />} />
           <Route path="/admin/login" element={<AdminLogIn />} />
-          <Route path="/view/detail-notice" element={<ViewDetailNotice />} />
+          <Route
+            path="/view/detail-notice/:id"
+            element={<ViewDetailNotice />}
+          />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

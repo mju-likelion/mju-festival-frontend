@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Header from './Header';
 import { Axios } from '../../api/Axios';
 import { DetailNoticeType } from '../../types';
@@ -12,20 +13,19 @@ const ViewDetailNotice = () => {
     createdAt: new Date(),
     imageUrl: '',
   });
-  const [noticeId, setNoticeId] = useState('');
   const [imageUrl, setImageUrl] = useState('');
+  const { id } = useParams();
 
-  const fetchNotice = async (noticeId: string) => {
-    const response = await Axios.get(`/announcements/${noticeId}`);
+  const fetchNotice = async (id: string | undefined) => {
+    const response = await Axios.get(`/announcements/${id}`);
     return response.data;
   };
 
   const getNotice = useCallback(async () => {
-    const response = await fetchNotice(noticeId);
+    const response = await fetchNotice(id);
     setNotice(response);
-    setNoticeId(response.id);
     setImageUrl(response.imageUrl);
-  }, [noticeId]);
+  }, [id]);
 
   useEffect(() => {
     getNotice();

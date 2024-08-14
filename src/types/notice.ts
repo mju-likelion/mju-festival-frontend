@@ -9,12 +9,13 @@ export interface DetailNoticeType {
   title: string;
   content: string;
   createdAt: Date;
-  imageUrl: string;
+  imageUrl?: string;
 }
 
 export interface NoticeCardPropTypes {
   title: string;
   content: string;
+  onClick?: React.MouseEventHandler<HTMLDivElement> | undefined;
 }
 
 type SortKey = 'asc' | 'desc';
