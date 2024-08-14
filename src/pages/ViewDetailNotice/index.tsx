@@ -34,7 +34,12 @@ const ViewDetailNotice = () => {
   return (
     <Wrapper>
       <Header />
-      <p>{notice.createdAt.toString()}</p>
+      <p>
+        {`등록일 : ${notice.createdAt
+          .toString()
+          .split('T')[0]
+          .replace(/-/gi, ' . ')}`}
+      </p>
       <img src={imageUrl} alt="사진" />
       <p>{notice.title}</p>
       <p>{notice.content}</p>
