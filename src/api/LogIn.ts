@@ -16,8 +16,9 @@ export const logIn = async (
   auth: 'user' | 'admin',
   rsaKeyStrategy: string
 ) => {
-  await Axios.post(
+  const response = await Axios.post(
     `/auth/${auth}/login?rsaKeyStrategy=${rsaKeyStrategy}`,
     logInFormData
   );
+  return response.data.accessToken;
 };
