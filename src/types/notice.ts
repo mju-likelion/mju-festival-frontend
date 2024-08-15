@@ -4,9 +4,18 @@ export interface NoticeType {
   content: string;
 }
 
+export interface DetailNoticeType {
+  id: string;
+  title: string;
+  content: string;
+  createdAt: Date;
+  imageUrl?: string;
+}
+
 export interface NoticeCardPropTypes {
   title: string;
   content: string;
+  onClick?: React.MouseEventHandler<HTMLDivElement> | undefined;
 }
 
 type SortKey = 'asc' | 'desc';
