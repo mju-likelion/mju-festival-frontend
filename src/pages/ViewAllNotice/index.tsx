@@ -13,19 +13,19 @@ const ViewAllNotice = () => {
   const [totalPage, setTotalPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const sortOptions: SortOptions = { desc: '최신순', asc: '오래된순' };
-  const size = 4;
+  const SIZE = 4;
   const navigate = useNavigate();
 
-  const fetchNotices = async (isSorted: string, page: number, size: number) => {
+  const fetchNotices = async (isSorted: string, page: number, SIZE: number) => {
     const response = await Axios.get(
-      `/announcements?sort=${isSorted}&page=${page}&size=${size}`
+      `/announcements?sort=${isSorted}&page=${page}&size=${SIZE}`
     );
     return response.data;
   };
 
   const getNotices = useCallback(async () => {
     try {
-      const response = await fetchNotices(isSorted, page, size);
+      const response = await fetchNotices(isSorted, page, SIZE);
       setTotalPage(response.totalPage);
       setNotices(response.simpleAnnouncements);
     } catch (err) {
@@ -34,7 +34,7 @@ const ViewAllNotice = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [isSorted, page, size]);
+  }, [isSorted, page, SIZE]);
 
   useEffect(() => {
     getNotices();
