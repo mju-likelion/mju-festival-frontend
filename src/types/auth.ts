@@ -1,7 +1,11 @@
+export interface TermsMap {
+  [key: string]: boolean;
+}
+
 export interface AuthFormValues {
   id: string;
   password: string;
-  terms: Record<string, boolean>;
+  terms?: TermsMap;
 }
 
 export interface LogInFormDataValues {
@@ -9,7 +13,7 @@ export interface LogInFormDataValues {
   encryptedLoginId?: string;
   encryptedPassword: string;
   key: string;
-  terms?: Map<string, boolean>;
+  terms?: TermsMap;
 }
 
 export interface EncryptKeyInfo {
@@ -22,4 +26,10 @@ export interface Terms {
   id: string;
   title: string;
   content: string;
+}
+
+export type Role = '' | 'USER' | 'STUDENT_COUNCIL' | 'BOOTH_MANAGER';
+
+export interface DecodeJWT {
+  role: Role;
 }

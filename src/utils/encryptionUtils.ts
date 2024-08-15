@@ -1,5 +1,10 @@
 import { JSEncrypt } from 'jsencrypt';
-import { AuthFormValues, EncryptKeyInfo, LogInFormDataValues } from '../types';
+import {
+  AuthFormValues,
+  EncryptKeyInfo,
+  LogInFormDataValues,
+  TermsMap,
+} from '../types';
 
 const encryptionUtils = new JSEncrypt();
 
@@ -15,7 +20,7 @@ const setEncryptData = (
   formData: AuthFormValues,
   encryptInfo: EncryptKeyInfo,
   auth: 'user' | 'admin',
-  terms?: Map<string, boolean>
+  terms?: TermsMap
 ): LogInFormDataValues => {
   const { rsaPublicKey, credentialKey } = encryptInfo;
 

@@ -9,6 +9,7 @@ import Booth from './pages/Booth';
 import BoothDetail from './pages/Booth/BoothDetail.tsx';
 import UserLogIn from './pages/LogIn/indexUser.tsx';
 import AdminLogIn from './pages/LogIn/indexAdmin.tsx';
+import ViewDetailNotice from './pages/ViewDetailNotice/index.tsx';
 
 function App() {
   useRouteTracker();
@@ -23,6 +24,10 @@ function App() {
           <Route path="/booth/:boothId" element={<BoothDetail />} />
           <Route path="/login" element={<UserLogIn />} />
           <Route path="/admin/login" element={<AdminLogIn />} />
+          <Route
+            path="/view/detail-notice/:id"
+            element={<ViewDetailNotice />}
+          />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
