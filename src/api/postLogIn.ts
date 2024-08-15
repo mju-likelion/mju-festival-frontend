@@ -11,7 +11,7 @@ export const getTerms = async () => {
   return response.data;
 };
 
-export const logIn = async (
+export const postLogIn = async (
   logInFormData: LogInFormDataValues,
   auth: 'user' | 'admin',
   rsaKeyStrategy: string

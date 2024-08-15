@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { getTerms, logIn, requestKey } from '../../api/LogIn.ts';
+import { getTerms, postLogIn, requestKey } from '../../api/postLogIn.ts';
 import getAuth from '../../utils/getAuth.ts';
 import { setEncryptData } from '../../utils/encryptionUtils.ts';
 
@@ -27,7 +27,7 @@ const LogInForm = () => {
         auth,
         terms
       );
-      await logIn(encryptLogInData, auth, encryptInfo.rsaKeyStrategy);
+      await postLogIn(encryptLogInData, auth, encryptInfo.rsaKeyStrategy);
     } catch (e) {
       handleError(e);
     }
