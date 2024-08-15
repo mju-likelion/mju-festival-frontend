@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Booth } from '../../types';
 import { getBoothList } from '../../api/booth.ts';
+import { BoothInfo } from '../../types';
 
 const BoothPage = () => {
-  const [boothListData, setBoothListData] = useState<Booth[]>([]);
+  const [boothListData, setBoothListData] = useState<BoothInfo[]>([]);
   const navigate = useNavigate();
 
   const fetchData = async () => {
@@ -23,7 +23,7 @@ const BoothPage = () => {
         뒤로가기
       </button>
       {boothListData.map((booth) => (
-        <BoothBox key={booth.id}>
+        <BoothBox key={booth.id} onClick={() => navigate(`/booth/${booth.id}`)}>
           <p>id: {booth.id}</p>
           <p>부스 이름: {booth.name}</p>
           <p>부스 설명: {booth.description}</p>

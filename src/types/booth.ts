@@ -1,11 +1,16 @@
 export interface BoothList {
-  simpleBooths: Booth[];
+  simpleBooths: BoothInfo[];
   totalPage: number;
 }
 
-export interface Booth {
-  description: string;
+export interface BoothDetailInfo extends BoothInfo {
+  location: string;
+  createdAt: string;
+}
+
+export interface BoothInfo {
   id: string;
-  imageUrl: string;
   name: string;
+  description: string;
+  imageUrl: string;
 }

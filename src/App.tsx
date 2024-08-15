@@ -6,6 +6,7 @@ import useRouteTracker from './hooks/useRouteTracker.tsx';
 import Index from './pages/Main';
 import ViewAllNotice from './pages/ViewAllNotice/index.tsx';
 import Booth from './pages/Booth';
+import BoothDetail from './pages/Booth/BoothDetail.tsx';
 import UserLogIn from './pages/LogIn/indexUser.tsx';
 import AdminLogIn from './pages/LogIn/indexAdmin.tsx';
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/" element={<Index />} />
           <Route path="/view/all-notices" element={<ViewAllNotice />} />
           <Route path="/booths" element={<Booth />} />
+          <Route path="/booth/:boothId" element={<BoothDetail />} />
           <Route path="/login" element={<UserLogIn />} />
           <Route path="/admin/login" element={<AdminLogIn />} />
         </Routes>
