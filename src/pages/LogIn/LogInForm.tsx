@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { jwtDecode } from 'jwt-decode';
-import { getTerms, logIn, requestKey } from '../../api/LogIn.ts';
+import { getTerms, postLogIn, requestKey } from '../../api/postLogIn.ts';
 import getAuth from '../../utils/getAuth.ts';
 import { handleError } from '../../utils/errorUtils.ts';
 import { setEncryptData } from '../../utils/encryptionUtils.ts';
@@ -50,7 +50,7 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
         auth,
         terms
       );
-      const accessToken = await logIn(
+      const accessToken = await postLogIn(
         encryptLogInData,
         auth,
         encryptInfo.rsaKeyStrategy
