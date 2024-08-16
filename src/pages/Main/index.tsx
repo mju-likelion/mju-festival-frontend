@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-
+// import.meta.env.VITE_API_URL
 const Main = () => {
   const navigate = useNavigate();
   return (
@@ -9,9 +9,13 @@ const Main = () => {
         <button type="button" onClick={() => navigate('/')}>
           티켓프렌즈
         </button>
-        <button type="button" onClick={() => navigate('/')}>
-          학생회 인스타
-        </button>
+        <a
+          href={import.meta.env.VITE_INSTAGRAM_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <button type="button">학생회 인스타</button>
+        </a>
       </LinkLayout>
       <FestivalInfoLayout>
         <BaseButton type="button" onClick={() => navigate('/booths')}>
