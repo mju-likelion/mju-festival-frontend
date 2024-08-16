@@ -5,8 +5,15 @@ import { downloadAppByDevice } from '../../utils/downloadAppUtils';
 const Main = () => {
   const navigate = useNavigate();
 
+  const today = new Date();
+  const TODAY = today.toLocaleDateString().replace(/\./g, ' / ').slice(0, -3);
+
   return (
     <Wrapper>
+      <Header>
+        <p>로고자리</p>
+        <p>{TODAY}</p>
+      </Header>
       <LinkLayout>
         <button type="button" onClick={() => downloadAppByDevice()}>
           티켓프렌즈
@@ -43,6 +50,11 @@ const Main = () => {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const LinkLayout = styled.div`
