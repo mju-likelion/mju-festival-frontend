@@ -1,12 +1,14 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-// import.meta.env.VITE_API_URL
+import { downloadAppByDevice } from '../../utils/downloadAppUtils';
+
 const Main = () => {
   const navigate = useNavigate();
+
   return (
     <Wrapper>
       <LinkLayout>
-        <button type="button" onClick={() => navigate('/')}>
+        <button type="button" onClick={() => downloadAppByDevice()}>
           티켓프렌즈
         </button>
         <a
