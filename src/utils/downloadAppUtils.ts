@@ -5,9 +5,9 @@ export const downloadAppByDevice = () => {
     mobileType.includes('iphone') ||
     mobileType.includes('ipad')
   )
-    return window.open(import.meta.env.VITE_IOS_DOWNLOAD_URL, '_blank');
+    window.location.href = import.meta.env.VITE_IOS_DOWNLOAD_URL;
   if (mobileType.includes('android')) {
-    return window.open(import.meta.env.VITE_ANDROID_DOWNLOAD_URL, '_blank');
+    window.location.href = import.meta.env.VITE_ANDROID_DOWNLOAD_URL;
   }
   alert("해당 기기의 마켓에서 '티켓프렌즈'를 검색해주세요");
 };
