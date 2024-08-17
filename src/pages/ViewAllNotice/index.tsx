@@ -34,7 +34,7 @@ const ViewAllNotice = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [isSorted, page, SIZE]);
+  }, [isSorted, page]);
 
   useEffect(() => {
     getNotices();
