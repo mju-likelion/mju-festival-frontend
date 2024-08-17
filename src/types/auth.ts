@@ -28,7 +28,9 @@ export interface Terms {
   content: string;
 }
 
-export type Role = '' | 'USER' | 'STUDENT_COUNCIL' | 'BOOTH_MANAGER';
+export type Auth = 'USER' | 'ADMIN';
+
+export type Role = '' | 'STUDENT' | 'STUDENT_COUNCIL' | 'BOOTH_MANAGER';
 
 export interface DecodeJWT {
   role: Role;

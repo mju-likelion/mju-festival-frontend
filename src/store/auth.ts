@@ -18,7 +18,7 @@ export const useAuthStore = create<AuthState>()(
       setRole: (role) => set({ role }),
     }),
     {
-      name: 'accessToken',
+      name: 'auth',
     }
   )
 );
