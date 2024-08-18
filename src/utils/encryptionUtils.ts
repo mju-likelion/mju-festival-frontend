@@ -1,5 +1,6 @@
 import { JSEncrypt } from 'jsencrypt';
 import {
+  Auth,
   AuthFormValues,
   EncryptKeyInfo,
   LogInFormDataValues,
@@ -19,7 +20,7 @@ const encryptFunc = (value: string, key: string) => {
 const setEncryptData = (
   formData: AuthFormValues,
   encryptInfo: EncryptKeyInfo,
-  auth: 'user' | 'admin',
+  auth: Auth,
   terms?: TermsMap
 ): LogInFormDataValues => {
   const { rsaPublicKey, credentialKey } = encryptInfo;
@@ -29,11 +30,11 @@ const setEncryptData = (
     key: '',
   };
 
-  if (auth === 'user') {
+  if (auth === 'USER') {
     loginFormData.encryptedStudentId =
       encryptFunc(formData.id, rsaPublicKey) || '';
     loginFormData.terms = terms;
-  } else if (auth === 'admin') {
+  } else if (auth === 'ADMIN') {
     loginFormData.encryptedLoginId =
       encryptFunc(formData.id, rsaPublicKey) || '';
   }

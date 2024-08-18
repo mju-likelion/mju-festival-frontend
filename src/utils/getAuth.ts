@@ -1,13 +1,14 @@
 import { useLocation } from 'react-router-dom';
+import { Auth } from '../types';
 
-const GetAuth = () => {
+const GetAuth = (): Auth => {
   const location = useLocation();
 
   if (location.pathname === '/login') {
-    return 'user';
+    return 'USER';
   }
   if (location.pathname === '/admin/login') {
-    return 'admin';
+    return 'ADMIN';
   }
   throw new Error('로그인 외 경로');
 };

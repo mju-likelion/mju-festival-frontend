@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { jwtDecode } from 'jwt-decode';
 import { getTerms, postLogIn, requestKey } from '../../api/postLogIn.ts';
 import getAuth from '../../utils/getAuth.ts';
 import { handleError } from '../../utils/errorUtils.ts';
 import { setEncryptData } from '../../utils/encryptionUtils.ts';
-
 import { useAuthStore } from '../../store';
+
 import LogInInput from './LogInInput.tsx';
 import LogInButton from './LogInButton.tsx';
 import CheckBox from './CheckBox.tsx';
-import { AuthFormValues, DecodeJWT, Terms, TermsMap } from '../../types';
+import { AuthFormValues, Terms, TermsMap } from '../../types';
 import { schema } from '../../validation/schema.ts';
 
 interface LogInFormProps {
@@ -20,7 +19,7 @@ interface LogInFormProps {
 const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
   const [termsList, setTermsList] = useState<Terms[]>([]);
   const [isOpen, setIsOpen] = useState(false);
-  const { role, setRole, token, setToken } = useAuthStore();
+  const { setRole, setToken } = useAuthStore();
 
   const {
     register,
@@ -50,14 +49,18 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
         auth,
         terms
       );
-      const accessToken = await postLogIn(
+      const response = await postLogIn(
         encryptLogInData,
         auth,
         encryptInfo.rsaKeyStrategy
       );
-      setToken(accessToken);
-      const decoded = jwtDecode<DecodeJWT>(accessToken);
-      setRole(decoded.role);
+      if (auth === 'USER') {
+        setToken(response.accessToken);
+        setRole('STUDENT');
+      } else if (auth === 'ADMIN') {
+        setToken(response.accessToken);
+        setRole(response.role);
+      }
       setIsModalOpen(true);
     } catch (e) {
       handleError(e as Error);
@@ -72,10 +75,6 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
       handleError(e as Error);
     }
   };
-
-  useEffect(() => {
-    console.log(`[token]\n${token} \n\n [role]\n${role}`);
-  }, [token, role]);
 
   useEffect(() => {
     getTermsData();
@@ -98,7 +97,7 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
         toggleEye={toggleEye}
       />
       <p>{errors.password?.message}</p>
-      {auth === 'user' &&
+      {auth === 'USER' &&
         termsList.map((t) => (
           <div key={t.id}>
             <p>{t.title}</p>
