@@ -5,6 +5,7 @@ import Header from './Header';
 import NoticeCard from './NoticeCard';
 import { Axios } from '../../api/Axios';
 import { NoticeType, SortOptions } from '../../types';
+import { useAuthStore } from '../../store';
 
 const ViewAllNotice = () => {
   const [notices, setNotices] = useState<NoticeType[]>([]);
@@ -15,6 +16,8 @@ const ViewAllNotice = () => {
   const sortOptions: SortOptions = { desc: '최신순', asc: '오래된순' };
   const SIZE = 4;
   const navigate = useNavigate();
+
+  const { role } = useAuthStore();
 
   const fetchNotices = async (isSorted: string, page: number, SIZE: number) => {
     const response = await Axios.get(
@@ -83,6 +86,11 @@ const ViewAllNotice = () => {
         >
           {'>'}
         </button>
+        {role === 'STUDENT_COUNCIL' && (
+          <CreateBtn onClick={() => navigate('/create/notice')}>
+            공지사항 작성하기
+          </CreateBtn>
+        )}
       </Layout>
     </Wrapper>
   );
@@ -95,5 +103,10 @@ const Layout = styled.div`
 `;
 const TempP = styled.p`
   margin: 0 10px;
+`;
+
+const CreateBtn = styled.button`
+  background-color: #002968;
+  color: white;
 `;
 export default ViewAllNotice;
