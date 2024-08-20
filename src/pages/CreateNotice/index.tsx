@@ -76,6 +76,7 @@ const CreateNotice = () => {
             name="image"
             ref={fileInputRef}
             onChange={handleFileChange}
+            accept="image/png, image/jpeg"
           />
         </UploadImageLayout>
         <UploadContentLayout>
@@ -137,7 +138,6 @@ const CreateButton = styled.button`
   width: 210px;
   height: 48px;
   border-radius: 28px;
-  resize: 'none';
   color: white;
 `;
 
