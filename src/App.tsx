@@ -11,6 +11,7 @@ import AdminLogIn from './pages/LogIn/indexAdmin.tsx';
 import ViewDetailNotice from './pages/ViewDetailNotice/index.tsx';
 import Main from './pages/Main/index.tsx';
 import CreateNotice from './pages/CreateNotice/index.tsx';
+import LostItem from './pages/ViewAllLostItem/index.tsx';
 
 function App() {
   useRouteTracker();
@@ -30,6 +31,7 @@ function App() {
             path="/view/detail-notice/:id"
             element={<ViewDetailNotice />}
           />
+          <Route path="/lostItem" element={<LostItem />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
