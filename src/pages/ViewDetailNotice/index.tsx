@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import Header from './Header';
 import { Axios } from '../../api/Axios';
 import { DetailNoticeType } from '../../types';
+import DeleteNoticeModal from './DeleteNoticeModal';
 
 const ViewDetailNotice = () => {
   const [notice, setNotice] = useState<DetailNoticeType>({
@@ -14,7 +15,11 @@ const ViewDetailNotice = () => {
     imageUrl: '',
   });
   const [imageUrl, setImageUrl] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { id } = useParams();
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const fetchNotice = async (id: string | undefined) => {
     const response = await Axios.get(`/announcements/${id}`);
@@ -46,6 +51,10 @@ const ViewDetailNotice = () => {
         <Title>{notice.title}</Title>
       </div>
       <Content>{notice.content}</Content>
+      <DeleteButton onClick={openModal}>삭제하기</DeleteButton>
+      <DeleteNoticeModal isOpen={isModalOpen} closeModal={closeModal}>
+        삭제시 복구 불가
+      </DeleteNoticeModal>
     </Wrapper>
   );
 };
@@ -62,6 +71,14 @@ const Content = styled.p`
   height: 220px;
   padding: 18px 15px;
   line-height: 22px;
+`;
+
+const DeleteButton = styled.button`
+  background-color: #80878d;
+  border-radius: 28px;
+  color: white;
+  width: 174px;
+  height: 42px;
 `;
 
 export default ViewDetailNotice;

@@ -9,6 +9,9 @@ import { useAuthStore } from '../../store';
 
 const ViewAllNotice = () => {
   const [notices, setNotices] = useState<NoticeType[]>([]);
+  /**
+   * @Todo 'desc'값을 type에서 사용하기
+   */
   const [isSorted, setIsSorted] = useState('desc');
   const [page, setPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
