@@ -133,7 +133,7 @@ const ContentInput = styled.textarea`
 `;
 
 const CreateButton = styled.button`
-  background-color: #002968;
+  background-color: ${({ theme }) => theme.colors.blue100};
   width: 210px;
   height: 48px;
   border-radius: 28px;
