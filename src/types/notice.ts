@@ -1,7 +1,11 @@
 export interface NoticeType {
-  id: string;
+  id?: string;
   title: string;
   content: string;
+}
+
+export interface ImageNoticeType extends NoticeType {
+  imageURL?: string;
 }
 
 export interface DetailNoticeType {

@@ -1,16 +1,12 @@
 import styled from 'styled-components';
-import { ChangeEvent, useEffect, useRef } from 'react';
+import { ChangeEvent, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { Axios } from '../../api/Axios';
 import Header from '../ViewDetailNotice/Header';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
 import { useAuthStore } from '../../store';
+import { ImageNoticeType } from '../../types';
 
-type Notice = {
-  imageURL?: string;
-  title: string;
-  content: string;
-};
 const CreateNotice = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formData = new FormData();
@@ -21,7 +17,7 @@ const CreateNotice = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Notice>();
+  } = useForm<ImageNoticeType>();
 
   const handleClick = () => {
     if (fileInputRef.current) {
@@ -48,18 +44,17 @@ const CreateNotice = () => {
     }
   };
 
-  const handleFormSubmit = async (data: Notice) => {
+  const handleFormSubmit = async (data: ImageNoticeType) => {
     formData.append('title', data.title);
     formData.append('content', data.content);
 
     try {
-      const response = await Axios.post('/announcements', formData, {
+      await Axios.post('/announcements', formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       });
-      console.log(response);
     } catch (e) {
       alert('올바른 업로드를 해주세요');
     }
