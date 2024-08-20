@@ -19,6 +19,11 @@
     "allowSyntheticDefaultImports": true
   },
 
-  "include": ["src/**/*", "vite.config.dev.ts", "vite.config.prod.ts", "vite.config.ts"]
+  "include": [
+    "src/**/*",
+    "vite.config.dev.ts",
+    "vite.config.prod.ts",
+    "vite.config.ts",
+    "src/svg.d.ts"
+  ]
 }
-
