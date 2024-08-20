@@ -126,7 +126,7 @@ const TitleInput = styled.input`
   border: none;
 `;
 
-const ContentInput = styled.input`
+const ContentInput = styled.textarea`
   width: 331px;
   height: 220px;
   background-color: #eff0f6;
@@ -137,6 +137,7 @@ const CreateButton = styled.button`
   width: 210px;
   height: 48px;
   border-radius: 28px;
+  resize: 'none';
   color: white;
 `;
 
