@@ -40,7 +40,7 @@ const ViewDetailNotice = () => {
           .split('T')[0]
           .replace(/-/gi, ' . ')}`}
       </p>
-      <img src={imageUrl} alt="사진" />
+      {imageUrl && <img src={imageUrl} alt="사진" />}
       <div>
         <span>제목 : </span>
         <Title>{notice.title}</Title>
