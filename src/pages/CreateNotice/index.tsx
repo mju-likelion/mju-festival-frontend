@@ -9,15 +9,17 @@ import { ImageNoticeType } from '../../types';
 
 const CreateNotice = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { token } = useAuthStore();
   const formData = new FormData();
   const imageData = new FormData();
-  const { token } = useAuthStore();
 
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
   } = useForm<ImageNoticeType>();
+  const contentCount = watch('content', '');
 
   const handleClick = () => {
     if (fileInputRef.current) {
@@ -83,9 +85,10 @@ const CreateNotice = () => {
             placeholder="입력해주세요"
           />
           <ContentInput
-            {...register('content', { required: true })}
+            {...register('content', { required: true, maxLength: 100 })}
             placeholder="내용을 입력해주세요"
           />
+          <p>{contentCount?.length}/100</p>
         </UploadContentLayout>
         <CreateButton type="submit">공지사항 올리기</CreateButton>
       </form>
