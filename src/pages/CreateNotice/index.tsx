@@ -86,6 +86,7 @@ const CreateNotice = () => {
           />
           <ContentInput
             {...register('content', { required: true, maxLength: 100 })}
+            maxLength={100}
             placeholder="내용을 입력해주세요"
           />
           <p>{contentCount?.length}/100</p>
