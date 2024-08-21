@@ -41,6 +41,7 @@ const LostItem = () => {
 
   const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
     setSorted(e.target.value as SortKey);
+    setPage(0);
   };
 
   const handlePageNum = (num: number) => {
