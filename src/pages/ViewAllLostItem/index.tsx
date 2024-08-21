@@ -16,10 +16,13 @@ const LostItem = () => {
 
   useEffect(() => {
     getLostItem(sorted, page, SIZE, setLostItems, setTotalPage);
-  }, [sorted, page]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  useEffect(() => {
-    if (keyword.trim() !== '')
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (keyword.trim() !== '') {
+      setPage(0);
       getSearchLostItem(
         sorted,
         keyword,
@@ -28,7 +31,15 @@ const LostItem = () => {
         setLostItems,
         setTotalPage
       );
-  }, [sorted, keyword, page]);
+    } else {
+      getLostItem(sorted, page, SIZE, setLostItems, setTotalPage);
+    }
+  };
+
+  useEffect(() => {
+    getSearchLostItem(sorted, keyword, page, SIZE, setLostItems, setTotalPage);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sorted, page]);
 
   const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
     setSorted(e.target.value as SortKey);
@@ -53,7 +64,10 @@ const LostItem = () => {
   return (
     <Wrapper>
       <Header />
-      <SearchInput onChange={handleKeyword} />
+      <form onSubmit={onSubmit}>
+        <SearchInput onChange={handleKeyword} />
+        <button type="submit">검색하기</button>
+      </form>
       <ListLayout>
         <ListTItleContainer>
           <ListTitle />
