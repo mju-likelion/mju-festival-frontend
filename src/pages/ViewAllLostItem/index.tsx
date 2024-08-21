@@ -16,7 +16,6 @@ const LostItem = () => {
 
   useEffect(() => {
     getLostItem(sorted, page, SIZE, setLostItems, setTotalPage);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -38,7 +37,6 @@ const LostItem = () => {
 
   useEffect(() => {
     getSearchLostItem(sorted, keyword, page, SIZE, setLostItems, setTotalPage);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sorted, page]);
 
   const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
