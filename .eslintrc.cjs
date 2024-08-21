@@ -34,5 +34,6 @@ module.exports = {
     'no-nested-ternary': 'off',
     'import/no-extraneous-dependencies': 'off',
     'consistent-return': 'off',
+    'react-hooks/exhaustive-deps': 'warn',
   },
-}
+};
