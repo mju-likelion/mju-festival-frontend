@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { ChangeEvent, useEffect, useState } from 'react';
 import Header from './Header';
-import { getLostItem } from '../../api/lostItem';
+import { getLostItem, getSearchLostItem } from '../../api/lostItem';
 import LostItemCard from './LostItemCard';
 import { SimpleLostItem, SortOptions, SortKey } from '../../types/lostItem';
 
@@ -10,12 +10,25 @@ const LostItem = () => {
   const [sorted, setSorted] = useState<SortKey>('desc');
   const [page, setPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
+  const [keyword, setKeyword] = useState('');
   const sortOptions: SortOptions = { desc: '최신순', asc: '오래된순' };
   const SIZE: number = 4;
 
   useEffect(() => {
     getLostItem(sorted, page, SIZE, setLostItems, setTotalPage);
   }, [sorted, page]);
+
+  useEffect(() => {
+    if (keyword.trim() !== '')
+      getSearchLostItem(
+        sorted,
+        keyword,
+        page,
+        SIZE,
+        setLostItems,
+        setTotalPage
+      );
+  }, [sorted, keyword, page]);
 
   const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
     setSorted(e.target.value as SortKey);
@@ -33,10 +46,14 @@ const LostItem = () => {
     });
   };
 
+  const handleKeyword = (e: ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
+  };
+
   return (
     <Wrapper>
       <Header />
-      <SearchInput />
+      <SearchInput onChange={handleKeyword} />
       <ListLayout>
         <ListTItleContainer>
           <ListTitle />

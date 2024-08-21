@@ -15,7 +15,6 @@ export const getLostItem = async (
       `/lost-items?sort=${sort}&page=${page}&size=${size}`
     );
     const { simpleLostItems, totalPage } = data;
-
     setLostItems(simpleLostItems);
     setTotalPage(totalPage);
   } catch (error) {
@@ -23,4 +22,23 @@ export const getLostItem = async (
   }
 };
 
-// 재사용성 리팩토링 필요
+export const getSearchLostItem = async (
+  sort: string,
+  keyword: string,
+  page: number,
+  size: number,
+  setLostItems: React.Dispatch<React.SetStateAction<SimpleLostItem[]>>,
+  setTotalPage: React.Dispatch<React.SetStateAction<number>>
+) => {
+  try {
+    const { data } = await Axios.get(
+      `/lost-items/search?sort=${sort}&keyword=${keyword}&page=${page}&size=${size}`
+    );
+    const { simpleLostItems, totalPage } = data;
+
+    setLostItems(simpleLostItems);
+    setTotalPage(totalPage);
+  } catch (error) {
+    console.log(error);
+  }
+};
