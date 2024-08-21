@@ -13,12 +13,7 @@ const CreateNotice = () => {
   const formData = new FormData();
   const imageData = new FormData();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm<ImageNoticeType>();
+  const { register, handleSubmit, watch } = useForm<ImageNoticeType>();
   const contentCount = watch('content', '');
 
   const handleClick = () => {
