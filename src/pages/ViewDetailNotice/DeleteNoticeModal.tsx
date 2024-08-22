@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { Axios } from '../../api/Axios';
 import { useAuthStore } from '../../store';
 
@@ -17,6 +18,7 @@ const DeleteNoticeModal: React.FC<DeleteNoticeModalProps> = ({
   children,
 }) => {
   const { token } = useAuthStore();
+  const navigate = useNavigate();
 
   if (!isOpen) return null;
 
@@ -25,6 +27,7 @@ const DeleteNoticeModal: React.FC<DeleteNoticeModalProps> = ({
       await Axios.delete(`/announcements/${noticeId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      navigate('/view/all-notices');
     } catch (error) {
       console.error('삭제실패', error);
     }
