@@ -1,18 +1,34 @@
 import { ReactNode } from 'react';
 import styled from 'styled-components';
+import { Axios } from '../../api/Axios';
+import { useAuthStore } from '../../store';
 
 interface DeleteNoticeModalProps {
+  noticeId?: string;
   isOpen: boolean;
   closeModal: () => void;
   children: ReactNode;
 }
 
 const DeleteNoticeModal: React.FC<DeleteNoticeModalProps> = ({
+  noticeId,
   isOpen,
   closeModal,
   children,
 }) => {
+  const { token } = useAuthStore();
+
   if (!isOpen) return null;
+
+  const handleClick = async () => {
+    try {
+      await Axios.delete(`/announcements/${noticeId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    } catch (error) {
+      console.error('삭제실패', error);
+    }
+  };
 
   return (
     <Wrapper $isOpen={isOpen}>
@@ -20,7 +36,7 @@ const DeleteNoticeModal: React.FC<DeleteNoticeModalProps> = ({
       <button type="button" onClick={closeModal}>
         X
       </button>
-      <DeleteButton>삭제하기</DeleteButton>
+      <DeleteButton onClick={() => handleClick()}>삭제하기</DeleteButton>
     </Wrapper>
   );
 };

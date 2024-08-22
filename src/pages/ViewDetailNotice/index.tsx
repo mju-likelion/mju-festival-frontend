@@ -52,7 +52,11 @@ const ViewDetailNotice = () => {
       </div>
       <Content>{notice.content}</Content>
       <DeleteButton onClick={openModal}>삭제하기</DeleteButton>
-      <DeleteNoticeModal isOpen={isModalOpen} closeModal={closeModal}>
+      <DeleteNoticeModal
+        noticeId={id}
+        isOpen={isModalOpen}
+        closeModal={closeModal}
+      >
         삭제시 복구 불가
       </DeleteNoticeModal>
     </Wrapper>
