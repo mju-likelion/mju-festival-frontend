@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import NoticeCard from './NoticeCard';
 import { Axios } from '../../api/Axios';
-import { NoticeType, SortOptions } from '../../types';
+import { NoticeType, SortKey, SortOptions } from '../../types';
 import { useAuthStore } from '../../store';
 
 const ViewAllNotice = () => {
   const [notices, setNotices] = useState<NoticeType[]>([]);
-  const [isSorted, setIsSorted] = useState('desc');
+  const [isSorted, setIsSorted] = useState<SortKey>('desc');
   const [page, setPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -44,7 +44,7 @@ const ViewAllNotice = () => {
   }, [getNotices]);
 
   const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
-    setIsSorted(e.target.value);
+    setIsSorted(e.target.value as SortKey);
   };
 
   const handlePage = (index: number) => {

@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface NoticeType {
   id?: string;
   title: string;
@@ -22,5 +24,12 @@ export interface NoticeCardPropTypes {
   onClick?: React.MouseEventHandler<HTMLDivElement> | undefined;
 }
 
-type SortKey = 'asc' | 'desc';
+export interface DeleteNoticeModalProps {
+  noticeId?: string;
+  isOpen: boolean;
+  closeModal: () => void;
+  children: ReactNode;
+}
+
+export type SortKey = 'asc' | 'desc';
 export type SortOptions = Record<SortKey, string>;
