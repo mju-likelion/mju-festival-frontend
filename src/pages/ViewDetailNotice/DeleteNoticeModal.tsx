@@ -1,15 +1,8 @@
-import { ReactNode } from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { Axios } from '../../api/Axios';
 import { useAuthStore } from '../../store';
-
-interface DeleteNoticeModalProps {
-  noticeId?: string;
-  isOpen: boolean;
-  closeModal: () => void;
-  children: ReactNode;
-}
+import { DeleteNoticeModalProps } from '../../types';
 
 const DeleteNoticeModal: React.FC<DeleteNoticeModalProps> = ({
   noticeId,
