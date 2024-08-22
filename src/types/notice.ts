@@ -22,5 +22,5 @@ export interface NoticeCardPropTypes {
   onClick?: React.MouseEventHandler<HTMLDivElement> | undefined;
 }
 
-type SortKey = 'asc' | 'desc';
+export type SortKey = 'asc' | 'desc';
 export type SortOptions = Record<SortKey, string>;
