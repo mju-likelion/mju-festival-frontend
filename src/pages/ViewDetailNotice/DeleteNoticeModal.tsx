@@ -15,7 +15,7 @@ const DeleteNoticeModal: React.FC<DeleteNoticeModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleClick = async () => {
+  const handleDeleteClick = async () => {
     try {
       await Axios.delete(`/announcements/${noticeId}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -32,7 +32,7 @@ const DeleteNoticeModal: React.FC<DeleteNoticeModalProps> = ({
       <button type="button" onClick={closeModal}>
         X
       </button>
-      <DeleteButton onClick={() => handleClick()}>삭제하기</DeleteButton>
+      <DeleteButton onClick={() => handleDeleteClick()}>삭제하기</DeleteButton>
     </Wrapper>
   );
 };
