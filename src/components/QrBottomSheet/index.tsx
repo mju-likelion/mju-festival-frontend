@@ -6,10 +6,10 @@ import Header from './Header';
 import Content from './Content';
 
 const BottomSheet = () => {
-  const { sheet } = useBottomSheet();
+  const { sheet, handleClick } = useBottomSheet();
 
   return (
-    <Wrapper ref={sheet}>
+    <Wrapper ref={sheet} onClick={handleClick}>
       <Header />
       <BottomSheetContent>
         <Content />
@@ -23,7 +23,6 @@ const Wrapper = styled(motion.div)`
   flex-direction: column;
   align-items: center;
 
-  /* position: absolute; */
   position: fixed;
   z-index: 1;
   top: calc(100% - 90px);
