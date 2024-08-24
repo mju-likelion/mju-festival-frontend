@@ -13,9 +13,10 @@ const BoothDetail = () => {
     id: '',
     imageUrl: '',
     location: '',
+    locationImageUrl: '',
     name: '',
   });
-  const { id, name, description, location, imageUrl, createdAt } =
+  const { name, description, location, imageUrl, locationImageUrl, createdAt } =
     boothDetailData;
   const params = useParams();
   const navigate = useNavigate();
@@ -39,18 +40,33 @@ const BoothDetail = () => {
       </button>
       <h1>{role}</h1>
       <Box>
-        <p>id: {id}</p>
         <p>부스 이름: {name}</p>
         <p>부스 설명: {description}</p>
         <p>위치: {location}</p>
         <p>생성 시간: {createdAt}</p>
         <Img src={imageUrl} alt="부스 이미지" />
+        <Img src={locationImageUrl} alt="부스 위치 이미지" />
       </Box>
       {role === 'STUDENT' && (
         <StudentAction>
           <Buttons>
             <Button>QR 촬영하기</Button>
             <Button>도장판으로</Button>
+          </Buttons>
+        </StudentAction>
+      )}
+      {role === 'BOOTH_MANAGER' && (
+        <StudentAction>
+          <Buttons>
+            <Button
+              onClick={() =>
+                navigate(`/booth/edit/${params.boothId}`, {
+                  state: { ...boothDetailData },
+                })
+              }
+            >
+              수정하기
+            </Button>
           </Buttons>
         </StudentAction>
       )}
