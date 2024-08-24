@@ -14,3 +14,9 @@ export interface BoothInfo {
   description: string;
   imageUrl: string;
 }
+
+export interface BoothQrData {
+  qrCode: string;
+}
+
+export type BottomSheetPropTypes = BoothQrData;

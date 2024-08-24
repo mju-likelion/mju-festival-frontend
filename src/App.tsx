@@ -13,7 +13,6 @@ import Main from './pages/Main/index.tsx';
 import CreateNotice from './pages/CreateNotice/index.tsx';
 import LostItem from './pages/ViewAllLostItem/index.tsx';
 import DetailLostItem from './pages/ViewDetailLostItem/index.tsx';
-import Base from './components/QrBottomSheet/Base.tsx';
 
 function App() {
   useRouteTracker();
@@ -35,7 +34,6 @@ function App() {
           />
           <Route path="/lostItem" element={<LostItem />} />
           <Route path="/lostItem/detail" element={<DetailLostItem />} />
-          <Route path="/test" element={<Base />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

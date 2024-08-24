@@ -1,18 +1,19 @@
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { BOTTOM_SHEET_HEIGHT } from './BottomSheetOption';
+import { BOTTOM_SHEET_HEIGHT, MAX_Y } from './BottomSheetOption';
 import useBottomSheet from '../../hooks/useBottomSheet';
 import Header from './Header';
 import Content from './Content';
+import { BottomSheetPropTypes } from '../../types';
 
-const BottomSheet = () => {
+const BottomSheet = ({ qrCode }: BottomSheetPropTypes) => {
   const { sheet, handleClick } = useBottomSheet();
 
   return (
     <Wrapper ref={sheet} onClick={handleClick}>
       <Header />
       <BottomSheetContent>
-        <Content />
+        <Content qrCode={qrCode} />
       </BottomSheetContent>
     </Wrapper>
   );
@@ -25,7 +26,8 @@ const Wrapper = styled(motion.div)`
 
   position: fixed;
   z-index: 1;
-  top: calc(100% - 90px);
+  top: ${MAX_Y}px;
+
   left: 0;
   right: 0;
 
