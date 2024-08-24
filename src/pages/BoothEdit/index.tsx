@@ -19,7 +19,14 @@ const BoothEdit = () => {
   });
 
   const onSubmit = handleSubmit(async (formData) => {
-    console.log(formData);
+    const updateFields: Partial<BoothEditFields> = {};
+    Object.keys(formData).forEach((key) => {
+      const fieldKey = key as keyof BoothEditFields;
+      if (formData[fieldKey] !== locationData.state[fieldKey]) {
+        updateFields[fieldKey] = formData[fieldKey];
+      }
+    });
+    console.log(updateFields);
   });
 
   return (
