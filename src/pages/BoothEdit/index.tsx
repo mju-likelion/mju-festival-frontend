@@ -1,13 +1,19 @@
 import styled from 'styled-components';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { boothSchema } from '../../validation/schema.ts';
+import { patchBoothDetail } from '../../api/booth.ts';
+
+import { useAuthStore } from '../../store';
 import { BoothEditFields } from '../../types';
+import { boothSchema } from '../../validation/schema.ts';
+import { handleError } from '../../utils/errorUtils.ts';
 
 const BoothEdit = () => {
   const locationData = useLocation();
-  const { name, description, location, imageUrl } = locationData.state;
+  const { id, name, description, location, imageUrl } = locationData.state;
+  const { token } = useAuthStore();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -19,14 +25,21 @@ const BoothEdit = () => {
   });
 
   const onSubmit = handleSubmit(async (formData) => {
-    const updateFields: Partial<BoothEditFields> = {};
-    Object.keys(formData).forEach((key) => {
-      const fieldKey = key as keyof BoothEditFields;
-      if (formData[fieldKey] !== locationData.state[fieldKey]) {
-        updateFields[fieldKey] = formData[fieldKey];
+    try {
+      const updateFields: Partial<BoothEditFields> = {};
+      Object.keys(formData).forEach((key) => {
+        const fieldKey = key as keyof BoothEditFields;
+        if (formData[fieldKey] !== locationData.state[fieldKey]) {
+          updateFields[fieldKey] = formData[fieldKey];
+        }
+      });
+      if (updateFields && token) {
+        await patchBoothDetail(id, updateFields, token);
+        navigate(`/booth/${id}`);
       }
-    });
-    console.log(updateFields);
+    } catch (e) {
+      handleError(e as Error);
+    }
   });
 
   return (
