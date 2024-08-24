@@ -16,7 +16,7 @@ export interface BoothInfo {
 }
 
 export interface BoothQrData {
-  qrCode: string | undefined;
+  qrCode: string;
 }
 
 export type BottomSheetPropTypes = BoothQrData;

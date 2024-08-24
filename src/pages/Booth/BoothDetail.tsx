@@ -9,7 +9,7 @@ import BottomSheet from '../../components/QrBottomSheet/index.tsx';
 const BoothDetail = () => {
   const role = useAuthStore((state) => state.role);
   const token = useAuthStore((state) => state.token);
-  const [qrCode, setQrCode] = useState<string | undefined>('');
+  const [qrCode, setQrCode] = useState('');
 
   const [boothDetailData, setBoothDetailData] = useState<BoothDetailInfo>({
     createdAt: '',
@@ -33,8 +33,13 @@ const BoothDetail = () => {
   }, [params.boothId]);
 
   const fetchQr = async () => {
+    if (!params.boothId) {
+      return;
+    }
     const data = await getQrData(params.boothId, token);
-    setQrCode(data);
+    if (data) {
+      setQrCode(data);
+    }
   };
 
   useEffect(() => {
@@ -42,7 +47,9 @@ const BoothDetail = () => {
   }, [fetchData]);
 
   useEffect(() => {
-    fetchQr();
+    if (role === 'BOOTH_MANAGER') {
+      fetchQr();
+    }
   }, []);
 
   return (

@@ -12,7 +12,7 @@ export const getBoothDetail = async (boothId: string) => {
   return response.data;
 };
 
-export const getQrData = async (id: string | undefined, token: string) => {
+export const getQrData = async (id: string, token: string) => {
   try {
     const { data }: AxiosResponse<BoothQrData> = await Axios.get(
       `/booths/${id}/qr`,
