@@ -1,12 +1,15 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useCallback, useEffect, useState } from 'react';
-import { getBoothDetail } from '../../api/booth.ts';
+import { getBoothDetail, getQrData } from '../../api/booth.ts';
+import BottomSheet from '../../components/QrBottomSheet/index.tsx';
 import { BoothDetailInfo } from '../../types';
 import { useAuthStore } from '../../store';
 
 const BoothDetail = () => {
-  const { role } = useAuthStore();
+  const [qrCode, setQrCode] = useState('');
+
+  const { role, token } = useAuthStore();
   const [boothDetailData, setBoothDetailData] = useState<BoothDetailInfo>({
     createdAt: '',
     description: '',
@@ -29,9 +32,25 @@ const BoothDetail = () => {
     setBoothDetailData(response);
   }, [params.boothId]);
 
+  const fetchQr = async () => {
+    if (!params.boothId) {
+      return;
+    }
+    const data = await getQrData(params.boothId, token);
+    if (data) {
+      setQrCode(data);
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  useEffect(() => {
+    if (role === 'BOOTH_MANAGER') {
+      fetchQr();
+    }
+  }, []);
 
   return (
     <Wrapper>
@@ -70,7 +89,7 @@ const BoothDetail = () => {
           </Buttons>
         </StudentAction>
       )}
-      {role === 'BOOTH_MANAGER' && <BoothManagerAction>QR</BoothManagerAction>}
+      {role === 'BOOTH_MANAGER' && <BottomSheet qrCode={qrCode} />}
     </Wrapper>
   );
 };
@@ -86,9 +105,6 @@ const Img = styled.img`
 `;
 const StudentAction = styled.div`
   border: 3px solid pink;
-`;
-const BoothManagerAction = styled.div`
-  border: 3px solid lightgreen;
 `;
 const Buttons = styled.button`
   display: flex;

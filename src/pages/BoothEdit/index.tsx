@@ -33,10 +33,10 @@ const BoothEdit = () => {
           updateFields[fieldKey] = formData[fieldKey];
         }
       });
-      if (updateFields && token) {
+      if (Object.keys(updateFields).length > 0 && token) {
         await patchBoothDetail(id, updateFields, token);
-        navigate(`/booth/${id}`);
       }
+      navigate(`/booth/${id}`);
     } catch (e) {
       handleError(e as Error);
     }

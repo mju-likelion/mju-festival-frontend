@@ -21,3 +21,9 @@ export interface BoothEditFields {
   description: string;
   location: string;
 }
+
+export interface BoothQrData {
+  qrCode: string;
+}
+
+export type BottomSheetPropTypes = BoothQrData;

@@ -11,6 +11,9 @@ import UserLogIn from './pages/LogIn/indexUser.tsx';
 import AdminLogIn from './pages/LogIn/indexAdmin.tsx';
 import ViewDetailNotice from './pages/ViewDetailNotice/index.tsx';
 import Main from './pages/Main/index.tsx';
+import CreateNotice from './pages/CreateNotice/index.tsx';
+import LostItem from './pages/ViewAllLostItem/index.tsx';
+import DetailLostItem from './pages/ViewDetailLostItem/index.tsx';
 
 function App() {
   useRouteTracker();
@@ -21,6 +24,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Main />} />
           <Route path="/view/all-notices" element={<ViewAllNotice />} />
+          <Route path="/create/notice" element={<CreateNotice />} />
           <Route path="/booths" element={<Booth />} />
           <Route path="/booth/:boothId" element={<BoothDetail />} />
           <Route path="/booth/edit/:boothId" element={<BoothEdit />} />
@@ -30,6 +34,8 @@ function App() {
             path="/view/detail-notice/:id"
             element={<ViewDetailNotice />}
           />
+          <Route path="/lostItem" element={<LostItem />} />
+          <Route path="/lostItem/detail" element={<DetailLostItem />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
