@@ -1,10 +1,16 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useCallback, useEffect, useState } from 'react';
-import { getBoothDetail } from '../../api/booth.ts';
+import { getBoothDetail, getQrData } from '../../api/booth.ts';
 import { BoothDetailInfo } from '../../types';
+import { useAuthStore } from '../../store/auth.ts';
+import BottomSheet from '../../components/QrBottomSheet/index.tsx';
 
 const BoothDetail = () => {
+  const role = useAuthStore((state) => state.role);
+  const token = useAuthStore((state) => state.token);
+  const [qrCode, setQrCode] = useState<string | undefined>('');
+
   const [boothDetailData, setBoothDetailData] = useState<BoothDetailInfo>({
     createdAt: '',
     description: '',
@@ -26,24 +32,36 @@ const BoothDetail = () => {
     setBoothDetailData(response);
   }, [params.boothId]);
 
+  const fetchQr = async () => {
+    const data = await getQrData(params.boothId, token);
+    setQrCode(data);
+  };
+
   useEffect(() => {
     fetchData();
   }, [fetchData]);
 
+  useEffect(() => {
+    fetchQr();
+  }, []);
+
   return (
-    <Wrapper>
-      <button type="button" onClick={() => navigate('/booths')}>
-        뒤로가기
-      </button>
-      <Box>
-        <p>id: {id}</p>
-        <p>부스 이름: {name}</p>
-        <p>부스 설명: {description}</p>
-        <p>위치: {location}</p>
-        <p>생성 시간: {createdAt}</p>
-        <Img src={imageUrl} alt="부스 이미지" />
-      </Box>
-    </Wrapper>
+    <>
+      <Wrapper>
+        <button type="button" onClick={() => navigate('/booths')}>
+          뒤로가기
+        </button>
+        <Box>
+          <p>id: {id}</p>
+          <p>부스 이름: {name}</p>
+          <p>부스 설명: {description}</p>
+          <p>위치: {location}</p>
+          <p>생성 시간: {createdAt}</p>
+          <Img src={imageUrl} alt="부스 이미지" />
+        </Box>
+      </Wrapper>
+      {role === 'BOOTH_MANAGER' && <BottomSheet qrCode={qrCode} />}
+    </>
   );
 };
 
