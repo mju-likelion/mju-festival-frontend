@@ -5,6 +5,7 @@ import {
   BoothEditFields,
   BoothList,
   BoothQrData,
+  Ownership,
 } from '../types';
 
 export const getBoothList = async () => {
@@ -15,6 +16,15 @@ export const getBoothList = async () => {
 export const getBoothDetail = async (boothId: string) => {
   const response = await Axios.get<BoothDetailInfo>(`/booths/${boothId}`);
   return response.data;
+};
+
+export const getOwnership = async (token: string, boothId: string) => {
+  const response = await Axios.get<Ownership>(`/booths/${boothId}/ownership`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data.isOwner;
 };
 
 export const patchBoothDetail = async (
@@ -30,7 +40,7 @@ export const patchBoothDetail = async (
   return response.data;
 };
 
-export const getQrData = async (id: string, token: string) => {
+export const getQrData = async (token: string, id: string) => {
   try {
     const { data }: AxiosResponse<BoothQrData> = await Axios.get(
       `/booths/${id}/qr`,

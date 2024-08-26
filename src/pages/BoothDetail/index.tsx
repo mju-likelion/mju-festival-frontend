@@ -1,15 +1,18 @@
-import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { useCallback, useEffect, useState } from 'react';
-import { getBoothDetail, getQrData } from '../../api/booth.ts';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getBoothDetail, getOwnership, getQrData } from '../../api/booth.ts';
+
 import BottomSheet from '../../components/QrBottomSheet/index.tsx';
-import { BoothDetailInfo } from '../../types';
 import { useAuthStore } from '../../store';
+import { BoothDetailInfo } from '../../types';
+import { handleError } from '../../utils/errorUtils.ts';
 
 const BoothDetail = () => {
-  const [qrCode, setQrCode] = useState('');
-
   const { role, token } = useAuthStore();
+
+  const [isOwner, setIsOwner] = useState(false);
+  const [qrCode, setQrCode] = useState('');
   const [boothDetailData, setBoothDetailData] = useState<BoothDetailInfo>({
     createdAt: '',
     description: '',
@@ -21,35 +24,51 @@ const BoothDetail = () => {
   });
   const { name, description, location, imageUrl, locationImageUrl, createdAt } =
     boothDetailData;
+
   const params = useParams();
   const navigate = useNavigate();
 
-  const fetchData = useCallback(async () => {
+  const fetchOwnership = async () => {
     if (!params.boothId) {
-      return;
+      return false;
     }
-    const response = await getBoothDetail(params.boothId);
-    setBoothDetailData(response);
-  }, [params.boothId]);
+    return await getOwnership(token, params.boothId);
+  };
 
   const fetchQr = async () => {
     if (!params.boothId) {
       return;
     }
-    const data = await getQrData(params.boothId, token);
+    const data = await getQrData(token, params.boothId);
     if (data) {
       setQrCode(data);
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  const fetchBoothDetailData = async () => {
+    if (!params.boothId) {
+      return;
+    }
+    const response = await getBoothDetail(params.boothId);
+    setBoothDetailData(response);
+  };
 
   useEffect(() => {
-    if (role === 'BOOTH_MANAGER') {
-      fetchQr();
-    }
+    const initializeData = async () => {
+      try {
+        await fetchBoothDetailData();
+        if (role === 'BOOTH_MANAGER') {
+          const isOwner = await fetchOwnership();
+          setIsOwner(isOwner);
+          if (isOwner) {
+            await fetchQr();
+          }
+        }
+      } catch (e) {
+        handleError(e as Error);
+      }
+    };
+    initializeData();
   }, []);
 
   return (
@@ -74,22 +93,24 @@ const BoothDetail = () => {
           </Buttons>
         </StudentAction>
       )}
-      {role === 'BOOTH_MANAGER' && (
-        <StudentAction>
-          <Buttons>
-            <Button
-              onClick={() =>
-                navigate(`/booth/edit/${params.boothId}`, {
-                  state: { ...boothDetailData },
-                })
-              }
-            >
-              수정하기
-            </Button>
-          </Buttons>
-        </StudentAction>
+      {isOwner && (
+        <>
+          <StudentAction>
+            <Buttons>
+              <Button
+                onClick={() =>
+                  navigate(`/booth/edit/${params.boothId}`, {
+                    state: { ...boothDetailData },
+                  })
+                }
+              >
+                수정하기
+              </Button>
+            </Buttons>
+          </StudentAction>
+          <BottomSheet qrCode={qrCode} />
+        </>
       )}
-      {role === 'BOOTH_MANAGER' && <BottomSheet qrCode={qrCode} />}
     </Wrapper>
   );
 };

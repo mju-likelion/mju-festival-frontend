@@ -27,3 +27,7 @@ export interface BoothQrData {
 }
 
 export type BottomSheetPropTypes = BoothQrData;
+
+export interface Ownership {
+  isOwner: boolean;
+}
