@@ -13,6 +13,7 @@ import Main from './pages/Main/index.tsx';
 import CreateNotice from './pages/CreateNotice/index.tsx';
 import LostItem from './pages/ViewAllLostItem/index.tsx';
 import DetailLostItem from './pages/ViewDetailLostItem/index.tsx';
+import CreateLostItem from './pages/CreateLostItem/index.tsx';
 
 function App() {
   useRouteTracker();
@@ -34,6 +35,7 @@ function App() {
           />
           <Route path="/lostItem" element={<LostItem />} />
           <Route path="/lostItem/detail" element={<DetailLostItem />} />
+          <Route path="/lostItem/new" element={<CreateLostItem />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
