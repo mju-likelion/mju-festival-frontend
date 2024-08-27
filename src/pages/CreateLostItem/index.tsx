@@ -3,12 +3,13 @@ import { useForm } from 'react-hook-form';
 import { ChangeEvent, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Header from './Header';
-import { postLostItemImg } from '../../api/lostItem';
+import { postLostItem, postLostItemImg } from '../../api/lostItem';
 import { useAuthStore } from '../../store';
 import { lostItemSchema } from '../../validation/schema';
+import { LostItemForm, PostLostItemRequest } from '../../types/lostItem';
 
 const CreateLostItem = () => {
-  const [imgFile, setImgFile] = useState<string>();
+  const [imgFile, setImgFile] = useState<string>('');
   const { token } = useAuthStore();
   const {
     register,
@@ -19,8 +20,18 @@ const CreateLostItem = () => {
     resolver: yupResolver(lostItemSchema),
   });
 
-  const onSubmit = () => {
-    console.log('완료');
+  const onSubmit = async (data: LostItemForm) => {
+    const lostItemData: PostLostItemRequest = {
+      title: data.title,
+      content: data.content,
+      imageUrl: imgFile,
+    };
+
+    try {
+      await postLostItem(lostItemData, token);
+    } catch (error) {
+      throw error as Error;
+    }
   };
 
   const handleImgFile = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -74,7 +85,7 @@ const CreateLostItem = () => {
             maxLength={20}
           />
           <ItemContent
-            {...register('description', { required: true, maxLength: 100 })}
+            {...register('content', { required: true, maxLength: 100 })}
             placeholder="test 내용"
             maxLength={100}
           />
@@ -84,7 +95,7 @@ const CreateLostItem = () => {
           에러 :
           {errors.file?.message ||
             errors.title?.message ||
-            errors.description?.message}
+            errors.content?.message}
         </p>
       </form>
     </Wrapper>

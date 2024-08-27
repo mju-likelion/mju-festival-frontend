@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import { ChangeEvent, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import { getLostItem, getSearchLostItem } from '../../api/lostItem';
 import LostItemCard from './LostItemCard';
 import { SimpleLostItem, SortOptions, SortKey } from '../../types/lostItem';
+import { useAuthStore } from '../../store';
 
 const LostItem = () => {
   const [LostItems, setLostItems] = useState<SimpleLostItem[]>([]);
@@ -14,30 +16,8 @@ const LostItem = () => {
   const sortOptions: SortOptions = { desc: '최신순', asc: '오래된순' };
   const SIZE: number = 4;
 
-  useEffect(() => {
-    getLostItem(sorted, page, SIZE, setLostItems, setTotalPage);
-  }, []);
-
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (keyword.trim() !== '') {
-      setPage(0);
-      getSearchLostItem(
-        sorted,
-        keyword,
-        page,
-        SIZE,
-        setLostItems,
-        setTotalPage
-      );
-    } else {
-      getLostItem(sorted, page, SIZE, setLostItems, setTotalPage);
-    }
-  };
-
-  useEffect(() => {
-    getSearchLostItem(sorted, keyword, page, SIZE, setLostItems, setTotalPage);
-  }, [sorted, page]);
+  const { role } = useAuthStore();
+  const navigate = useNavigate();
 
   const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
     setSorted(e.target.value as SortKey);
@@ -59,6 +39,31 @@ const LostItem = () => {
   const handleKeyword = (e: ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
   };
+
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (keyword.trim() !== '') {
+      setPage(0);
+      getSearchLostItem(
+        sorted,
+        keyword,
+        page,
+        SIZE,
+        setLostItems,
+        setTotalPage
+      );
+    } else {
+      getLostItem(sorted, page, SIZE, setLostItems, setTotalPage);
+    }
+  };
+
+  useEffect(() => {
+    getLostItem(sorted, page, SIZE, setLostItems, setTotalPage);
+  }, []);
+
+  useEffect(() => {
+    getSearchLostItem(sorted, keyword, page, SIZE, setLostItems, setTotalPage);
+  }, [sorted, page]);
 
   return (
     <Wrapper>
@@ -89,13 +94,23 @@ const LostItem = () => {
           </PageBtnContainer>
         </CardContainer>
       </ListLayout>
+      {role === 'STUDENT_COUNCIL' && (
+        <button
+          type="button"
+          onClick={() => {
+            navigate('/lostItems/new');
+          }}
+        >
+          분실물 등록하기
+        </button>
+      )}
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
   width: 100%;
-  border: 1px solid red;
+  border: 4px solid red;
 `;
 
 const SearchInput = styled.input``;

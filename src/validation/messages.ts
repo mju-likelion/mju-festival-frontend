@@ -16,5 +16,5 @@ export const lostItemValidationMessages = {
   FILE_SIZE: '이미지 파일의 크기는',
   FILE_TYPE: '이미지 파일의 타입은',
   TITLE_MAX_LENGTH: '글자수는',
-  DESCRIPTION_MAX_LENGTH: '글자수는',
+  CONTENT_MAX_LENGTH: '글자수는',
 };

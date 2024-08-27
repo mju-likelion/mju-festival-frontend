@@ -54,8 +54,8 @@ export const lostItemSchema = yup.object().shape({
     .string()
     .required(lostItemValidationMessages.REQUIRED)
     .max(100, lostItemValidationMessages.TITLE_MAX_LENGTH),
-  description: yup
+  content: yup
     .string()
     .required(lostItemValidationMessages.REQUIRED)
-    .max(4000, lostItemValidationMessages.DESCRIPTION_MAX_LENGTH),
+    .max(4000, lostItemValidationMessages.CONTENT_MAX_LENGTH),
 });
