@@ -27,12 +27,13 @@ const BoothEdit = () => {
   const onSubmit = handleSubmit(async (formData) => {
     try {
       const updateFields: Partial<BoothEditFields> = {};
-      Object.keys(formData).forEach((key) => {
+      Object.entries(formData).forEach(([key, value]) => {
         const fieldKey = key as keyof BoothEditFields;
-        if (formData[fieldKey] !== locationData.state[fieldKey]) {
-          updateFields[fieldKey] = formData[fieldKey];
+        if (value !== locationData.state[key]) {
+          updateFields[fieldKey] = value;
         }
       });
+
       if (Object.keys(updateFields).length > 0 && token) {
         await patchBoothDetail(id, updateFields, token);
       }

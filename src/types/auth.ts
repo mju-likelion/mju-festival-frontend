@@ -33,7 +33,7 @@ export type Auth = 'USER' | 'ADMIN';
 export type Role = '' | 'STUDENT' | 'STUDENT_COUNCIL' | 'BOOTH_MANAGER';
 
 export interface Admin {
-  STUDENT: ''
-  STUDENT_COUNCIL: '관리자'
-  BOOTH_MANAGER: '관리자'
+  STUDENT: '';
+  STUDENT_COUNCIL: '관리자';
+  BOOTH_MANAGER: '관리자';
 }
