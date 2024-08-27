@@ -6,7 +6,7 @@ import { postLostItemImg } from '../../api/lostItem';
 import { useAuthStore } from '../../store';
 
 const CreateLostItem = () => {
-  const [imgFile, setImgFile] = useState<FileList>();
+  const [imgFile, setImgFile] = useState<string>();
   const { token } = useAuthStore();
   const {
     register,
@@ -37,7 +37,28 @@ const CreateLostItem = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <ItemLayout>
           <RegisterDate>등록일 </RegisterDate>
-          <ItemImg {...register('file')} type="file" onChange={handleImgFile} />
+          <ImageContainer>
+            <ItemImg src={imgFile || undefined} />
+            <FileInputContainer>
+              <ItemInput
+                {...register('file')}
+                type="file"
+                onChange={handleImgFile}
+                id="lostItem"
+              />
+              <ItemLabel htmlFor="lostItem">
+                {!imgFile ? (
+                  <>
+                    이미지 업로드 <br /> (이미지는 한 장만 업로드 가능합니다.)
+                    <br />
+                    (JPG, GIF, PNG, PDF)
+                  </>
+                ) : (
+                  ''
+                )}
+              </ItemLabel>
+            </FileInputContainer>
+          </ImageContainer>
           <ItemTitle {...register('title')} placeholder="제목" />
           <ItemContent {...register('content')} placeholder="test 내용" />
         </ItemLayout>
@@ -57,10 +78,39 @@ const ItemLayout = styled.div`
   flex-direction: column;
 `;
 const RegisterDate = styled.p``;
-const ItemImg = styled.input`
+const ImageContainer = styled.div`
+  position: relative;
   width: 100%;
-  height: 200px;
+  height: 300px;
+  background-color: gray;
 `;
+const ItemImg = styled.img`
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+`;
+const FileInputContainer = styled.div`
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+const ItemInput = styled.input`
+  display: none;
+`;
+const ItemLabel = styled.label`
+  text-align: center;
+  line-height: 30px;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+`;
+
 const ItemTitle = styled.input``;
 const ItemContent = styled.textarea`
   width: 100%;
