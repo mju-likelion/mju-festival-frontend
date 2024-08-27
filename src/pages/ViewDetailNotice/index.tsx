@@ -1,11 +1,10 @@
 import styled from 'styled-components';
 import { useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Header from './Header';
 import { Axios } from '../../api/Axios';
 import { DetailNoticeType } from '../../types';
 import DeleteNoticeModal from './DeleteNoticeModal';
-import UpdateBtn from '../ViewAllNotice/UpdateBtn';
 
 const ViewDetailNotice = () => {
   const [notice, setNotice] = useState<DetailNoticeType>({
@@ -17,6 +16,7 @@ const ViewDetailNotice = () => {
   });
   const [imageUrl, setImageUrl] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
   const { id } = useParams();
 
   const openModal = () => setIsModalOpen(true);
@@ -52,8 +52,10 @@ const ViewDetailNotice = () => {
         <Title>{notice.title}</Title>
       </div>
       <Content>{notice.content}</Content>
-      <UpdateBtn>수정하기</UpdateBtn>
-      <DeleteButton onClick={openModal}>수정하기</DeleteButton>
+      <UpdateButton onClick={() => navigate(`/notice/${id}/edit`)}>
+        수정하기
+      </UpdateButton>
+      <DeleteButton onClick={openModal}>삭제하기</DeleteButton>
       <DeleteNoticeModal
         noticeId={id}
         isOpen={isModalOpen}

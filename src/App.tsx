@@ -14,6 +14,7 @@ import CreateNotice from './pages/CreateNotice/index.tsx';
 import LostItem from './pages/ViewAllLostItem/index.tsx';
 import DetailLostItem from './pages/ViewDetailLostItem/index.tsx';
 import Base from './components/QrBottomSheet/Base.tsx';
+import EditNotice from './pages/EditNotice/index.tsx';
 
 function App() {
   useRouteTracker();
@@ -25,6 +26,7 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route path="/view/all-notices" element={<ViewAllNotice />} />
           <Route path="/create/notice" element={<CreateNotice />} />
+          <Route path="/notice/:id/edit" element={<EditNotice />} />
           <Route path="/booths" element={<Booth />} />
           <Route path="/booth/:boothId" element={<BoothDetail />} />
           <Route path="/login" element={<UserLogIn />} />
