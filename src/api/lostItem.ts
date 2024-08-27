@@ -42,3 +42,15 @@ export const getSearchLostItem = async (
     console.log(error);
   }
 };
+
+export const postLostItemImg = async (formData: FormData, token: string) => {
+  const {
+    data: { url },
+  } = await Axios.post('/images?type=LOST_ITEM', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return url;
+};

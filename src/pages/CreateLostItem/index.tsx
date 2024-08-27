@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, useEffect } from 'react';
 import Header from './Header';
+import { postLostItemImg } from '../../api/lostItem';
+import { useAuthStore } from '../../store';
 
 const CreateLostItem = () => {
   const [imgFile, setImgFile] = useState<FileList>();
+  const { token } = useAuthStore();
   const {
     register,
     handleSubmit,
@@ -13,12 +16,18 @@ const CreateLostItem = () => {
 
   const onSubmit = () => {
     // 임시 console
-    console.log(imgFile);
   };
 
-  const handleImgFile = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      setImgFile(e.target.files);
+  const handleImgFile = async (e: ChangeEvent<HTMLInputElement>) => {
+    try {
+      if (e.target.files && e.target.files.length > 0) {
+        const formData = new FormData();
+        formData.append('image', e.target.files[0]);
+        const imgUrl = await postLostItemImg(formData, token);
+        setImgFile(imgUrl);
+      }
+    } catch (error) {
+      throw error as Error;
     }
   };
 
