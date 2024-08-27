@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
-import { ChangeEvent, useState, useEffect } from 'react';
+import { ChangeEvent, useState } from 'react';
+import { yupResolver } from '@hookform/resolvers/yup';
 import Header from './Header';
 import { postLostItemImg } from '../../api/lostItem';
 import { useAuthStore } from '../../store';
+import { lostItemSchema } from '../../validation/schema';
 
 const CreateLostItem = () => {
   const [imgFile, setImgFile] = useState<string>();
@@ -11,11 +13,14 @@ const CreateLostItem = () => {
   const {
     register,
     handleSubmit,
-    // formState: { errors },
-  } = useForm();
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(lostItemSchema),
+  });
 
   const onSubmit = () => {
-    // 임시 console
+    console.log('완료');
   };
 
   const handleImgFile = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -25,6 +30,8 @@ const CreateLostItem = () => {
         formData.append('image', e.target.files[0]);
         const imgUrl = await postLostItemImg(formData, token);
         setImgFile(imgUrl);
+
+        setValue('file', e.target.files[0]);
       }
     } catch (error) {
       throw error as Error;
@@ -36,15 +43,17 @@ const CreateLostItem = () => {
       <Header />
       <form onSubmit={handleSubmit(onSubmit)}>
         <ItemLayout>
-          <RegisterDate>등록일 </RegisterDate>
+          <RegisterDate>등록일</RegisterDate>
           <ImageContainer>
             <ItemImg src={imgFile || undefined} />
             <FileInputContainer>
               <ItemInput
-                {...register('file')}
+                {...register('file', { required: true })}
                 type="file"
                 onChange={handleImgFile}
                 id="lostItem"
+                // accept 조건 재확인 필수
+                accept="image/*"
               />
               <ItemLabel htmlFor="lostItem">
                 {!imgFile ? (
@@ -59,10 +68,24 @@ const CreateLostItem = () => {
               </ItemLabel>
             </FileInputContainer>
           </ImageContainer>
-          <ItemTitle {...register('title')} placeholder="제목" />
-          <ItemContent {...register('content')} placeholder="test 내용" />
+          <ItemTitle
+            {...register('title', { required: true, maxLength: 20 })}
+            placeholder="제목"
+            maxLength={20}
+          />
+          <ItemContent
+            {...register('description', { required: true, maxLength: 100 })}
+            placeholder="test 내용"
+            maxLength={100}
+          />
         </ItemLayout>
         <button type="submit">등록하기</button>
+        <p>
+          에러 :
+          {errors.file?.message ||
+            errors.title?.message ||
+            errors.description?.message}
+        </p>
       </form>
     </Wrapper>
   );
