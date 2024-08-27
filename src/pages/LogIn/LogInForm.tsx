@@ -11,7 +11,7 @@ import LogInInput from './LogInInput.tsx';
 import LogInButton from './LogInButton.tsx';
 import CheckBox from './CheckBox.tsx';
 import { AuthFormValues, Terms, TermsMap } from '../../types';
-import { schema } from '../../validation/schema.ts';
+import { loginSchema } from '../../validation/schema.ts';
 
 interface LogInFormProps {
   setIsModalOpen: (b: boolean) => void;
@@ -26,7 +26,7 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
     handleSubmit,
     formState: { errors },
   } = useForm<AuthFormValues>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(loginSchema),
     mode: 'onChange',
   });
 
