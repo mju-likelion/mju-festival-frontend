@@ -5,6 +5,7 @@ import Header from './Header';
 import { Axios } from '../../api/Axios';
 import { DetailNoticeType } from '../../types';
 import DeleteNoticeModal from './DeleteNoticeModal';
+import UpdateBtn from '../ViewAllNotice/UpdateBtn';
 
 const ViewDetailNotice = () => {
   const [notice, setNotice] = useState<DetailNoticeType>({
@@ -51,7 +52,8 @@ const ViewDetailNotice = () => {
         <Title>{notice.title}</Title>
       </div>
       <Content>{notice.content}</Content>
-      <DeleteButton onClick={openModal}>삭제하기</DeleteButton>
+      <UpdateBtn>수정하기</UpdateBtn>
+      <DeleteButton onClick={openModal}>수정하기</DeleteButton>
       <DeleteNoticeModal
         noticeId={id}
         isOpen={isModalOpen}
@@ -75,6 +77,14 @@ const Content = styled.p`
   height: 220px;
   padding: 18px 15px;
   line-height: 22px;
+`;
+
+const UpdateButton = styled.button`
+  background-color: ${({ theme }) => theme.colors.blue100};
+  border-radius: 28px;
+  color: white;
+  width: 174px;
+  height: 42px;
 `;
 
 const DeleteButton = styled.button`
