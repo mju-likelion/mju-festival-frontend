@@ -26,8 +26,8 @@ function App() {
           <Route path="/view/all-notices" element={<ViewAllNotice />} />
           <Route path="/create/notice" element={<CreateNotice />} />
           <Route path="/booths" element={<Booth />} />
-          <Route path="/booth/:boothId" element={<BoothDetail />} />
-          <Route path="/booth/edit/:boothId" element={<BoothEdit />} />
+          <Route path="/booths/:boothId" element={<BoothDetail />} />
+          <Route path="/booths/:boothId/edit" element={<BoothEdit />} />
           <Route path="/login" element={<UserLogIn />} />
           <Route path="/admin/login" element={<AdminLogIn />} />
           <Route

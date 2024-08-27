@@ -99,7 +99,7 @@ const BoothDetail = () => {
             <Buttons>
               <Button
                 onClick={() =>
-                  navigate(`/booth/edit/${params.boothId}`, {
+                  navigate(`/booths/${params.boothId}/edit`, {
                     state: { ...boothDetailData },
                   })
                 }
