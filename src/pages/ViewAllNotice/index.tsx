@@ -3,9 +3,9 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import NoticeCard from './NoticeCard';
-import { Axios } from '../../api/Axios';
 import { NoticeType, SortKey, SortOptions } from '../../types';
 import { useAuthStore } from '../../store';
+import { getNotices } from '../../api/notice.ts';
 
 const ViewAllNotice = () => {
   const [notices, setNotices] = useState<NoticeType[]>([]);
@@ -19,16 +19,9 @@ const ViewAllNotice = () => {
 
   const { role } = useAuthStore();
 
-  const fetchNotices = async (isSorted: string, page: number, SIZE: number) => {
-    const response = await Axios.get(
-      `/announcements?sort=${isSorted}&page=${page}&size=${SIZE}`
-    );
-    return response.data;
-  };
-
-  const getNotices = useCallback(async () => {
+  const fetchNotices = useCallback(async () => {
     try {
-      const response = await fetchNotices(isSorted, page, SIZE);
+      const response = await getNotices(isSorted, page, SIZE);
       setTotalPage(response.totalPage);
       setNotices(response.simpleAnnouncements);
     } catch (err) {
@@ -40,8 +33,8 @@ const ViewAllNotice = () => {
   }, [isSorted, page]);
 
   useEffect(() => {
-    getNotices();
-  }, [getNotices]);
+    fetchNotices();
+  }, [fetchNotices]);
 
   const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
     setIsSorted(e.target.value as SortKey);
