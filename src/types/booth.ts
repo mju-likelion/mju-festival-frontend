@@ -6,6 +6,7 @@ export interface BoothList {
 export interface BoothDetailInfo extends BoothInfo {
   location: string;
   createdAt: string;
+  locationImageUrl: string;
 }
 
 export interface BoothInfo {
@@ -15,8 +16,18 @@ export interface BoothInfo {
   imageUrl: string;
 }
 
+export interface BoothEditFields {
+  name: string;
+  description: string;
+  location: string;
+}
+
 export interface BoothQrData {
   qrCode: string;
 }
 
 export type BottomSheetPropTypes = BoothQrData;
+
+export interface Ownership {
+  isOwner: boolean;
+}

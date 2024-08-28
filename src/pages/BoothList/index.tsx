@@ -23,7 +23,7 @@ const BoothPage = () => {
         뒤로가기
       </button>
       {boothListData.map((booth) => (
-        <BoothBox key={booth.id} onClick={() => navigate(`/booth/${booth.id}`)}>
+        <BoothBox key={booth.id} onClick={() => navigate(`/booths/${booth.id}`)}>
           <p>id: {booth.id}</p>
           <p>부스 이름: {booth.name}</p>
           <p>부스 설명: {booth.description}</p>
