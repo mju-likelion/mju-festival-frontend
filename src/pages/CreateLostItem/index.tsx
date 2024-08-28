@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
 import { ChangeEvent, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import { postLostItem, postLostItemImg } from '../../api/lostItem';
 import { useAuthStore } from '../../store';
@@ -9,8 +10,9 @@ import { lostItemSchema } from '../../validation/schema';
 import { LostItemForm, PostLostItemRequest } from '../../types/lostItem';
 
 const CreateLostItem = () => {
-  const [imgFile, setImgFile] = useState<string>('');
+  const [itemImgUrl, setItemImgUrl] = useState<string>('');
   const { token } = useAuthStore();
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -24,11 +26,13 @@ const CreateLostItem = () => {
     const lostItemData: PostLostItemRequest = {
       title: data.title,
       content: data.content,
-      imageUrl: imgFile,
+      imageUrl: itemImgUrl,
     };
 
     try {
       await postLostItem(lostItemData, token);
+      alert('분실물 등록 완료');
+      navigate('/lostItems');
     } catch (error) {
       throw error as Error;
     }
@@ -40,7 +44,7 @@ const CreateLostItem = () => {
         const formData = new FormData();
         formData.append('image', e.target.files[0]);
         const imgUrl = await postLostItemImg(formData, token);
-        setImgFile(imgUrl);
+        setItemImgUrl(imgUrl);
 
         setValue('file', e.target.files[0]);
       }
@@ -56,18 +60,18 @@ const CreateLostItem = () => {
         <ItemLayout>
           <RegisterDate>등록일</RegisterDate>
           <ImageContainer>
-            <ItemImg src={imgFile || undefined} />
+            <ItemImg src={itemImgUrl || undefined} />
             <FileInputContainer>
               <ItemInput
                 {...register('file', { required: true })}
                 type="file"
-                onChange={handleImgFile}
                 id="lostItem"
                 // accept 조건 재확인 필수
                 accept="image/*"
+                onChange={handleImgFile}
               />
               <ItemLabel htmlFor="lostItem">
-                {!imgFile ? (
+                {!itemImgUrl ? (
                   <>
                     이미지 업로드 <br /> (이미지는 한 장만 업로드 가능합니다.)
                     <br />
@@ -92,7 +96,7 @@ const CreateLostItem = () => {
         </ItemLayout>
         <button type="submit">등록하기</button>
         <p>
-          에러 :
+          form errors :
           {errors.file?.message ||
             errors.title?.message ||
             errors.content?.message}
