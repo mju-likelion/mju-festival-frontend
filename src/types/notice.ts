@@ -31,5 +31,10 @@ export interface DeleteNoticeModalProps {
   children: ReactNode;
 }
 
+export interface UseFetchNoticesProps {
+  isSorted: string;
+  page: number;
+}
+
 export type SortKey = 'asc' | 'desc';
 export type SortOptions = Record<SortKey, string>;
