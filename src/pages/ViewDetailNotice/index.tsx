@@ -2,9 +2,9 @@ import styled from 'styled-components';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from './Header';
-import { Axios } from '../../api/Axios';
 import { DetailNoticeType } from '../../types';
 import DeleteNoticeModal from './DeleteNoticeModal';
+import { fetchNotice } from '../../api/notice.ts';
 
 const ViewDetailNotice = () => {
   const [notice, setNotice] = useState<DetailNoticeType>({
@@ -22,15 +22,10 @@ const ViewDetailNotice = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const fetchNotice = async (id: string | undefined) => {
-    const response = await Axios.get(`/announcements/${id}`);
-    return response.data;
-  };
-
   const getNotice = useCallback(async () => {
     const response = await fetchNotice(id);
     setNotice(response);
-    setImageUrl(response.imageUrl);
+    setImageUrl(response.imageUrl || '');
   }, [id]);
 
   useEffect(() => {
