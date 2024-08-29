@@ -7,6 +7,7 @@ import Header from '../ViewDetailNotice/Header';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
 import { useAuthStore } from '../../store';
 import { DetailNoticeType, ImageNoticeType } from '../../types';
+import { fetchNotice } from '../../api/notice.ts';
 
 const EditNotice = () => {
   const [notice, setNotice] = useState<DetailNoticeType>({
@@ -16,7 +17,6 @@ const EditNotice = () => {
     createdAt: new Date(),
     imageUrl: '',
   });
-
   const { id } = useParams();
   const { token } = useAuthStore();
   const navigate = useNavigate();
@@ -26,11 +26,6 @@ const EditNotice = () => {
 
   const { register, handleSubmit, watch } = useForm<ImageNoticeType>();
   const contentCount = watch('content', '');
-
-  const fetchNotice = async (id: string | undefined) => {
-    const response = await Axios.get(`/announcements/${id}`);
-    return response.data;
-  };
 
   const getNotice = useCallback(async () => {
     const response = await fetchNotice(id);
