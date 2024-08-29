@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useForm } from 'react-hook-form';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, useEffect } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
@@ -8,8 +8,11 @@ import { postLostItem, postLostItemImg } from '../../api/lostItem';
 import { useAuthStore } from '../../store';
 import { lostItemSchema } from '../../validation/schema';
 import { LostItemForm, PostLostItemRequest } from '../../types/lostItem';
+import usePreventRefresh from '../../hooks/usePreventRefresh';
 
 const CreateLostItem = () => {
+  usePreventRefresh(); // 새로고침 방지
+
   const [itemImgUrl, setItemImgUrl] = useState<string>('');
   const { token } = useAuthStore();
   const navigate = useNavigate();
