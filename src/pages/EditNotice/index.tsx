@@ -17,6 +17,7 @@ const EditNotice = () => {
     createdAt: new Date(),
     imageUrl: '',
   });
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const { id } = useParams();
   const { token } = useAuthStore();
   const navigate = useNavigate();
@@ -47,14 +48,14 @@ const EditNotice = () => {
       const file = e.target.files[0];
       imageData.append('image', file);
       try {
-        const response = await Axios.post(
+        const { data } = await Axios.post(
           `/images?type=ANNOUNCEMENT`,
           imageData,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        formData.append('imageUrl', response.data.url);
+        setImageUrl(data.url);
       } catch (error) {
         console.error('이미지 업로드 오류', error);
       }
@@ -64,6 +65,10 @@ const EditNotice = () => {
   const handleFormSubmit = async (data: ImageNoticeType) => {
     formData.append('title', data.title);
     formData.append('content', data.content);
+    if (imageUrl) {
+      formData.append('imageUrl', imageUrl);
+    }
+
     try {
       await Axios.patch(`/announcements/${id}`, formData, {
         headers: {

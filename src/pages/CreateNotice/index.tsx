@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ChangeEvent, useRef } from 'react';
+import { ChangeEvent, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Axios } from '../../api/Axios';
 import Header from '../ViewDetailNotice/Header';
@@ -9,6 +9,7 @@ import { ImageNoticeType } from '../../types';
 
 const CreateNotice = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const { token } = useAuthStore();
   const formData = new FormData();
   const imageData = new FormData();
@@ -27,14 +28,14 @@ const CreateNotice = () => {
       const file = e.target.files[0];
       imageData.append('image', file);
       try {
-        const response = await Axios.post(
+        const { data } = await Axios.post(
           `/images?type=ANNOUNCEMENT`,
           imageData,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
         );
-        formData.append('imageUrl', response.data.url);
+        setImageUrl(data.url);
       } catch (error) {
         console.error('이미지 업로드 오류', error);
       }
@@ -44,6 +45,9 @@ const CreateNotice = () => {
   const handleFormSubmit = async (data: ImageNoticeType) => {
     formData.append('title', data.title);
     formData.append('content', data.content);
+    if (imageUrl) {
+      formData.append('imageUrl', imageUrl);
+    }
 
     try {
       await Axios.post('/announcements', formData, {
