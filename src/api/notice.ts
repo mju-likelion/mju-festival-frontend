@@ -6,17 +6,18 @@ export const getNotices = async (
   page: number,
   SIZE: number
 ): Promise<GetNoticesType> => {
-  const response = await Axios.get(
+  const { data } = await Axios.get(
     `/announcements?sort=${isSorted}&page=${page}&size=${SIZE}`
   );
-  return response.data;
+
+  return data;
 };
 
 export const fetchNotice = async (
   id: string | undefined
 ): Promise<DetailNoticeType> => {
-  const response = await Axios.get(`/announcements/${id}`);
-  return response.data;
+  const { data } = await Axios.get(`/announcements/${id}`);
+  return data;
 };
 
 interface GetNoticesType {
