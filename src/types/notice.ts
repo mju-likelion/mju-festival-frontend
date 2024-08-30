@@ -18,6 +18,8 @@ export interface DetailNoticeType {
   imageUrl?: string;
 }
 
+export type SimpleNotice = Omit<DetailNoticeType, 'imageUrl'>;
+
 export interface NoticeCardPropTypes {
   title: string;
   content: string;
