@@ -1,4 +1,4 @@
-import { DetailNoticeType, SimpleNotice } from '../types/notice.ts';
+import { DetailNoticeType, GetNoticesType } from '../types/notice.ts';
 import { Axios } from './Axios.ts';
 
 export const getNotices = async (
@@ -19,8 +19,3 @@ export const fetchNotice = async (
   const { data } = await Axios.get(`/announcements/${id}`);
   return data;
 };
-
-interface GetNoticesType {
-  simpleAnnouncements: SimpleNotice[];
-  totalPage: number;
-}

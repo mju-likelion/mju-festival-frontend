@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { NoticeCardPropTypes } from '../../types';
+import { NoticeCardPropType } from '../../types';
 
-const NoticeCard: React.FC<NoticeCardPropTypes> = ({
+const NoticeCard: React.FC<NoticeCardPropType> = ({
   title,
   content,
   onClick,
