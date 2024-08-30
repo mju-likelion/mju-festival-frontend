@@ -1,7 +1,11 @@
 import React from 'react';
 import { AxiosResponse } from 'axios';
 import { Axios } from './Axios';
-import { SimpleLostItem, ResponseLostItem } from '../types/lostItem';
+import {
+  SimpleLostItem,
+  GetLostItemResponse,
+  PostLostItemRequest,
+} from '../types/lostItem';
 
 export const getLostItem = async (
   sort: string,
@@ -11,7 +15,7 @@ export const getLostItem = async (
   setTotalPage: React.Dispatch<React.SetStateAction<number>>
 ) => {
   try {
-    const { data }: AxiosResponse<ResponseLostItem> = await Axios.get(
+    const { data }: AxiosResponse<GetLostItemResponse> = await Axios.get(
       `/lost-items?sort=${sort}&page=${page}&size=${size}`
     );
     const { simpleLostItems, totalPage } = data;
@@ -41,4 +45,27 @@ export const getSearchLostItem = async (
   } catch (error) {
     console.log(error);
   }
+};
+
+export const postLostItemImg = async (formData: FormData, token: string) => {
+  const {
+    data: { url },
+  } = await Axios.post('/images?type=LOST_ITEM', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return url;
+};
+
+export const postLostItem = async (
+  lostItemData: PostLostItemRequest,
+  token: string
+) => {
+  await Axios.post('/lost-items', lostItemData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 };

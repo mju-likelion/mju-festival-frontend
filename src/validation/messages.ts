@@ -9,3 +9,12 @@ export const boothValidationMessages = {
   DESCRIPTION_MAX_LENGTH: '글자수는',
   LOCATION_MAX_LENGTH: '글자수는',
 };
+
+export const lostItemValidationMessages = {
+  REQUIRED: '제목과 내용은 필수입니다.',
+  IMG_REQUIRED: '이미지는 필수입니다.',
+  FILE_SIZE: '이미지 파일의 크기는',
+  FILE_TYPE: '이미지 파일의 타입은',
+  TITLE_MAX_LENGTH: '글자수는',
+  CONTENT_MAX_LENGTH: '글자수는',
+};
