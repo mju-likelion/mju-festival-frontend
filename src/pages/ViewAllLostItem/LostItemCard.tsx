@@ -7,7 +7,7 @@ const LostItemCard = ({ lostItem }: { lostItem: SimpleLostItem }) => {
   const navigate = useNavigate();
 
   const moveDetailPage = () => {
-    navigate('/lostItem/detail', { state: lostItem });
+    navigate('/lostItems/detail', { state: lostItem });
   };
   return (
     <Wrapper onClick={moveDetailPage}>

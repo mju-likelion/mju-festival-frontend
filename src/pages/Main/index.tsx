@@ -39,7 +39,7 @@ const Main = () => {
         <BaseButton type="button" onClick={() => navigate('/view/all-notices')}>
           공지사항
         </BaseButton>
-        <BaseButton type="button" onClick={() => navigate('/lostItem')}>
+        <BaseButton type="button" onClick={() => navigate('/lostItems')}>
           분실물찾기
         </BaseButton>
       </FestivalInfoLayout>

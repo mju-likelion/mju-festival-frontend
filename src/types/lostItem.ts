@@ -7,9 +7,21 @@ export interface SimpleLostItem {
   isFounded: boolean;
 }
 
-export interface ResponseLostItem {
+export interface GetLostItemResponse {
   simpleLostItems: SimpleLostItem[];
   totalPage: number;
+}
+
+export interface PostLostItemRequest {
+  title: string;
+  content: string;
+  imageUrl: string;
+}
+
+export interface LostItemForm {
+  title: string;
+  content: string;
+  file?: File;
 }
 
 export type SortKey = 'asc' | 'desc';

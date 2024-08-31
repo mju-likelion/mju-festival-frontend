@@ -18,7 +18,7 @@ export interface LogInFormDataValues {
 
 export interface EncryptKeyInfo {
   rsaPublicKey: string;
-  rsaKeyStrategy: 'REDIS' | 'TOKEN';
+  rsaKeyStrategy: string;
   credentialKey: string;
 }
 
@@ -32,6 +32,8 @@ export type Auth = 'USER' | 'ADMIN';
 
 export type Role = '' | 'STUDENT' | 'STUDENT_COUNCIL' | 'BOOTH_MANAGER';
 
-export interface DecodeJWT {
-  role: Role;
+export interface Admin {
+  STUDENT: '';
+  STUDENT_COUNCIL: '관리자';
+  BOOTH_MANAGER: '관리자';
 }
