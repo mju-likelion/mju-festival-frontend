@@ -14,7 +14,7 @@ const ViewDetailNotice = () => {
     createdAt: new Date(),
     imageUrl: '',
   });
-  const [imageUrl, setImageUrl] = useState('');
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -25,7 +25,7 @@ const ViewDetailNotice = () => {
   const getNotice = useCallback(async () => {
     const response = await fetchNotice(id);
     setNotice(response);
-    setImageUrl(response.imageUrl || '');
+    setImageUrl(response.imageUrl || null);
   }, [id]);
 
   useEffect(() => {
