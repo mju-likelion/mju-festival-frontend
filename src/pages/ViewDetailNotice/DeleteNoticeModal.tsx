@@ -4,12 +4,12 @@ import { Axios } from '../../api/Axios';
 import { useAuthStore } from '../../store';
 import { DeleteNoticeModalProps } from '../../types';
 
-const DeleteNoticeModal: React.FC<DeleteNoticeModalProps> = ({
+const DeleteNoticeModal = ({
   noticeId,
   isOpen,
   closeModal,
   children,
-}) => {
+}: DeleteNoticeModalProps) => {
   const { token } = useAuthStore();
   const navigate = useNavigate();
 
