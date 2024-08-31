@@ -1,21 +1,41 @@
 import styled from 'styled-components';
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Axios } from '../../api/Axios';
 import Header from '../ViewDetailNotice/Header';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
 import { useAuthStore } from '../../store';
-import { ImageNoticeType } from '../../types';
+import { DetailNoticeType, ImageNoticeType } from '../../types';
+import { fetchNotice } from '../../api/notice.ts';
 
-const CreateNotice = () => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+const EditNotice = () => {
+  const [notice, setNotice] = useState<DetailNoticeType>({
+    id: '',
+    title: '',
+    content: '',
+    createdAt: new Date(),
+    imageUrl: '',
+  });
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const { id } = useParams();
   const { token } = useAuthStore();
+  const navigate = useNavigate();
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const formData = new FormData();
   const imageData = new FormData();
 
   const { register, handleSubmit, watch } = useForm<ImageNoticeType>();
   const contentCount = watch('content', '');
+
+  const getNotice = useCallback(async () => {
+    const response = await fetchNotice(id);
+    setNotice(response);
+  }, [id]);
+
+  useEffect(() => {
+    getNotice();
+  }, [getNotice]);
 
   const handleClick = () => {
     if (fileInputRef.current) {
@@ -28,12 +48,14 @@ const CreateNotice = () => {
       const file = e.target.files[0];
       imageData.append('image', file);
       try {
-        const {
-          data: { url },
-        } = await Axios.post(`/images?type=ANNOUNCEMENT`, imageData, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setImageUrl(url);
+        const { data } = await Axios.post(
+          `/images?type=ANNOUNCEMENT`,
+          imageData,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setImageUrl(data.url);
       } catch (error) {
         console.error('이미지 업로드 오류', error);
       }
@@ -48,12 +70,13 @@ const CreateNotice = () => {
     }
 
     try {
-      await Axios.post('/announcements', formData, {
+      await Axios.patch(`/announcements/${id}`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
       });
+      navigate(`/view/detail-notice/${id}`);
     } catch (e) {
       alert('올바른 업로드를 해주세요');
     }
@@ -79,17 +102,19 @@ const CreateNotice = () => {
         <UploadContentLayout>
           <p>제목</p>
           <TitleInput
-            {...register('title', { required: true })}
+            {...register('title')}
+            defaultValue={notice.title}
             placeholder="입력해주세요"
           />
           <ContentInput
-            {...register('content', { required: true, maxLength: 100 })}
+            {...register('content', { maxLength: 100 })}
+            defaultValue={notice.content}
             maxLength={100}
             placeholder="내용을 입력해주세요"
           />
           <p>{contentCount?.length}/100</p>
         </UploadContentLayout>
-        <CreateButton type="submit">공지사항 올리기</CreateButton>
+        <CreateButton type="submit">수정하기</CreateButton>
       </form>
     </Wrapper>
   );
@@ -138,4 +163,4 @@ const CreateButton = styled.button`
   color: white;
 `;
 
-export default CreateNotice;
+export default EditNotice;

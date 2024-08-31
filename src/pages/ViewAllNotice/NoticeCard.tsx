@@ -1,11 +1,7 @@
 import styled from 'styled-components';
-import { NoticeCardPropTypes } from '../../types';
+import { NoticeCardPropType } from '../../types';
 
-const NoticeCard: React.FC<NoticeCardPropTypes> = ({
-  title,
-  content,
-  onClick,
-}) => {
+const NoticeCard = ({ title, content, onClick }: NoticeCardPropType) => {
   return (
     <Wrapper onClick={onClick}>
       <Title>{title}</Title>

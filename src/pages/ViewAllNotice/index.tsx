@@ -1,47 +1,20 @@
 import styled from 'styled-components';
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import NoticeCard from './NoticeCard';
-import { Axios } from '../../api/Axios';
-import { NoticeType, SortKey, SortOptions } from '../../types';
+import { SortKey, SortOptions } from '../../types';
 import { useAuthStore } from '../../store';
+import useFetchNotices from '../../hooks/useFetchNotices';
 
 const ViewAllNotice = () => {
-  const [notices, setNotices] = useState<NoticeType[]>([]);
   const [isSorted, setIsSorted] = useState<SortKey>('desc');
   const [page, setPage] = useState(0);
-  const [totalPage, setTotalPage] = useState(0);
-  const [isLoading, setIsLoading] = useState(false);
-  const sortOptions: SortOptions = { desc: '최신순', asc: '오래된순' };
-  const SIZE = 4;
   const navigate = useNavigate();
-
   const { role } = useAuthStore();
+  const sortOptions: SortOptions = { desc: '최신순', asc: '오래된순' };
 
-  const fetchNotices = async (isSorted: string, page: number, SIZE: number) => {
-    const response = await Axios.get(
-      `/announcements?sort=${isSorted}&page=${page}&size=${SIZE}`
-    );
-    return response.data;
-  };
-
-  const getNotices = useCallback(async () => {
-    try {
-      const response = await fetchNotices(isSorted, page, SIZE);
-      setTotalPage(response.totalPage);
-      setNotices(response.simpleAnnouncements);
-    } catch (err) {
-      alert('올바른 동작을 해주세요');
-      setIsLoading(true);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [isSorted, page]);
-
-  useEffect(() => {
-    getNotices();
-  }, [getNotices]);
+  const { notices, totalPage, isLoading } = useFetchNotices({ isSorted, page });
 
   const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
     setIsSorted(e.target.value as SortKey);

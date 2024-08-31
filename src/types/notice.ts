@@ -7,23 +7,26 @@ export interface NoticeType {
 }
 
 export interface ImageNoticeType extends NoticeType {
-  imageURL?: string;
-}
-
-export interface DetailNoticeType {
-  id: string;
-  title: string;
-  content: string;
-  createdAt: Date;
   imageUrl?: string;
 }
 
-export interface NoticeCardPropTypes {
-  title: string;
-  content: string;
+export interface DetailNoticeType extends ImageNoticeType {
+  createdAt: Date;
+}
+
+export type SimpleNotice = Omit<DetailNoticeType, 'imageUrl'>;
+
+export interface NoticeCardPropType extends Omit<NoticeType, 'id'> {
   onClick?: React.MouseEventHandler<HTMLDivElement> | undefined;
 }
 
+export interface GetNoticesType {
+  simpleAnnouncements: SimpleNotice[];
+  totalPage: number;
+}
+
+export type SortKey = 'asc' | 'desc';
+export type SortOptions = Record<SortKey, string>;
 export interface DeleteNoticeModalProps {
   noticeId?: string;
   isOpen: boolean;
@@ -31,5 +34,7 @@ export interface DeleteNoticeModalProps {
   children: ReactNode;
 }
 
-export type SortKey = 'asc' | 'desc';
-export type SortOptions = Record<SortKey, string>;
+export interface UseFetchNoticesProps {
+  isSorted: string;
+  page: number;
+}
