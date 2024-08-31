@@ -28,14 +28,12 @@ const CreateNotice = () => {
       const file = e.target.files[0];
       imageData.append('image', file);
       try {
-        const { data } = await Axios.post(
-          `/images?type=ANNOUNCEMENT`,
-          imageData,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        setImageUrl(data.url);
+        const {
+          data: { url },
+        } = await Axios.post(`/images?type=ANNOUNCEMENT`, imageData, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setImageUrl(url);
       } catch (error) {
         console.error('이미지 업로드 오류', error);
       }
