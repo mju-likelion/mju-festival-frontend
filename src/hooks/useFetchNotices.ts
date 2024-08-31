@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getNotices } from '../api/notice.ts';
-import { NoticeType, UseFetchNoticesProps } from '../types';
+import { NoticeType, UseFetchNoticesProps } from '../types/index.ts';
 
 const useFetchNotices = ({ isSorted, page }: UseFetchNoticesProps) => {
   const [notices, setNotices] = useState<NoticeType[]>([]);

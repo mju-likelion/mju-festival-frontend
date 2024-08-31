@@ -5,7 +5,7 @@ import Header from './Header';
 import NoticeCard from './NoticeCard';
 import { SortKey, SortOptions } from '../../types';
 import { useAuthStore } from '../../store';
-import useFetchNotices from '../../hooks/useFetchTotalNotice';
+import useFetchNotices from '../../hooks/useFetchNotices';
 
 const ViewAllNotice = () => {
   const [isSorted, setIsSorted] = useState<SortKey>('desc');
