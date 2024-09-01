@@ -54,13 +54,8 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
         auth,
         encryptInfo.rsaKeyStrategy
       );
-      if (auth === 'USER') {
-        setToken(response.accessToken);
-        setRole('STUDENT');
-      } else if (auth === 'ADMIN') {
-        setToken(response.accessToken);
-        setRole(response.role);
-      }
+      setToken(response.accessToken);
+      setRole(response.role || 'STUDENT');
       setIsModalOpen(true);
     } catch (e) {
       handleError(e as Error);
