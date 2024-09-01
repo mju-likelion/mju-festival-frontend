@@ -7,7 +7,7 @@ import { patchBoothDetail } from '../../api/booth.ts';
 import { useAuthStore } from '../../store';
 import { BoothEditFields } from '../../types';
 import { boothSchema } from '../../validation/schema.ts';
-import { handleError } from '../../utils/errorUtils.ts';
+import { handleError } from '../../utils/errorUtil.ts';
 
 const BoothEdit = () => {
   const locationData = useLocation();

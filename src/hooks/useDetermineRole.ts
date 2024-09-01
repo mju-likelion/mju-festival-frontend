@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { Auth } from '../types';
 
-const GetAuth = (): Auth => {
+const useDetermineRole = (): Auth => {
   const location = useLocation();
 
   if (location.pathname === '/login') {
@@ -13,4 +13,4 @@ const GetAuth = (): Auth => {
   throw new Error('로그인 외 경로');
 };
 
-export default GetAuth;
+export default useDetermineRole;

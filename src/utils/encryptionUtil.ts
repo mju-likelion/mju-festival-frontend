@@ -6,14 +6,14 @@ import {
   LogInFormDataValues,
 } from '../types';
 
-const encryptionUtils = new JSEncrypt();
+const encryptionUtil = new JSEncrypt();
 
 const encryptFunc = (value: string, key: string) => {
   if (!key) {
-    throw new Error('encryptionUtils key가 유효하지 않습니다.');
+    throw new Error('encryptionUtil key가 유효하지 않습니다.');
   }
-  encryptionUtils.setPublicKey(key);
-  return encryptionUtils.encrypt(value);
+  encryptionUtil.setPublicKey(key);
+  return encryptionUtil.encrypt(value);
 };
 
 const setEncryptData = (

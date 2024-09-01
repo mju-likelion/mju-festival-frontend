@@ -6,7 +6,7 @@ import { getBoothDetail, getOwnership, getQrData } from '../../api/booth.ts';
 import BottomSheet from '../../components/QrBottomSheet/index.tsx';
 import { useAuthStore } from '../../store';
 import { BoothDetailInfo } from '../../types';
-import { handleError } from '../../utils/errorUtils.ts';
+import { handleError } from '../../utils/errorUtil.ts';
 
 const BoothDetail = () => {
   const { role, token } = useAuthStore();

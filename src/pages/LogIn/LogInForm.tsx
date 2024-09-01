@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { getTerms, postLogIn, requestKey } from '../../api/postLogIn.ts';
-import getAuth from '../../utils/getAuth.ts';
-import { handleError } from '../../utils/errorUtils.ts';
-import { setEncryptData } from '../../utils/encryptionUtils.ts';
-import { useAuthStore } from '../../store';
+import useDetermineRole from '../../hooks/useDetermineRole.ts';
+import { handleError } from '../../utils/errorUtil.ts';
+import { setEncryptData } from '../../utils/encryptionUtil.ts';
 
+import { useAuthStore } from '../../store';
 import LogInInput from './LogInInput.tsx';
 import LogInButton from './LogInButton.tsx';
 import CheckBox from './CheckBox.tsx';
@@ -35,7 +35,7 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
-  const auth = getAuth();
+  const auth = useDetermineRole();
 
   const onSubmit = handleSubmit(async (formData) => {
     try {

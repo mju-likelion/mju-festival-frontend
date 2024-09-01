@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { downloadAppByDevice } from '../../utils/downloadAppUtils';
+import { downloadAppByDevice } from '../../utils/downloadAppUtil.ts';
 
 const Main = () => {
   const navigate = useNavigate();
