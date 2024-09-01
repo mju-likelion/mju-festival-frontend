@@ -1,11 +1,6 @@
-import React from 'react';
 import { AxiosResponse } from 'axios';
 import { Axios } from './Axios';
-import {
-  SimpleLostItem,
-  GetLostItemResponse,
-  PostLostItemRequest,
-} from '../types/lostItem';
+import { GetLostItemResponse, PostLostItemRequest } from '../types/lostItem';
 
 export const getLostItems = async (
   sort: string,
@@ -18,25 +13,16 @@ export const getLostItems = async (
   return data;
 };
 
-export const getSearchLostItem = async (
+export const getSearchLostItems = async (
   sort: string,
   keyword: string,
   page: number,
-  size: number,
-  setLostItems: React.Dispatch<React.SetStateAction<SimpleLostItem[]>>,
-  setTotalPage: React.Dispatch<React.SetStateAction<number>>
+  size: number
 ) => {
-  try {
-    const { data } = await Axios.get(
-      `/lost-items/search?sort=${sort}&keyword=${keyword}&page=${page}&size=${size}`
-    );
-    const { simpleLostItems, totalPage } = data;
-
-    setLostItems(simpleLostItems);
-    setTotalPage(totalPage);
-  } catch (error) {
-    console.log(error);
-  }
+  const { data } = await Axios.get(
+    `/lost-items/search?sort=${sort}&keyword=${keyword}&page=${page}&size=${size}`
+  );
+  return data;
 };
 
 export const postLostItemImg = async (formData: FormData, token: string) => {

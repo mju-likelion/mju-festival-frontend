@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
-import { getLostItems, getSearchLostItem } from '../../api/lostItem';
+import { getLostItems, getSearchLostItems } from '../../api/lostItem';
 import LostItemCard from './LostItemCard';
 import { SimpleLostItem, SortOptions, SortKey } from '../../types/lostItem';
 import { useAuthStore } from '../../store';
@@ -52,18 +52,23 @@ const LostItem = () => {
     }
   };
 
+  const searchLostItems = async () => {
+    try {
+      const data = await getSearchLostItems(sorted, keyword, page, SIZE);
+      const { simpleLostItems, totalPage } = data;
+
+      setLostItems(simpleLostItems);
+      setTotalPage(totalPage);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (keyword.trim() !== '') {
       setPage(0);
-      getSearchLostItem(
-        sorted,
-        keyword,
-        page,
-        SIZE,
-        setLostItems,
-        setTotalPage
-      );
+      searchLostItems();
     } else {
       fetchLostItems();
     }
@@ -74,7 +79,7 @@ const LostItem = () => {
   }, []);
 
   useEffect(() => {
-    getSearchLostItem(sorted, keyword, page, SIZE, setLostItems, setTotalPage);
+    searchLostItems();
   }, [sorted, page]);
 
   return (
