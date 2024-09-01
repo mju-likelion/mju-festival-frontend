@@ -16,6 +16,7 @@ import { loginSchema } from '../../validation/schema.ts';
 interface LogInFormProps {
   setIsModalOpen: (b: boolean) => void;
 }
+
 const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
   const [termsList, setTermsList] = useState<Terms[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -43,12 +44,11 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
       termsList.forEach((term) => {
         terms[term.id] = formData.terms?.[term.id] ?? false;
       });
-      const encryptLogInData = setEncryptData(
-        formData,
-        encryptInfo,
-        auth,
-        terms
-      );
+      const encryptLogInData = setEncryptData(formData, encryptInfo, auth);
+
+      if (auth === 'USER') {
+        encryptLogInData.terms = terms;
+      }
       const response = await postLogIn(
         encryptLogInData,
         auth,
