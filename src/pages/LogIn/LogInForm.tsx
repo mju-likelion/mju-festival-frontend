@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigate } from 'react-router-dom';
 import { getTerms, postLogIn, requestKey } from '../../api/postLogIn.ts';
 import useDetermineRole from '../../hooks/useDetermineRole.ts';
 import { handleError } from '../../utils/errorUtil.ts';
-import { setEncryptData } from '../../utils/encryptionUtil.ts';
 
+import { setEncryptData } from '../../utils/encryptionUtil.ts';
 import { useAuthStore } from '../../store';
 import LogInInput from './LogInInput.tsx';
 import LogInButton from './LogInButton.tsx';
@@ -21,6 +22,7 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
   const [termsList, setTermsList] = useState<Terms[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const { setRole, setToken } = useAuthStore();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -57,6 +59,9 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
       setToken(response.accessToken);
       setRole(response.role || 'STUDENT');
       setIsModalOpen(true);
+      if (auth === 'ADMIN') {
+        navigate('/');
+      }
     } catch (e) {
       handleError(e as Error);
     }
