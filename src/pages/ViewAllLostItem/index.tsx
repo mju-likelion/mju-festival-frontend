@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
-import { getLostItem, getSearchLostItem } from '../../api/lostItem';
+import { getLostItems, getSearchLostItem } from '../../api/lostItem';
 import LostItemCard from './LostItemCard';
 import { SimpleLostItem, SortOptions, SortKey } from '../../types/lostItem';
 import { useAuthStore } from '../../store';
@@ -40,6 +40,18 @@ const LostItem = () => {
     setKeyword(e.target.value);
   };
 
+  const fetchLostItems = async () => {
+    try {
+      const data = await getLostItems(sorted, page, SIZE);
+      const { simpleLostItems, totalPage } = data;
+
+      setLostItems(simpleLostItems);
+      setTotalPage(totalPage);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (keyword.trim() !== '') {
@@ -53,12 +65,12 @@ const LostItem = () => {
         setTotalPage
       );
     } else {
-      getLostItem(sorted, page, SIZE, setLostItems, setTotalPage);
+      fetchLostItems();
     }
   };
 
   useEffect(() => {
-    getLostItem(sorted, page, SIZE, setLostItems, setTotalPage);
+    fetchLostItems();
   }, []);
 
   useEffect(() => {
