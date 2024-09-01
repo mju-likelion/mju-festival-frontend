@@ -42,4 +42,4 @@ const setEncryptData = (
   return loginFormData;
 };
 
-export { setEncryptData, encryptFunc };
+export { setEncryptData };
