@@ -11,7 +11,13 @@ import { useAuthStore } from '../../store';
 import LogInInput from './LogInInput.tsx';
 import LogInButton from './LogInButton.tsx';
 import CheckBox from './CheckBox.tsx';
-import { AuthFormValues, Terms, TermsMap } from '../../types';
+import {
+  AuthFormValues,
+  EncryptKeyInfo,
+  LogInFormDataValues,
+  Terms,
+  TermsMap,
+} from '../../types';
 import { loginSchema } from '../../validation/schema.ts';
 
 interface LogInFormProps {
@@ -39,6 +45,23 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
 
   const auth = useDetermineRole();
 
+  const login = async (
+    encryptLogInData: LogInFormDataValues,
+    encryptInfo: EncryptKeyInfo
+  ) => {
+    const response = await postLogIn(
+      encryptLogInData,
+      auth,
+      encryptInfo.rsaKeyStrategy
+    );
+    setToken(response.accessToken);
+    setRole(response.role || 'STUDENT');
+    setIsModalOpen(true);
+    if (auth === 'ADMIN') {
+      navigate('/');
+    }
+  };
+
   const onSubmit = handleSubmit(async (formData) => {
     try {
       const encryptInfo = await requestKey();
@@ -50,18 +73,7 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
         });
         encryptLogInData.terms = terms;
       }
-
-      const response = await postLogIn(
-        encryptLogInData,
-        auth,
-        encryptInfo.rsaKeyStrategy
-      );
-      setToken(response.accessToken);
-      setRole(response.role || 'STUDENT');
-      setIsModalOpen(true);
-      if (auth === 'ADMIN') {
-        navigate('/');
-      }
+      await login(encryptLogInData, encryptInfo);
     } catch (e) {
       handleError(e as Error);
     }
