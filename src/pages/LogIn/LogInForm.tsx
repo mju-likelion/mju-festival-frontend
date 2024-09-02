@@ -42,18 +42,15 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
   const onSubmit = handleSubmit(async (formData) => {
     try {
       const encryptInfo = await requestKey();
+      const encryptLogInData = setEncryptData(formData, encryptInfo, auth);
       const terms: TermsMap = {};
       if (auth === 'USER') {
         termsList.forEach((term) => {
           terms[term.id] = formData.terms?.[term.id] ?? false;
         });
-      }
-
-      const encryptLogInData = setEncryptData(formData, encryptInfo, auth);
-
-      if (auth === 'USER') {
         encryptLogInData.terms = terms;
       }
+
       const response = await postLogIn(
         encryptLogInData,
         auth,
