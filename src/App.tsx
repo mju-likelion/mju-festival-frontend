@@ -37,9 +37,9 @@ function App() {
             path="/view/detail-notice/:id"
             element={<ViewDetailNotice />}
           />
-          <Route path="/lostItems" element={<LostItem />} />
-          <Route path="/lostItems/detail" element={<DetailLostItem />} />
-          <Route path="/lostItems/new" element={<CreateLostItem />} />
+          <Route path="/lost-items" element={<LostItem />} />
+          <Route path="/lost-items/:id" element={<DetailLostItem />} />
+          <Route path="/lost-items/register" element={<CreateLostItem />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>

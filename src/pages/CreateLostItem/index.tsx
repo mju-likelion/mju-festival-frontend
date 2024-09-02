@@ -35,7 +35,7 @@ const CreateLostItem = () => {
     try {
       await postLostItem(lostItemData, token);
       alert('분실물 등록 완료');
-      navigate('/lostItems');
+      navigate('/lost-items');
     } catch (error) {
       throw error as Error;
     }

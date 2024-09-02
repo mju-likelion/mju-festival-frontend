@@ -3,12 +3,13 @@ import styled from 'styled-components';
 import { SimpleLostItem } from '../../types/lostItem';
 
 const LostItemCard = ({ lostItem }: { lostItem: SimpleLostItem }) => {
-  const { title, content, imageUrl } = lostItem;
+  const { id, title, content, imageUrl } = lostItem;
   const navigate = useNavigate();
 
   const moveDetailPage = () => {
-    navigate('/lostItems/detail', { state: lostItem });
+    navigate(`/lost-items/${id}`, { state: lostItem });
   };
+
   return (
     <Wrapper onClick={moveDetailPage}>
       <LeftLayout>

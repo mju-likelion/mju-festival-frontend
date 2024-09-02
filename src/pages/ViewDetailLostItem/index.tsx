@@ -13,7 +13,7 @@ const DetailLostItem = () => {
         <RegisterDate>등록일 : {createdAt}</RegisterDate>
         <ItemImg src={imageUrl} />
         <ItemTitle>제목 {title}</ItemTitle>
-        <ItemContent defaultValue="test 내용" value={content} />
+        <ItemContent defaultValue={content} />
       </ItemLayout>
       {isFounded ? <FoundP>찾았다!!!!</FoundP> : null}
     </Wrapper>

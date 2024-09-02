@@ -8,7 +8,7 @@ import { SimpleLostItem, SortOptions, SortKey } from '../../types/lostItem';
 import { useAuthStore } from '../../store';
 
 const LostItem = () => {
-  const [LostItems, setLostItems] = useState<SimpleLostItem[]>([]);
+  const [lostItems, setLostItems] = useState<SimpleLostItem[]>([]);
   const [sorted, setSorted] = useState<SortKey>('desc');
   const [page, setPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
@@ -101,7 +101,7 @@ const LostItem = () => {
           </SortedSelect>
         </ListTItleContainer>
         <CardContainer>
-          {LostItems.map((lostItem) => (
+          {lostItems.map((lostItem) => (
             <LostItemCard key={lostItem.id} lostItem={lostItem} />
           ))}
           <PageBtnContainer>
@@ -115,7 +115,7 @@ const LostItem = () => {
         <button
           type="button"
           onClick={() => {
-            navigate('/lostItems/new');
+            navigate('/lost-items/register');
           }}
         >
           분실물 등록하기
