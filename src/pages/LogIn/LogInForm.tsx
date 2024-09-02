@@ -45,6 +45,20 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
 
   const auth = useDetermineRole();
 
+  const getUserTerms = (
+    formDataTerms: TermsMap,
+    encryptLogInData: LogInFormDataValues
+  ) => {
+    const terms: TermsMap = {};
+    if (auth === 'USER') {
+      termsList.forEach((term) => {
+        terms[term.id] = formDataTerms?.[term.id] ?? false;
+      });
+      return { ...encryptLogInData, terms };
+    }
+    return encryptLogInData;
+  };
+
   const login = async (
     encryptLogInData: LogInFormDataValues,
     encryptInfo: EncryptKeyInfo
@@ -65,13 +79,9 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
   const onSubmit = handleSubmit(async (formData) => {
     try {
       const encryptInfo = await requestKey();
-      const encryptLogInData = setEncryptData(formData, encryptInfo, auth);
-      const terms: TermsMap = {};
-      if (auth === 'USER') {
-        termsList.forEach((term) => {
-          terms[term.id] = formData.terms?.[term.id] ?? false;
-        });
-        encryptLogInData.terms = terms;
+      let encryptLogInData = setEncryptData(formData, encryptInfo, auth);
+      if (formData.terms) {
+        encryptLogInData = getUserTerms(formData.terms, encryptLogInData);
       }
       await login(encryptLogInData, encryptInfo);
     } catch (e) {
