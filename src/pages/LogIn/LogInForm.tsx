@@ -1,25 +1,34 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigate } from 'react-router-dom';
 import { getTerms, postLogIn, requestKey } from '../../api/postLogIn.ts';
-import getAuth from '../../utils/getAuth.ts';
-import { handleError } from '../../utils/errorUtils.ts';
-import { setEncryptData } from '../../utils/encryptionUtils.ts';
-import { useAuthStore } from '../../store';
+import useDetermineRole from '../../hooks/useDetermineRole.ts';
+import { handleError } from '../../utils/errorUtil.ts';
 
+import { setEncryptData } from '../../utils/encryptionUtil.ts';
+import { useAuthStore } from '../../store';
 import LogInInput from './LogInInput.tsx';
 import LogInButton from './LogInButton.tsx';
 import CheckBox from './CheckBox.tsx';
-import { AuthFormValues, Terms, TermsMap } from '../../types';
+import {
+  AuthFormValues,
+  EncryptKeyInfo,
+  LogInFormDataValues,
+  Terms,
+  TermsMap,
+} from '../../types';
 import { loginSchema } from '../../validation/schema.ts';
 
 interface LogInFormProps {
   setIsModalOpen: (b: boolean) => void;
 }
+
 const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
   const [termsList, setTermsList] = useState<Terms[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const { setRole, setToken } = useAuthStore();
+  const navigate = useNavigate();
 
   const {
     register,
@@ -34,34 +43,47 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
   };
 
-  const auth = getAuth();
+  const auth = useDetermineRole();
+
+  const getUserTerms = (
+    formDataTerms: TermsMap,
+    encryptLogInData: LogInFormDataValues
+  ) => {
+    const terms: TermsMap = {};
+    if (auth === 'USER') {
+      termsList.forEach((term) => {
+        terms[term.id] = formDataTerms?.[term.id] ?? false;
+      });
+      return { ...encryptLogInData, terms };
+    }
+    return encryptLogInData;
+  };
+
+  const login = async (
+    encryptLogInData: LogInFormDataValues,
+    encryptInfo: EncryptKeyInfo
+  ) => {
+    const response = await postLogIn(
+      encryptLogInData,
+      auth,
+      encryptInfo.rsaKeyStrategy
+    );
+    setToken(response.accessToken);
+    setRole(response.role || 'STUDENT');
+    setIsModalOpen(true);
+    if (auth === 'ADMIN') {
+      navigate('/');
+    }
+  };
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
       const encryptInfo = await requestKey();
-      const terms: TermsMap = {};
-      termsList.forEach((term) => {
-        terms[term.id] = formData.terms?.[term.id] ?? false;
-      });
-      const encryptLogInData = setEncryptData(
-        formData,
-        encryptInfo,
-        auth,
-        terms
-      );
-      const response = await postLogIn(
-        encryptLogInData,
-        auth,
-        encryptInfo.rsaKeyStrategy
-      );
-      if (auth === 'USER') {
-        setToken(response.accessToken);
-        setRole('STUDENT');
-      } else if (auth === 'ADMIN') {
-        setToken(response.accessToken);
-        setRole(response.role);
+      let encryptLogInData = setEncryptData(formData, encryptInfo, auth);
+      if (formData.terms) {
+        encryptLogInData = getUserTerms(formData.terms, encryptLogInData);
       }
-      setIsModalOpen(true);
+      await login(encryptLogInData, encryptInfo);
     } catch (e) {
       handleError(e as Error);
     }

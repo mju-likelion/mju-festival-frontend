@@ -4,24 +4,22 @@ import {
   AuthFormValues,
   EncryptKeyInfo,
   LogInFormDataValues,
-  TermsMap,
 } from '../types';
 
-const encryptionUtils = new JSEncrypt();
+const encryptionUtil = new JSEncrypt();
 
 const encryptFunc = (value: string, key: string) => {
   if (!key) {
-    throw new Error('encryptionUtils key가 유효하지 않습니다.');
+    throw new Error('encryptionUtil key가 유효하지 않습니다.');
   }
-  encryptionUtils.setPublicKey(key);
-  return encryptionUtils.encrypt(value);
+  encryptionUtil.setPublicKey(key);
+  return encryptionUtil.encrypt(value);
 };
 
 const setEncryptData = (
   formData: AuthFormValues,
   encryptInfo: EncryptKeyInfo,
-  auth: Auth,
-  terms?: TermsMap
+  auth: Auth
 ): LogInFormDataValues => {
   const { rsaPublicKey, credentialKey } = encryptInfo;
 
@@ -33,7 +31,6 @@ const setEncryptData = (
   if (auth === 'USER') {
     loginFormData.encryptedStudentId =
       encryptFunc(formData.id, rsaPublicKey) || '';
-    loginFormData.terms = terms;
   } else if (auth === 'ADMIN') {
     loginFormData.encryptedLoginId =
       encryptFunc(formData.id, rsaPublicKey) || '';
@@ -45,4 +42,4 @@ const setEncryptData = (
   return loginFormData;
 };
 
-export { setEncryptData, encryptFunc };
+export { setEncryptData };
