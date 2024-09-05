@@ -2,13 +2,13 @@ import styled from 'styled-components';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
-import { getLostItem, getSearchLostItem } from '../../api/lostItem';
+import { getLostItems, getSearchLostItems } from '../../api/lostItem';
 import LostItemCard from './LostItemCard';
 import { SimpleLostItem, SortOptions, SortKey } from '../../types/lostItem';
 import { useAuthStore } from '../../store';
 
 const LostItem = () => {
-  const [LostItems, setLostItems] = useState<SimpleLostItem[]>([]);
+  const [lostItems, setLostItems] = useState<SimpleLostItem[]>([]);
   const [sorted, setSorted] = useState<SortKey>('desc');
   const [page, setPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
@@ -40,29 +40,46 @@ const LostItem = () => {
     setKeyword(e.target.value);
   };
 
+  const fetchLostItems = async () => {
+    try {
+      const data = await getLostItems(sorted, page, SIZE);
+      const { simpleLostItems, totalPage } = data;
+
+      setLostItems(simpleLostItems);
+      setTotalPage(totalPage);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const searchLostItems = async () => {
+    try {
+      const data = await getSearchLostItems(sorted, keyword, page, SIZE);
+      const { simpleLostItems, totalPage } = data;
+
+      setLostItems(simpleLostItems);
+      setTotalPage(totalPage);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (keyword.trim() !== '') {
       setPage(0);
-      getSearchLostItem(
-        sorted,
-        keyword,
-        page,
-        SIZE,
-        setLostItems,
-        setTotalPage
-      );
+      searchLostItems();
     } else {
-      getLostItem(sorted, page, SIZE, setLostItems, setTotalPage);
+      fetchLostItems();
     }
   };
 
   useEffect(() => {
-    getLostItem(sorted, page, SIZE, setLostItems, setTotalPage);
+    fetchLostItems();
   }, []);
 
   useEffect(() => {
-    getSearchLostItem(sorted, keyword, page, SIZE, setLostItems, setTotalPage);
+    searchLostItems();
   }, [sorted, page]);
 
   return (
@@ -84,7 +101,7 @@ const LostItem = () => {
           </SortedSelect>
         </ListTItleContainer>
         <CardContainer>
-          {LostItems.map((lostItem) => (
+          {lostItems.map((lostItem) => (
             <LostItemCard key={lostItem.id} lostItem={lostItem} />
           ))}
           <PageBtnContainer>
@@ -98,7 +115,7 @@ const LostItem = () => {
         <button
           type="button"
           onClick={() => {
-            navigate('/lostItems/new');
+            navigate('/lost-items/register');
           }}
         >
           분실물 등록하기
