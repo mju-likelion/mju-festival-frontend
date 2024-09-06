@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { getNotices } from '../api/notice.ts';
 import { NoticeType, UseFetchNoticesProps } from '../types/index.ts';
 
-const useFetchNotices = ({ isSorted, page }: UseFetchNoticesProps) => {
+const useFetchNotices = ({ isSorted, curPage }: UseFetchNoticesProps) => {
   const [notices, setNotices] = useState<NoticeType[]>([]);
   const [totalPage, setTotalPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -10,7 +10,7 @@ const useFetchNotices = ({ isSorted, page }: UseFetchNoticesProps) => {
 
   const fetchNotices = useCallback(async () => {
     try {
-      const response = await getNotices(isSorted, page, SIZE);
+      const response = await getNotices(isSorted, curPage, SIZE);
       setTotalPage(response.totalPage);
       setNotices(response.simpleAnnouncements);
     } catch (err) {
@@ -19,7 +19,7 @@ const useFetchNotices = ({ isSorted, page }: UseFetchNoticesProps) => {
     } finally {
       setIsLoading(false);
     }
-  }, [isSorted, page]);
+  }, [isSorted, curPage]);
 
   useEffect(() => {
     fetchNotices();
