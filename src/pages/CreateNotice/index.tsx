@@ -1,16 +1,19 @@
 import styled from 'styled-components';
 import { ChangeEvent, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { Axios } from '../../api/Axios';
 import Header from '../ViewDetailNotice/Header';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
-import { useAuthStore } from '../../store';
+import { useAuthStore, usePageStore } from '../../store';
 import { ImageNoticeType } from '../../types';
 
 const CreateNotice = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const navigate = useNavigate();
   const { token } = useAuthStore();
+  const { setCurPage, setIsSorted } = usePageStore();
   const formData = new FormData();
   const imageData = new FormData();
 
@@ -54,6 +57,9 @@ const CreateNotice = () => {
           'Content-Type': 'application/json',
         },
       });
+      setCurPage(0);
+      setIsSorted('desc');
+      navigate('/view/all-notices');
     } catch (e) {
       alert('올바른 업로드를 해주세요');
     }
