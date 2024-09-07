@@ -73,7 +73,14 @@ const CreateNotice = () => {
       <Header />
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <UploadImageLayout $imageUrl={imageUrl} onClick={handleClick}>
-          <UploadImageIcon />
+          {!imageUrl && (
+            <UploadGuideContainer>
+              <UploadImageIcon />
+              <p>이미지 업로드</p>
+              <p>(이미지는 한 장만 업로드 가능 합니다.)</p>
+              <p>(JPG,GIF,PNG,PDF)</p>
+            </UploadGuideContainer>
+          )}
           <ImageInput
             type="file"
             name="image"
@@ -105,6 +112,8 @@ const Wrapper = styled.div``;
 
 const UploadImageLayout = styled.div<{ $imageUrl: string | null }>`
   position: relative;
+  display: flex;
+  justify-content: center;
   width: 330px;
   height: 268px;
   border-radius: 14px;
@@ -113,14 +122,29 @@ const UploadImageLayout = styled.div<{ $imageUrl: string | null }>`
   background-size: cover;
   background-color: #cccfde;
   border: dotted 1px #9197b5;
+  padding: 76px 58px;
 `;
 
 const UploadContentLayout = styled.div`
   border: 1px solid red;
 `;
 
-const UploadImageIcon = styled(UploadImage)`
+const UploadGuideContainer = styled.div`
   position: absolute;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  p:nth-of-type(1) {
+    margin-top: 14px;
+    margin-bottom: 2px;
+  }
+  p:nth-of-type(2) {
+    margin-bottom: 8px;
+  }
+`;
+
+const UploadImageIcon = styled(UploadImage)`
   left: 150px;
   top: 80px;
 `;
