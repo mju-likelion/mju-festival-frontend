@@ -31,6 +31,7 @@ const EditNotice = () => {
   const getNotice = useCallback(async () => {
     const response = await fetchNotice(id);
     setNotice(response);
+    if (response.imageUrl) setImageUrl(response.imageUrl);
   }, [id]);
 
   useEffect(() => {
