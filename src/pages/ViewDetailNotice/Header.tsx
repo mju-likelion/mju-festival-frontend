@@ -1,10 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { usePageStore } from '../../store';
 
 const Header = () => {
   const navigate = useNavigate();
-  // const { curPage, sorted } = usePageStore();
 
   return (
     <Wrapper>
