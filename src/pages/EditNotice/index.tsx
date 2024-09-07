@@ -63,8 +63,12 @@ const EditNotice = () => {
   };
 
   const handleFormSubmit = async (data: ImageNoticeType) => {
-    formData.append('title', data.title);
-    formData.append('content', data.content);
+    if (data.title) {
+      formData.append('title', data.title);
+    }
+    if (data.content) {
+      formData.append('content', data.content);
+    }
     if (imageUrl) {
       formData.append('imageUrl', imageUrl);
     }
