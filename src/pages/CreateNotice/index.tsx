@@ -72,7 +72,7 @@ const CreateNotice = () => {
     <Wrapper>
       <Header />
       <form onSubmit={handleSubmit(handleFormSubmit)}>
-        <UploadImageLayout onClick={handleClick}>
+        <UploadImageLayout $imageUrl={imageUrl} onClick={handleClick}>
           <UploadImageIcon />
           <ImageInput
             type="file"
@@ -103,11 +103,14 @@ const CreateNotice = () => {
 
 const Wrapper = styled.div``;
 
-const UploadImageLayout = styled.div`
+const UploadImageLayout = styled.div<{ $imageUrl: string | null }>`
   position: relative;
   width: 330px;
   height: 268px;
   border-radius: 14px;
+  background-image: ${(props) =>
+    props.$imageUrl ? `url(${props.$imageUrl})` : 'none'};
+  background-size: cover;
   background-color: #cccfde;
   border: dotted 1px #9197b5;
 `;
