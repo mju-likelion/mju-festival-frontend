@@ -1,27 +1,28 @@
 import styled from 'styled-components';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import NoticeCard from './NoticeCard';
 import { SortKey, SortOptions } from '../../types';
-import { useAuthStore } from '../../store';
+import { useAuthStore, usePageStore } from '../../store';
 import useFetchNotices from '../../hooks/useFetchNotices';
 
 const ViewAllNotice = () => {
-  const [isSorted, setIsSorted] = useState<SortKey>('desc');
-  const [page, setPage] = useState(0);
   const navigate = useNavigate();
   const { role } = useAuthStore();
+  const { curPage, isSorted, setCurPage, setIsSorted } = usePageStore();
   const sortOptions: SortOptions = { desc: '최신순', asc: '오래된순' };
-
-  const { notices, totalPage, isLoading } = useFetchNotices({ isSorted, page });
+  const { notices, totalPage, isLoading } = useFetchNotices({
+    isSorted,
+    curPage,
+  });
 
   const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
     setIsSorted(e.target.value as SortKey);
   };
 
   const handlePage = (index: number) => {
-    setPage(index === 1 ? page + 1 : page - 1);
+    setCurPage(index === 1 ? curPage + 1 : curPage - 1);
   };
 
   return (
@@ -46,15 +47,15 @@ const ViewAllNotice = () => {
       <Layout>
         <button
           type="button"
-          disabled={page === 0 || isLoading}
+          disabled={curPage === 0 || isLoading}
           onClick={() => handlePage(-1)}
         >
           {'<'}
         </button>
-        <TempP>{`${page + 1}/${totalPage}`}</TempP>
+        <TempP>{`${curPage + 1}/${totalPage}`}</TempP>
         <button
           type="button"
-          disabled={page + 1 === totalPage || isLoading}
+          disabled={curPage + 1 === totalPage || isLoading}
           onClick={() => handlePage(1)}
         >
           {'>'}

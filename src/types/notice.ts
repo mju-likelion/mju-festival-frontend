@@ -36,5 +36,5 @@ export interface DeleteNoticeModalProps {
 
 export interface UseFetchNoticesProps {
   isSorted: string;
-  page: number;
+  curPage: number;
 }

@@ -1,17 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useAuthStore } from '../../store';
 
 const Header = () => {
   const navigate = useNavigate();
+  const { role } = useAuthStore();
 
   return (
     <Wrapper>
       <Layout>
-        <button type="button" onClick={() => navigate('/view/all-notices')}>
+        <button type="button" onClick={() => navigate(-1)}>
           뒤로가기
         </button>
-        {/* 전역 상태 값에 따라 p 태그 렌더링 조건 추가 예정 */}
-        <p>관리자용</p>
+        {role === 'STUDENT_COUNCIL' && <p>관리자용</p>}
       </Layout>
       <Title>공지사항</Title>
     </Wrapper>
