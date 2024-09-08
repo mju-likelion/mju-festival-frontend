@@ -9,6 +9,7 @@ const useScreenSize = () => {
   useEffect(() => {
     setScreenSize();
 
+    // 디바운싱 고려
     const handleResize = () => {
       setScreenSize();
     };

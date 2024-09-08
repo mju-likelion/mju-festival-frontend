@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { ThemeProvider } from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import useRouteTracker from './hooks/useRouteTracker.tsx';
 import useScreenSize from './hooks/useScreenSize.ts';
 import BoothDetail from './pages/BoothDetail';
@@ -26,27 +26,41 @@ function App() {
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/view/all-notices" element={<ViewAllNotice />} />
-          <Route path="/create/notice" element={<CreateNotice />} />
-          <Route path="/notice/:id/edit" element={<EditNotice />} />
-          <Route path="/booths" element={<Booth />} />
-          <Route path="/booths/:boothId" element={<BoothDetail />} />
-          <Route path="/booths/:boothId/edit" element={<BoothEdit />} />
-          <Route path="/login" element={<UserLogIn />} />
-          <Route path="/admin/login" element={<AdminLogIn />} />
-          <Route
-            path="/view/detail-notice/:id"
-            element={<ViewDetailNotice />}
-          />
-          <Route path="/lost-items" element={<LostItem />} />
-          <Route path="/lost-items/:id" element={<DetailLostItem />} />
-          <Route path="/lost-items/register" element={<CreateLostItem />} />
-        </Routes>
+        <MobileWrapper>
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/view/all-notices" element={<ViewAllNotice />} />
+            <Route path="/create/notice" element={<CreateNotice />} />
+            <Route path="/notice/:id/edit" element={<EditNotice />} />
+            <Route path="/booths" element={<Booth />} />
+            <Route path="/booths/:boothId" element={<BoothDetail />} />
+            <Route path="/booths/:boothId/edit" element={<BoothEdit />} />
+            <Route path="/login" element={<UserLogIn />} />
+            <Route path="/admin/login" element={<AdminLogIn />} />
+            <Route
+              path="/view/detail-notice/:id"
+              element={<ViewDetailNotice />}
+            />
+            <Route path="/lost-items" element={<LostItem />} />
+            <Route path="/lost-items/:id" element={<DetailLostItem />} />
+            <Route path="/lost-items/register" element={<CreateLostItem />} />
+          </Routes>
+        </MobileWrapper>
       </BrowserRouter>
     </ThemeProvider>
   );
 }
+
+const MobileWrapper = styled.div`
+  // 확정 전 임의로 px 설정
+  min-width: 360px;
+  max-width: 430px;
+  height: calc(var(--vh, 1vh) * 100);
+  padding: 20px;
+  margin: auto;
+  position: relative;
+  overflow: hidden;
+  background-color: gray;
+`;
 
 export default App;
