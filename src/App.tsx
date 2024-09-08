@@ -1,49 +1,66 @@
-import { ThemeProvider } from 'styled-components';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { theme } from './styles';
-import GlobalStyle from './styles/GlobalStyle';
+import styled, { ThemeProvider } from 'styled-components';
 import useRouteTracker from './hooks/useRouteTracker.tsx';
-import ViewAllNotice from './pages/ViewAllNotice/index.tsx';
-import Booth from './pages/BoothList';
+import useScreenSize from './hooks/useScreenSize.ts';
 import BoothDetail from './pages/BoothDetail';
 import BoothEdit from './pages/BoothEdit';
-import UserLogIn from './pages/LogIn/indexUser.tsx';
-import AdminLogIn from './pages/LogIn/indexAdmin.tsx';
-import ViewDetailNotice from './pages/ViewDetailNotice/index.tsx';
-import Main from './pages/Main/index.tsx';
-import CreateNotice from './pages/CreateNotice/index.tsx';
-import LostItem from './pages/ViewAllLostItem/index.tsx';
-import DetailLostItem from './pages/ViewDetailLostItem/index.tsx';
-import EditNotice from './pages/EditNotice/index.tsx';
+import Booth from './pages/BoothList';
 import CreateLostItem from './pages/CreateLostItem/index.tsx';
+import CreateNotice from './pages/CreateNotice/index.tsx';
+import EditNotice from './pages/EditNotice/index.tsx';
+import AdminLogIn from './pages/LogIn/indexAdmin.tsx';
+import UserLogIn from './pages/LogIn/indexUser.tsx';
+import Main from './pages/Main/index.tsx';
+import LostItem from './pages/ViewAllLostItem/index.tsx';
+import ViewAllNotice from './pages/ViewAllNotice/index.tsx';
+import DetailLostItem from './pages/ViewDetailLostItem/index.tsx';
+import ViewDetailNotice from './pages/ViewDetailNotice/index.tsx';
+import { theme } from './styles';
+import GlobalStyle from './styles/GlobalStyle';
 
 function App() {
   useRouteTracker();
+  useScreenSize();
+
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/view/all-notices" element={<ViewAllNotice />} />
-          <Route path="/create/notice" element={<CreateNotice />} />
-          <Route path="/notice/:id/edit" element={<EditNotice />} />
-          <Route path="/booths" element={<Booth />} />
-          <Route path="/booths/:boothId" element={<BoothDetail />} />
-          <Route path="/booths/:boothId/edit" element={<BoothEdit />} />
-          <Route path="/login" element={<UserLogIn />} />
-          <Route path="/admin/login" element={<AdminLogIn />} />
-          <Route
-            path="/view/detail-notice/:id"
-            element={<ViewDetailNotice />}
-          />
-          <Route path="/lost-items" element={<LostItem />} />
-          <Route path="/lost-items/:id" element={<DetailLostItem />} />
-          <Route path="/lost-items/register" element={<CreateLostItem />} />
-        </Routes>
+        <MobileWrapper>
+          <Routes>
+            <Route path="/" element={<Main />} />
+            <Route path="/view/all-notices" element={<ViewAllNotice />} />
+            <Route path="/create/notice" element={<CreateNotice />} />
+            <Route path="/notice/:id/edit" element={<EditNotice />} />
+            <Route path="/booths" element={<Booth />} />
+            <Route path="/booths/:boothId" element={<BoothDetail />} />
+            <Route path="/booths/:boothId/edit" element={<BoothEdit />} />
+            <Route path="/login" element={<UserLogIn />} />
+            <Route path="/admin/login" element={<AdminLogIn />} />
+            <Route
+              path="/view/detail-notice/:id"
+              element={<ViewDetailNotice />}
+            />
+            <Route path="/lost-items" element={<LostItem />} />
+            <Route path="/lost-items/:id" element={<DetailLostItem />} />
+            <Route path="/lost-items/register" element={<CreateLostItem />} />
+          </Routes>
+        </MobileWrapper>
       </BrowserRouter>
     </ThemeProvider>
   );
 }
+
+const MobileWrapper = styled.div`
+  // 확정 전 임의로 px 설정
+  min-width: 360px;
+  max-width: 430px;
+  height: calc(var(--vh, 1vh) * 100);
+  padding: 20px;
+  margin: auto;
+  position: relative;
+  overflow: hidden;
+  background-color: gray;
+`;
 
 export default App;
