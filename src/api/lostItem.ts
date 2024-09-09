@@ -1,6 +1,6 @@
 import { AxiosResponse } from 'axios';
-import { Axios } from './Axios';
 import { GetLostItemResponse, PostLostItemRequest } from '../types/lostItem';
+import { Axios } from './Axios';
 
 export const getLostItems = async (
   sort: string,
@@ -42,6 +42,14 @@ export const postLostItem = async (
   token: string
 ) => {
   await Axios.post('/lost-items', lostItemData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
+
+export const deleteLostItem = async (id: string, token: string) => {
+  await Axios.delete(`lost-items/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
