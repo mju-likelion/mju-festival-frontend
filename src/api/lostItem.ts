@@ -56,7 +56,11 @@ export const deleteLostItem = async (id: string, token: string) => {
   });
 };
 
-export const patchLostItem = async (id, updateData, token) => {
+export const patchLostItem = async (
+  id: string,
+  updateData: Partial<LostItemRequest>,
+  token: string
+) => {
   const { data } = await Axios.patch(`lost-items/${id}`, updateData, {
     headers: {
       Authorization: `Bearer ${token}`,
