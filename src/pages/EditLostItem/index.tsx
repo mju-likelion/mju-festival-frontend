@@ -15,7 +15,7 @@ const EditLostItem = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { token } = useAuthStore();
-  const [editImgUrl, setEditImgUrl] = useState<string>('');
+  const [editImgUrl, setEditImgUrl] = useState('');
   const { id, title, content, imageUrl } = location.state;
 
   const {
@@ -51,10 +51,14 @@ const EditLostItem = () => {
       });
       updateFields.imageUrl = editImgUrl || imageUrl;
 
-      if (Object.keys(updateFields).length > 0 && token) {
+      if (
+        Object.keys(updateFields).length > 0 &&
+        token &&
+        updateFields.imageUrl === editImgUrl
+      ) {
         await patchLostItem(id, updateFields, token);
-        navigate('/lost-items');
       }
+      navigate('/lost-items');
     } catch (error) {
       handleError(error as Error);
     }
