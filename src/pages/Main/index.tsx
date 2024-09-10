@@ -8,7 +8,10 @@ const Main = () => {
   const navigate = useNavigate();
 
   const today = new Date();
-  const TODAY = today.toLocaleDateString().replace(/\./g, ' / ').slice(0, -3);
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  const TODAY = `${year} / ${month} / ${day}`;
 
   return (
     <Wrapper>
@@ -59,10 +62,11 @@ const Wrapper = styled.div`
 
 const Header = styled.div`
   display: flex;
-  align-items: center;
+  justify-content: space-between;
 
   p {
     margin-left: 124px;
+    margin-top: 3px;
   }
 `;
 
