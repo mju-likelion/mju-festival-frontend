@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { GetLostItemResponse, PostLostItemRequest } from '../types/lostItem';
+import { GetLostItemResponse, LostItemRequest } from '../types/lostItem';
 import { Axios } from './Axios';
 
 export const getLostItems = async (
@@ -38,7 +38,7 @@ export const postLostItemImg = async (formData: FormData, token: string) => {
 };
 
 export const postLostItem = async (
-  lostItemData: PostLostItemRequest,
+  lostItemData: LostItemRequest,
   token: string
 ) => {
   await Axios.post('/lost-items', lostItemData, {
@@ -54,4 +54,14 @@ export const deleteLostItem = async (id: string, token: string) => {
       Authorization: `Bearer ${token}`,
     },
   });
+};
+
+export const patchLostItem = async (id, updateData, token) => {
+  const { data } = await Axios.patch(`lost-items/${id}`, updateData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return data;
 };

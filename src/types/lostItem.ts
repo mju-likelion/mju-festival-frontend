@@ -12,7 +12,7 @@ export interface GetLostItemResponse {
   totalPage: number;
 }
 
-export interface PostLostItemRequest {
+export interface LostItemRequest {
   title: string;
   content: string;
   imageUrl: string;
