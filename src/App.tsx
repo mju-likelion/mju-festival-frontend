@@ -60,7 +60,7 @@ const MobileWrapper = styled.div`
   margin: auto;
   position: relative;
   overflow: hidden;
-  background-color: gray;
+  background-color: #ffffff;
 `;
 
 export default App;

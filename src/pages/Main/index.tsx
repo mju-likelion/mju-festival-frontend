@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { downloadAppByDevice } from '../../utils/downloadAppUtil.ts';
+import { ReactComponent as MajestyLogo } from '../../assets/imgs/majesty_logo.svg';
+import { ReactComponent as MajestySubLogo } from '../../assets/imgs/majesty_sub_logo.svg';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -11,7 +13,10 @@ const Main = () => {
   return (
     <Wrapper>
       <Header>
-        <p>로고자리</p>
+        <LogoLayout>
+          <MajestyLogo />
+          <MajestySubLogo />
+        </LogoLayout>
         <p>{TODAY}</p>
       </Header>
       <LinkLayout>
@@ -54,7 +59,20 @@ const Wrapper = styled.div`
 
 const Header = styled.div`
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+
+  p {
+    margin-left: 124px;
+  }
+`;
+
+const LogoLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  svg:nth-child(1) {
+    margin-bottom: 4px;
+  }
 `;
 
 const LinkLayout = styled.div`
