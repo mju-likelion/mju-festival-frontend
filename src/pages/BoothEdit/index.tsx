@@ -1,13 +1,13 @@
-import styled from 'styled-components';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useForm } from 'react-hook-form';
+import { useLocation, useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import { patchBoothDetail } from '../../api/booth.ts';
 
 import { useAuthStore } from '../../store';
 import { BoothEditFields } from '../../types';
-import { boothSchema } from '../../validation/schema.ts';
 import { handleError } from '../../utils/errorUtil.ts';
+import { boothSchema } from '../../validation/schema.ts';
 
 const BoothEdit = () => {
   const locationData = useLocation();
@@ -37,7 +37,7 @@ const BoothEdit = () => {
       if (Object.keys(updateFields).length > 0 && token) {
         await patchBoothDetail(id, updateFields, token);
       }
-      navigate(`/booth/${id}`);
+      navigate(`/booths/${id}`);
     } catch (e) {
       handleError(e as Error);
     }

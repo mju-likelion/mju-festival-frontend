@@ -7,6 +7,7 @@ import BoothEdit from './pages/BoothEdit';
 import Booth from './pages/BoothList';
 import CreateLostItem from './pages/CreateLostItem/index.tsx';
 import CreateNotice from './pages/CreateNotice/index.tsx';
+import EditLostItem from './pages/EditLostItem/index.tsx';
 import EditNotice from './pages/EditNotice/index.tsx';
 import AdminLogIn from './pages/LogIn/indexAdmin.tsx';
 import UserLogIn from './pages/LogIn/indexUser.tsx';
@@ -43,6 +44,7 @@ function App() {
             />
             <Route path="/lost-items" element={<LostItem />} />
             <Route path="/lost-items/:id" element={<DetailLostItem />} />
+            <Route path="/lost-items/:id/edit" element={<EditLostItem />} />
             <Route path="/lost-items/register" element={<CreateLostItem />} />
           </Routes>
         </MobileWrapper>

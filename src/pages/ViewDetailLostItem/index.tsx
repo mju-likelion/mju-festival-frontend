@@ -33,11 +33,20 @@ const DetailLostItem = () => {
         <RegisterDate>등록일 : {createdAt}</RegisterDate>
         <ItemImg src={imageUrl} />
         <ItemTitle>제목 {title}</ItemTitle>
-        <ItemContent defaultValue={content} />
+        <ItemContent>내용 {content}</ItemContent>
       </ItemLayout>
       {isFounded ? <FoundP>찾았다!!!!</FoundP> : null}
       {role === 'STUDENT_COUNCIL' && (
-        <DeleteButton onClick={handleDelete}>삭제하기</DeleteButton>
+        <>
+          <DeleteButton onClick={handleDelete}>삭제하기</DeleteButton>
+          <EditButton
+            onClick={() =>
+              navigate(`/lost-items/${id}/edit`, { state: location.state })
+            }
+          >
+            수정하기
+          </EditButton>
+        </>
       )}
     </Wrapper>
   );
@@ -57,7 +66,7 @@ const ItemImg = styled.img`
   width: 100%;
 `;
 const ItemTitle = styled.p``;
-const ItemContent = styled.textarea`
+const ItemContent = styled.p`
   width: 100%;
   background-color: skyblue;
 `;
@@ -67,4 +76,6 @@ const FoundP = styled.p`
 `;
 
 const DeleteButton = styled.button``;
+const EditButton = styled.button``;
+
 export default DetailLostItem;

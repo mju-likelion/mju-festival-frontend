@@ -1,29 +1,29 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { postLostItem, postLostItemImg } from '../../api/lostItem';
-import usePreventRefresh from '../../hooks/usePreventRefresh';
+
+import { ChangeEvent, useState } from 'react';
+import { patchLostItem, postLostItemImg } from '../../api/lostItem';
 import { useAuthStore } from '../../store';
 import { LostItemForm, LostItemRequest } from '../../types/lostItem';
-import { lostItemSchema } from '../../validation/schema';
-import Header from './Header';
+import { handleError } from '../../utils/errorUtil';
+import { lostItemEditSchema } from '../../validation/schema';
+import Header from '../ViewDetailLostItem/Header'; // 이후 재사용 관련 다시 생각
 
-const CreateLostItem = () => {
-  usePreventRefresh(); // 새로고침 방지
-
-  const [itemImgUrl, setItemImgUrl] = useState<string>('');
-  const { token } = useAuthStore();
+const EditLostItem = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+  const { token } = useAuthStore();
+  const [editImgUrl, setEditImgUrl] = useState('');
+  const { id, title, content, imageUrl } = location.state;
+
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm({
-    resolver: yupResolver(lostItemSchema),
-  });
+  } = useForm({ resolver: yupResolver(lostItemEditSchema) });
 
   const handleImgFile = async (e: ChangeEvent<HTMLInputElement>) => {
     try {
@@ -31,7 +31,7 @@ const CreateLostItem = () => {
         const formData = new FormData();
         formData.append('image', e.target.files[0]);
         const imgUrl = await postLostItemImg(formData, token);
-        setItemImgUrl(imgUrl);
+        setEditImgUrl(imgUrl);
 
         setValue('file', e.target.files[0]);
       }
@@ -40,41 +40,47 @@ const CreateLostItem = () => {
     }
   };
 
-  const onSubmit = async (data: LostItemForm) => {
-    const lostItemData: LostItemRequest = {
-      title: data.title,
-      content: data.content,
-      imageUrl: itemImgUrl,
-    };
-
+  const onSubmit = async (formData: LostItemForm) => {
     try {
-      await postLostItem(lostItemData, token);
-      alert('분실물 등록 완료');
+      const updateFields: Partial<LostItemRequest> = {};
+      Object.entries(formData).forEach(([key, value]) => {
+        const fieldKey = key as keyof LostItemRequest;
+        if (value !== location.state[key]) {
+          updateFields[fieldKey] = value;
+        }
+      });
+      updateFields.imageUrl = editImgUrl || imageUrl;
+
+      if (
+        Object.keys(updateFields).length > 0 &&
+        token &&
+        updateFields.imageUrl === editImgUrl
+      ) {
+        await patchLostItem(id, updateFields, token);
+      }
       navigate('/lost-items');
     } catch (error) {
-      throw error as Error;
+      handleError(error as Error);
     }
   };
 
   return (
     <Wrapper>
       <Header />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <EditForm onSubmit={handleSubmit(onSubmit)}>
         <ItemLayout>
-          <RegisterDate>등록일</RegisterDate>
           <ImageContainer>
-            <ItemImg src={itemImgUrl || undefined} />
+            <ItemImg src={editImgUrl || imageUrl} />
             <FileInputContainer>
               <ItemInput
-                {...register('file', { required: true })}
+                {...register('file')}
                 type="file"
                 id="lostItem"
-                // accept 조건 재확인 필수
                 accept="image/*"
                 onChange={handleImgFile}
               />
               <ItemLabel htmlFor="lostItem">
-                {!itemImgUrl ? (
+                {!editImgUrl ? (
                   <>
                     이미지 업로드 <br /> (이미지는 한 장만 업로드 가능합니다.)
                     <br />
@@ -87,30 +93,27 @@ const CreateLostItem = () => {
             </FileInputContainer>
           </ImageContainer>
           <ItemTitle
+            defaultValue={title}
             {...register('title', { required: true, maxLength: 20 })}
-            placeholder="제목"
-            maxLength={20}
+            maxLength={70}
           />
           <ItemContent
+            defaultValue={content}
             {...register('content', { required: true, maxLength: 100 })}
-            placeholder="test 내용"
             maxLength={100}
           />
         </ItemLayout>
-        <button type="submit">등록하기</button>
-        <p>
-          form errors :
-          {errors.file?.message ||
-            errors.title?.message ||
-            errors.content?.message}
-        </p>
-      </form>
+        <Button type="submit">수정하기</Button>
+        <p>{errors.title?.message}</p>
+        <p>{errors.content?.message}</p>
+        <p>{errors.file?.message}</p>
+      </EditForm>
     </Wrapper>
   );
 };
 
+const EditForm = styled.form``;
 const Wrapper = styled.div`
-  width: 100%;
   border: 1px solid red;
 `;
 
@@ -118,7 +121,6 @@ const ItemLayout = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const RegisterDate = styled.p``;
 const ImageContainer = styled.div`
   position: relative;
   width: 100%;
@@ -151,11 +153,11 @@ const ItemLabel = styled.label`
   border-radius: 5px;
   cursor: pointer;
 `;
-
 const ItemTitle = styled.input``;
 const ItemContent = styled.textarea`
   width: 100%;
-  background-color: #cccfde;
+  background-color: skyblue;
 `;
 
-export default CreateLostItem;
+const Button = styled.button``;
+export default EditLostItem;
