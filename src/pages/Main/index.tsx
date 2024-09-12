@@ -25,7 +25,7 @@ const Main = () => {
         </LogoLayout>
         <p>{TODAY}</p>
       </Header>
-
+      <InfoText>링크 바로가기</InfoText>
       <LinkLayout>
         <TicketFriendsContainer>
           <TicketIcon />
@@ -44,6 +44,7 @@ const Main = () => {
           </InstagramBtn>
         </InstagramContainer>
       </LinkLayout>
+      <InfoText>축제 정보</InfoText>
       <FestivalInfoLayout>
         <BaseButton type="button" onClick={() => navigate('/booths')}>
           부스정보
