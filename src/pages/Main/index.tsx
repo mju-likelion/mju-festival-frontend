@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import InfoText from './InfoText.tsx';
+import InfoText from '../../components/InfoText.tsx';
 import MainMenuButton from './MainMenuButton.tsx';
 import { downloadAppByDevice } from '../../utils/downloadAppUtil.ts';
 import { ReactComponent as MajestyLogo } from '../../assets/imgs/majesty_logo.svg';
