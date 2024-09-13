@@ -14,6 +14,8 @@ const GlobalStyle = createGlobalStyle`
     min-height: 100%;
     margin: 0;
     padding: 0;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
   }
 
   body {
@@ -24,6 +26,8 @@ const GlobalStyle = createGlobalStyle`
     background-color: #e0e0e0;
     font-family: sans-serif;
     overflow-x: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
   }
 
   button {
