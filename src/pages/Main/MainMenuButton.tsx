@@ -4,14 +4,7 @@ import boothBgImg from '../../assets/imgs/boothBtnBgImg.png';
 import timetableBgImg from '../../assets/imgs/timetableBtnBgImg.png';
 import noticeBgImg from '../../assets/imgs/noticeBtnBgImg.png';
 import lostitemBgImg from '../../assets/imgs/lostitemBtnBgImg.png';
-
-type MainButtonBgImg = 'map' | 'booth' | 'timetable' | 'notice' | 'lostItem';
-interface ButtonProps {
-  bgimg: MainButtonBgImg;
-  type: 'button' | 'submit' | 'reset';
-  onClick: () => void;
-  children: React.ReactNode;
-}
+import { MainButtonBgImg, ButtonProps } from '../../types';
 
 const MainMenuButton = ({ bgimg, type, onClick, children }: ButtonProps) => {
   const setBackgroundImage = (bgimg: MainButtonBgImg) => {
