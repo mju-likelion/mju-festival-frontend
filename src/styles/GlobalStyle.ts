@@ -23,7 +23,6 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     background-color: #e0e0e0;
     font-family: sans-serif;
-    overflow-x: hidden;
   }
 
   button {
