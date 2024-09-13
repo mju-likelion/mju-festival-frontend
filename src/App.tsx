@@ -57,10 +57,9 @@ const MobileWrapper = styled.div`
   width: 100%;
   max-width: 430px;
   height: calc(var(--vh, 1vh) * 100);
-  /* padding: 20px; */
   margin: auto;
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
   background-color: #ffffff;
 `;
 

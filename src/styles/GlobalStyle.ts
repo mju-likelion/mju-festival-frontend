@@ -9,27 +9,19 @@ const GlobalStyle = createGlobalStyle`
     font-family: sans-serif;
   }
 
-  html {
+  html, body {
     width: 100%;
-    min-height: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
   }
-
+  
   body {
-    width: 100%;
-    min-height: 100%;
-    margin: 0;
-    padding: 0;
     background-color: #e0e0e0;
     font-family: sans-serif;
     overflow-x: hidden;
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
   }
-
+  
   button {
     margin: 0;
     padding: 0;
