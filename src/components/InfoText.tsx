@@ -13,7 +13,7 @@ const InfoText = ({ children }: InfoTextProps) => {
 
 const Wrapper = styled.div`
   width: 100%;
-  padding: 43px 95px 23px 95px;
+  padding: 43px 95px 28px 95px;
   display: flex;
   justify-content: center;
 

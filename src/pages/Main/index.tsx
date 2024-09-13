@@ -140,7 +140,6 @@ const LinkLayout = styled.div`
   display: flex;
   gap: 12px;
   padding: 0 9px;
-  margin-top: 11px;
 `;
 
 const TicketFriendsContainer = styled.div`
