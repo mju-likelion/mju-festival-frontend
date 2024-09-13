@@ -122,7 +122,6 @@ const Header = styled.div`
   padding: 20px;
 
   p {
-    margin-left: 124px;
     margin-top: 3px;
   }
 `;
