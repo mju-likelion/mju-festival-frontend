@@ -113,6 +113,7 @@ const Main = () => {
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 `;
 
 const Header = styled.div`
