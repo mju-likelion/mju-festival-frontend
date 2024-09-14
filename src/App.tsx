@@ -55,14 +55,14 @@ function App() {
 
 const MobileWrapper = styled.div`
   // 확정 전 임의로 px 설정
-  min-width: 360px;
+  /* min-width: 360px; */
   max-width: 430px;
   height: calc(var(--vh, 1vh) * 100);
   padding: 20px;
   margin: auto;
   position: relative;
-  overflow: hidden;
-  background-color: gray;
+  overflow-y: auto;
+  background-color: #ffffff;
 `;
 
 export default App;

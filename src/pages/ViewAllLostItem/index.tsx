@@ -1,11 +1,12 @@
-import styled from 'styled-components';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from './Header';
+import styled from 'styled-components';
 import { getLostItems, getSearchLostItems } from '../../api/lostItem';
-import LostItemCard from './LostItemCard';
-import { SimpleLostItem, SortOptions, SortKey } from '../../types/lostItem';
+import FloatingButton from '../../components/FloatingButton';
 import { useAuthStore } from '../../store';
+import { SimpleLostItem, SortKey, SortOptions } from '../../types/lostItem';
+import Header from './Header';
+import LostItemCard from './LostItemCard';
 
 const LostItem = () => {
   const [lostItems, setLostItems] = useState<SimpleLostItem[]>([]);
@@ -121,6 +122,7 @@ const LostItem = () => {
           분실물 등록하기
         </button>
       )}
+      <FloatingButton />
     </Wrapper>
   );
 };
