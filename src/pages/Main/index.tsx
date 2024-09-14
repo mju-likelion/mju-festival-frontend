@@ -33,9 +33,9 @@ const Main = () => {
       </Header>
       <InfoText>링크 바로가기</InfoText>
       <LinkLayout>
-        <TicketFriendsContainer>
+        <TicketFriendsContainer onClick={() => downloadAppByDevice()}>
           <TicketIcon />
-          <TicketFriendsBtn type="button" onClick={() => downloadAppByDevice()}>
+          <TicketFriendsBtn type="button">
             <p>티켓프렌즈</p>
           </TicketFriendsBtn>
         </TicketFriendsContainer>
@@ -144,66 +144,59 @@ const LinkLayout = styled.div`
 const TicketFriendsContainer = styled.div`
   display: flex;
   width: 100%;
+  justify-content: space-between;
+  background-color: ${({ theme }) => theme.colors.blue200};
+  border-radius: 12px;
+  padding: 14px;
 `;
 
 const TicketFriendsBtn = styled.button`
-  background-color: ${({ theme }) => theme.colors.blue200};
   width: 100%;
-  height: 52px;
-  border-radius: 12px;
-  position: relative;
-  z-index: 10;
 
   p {
-    width: 121px;
-    margin: 16px 17px 16px 42px;
     font-size: 17px;
     color: ${({ theme }) => theme.colors.white100};
     font-weight: 600;
+    white-space: nowrap;
   }
 `;
 
 const TicketIcon = styled(TicketIconImg)`
-  position: absolute;
   width: 24px;
   height: 24px;
   flex-shrink: 0;
-  z-index: 20;
-  margin: 14px 4px 14px 14px;
 `;
 
 const InstagramContainer = styled.div`
+  display: flex;
   width: 100%;
+  justify-content: space-between;
+  background-color: ${({ theme }) => theme.colors.blue200};
+  border-radius: 12px;
+  padding: 14px;
 `;
 
 const InstagramBtn = styled.a`
-  background-color: ${({ theme }) => theme.colors.blue200};
   width: 100%;
-  height: 52px;
-  border-radius: 12px;
   display: flex;
+  justify-content: center;
   align-items: center;
   text-decoration: none;
-  position: relative;
-  z-index: 10;
 
   p {
-    width: 121px;
-    margin: 16px 17px 16px 42px;
     font-size: 17px;
     color: ${({ theme }) => theme.colors.white100};
     font-weight: 600;
     text-align: center;
+    white-space: nowrap;
   }
 `;
 
 const InstagramIcon = styled(InstagramIconImg)`
-  position: absolute;
   width: 24px;
   height: 24px;
   flex-shrink: 0;
   z-index: 20;
-  margin: 14px 4px 14px 14px;
 `;
 
 // 축제 정보
