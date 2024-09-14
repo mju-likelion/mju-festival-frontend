@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import menuCameraImg from '../../assets/imgs/menu_camera_img.svg';
+import { ReactComponent as MenuCameraIcon } from '../../assets/imgs/menu_camera_img.svg';
 import menuDefaultImg from '../../assets/imgs/menu_default_img.svg';
-import menuStampImg from '../../assets/imgs/menu_stamp_img.svg';
+import { ReactComponent as MenuStampIcon } from '../../assets/imgs/menu_stamp_img.svg';
 
 const FloatingButton = () => {
   const [isButtonOpen, setIsButtonOpen] = useState(false);
@@ -15,8 +15,8 @@ const FloatingButton = () => {
     <Wrapper>
       {isButtonOpen && (
         <>
-          <MenuAnimatedButton src={menuStampImg} />
-          <MenuAnimatedButton src={menuCameraImg} />
+          <MenuAnimatedButton as={MenuStampIcon} />
+          <MenuAnimatedButton as={MenuCameraIcon} />
         </>
       )}
       <MenuButton src={menuDefaultImg} onClick={handleButton} />
@@ -25,6 +25,7 @@ const FloatingButton = () => {
 };
 
 const Wrapper = styled.div`
+  width: 66px;
   position: absolute;
   bottom: 49px;
   right: 24px;

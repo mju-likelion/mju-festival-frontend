@@ -84,46 +84,48 @@ const LostItem = () => {
   }, [sorted, page]);
 
   return (
-    <Wrapper>
-      <Header />
-      <form onSubmit={onSubmit}>
-        <SearchInput onChange={handleKeyword} />
-        <button type="submit">검색하기</button>
-      </form>
-      <ListLayout>
-        <ListTItleContainer>
-          <ListTitle />
-          <SortedSelect onChange={handleSort}>
-            {Object.entries(sortOptions).map(([key, value]) => (
-              <option value={key} key={key}>
-                {value}
-              </option>
+    <>
+      <Wrapper>
+        <Header />
+        <form onSubmit={onSubmit}>
+          <SearchInput onChange={handleKeyword} />
+          <button type="submit">검색하기</button>
+        </form>
+        <ListLayout>
+          <ListTItleContainer>
+            <ListTitle />
+            <SortedSelect onChange={handleSort}>
+              {Object.entries(sortOptions).map(([key, value]) => (
+                <option value={key} key={key}>
+                  {value}
+                </option>
+              ))}
+            </SortedSelect>
+          </ListTItleContainer>
+          <CardContainer>
+            {lostItems.map((lostItem) => (
+              <LostItemCard key={lostItem.id} lostItem={lostItem} />
             ))}
-          </SortedSelect>
-        </ListTItleContainer>
-        <CardContainer>
-          {lostItems.map((lostItem) => (
-            <LostItemCard key={lostItem.id} lostItem={lostItem} />
-          ))}
-          <PageBtnContainer>
-            <PageButton onClick={() => handlePageNum(-1)}>{'<'}</PageButton>
-            <PageP>{`${page + 1}/${totalPage}`}</PageP>
-            <PageButton onClick={() => handlePageNum(1)}>{'>'}</PageButton>
-          </PageBtnContainer>
-        </CardContainer>
-      </ListLayout>
-      {role === 'STUDENT_COUNCIL' && (
-        <button
-          type="button"
-          onClick={() => {
-            navigate('/lost-items/register');
-          }}
-        >
-          분실물 등록하기
-        </button>
-      )}
+            <PageBtnContainer>
+              <PageButton onClick={() => handlePageNum(-1)}>{'<'}</PageButton>
+              <PageP>{`${page + 1}/${totalPage}`}</PageP>
+              <PageButton onClick={() => handlePageNum(1)}>{'>'}</PageButton>
+            </PageBtnContainer>
+          </CardContainer>
+        </ListLayout>
+        {role === 'STUDENT_COUNCIL' && (
+          <button
+            type="button"
+            onClick={() => {
+              navigate('/lost-items/register');
+            }}
+          >
+            분실물 등록하기
+          </button>
+        )}
+      </Wrapper>
       <FloatingButton />
-    </Wrapper>
+    </>
   );
 };
 
