@@ -22,6 +22,11 @@ const Main = () => {
   const day = String(today.getDate()).padStart(2, '0');
   const TODAY = `${year} / ${month} / ${day}`;
 
+  const openInstagram = () => {
+    const instagramURL = import.meta.env.VITE_INSTAGRAM_URL;
+    window.open(instagramURL, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <Wrapper>
       <Header>
@@ -39,13 +44,9 @@ const Main = () => {
             <p>티켓프렌즈</p>
           </TicketFriendsBtn>
         </TicketFriendsContainer>
-        <InstagramContainer>
+        <InstagramContainer onClick={openInstagram}>
           <InstagramIcon />
-          <InstagramBtn
-            href={import.meta.env.VITE_INSTAGRAM_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <InstagramBtn>
             <p>학생회 인스타</p>
           </InstagramBtn>
         </InstagramContainer>
@@ -176,7 +177,7 @@ const InstagramContainer = styled.div`
   padding: 14px;
 `;
 
-const InstagramBtn = styled.a`
+const InstagramBtn = styled.button`
   width: 100%;
   display: flex;
   justify-content: center;
