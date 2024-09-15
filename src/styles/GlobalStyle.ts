@@ -6,7 +6,7 @@ const GlobalStyle = createGlobalStyle`
   ${reset}
   * {
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: "Pretendard Variable", Pretendard, sans-serif;
   }
 
   html {
@@ -21,7 +21,6 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
     overflow-x: hidden;
   }
 
