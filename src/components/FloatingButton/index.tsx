@@ -29,6 +29,7 @@ const Wrapper = styled.div`
   position: absolute;
   bottom: 49px;
   right: 24px;
+
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -43,14 +44,14 @@ const fadeIn = keyframes`
   }
 `;
 
-const MenuAnimatedButton = styled.img`
-  cursor: pointer;
-  animation: ${fadeIn} 0.3s ease forwards;
-  opacity: 0;
-`;
-
 const MenuButton = styled.img`
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+`;
+
+const MenuAnimatedButton = styled(MenuButton)`
+  animation: ${fadeIn} 0.5s ease forwards;
+  opacity: 0;
 `;
 
 export default FloatingButton;
