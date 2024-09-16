@@ -6,22 +6,21 @@ const GlobalStyle = createGlobalStyle`
   ${reset}
   * {
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: "Pretendard Variable", Pretendard, sans-serif;
   }
 
-  html, body {
+  html {
     width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
   }
-  
+
   body {
     background-color: #e0e0e0;
-    font-family: sans-serif;
     overflow-x: hidden;
   }
-  
+
   button {
     margin: 0;
     padding: 0;
