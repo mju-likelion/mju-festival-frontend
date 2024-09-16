@@ -35,5 +35,6 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'consistent-return': 'off',
     'react-hooks/exhaustive-deps': 'warn',
+    'react/require-default-props': 'warn',
   },
 };
