@@ -141,8 +141,8 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
       {auth === 'USER' &&
         termsList.map((t) => (
           <TermBox key={t.id}>
-            <Title>{t.title}</Title>
-            <Content>{t.content}</Content>
+            <TermTitle>{t.title}</TermTitle>
+            <TermContent>{t.content}</TermContent>
             <CheckWrapper>
               <P $isChecked={isChecked}>개인정보 수집동의</P>
               <CheckBox
@@ -183,12 +183,12 @@ const AdminLogin = styled.div`
   color: ${({ theme }) => theme.colors.text500};
   ${({ theme }) => theme.typographies.footnote};
 `;
-const Title = styled.p`
+const TermTitle = styled.p`
   margin-bottom: 6px;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.footnote};
 `;
-const Content = styled.div`
+const TermContent = styled.div`
   height: 128px;
   padding: 8px 20px;
   overflow-y: scroll;
