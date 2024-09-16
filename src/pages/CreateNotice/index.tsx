@@ -72,15 +72,20 @@ const CreateNotice = () => {
     <Wrapper>
       <Header>공지사항</Header>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
-        <UploadImageLayout $imageUrl={imageUrl} onClick={handleClick}>
-          {!imageUrl && (
-            <UploadGuideContainer>
-              <UploadImageIcon />
-              <p>이미지 업로드</p>
-              <p>(이미지는 한 장만 업로드 가능 합니다.)</p>
-              <p>(JPG,GIF,PNG,PDF)</p>
-            </UploadGuideContainer>
-          )}
+        <UploadImageLayout>
+          <UploadImageContainer $imageUrl={imageUrl} onClick={handleClick}>
+            {!imageUrl && (
+              <UploadGuideBox>
+                <UploadImageIcon />
+                <p>이미지 업로드</p>
+                <p>
+                  (이미지는 한 장만 업로드 가능 합니다.)
+                  <br />
+                  (JPG,GIF,PNG,PDF)
+                </p>
+              </UploadGuideBox>
+            )}
+          </UploadImageContainer>
           <ImageInput
             type="file"
             name="image"
@@ -110,37 +115,42 @@ const CreateNotice = () => {
 
 const Wrapper = styled.div``;
 
-const UploadImageLayout = styled.div<{ $imageUrl: string | null }>`
-  position: relative;
+const UploadImageLayout = styled.div`
   display: flex;
-  justify-content: center;
-  width: 330px;
-  height: 268px;
-  border-radius: 14px;
+  width: 100%;
+  height: 248px;
+  padding: 0 20px;
+`;
+
+const UploadImageContainer = styled.div<{ $imageUrl: string | null }>`
+  width: 100%;
+  height: 248px;
+  padding: 76px 58px;
+  border-radius: 12px;
   background-image: ${(props) =>
     props.$imageUrl ? `url(${props.$imageUrl})` : 'none'};
   background-size: cover;
-  background-color: #cccfde;
-  border: dotted 1px #9197b5;
-  padding: 76px 58px;
+  background-color: rgba(0, 0, 0, 0.3);
 `;
 
-const UploadContentLayout = styled.div`
-  border: 1px solid red;
-`;
-
-const UploadGuideContainer = styled.div`
-  position: absolute;
+const UploadGuideBox = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
 
   p:nth-of-type(1) {
-    margin-top: 14px;
-    margin-bottom: 2px;
+    margin-top: 4px;
+    margin-bottom: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    color: ${({ theme }) => theme.colors.text600};
   }
   p:nth-of-type(2) {
     margin-bottom: 8px;
+    font-size: 14px;
+    color: ${({ theme }) => theme.colors.text500};
+    text-align: center;
+    white-space: nowrap;
   }
 `;
 
@@ -155,6 +165,10 @@ const ImageInput = styled.input`
 
 const TitleInput = styled.input`
   border: none;
+`;
+
+const UploadContentLayout = styled.div`
+  border: 2px solid red;
 `;
 
 const ContentInput = styled.textarea`
