@@ -139,20 +139,20 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
         </AdminLogin>
       )}
       {auth === 'USER' &&
-        termsList.map((t) => (
-          <TermBox key={t.id}>
-            <TermTitle>{t.title}</TermTitle>
-            <TermContent>{t.content}</TermContent>
+        termsList.map(({ id, title, content }) => (
+          <TermBox key={id}>
+            <TermTitle>{title}</TermTitle>
+            <TermContent>{content}</TermContent>
             <CheckWrapper>
               <P $isChecked={isChecked}>개인정보 수집동의</P>
               <CheckBox
-                name={`terms.${t.id}`}
+                name={`terms.${id}`}
                 register={register}
                 isChecked={isChecked}
                 setIsChecked={setIsChecked}
               />
             </CheckWrapper>
-            <p>{errors.terms?.[t.id]?.message}</p>
+            <p>{errors.terms?.[id]?.message}</p>
           </TermBox>
         ))}
     </Form>
