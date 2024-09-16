@@ -2,8 +2,12 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuthStore } from '../../store';
 import { ReactComponent as backIconImg } from '../../assets/icons/backIcon.svg';
+import { ReactComponent as hamburgerMenuImg } from '../../assets/icons/hamburgerMenu.svg';
 
-const Header = () => {
+interface HeaderProps {
+  children: React.ReactNode;
+}
+const Header = ({ children }: HeaderProps) => {
   const navigate = useNavigate();
   const { role } = useAuthStore();
 
@@ -15,8 +19,9 @@ const Header = () => {
           <p>뒤로가기</p>
         </BackBtnContainer>
         {role === 'STUDENT_COUNCIL' && <p>관리자용</p>}
+        <HamburgerMenu />
       </Layout>
-      <Title>공지사항</Title>
+      <Title>{children}</Title>
     </Wrapper>
   );
 };
@@ -34,15 +39,26 @@ const Layout = styled.div`
 `;
 
 const BackBtnContainer = styled.div`
-  border: 1px solid skyblue;
   display: flex;
   align-items: center;
+  margin-left: 11px;
+  margin-top: 4px;
+
+  p {
+    font-size: 13px;
+    color: ${({ theme }) => theme.colors.text500};
+  }
 `;
 
 const Title = styled.h2`
-  font-size: 24px;
+  font-size: 20px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.text900};
+  padding: 16px 300px 9px 20px;
+  white-space: nowrap;
 `;
 
 const BackIcon = styled(backIconImg)``;
+const HamburgerMenu = styled(hamburgerMenuImg)``;
 
 export default Header;

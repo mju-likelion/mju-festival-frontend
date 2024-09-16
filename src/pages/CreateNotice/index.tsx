@@ -70,7 +70,7 @@ const CreateNotice = () => {
 
   return (
     <Wrapper>
-      <Header />
+      <Header>공지사항</Header>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <UploadImageLayout $imageUrl={imageUrl} onClick={handleClick}>
           {!imageUrl && (
