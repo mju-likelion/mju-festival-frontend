@@ -17,6 +17,12 @@ const CreateNotice = () => {
   const formData = new FormData();
   const imageData = new FormData();
 
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  const TODAY = `${year} / ${month} / ${day}`;
+
   const { register, handleSubmit, watch } = useForm<ImageNoticeType>();
   const contentCount = watch('content', '');
 
@@ -70,7 +76,10 @@ const CreateNotice = () => {
 
   return (
     <Wrapper>
-      <Header>공지사항</Header>
+      <Header subTitle="공지사항 내용">공지사항</Header>
+      <DateLayout>
+        <p>{`등록일 : ${TODAY}`}</p>
+      </DateLayout>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <UploadImageLayout>
           <UploadImageContainer $imageUrl={imageUrl} onClick={handleClick}>
@@ -114,6 +123,18 @@ const CreateNotice = () => {
 };
 
 const Wrapper = styled.div``;
+
+const DateLayout = styled.div`
+  display: flex;
+  justify-content: end;
+  padding: 6px 20px 6px 0;
+
+  p {
+    font-size: 11px;
+    font-weight: 600;
+    color: #939da6;
+  }
+`;
 
 const UploadImageLayout = styled.div`
   display: flex;

@@ -6,8 +6,9 @@ import { ReactComponent as hamburgerMenuImg } from '../../assets/icons/hamburger
 
 interface HeaderProps {
   children: React.ReactNode;
+  subTitle: string;
 }
-const Header = ({ children }: HeaderProps) => {
+const Header = ({ children, subTitle }: HeaderProps) => {
   const navigate = useNavigate();
   const { role } = useAuthStore();
 
@@ -22,6 +23,7 @@ const Header = ({ children }: HeaderProps) => {
         <HamburgerMenu />
       </Layout>
       <Title>{children}</Title>
+      <SubTitle>{subTitle}</SubTitle>
     </Wrapper>
   );
 };
@@ -31,6 +33,7 @@ const Wrapper = styled.div`
   position: sticky;
   top: 0;
   z-index: 999;
+  border: 1px solid red;
 `;
 
 const Layout = styled.div`
@@ -55,6 +58,12 @@ const Title = styled.h2`
   color: ${({ theme }) => theme.colors.text900};
   padding: 16px 300px 9px 20px;
   white-space: nowrap;
+`;
+
+const SubTitle = styled.p`
+  font-size: 16px;
+  font-weight: 400;
+  margin-left: 20px;
 `;
 
 const BackIcon = styled(backIconImg)``;
