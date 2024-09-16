@@ -5,12 +5,10 @@ import { ReactComponent as EyeOpen } from '../../assets/icons/pwd_open.svg';
 
 interface InputPropTypes<T extends FieldValues> {
   type: 'text' | 'password';
-  name: keyof T;
+  name: FieldPath<T>;
   placeholder: string;
   register: UseFormRegister<T>;
-  // eslint-disable-next-line react/require-default-props
   toggleEye?: () => void;
-  // eslint-disable-next-line react/require-default-props
   isOpen?: boolean;
 }
 
@@ -24,11 +22,7 @@ const LogInInput = <T extends FieldValues>({
 }: InputPropTypes<T>) => {
   return (
     <Box>
-      <Input
-        type={type}
-        placeholder={placeholder}
-        {...register(name as FieldPath<T>)}
-      />
+      <Input type={type} placeholder={placeholder} {...register(name)} />
       {name === 'password' && (
         <Button
           type="button"
@@ -48,6 +42,7 @@ const Box = styled.div`
   display: flex;
   background-color: ${({ theme }) => theme.colors.black10};
   border-radius: 12px;
+
   input {
     ${({ theme }) => theme.typographies.body2};
   }
