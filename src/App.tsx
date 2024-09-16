@@ -51,12 +51,14 @@ function App() {
 const MobileWrapper = styled.div`
   font-family: 'Pretendard Variable', Pretendard, sans-serif;
   // 확정 전 임의로 px 설정
+  /* min-width: 360px; */
+  width: 100%;
   max-width: 430px;
   height: calc(var(--vh, 1vh) * 100);
   margin: auto;
   position: relative;
-  overflow: hidden;
-  background-color: white;
+  overflow-y: auto;
+  background-color: #ffffff;
 `;
 
 export default App;
