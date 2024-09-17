@@ -7,6 +7,7 @@ import { useAuthStore } from '../../store';
 import { SimpleLostItem, SortKey, SortOptions } from '../../types/lostItem';
 import Header from './Header';
 import LostItemCard from './LostItemCard';
+import SearchInput from './SearchInput';
 
 const LostItem = () => {
   const [lostItems, setLostItems] = useState<SimpleLostItem[]>([]);
@@ -35,10 +36,6 @@ const LostItem = () => {
 
       return nextPage;
     });
-  };
-
-  const handleKeyword = (e: ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
   };
 
   const fetchLostItems = async () => {
@@ -88,8 +85,7 @@ const LostItem = () => {
       <Header />
       <Wrapper>
         <form onSubmit={onSubmit}>
-          <SearchInput onChange={handleKeyword} />
-          <button type="submit">검색하기</button>
+          <SearchInput setKeyword={setKeyword} />
         </form>
         <ListLayout>
           <ListTItleContainer>
@@ -133,7 +129,6 @@ const Wrapper = styled.div`
   padding: 0 20px;
 `;
 
-const SearchInput = styled.input``;
 const ListLayout = styled.div``;
 const ListTItleContainer = styled.div``;
 const ListTitle = styled.p``;
