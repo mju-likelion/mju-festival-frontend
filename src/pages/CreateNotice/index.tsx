@@ -130,7 +130,7 @@ const CreateNotice = () => {
         </UploadContentLayout>
         <ButtonLayout>
           <CreateButton type="submit">완료하기</CreateButton>
-          <CancelButton>취소하기</CancelButton>
+          <CancelButton onClick={() => navigate(-1)}>취소하기</CancelButton>
         </ButtonLayout>
       </form>
     </Wrapper>
