@@ -24,6 +24,7 @@ const CreateNotice = () => {
   const TODAY = `${year} / ${month} / ${day}`;
 
   const { register, handleSubmit, watch } = useForm<ImageNoticeType>();
+  const titleCount = watch('title', '');
   const contentCount = watch('content', '');
 
   const handleClick = () => {
@@ -104,17 +105,25 @@ const CreateNotice = () => {
           />
         </UploadImageLayout>
         <UploadContentLayout>
-          <p>제목</p>
-          <TitleInput
-            {...register('title', { required: true })}
-            placeholder="입력해주세요"
-          />
+          <TitleContainer>
+            <TitleInputBox>
+              <p>제목 :</p>
+              <TitleInput
+                {...register('title', { required: true, maxLength: 30 })}
+                maxLength={30}
+                placeholder="제목을 입력해주세요"
+              />
+            </TitleInputBox>
+            <TitleLength>
+              <p>({titleCount?.length}/30)</p>
+            </TitleLength>
+          </TitleContainer>
           <ContentInput
-            {...register('content', { required: true, maxLength: 100 })}
-            maxLength={100}
+            {...register('content', { required: true, maxLength: 1000 })}
+            maxLength={1000}
             placeholder="내용을 입력해주세요"
           />
-          <p>{contentCount?.length}/100</p>
+          <p>({contentCount?.length}/1000)</p>
         </UploadContentLayout>
         <CreateButton type="submit">공지사항 올리기</CreateButton>
       </form>
@@ -184,12 +193,40 @@ const ImageInput = styled.input`
   display: none;
 `;
 
-const TitleInput = styled.input`
-  border: none;
-`;
-
 const UploadContentLayout = styled.div`
   border: 2px solid red;
+`;
+
+const TitleContainer = styled.div`
+  padding: 17px 20px 12px 20px;
+  font-size: 20px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.text900};
+  border: 1px solid pink;
+`;
+
+const TitleInputBox = styled.div`
+  height: 39px;
+  display: flex;
+  /* align-items: center; */
+`;
+
+const TitleInput = styled.textarea`
+  display: block;
+  font-size: 20px;
+  font-weight: 600;
+  /* border: none; */
+`;
+
+const TitleLength = styled.div`
+  display: flex;
+  justify-content: end;
+
+  p {
+    font-size: 11px;
+    font-weight: 400;
+    color: ${({ theme }) => theme.colors.text500};
+  }
 `;
 
 const ContentInput = styled.textarea`
