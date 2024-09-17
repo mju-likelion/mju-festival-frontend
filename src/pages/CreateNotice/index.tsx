@@ -106,26 +106,27 @@ const CreateNotice = () => {
         </UploadImageLayout>
         <UploadContentLayout>
           <TitleContainer>
-            <TitleInputBox>
-              <p>제목 :</p>
-              <TitleInput
-                {...register('title', { required: true })}
-                maxLength={30}
-                placeholder="제목을 입력해주세요"
-              />
-            </TitleInputBox>
+            <p>제목 :</p>
+            <TitleInput
+              {...register('title', { required: true })}
+              maxLength={30}
+              placeholder="제목을 입력해주세요"
+            />
             <TitleLength>
               <p>({titleCount?.length}/30)</p>
             </TitleLength>
           </TitleContainer>
-          <ContentInput
-            {...register('content', { required: true })}
-            maxLength={1000}
-            placeholder="내용을 입력해주세요"
-          />
-          <ContentLength>
-            <p>({contentCount?.length}/1000)</p>
-          </ContentLength>
+          <ContentContainer>
+            <p>내용 :</p>
+            <ContentInput
+              {...register('content', { required: true })}
+              maxLength={1000}
+              placeholder="내용을 입력해주세요"
+            />
+            <ContentLength>
+              <p>({contentCount?.length}/1000)</p>
+            </ContentLength>
+          </ContentContainer>
         </UploadContentLayout>
         <CreateButton type="submit">공지사항 올리기</CreateButton>
       </form>
@@ -196,28 +197,22 @@ const ImageInput = styled.input`
 `;
 
 const UploadContentLayout = styled.div`
-  border: 2px solid red;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 17px 20px 99px 20px;
 `;
 
 const TitleContainer = styled.div`
-  padding: 17px 20px 12px 20px;
   font-size: 20px;
   font-weight: 600;
   color: ${({ theme }) => theme.colors.text900};
-  border: 1px solid pink;
-`;
-
-const TitleInputBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  border: 1px solid green;
 `;
 
 const TitleInput = styled.textarea`
-  display: flex;
+  width: 100%;
   font-size: 20px;
   font-weight: 600;
-  /* border: none; */
 `;
 
 const TitleLength = styled.div`
@@ -231,10 +226,17 @@ const TitleLength = styled.div`
   }
 `;
 
+const ContentContainer = styled.div`
+  font-size: 17px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.text900};
+`;
+
 const ContentInput = styled.textarea`
-  width: 331px;
-  height: 220px;
-  background-color: #eff0f6;
+  width: 100%;
+  height: 145px;
+  font-size: 17px;
+  font-weight: 400;
 `;
 
 const ContentLength = styled.div`
