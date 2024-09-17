@@ -109,7 +109,7 @@ const CreateNotice = () => {
             <TitleInputBox>
               <p>제목 :</p>
               <TitleInput
-                {...register('title', { required: true, maxLength: 30 })}
+                {...register('title', { required: true })}
                 maxLength={30}
                 placeholder="제목을 입력해주세요"
               />
@@ -119,7 +119,7 @@ const CreateNotice = () => {
             </TitleLength>
           </TitleContainer>
           <ContentInput
-            {...register('content', { required: true, maxLength: 1000 })}
+            {...register('content', { required: true })}
             maxLength={1000}
             placeholder="내용을 입력해주세요"
           />
