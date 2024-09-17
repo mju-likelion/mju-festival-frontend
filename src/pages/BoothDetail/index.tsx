@@ -1,6 +1,6 @@
-import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
 import { getBoothDetail, getOwnership, getQrData } from '../../api/booth.ts';
 
 import BottomSheet from '../../components/QrBottomSheet/index.tsx';
@@ -32,16 +32,20 @@ const BoothDetail = () => {
     if (!params.boothId) {
       return false;
     }
-    return await getOwnership(token, params.boothId);
+    return getOwnership(token, params.boothId);
   };
 
   const fetchQr = async () => {
-    if (!params.boothId) {
-      return;
-    }
-    const data = await getQrData(token, params.boothId);
-    if (data) {
-      setQrCode(data);
+    try {
+      if (!params.boothId) {
+        return;
+      }
+      const data = await getQrData(token, params.boothId);
+      if (data) {
+        setQrCode(data);
+      }
+    } catch (error) {
+      handleError(error as Error);
     }
   };
 

@@ -1,5 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
-import { Axios } from './Axios.ts';
+import { AxiosResponse } from 'axios';
 import {
   BoothDetailInfo,
   BoothEditFields,
@@ -7,6 +6,7 @@ import {
   BoothQrData,
   Ownership,
 } from '../types';
+import { Axios } from './Axios.ts';
 
 export const getBoothList = async () => {
   const { data } = await Axios.get<BoothList>(`/booths?page=${0}&size=${30}`);
@@ -41,20 +41,13 @@ export const patchBoothDetail = async (
 };
 
 export const getQrData = async (token: string, id: string) => {
-  try {
-    const { data }: AxiosResponse<BoothQrData> = await Axios.get(
-      `/booths/${id}/qr`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return data.qrCode;
-  } catch (error) {
-    if (axios.isAxiosError(error) && error.response) {
-      const { message } = error.response.data;
-      console.log(message);
+  const { data }: AxiosResponse<BoothQrData> = await Axios.get(
+    `/booths/${id}/qr`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     }
-  }
+  );
+  return data.qrCode;
 };
