@@ -12,31 +12,60 @@ const LostItemCard = ({ lostItem }: { lostItem: SimpleLostItem }) => {
 
   return (
     <Wrapper onClick={moveDetailPage}>
-      <LeftLayout>
+      <TextLayout>
         <Title>{title}</Title>
         <Content>{content}</Content>
-      </LeftLayout>
+      </TextLayout>
       <ItemImg src={imageUrl} />
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  display: flex;
   width: 100%;
-  height: 50px;
-  border: 1px solid blue;
+  display: flex;
+  padding: 12px 11px;
+  justify-content: space-between;
+  border-radius: 12px;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
   cursor: pointer;
 `;
 
-const LeftLayout = styled.div`
-  width: 80%;
+const TextLayout = styled.div`
+  // 이미지 크기 고정 100px + gap 10px
+  width: calc(100% - 110px);
+  padding: 2px 0;
   display: flex;
   flex-direction: column;
+  gap: 8px;
 `;
-const Title = styled.p``;
-const Content = styled.p``;
+
+const Title = styled.p`
+  padding-bottom: 10px;
+  border-bottom: 1px solid #e1ebf0;
+  ${({ theme }) => theme.typographies.title1}
+  color: ${({ theme }) => theme.colors.blue100};
+
+  // 텍스트 길어지면 .처리
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const Content = styled.p`
+  height: 54px;
+  ${({ theme }) => theme.typographies.body2}
+  color: ${({ theme }) => theme.colors.text900};
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
 const ItemImg = styled.img`
-  height: 100%;
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  object-fit: cover;
 `;
 export default LostItemCard;

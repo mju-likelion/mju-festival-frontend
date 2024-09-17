@@ -106,11 +106,6 @@ const LostItem = () => {
             {lostItems.map((lostItem) => (
               <LostItemCard key={lostItem.id} lostItem={lostItem} />
             ))}
-            <PageBtnContainer>
-              <PageButton onClick={() => handlePageNum(-1)}>{'<'}</PageButton>
-              <PageP>{`${page + 1}/${totalPage}`}</PageP>
-              <PageButton onClick={() => handlePageNum(1)}>{'>'}</PageButton>
-            </PageBtnContainer>
           </CardContainer>
         </ListLayout>
         {role === 'STUDENT_COUNCIL' && (
@@ -124,14 +119,18 @@ const LostItem = () => {
           </button>
         )}
       </Wrapper>
+      <PageBtnContainer>
+        <PageButton onClick={() => handlePageNum(-1)}>{'<'}</PageButton>
+        <PageP>{`${page + 1}/${totalPage}`}</PageP>
+        <PageButton onClick={() => handlePageNum(1)}>{'>'}</PageButton>
+      </PageBtnContainer>
       <FloatingButton />
     </>
   );
 };
 
 const Wrapper = styled.div`
-  width: 100%;
-  border: 4px solid red;
+  padding: 0 20px;
 `;
 
 const SearchInput = styled.input``;
@@ -142,12 +141,9 @@ const SortedSelect = styled.select``;
 const CardContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 15px;
 `;
-const PageBtnContainer = styled.div`
-  position: fixed;
-  bottom: 30rem;
-`;
+const PageBtnContainer = styled.div``;
 const PageButton = styled.button``;
 const PageP = styled.p`
   display: inline-block;
