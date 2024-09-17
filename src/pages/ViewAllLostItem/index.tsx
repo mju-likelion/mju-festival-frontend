@@ -85,8 +85,8 @@ const LostItem = () => {
 
   return (
     <>
+      <Header />
       <Wrapper>
-        <Header />
         <form onSubmit={onSubmit}>
           <SearchInput onChange={handleKeyword} />
           <button type="submit">검색하기</button>

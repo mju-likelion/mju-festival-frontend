@@ -1,38 +1,49 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { ReactComponent as MenuIcon } from '../../assets/icons/hamburger.svg';
+import { ReactComponent as BackIcon } from '../../assets/icons/left_arrow.svg';
 
 const Header = () => {
   const navigate = useNavigate();
 
-  const moveBackPage = () => {
-    navigate(-1);
-  };
   return (
     <Wrapper>
-      <Layout>
-        <BackButton onClick={moveBackPage}>뒤로 가기</BackButton>
-      </Layout>
-      <Title>분실물 찾기</Title>
-      <SubTitle>
-        잃어버린 물건이 있으신가요? 다른 사람이 찾았을 수도 있어요! 여기서
-        확인해보세요!
-      </SubTitle>
+      <BackButton onClick={() => navigate('/')}>
+        <BackIcon />
+        뒤로가기
+      </BackButton>
+      <AdminMenuLayout>
+        <Role>관리자용</Role>
+        <MenuIcon />
+      </AdminMenuLayout>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid blue;
-`;
-const Layout = styled.div`
   display: flex;
   justify-content: space-between;
+  padding: 4px 20px 23px 11px;
+  border: 1px solid blue;
 `;
-const BackButton = styled.button``;
-const Title = styled.p``;
-const SubTitle = styled.p``;
+
+const BackButton = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  color: ${({ theme }) => theme.colors.text500};
+  ${({ theme }) => theme.typographies.footnote};
+`;
+
+const AdminMenuLayout = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  gap: 7px;
+`;
+const Role = styled.p`
+  color: ${({ theme }) => theme.colors.text500};
+  ${({ theme }) => theme.typographies.subhead2};
+`;
 
 export default Header;
