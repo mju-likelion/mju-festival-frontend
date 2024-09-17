@@ -123,7 +123,9 @@ const CreateNotice = () => {
             maxLength={1000}
             placeholder="내용을 입력해주세요"
           />
-          <p>({contentCount?.length}/1000)</p>
+          <ContentLength>
+            <p>({contentCount?.length}/1000)</p>
+          </ContentLength>
         </UploadContentLayout>
         <CreateButton type="submit">공지사항 올리기</CreateButton>
       </form>
@@ -206,13 +208,13 @@ const TitleContainer = styled.div`
 `;
 
 const TitleInputBox = styled.div`
-  height: 39px;
   display: flex;
-  /* align-items: center; */
+  flex-direction: column;
+  border: 1px solid green;
 `;
 
 const TitleInput = styled.textarea`
-  display: block;
+  display: flex;
   font-size: 20px;
   font-weight: 600;
   /* border: none; */
@@ -233,6 +235,17 @@ const ContentInput = styled.textarea`
   width: 331px;
   height: 220px;
   background-color: #eff0f6;
+`;
+
+const ContentLength = styled.div`
+  display: flex;
+  justify-content: end;
+
+  p {
+    font-size: 11px;
+    font-weight: 400;
+    color: ${({ theme }) => theme.colors.text500};
+  }
 `;
 
 const CreateButton = styled.button`
