@@ -128,7 +128,10 @@ const CreateNotice = () => {
             </ContentLength>
           </ContentContainer>
         </UploadContentLayout>
-        <CreateButton type="submit">공지사항 올리기</CreateButton>
+        <ButtonLayout>
+          <CreateButton type="submit">완료하기</CreateButton>
+          <CancelButton>취소하기</CancelButton>
+        </ButtonLayout>
       </form>
     </Wrapper>
   );
@@ -250,12 +253,31 @@ const ContentLength = styled.div`
   }
 `;
 
+const ButtonLayout = styled.div`
+  display: flex;
+  padding: 0 20px 88px 20px;
+  gap: 6px;
+`;
+
 const CreateButton = styled.button`
   background-color: ${({ theme }) => theme.colors.blue100};
-  width: 210px;
-  height: 48px;
-  border-radius: 28px;
-  color: white;
+  width: 100%;
+  height: 52px;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.white100};
+  padding: 16px 0;
+`;
+
+const CancelButton = styled.button`
+  border: 1px solid ${({ theme }) => theme.colors.blue100};
+  width: 100%;
+  height: 52px;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.blue100};
 `;
 
 export default CreateNotice;
