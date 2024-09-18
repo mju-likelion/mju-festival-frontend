@@ -1,23 +1,22 @@
 import styled from 'styled-components';
-import { useTimeTableData } from '../../context/TimeTable';
-import { useTimeTableDateStore } from '../../store/timetable';
+import { TimeTableDetailInfo } from '../../types';
 import TypeIcon from './TypeIcon';
 
-const DetailInfo = () => {
-  const { performanceTypeData, timetableInfo } = useTimeTableData();
-  const { selectedDate } = useTimeTableDateStore();
+interface DetailInfoProps {
+  info: TimeTableDetailInfo;
+}
 
+const DetailInfo = ({ info }: DetailInfoProps) => {
   return (
     <Wrapper>
-      <p>18 : 00</p>
+      <p>{info.time}</p>
       <InfoLayout>
         <InfoContainer>
           <TextBox>
-            <p>{timetableInfo[selectedDate]?.[0].teamName}</p>
-            <TypeIcon type={timetableInfo[selectedDate]?.[0].type}>
-              {timetableInfo[selectedDate]?.[0].type}
-            </TypeIcon>
+            <p>{info.teamName}</p>
+            <TypeIcon type={info.type}>{info.type}</TypeIcon>
           </TextBox>
+          <InfoImg src={info.image} alt={info.teamName} />
         </InfoContainer>
       </InfoLayout>
     </Wrapper>

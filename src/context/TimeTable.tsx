@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useMemo } from 'react';
 import { PerformanceType, TimeTableInfo } from '../types';
+import oct07team1 from '../assets/team_imgs/timetable_infoimg.png';
 
 interface TimeTableProviderProps {
   children: React.ReactNode;
@@ -25,13 +26,13 @@ const timetableInfo: TimeTableInfo = {
   '10월 07일': [
     {
       type: '댄스',
-      image: '../../assets/imgs/timetable_infoimg.png',
+      image: oct07team1,
       teamName: '댄스 공연 input',
       time: '18 : 00',
     },
     {
       type: '밴드',
-      image: '../../assets/imgs/timetable_infoimg.png',
+      image: oct07team1,
       teamName: '밴드 공연 input',
       time: '19 : 00',
     },
