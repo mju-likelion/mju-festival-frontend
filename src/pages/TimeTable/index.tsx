@@ -1,12 +1,6 @@
 import styled from 'styled-components';
 import InfoText from '../../components/InfoText';
-
-type PerformanceType = '댄스' | '밴드' | '힙합' | '축하공연';
-interface TimeTableInfo {
-  type: PerformanceType;
-  image: string;
-  teamName: string;
-}
+import { PerformanceType, TimeTableInfo } from '../../types';
 
 const TimeTable = () => {
   const october7Info: TimeTableInfo[] = [
