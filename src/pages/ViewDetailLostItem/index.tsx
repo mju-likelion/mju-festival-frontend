@@ -146,32 +146,25 @@ const ButtonLayout = styled.div`
   margin-bottom: 14px;
 `;
 
-const EditButton = styled.button`
+// 상속으로 재사용
+const Button = styled.button`
   width: 100%;
   border-radius: 12px;
   padding: 16px 11px;
-
   ${({ theme }) => theme.typographies.body1};
+`;
+
+const EditButton = styled(Button)`
   color: ${({ theme }) => theme.colors.white100};
   background-color: ${({ theme }) => theme.colors.blue100};
 `;
 
-const DeleteButton = styled.button`
-  width: 100%;
-  border-radius: 12px;
-  padding: 16px 11px;
-
-  ${({ theme }) => theme.typographies.body1};
+const DeleteButton = styled(Button)`
   color: ${({ theme }) => theme.colors.blue100};
   border: 1px solid ${({ theme }) => theme.colors.blue100};
 `;
 
-const FoundedButton = styled.button`
-  width: 100%;
-  border-radius: 12px;
-  padding: 16px 11px;
-
-  ${({ theme }) => theme.typographies.body1};
+const FoundedButton = styled(Button)`
   color: ${({ theme }) => theme.colors.white100};
   background-color: ${({ theme }) => theme.colors.blue100};
 `;
