@@ -17,6 +17,7 @@ import ViewAllNotice from './pages/ViewAllNotice/index.tsx';
 import DetailLostItem from './pages/ViewDetailLostItem/index.tsx';
 import ViewDetailNotice from './pages/ViewDetailNotice/index.tsx';
 import TimeTable from './pages/TimeTable/index.tsx';
+import { TimeTableProvider } from './context/TimeTable.tsx';
 
 function App() {
   useRouteTracker();
@@ -43,7 +44,14 @@ function App() {
           <Route path="/lost-items/:id" element={<DetailLostItem />} />
           <Route path="/lost-items/:id/edit" element={<EditLostItem />} />
           <Route path="/lost-items/register" element={<CreateLostItem />} />
-          <Route path="/timetable" element={<TimeTable />} />
+          <Route
+            path="/timetable"
+            element={
+              <TimeTableProvider>
+                <TimeTable />
+              </TimeTableProvider>
+            }
+          />
         </Routes>
       </MobileWrapper>
     </BrowserRouter>
