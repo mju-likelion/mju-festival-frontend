@@ -1,6 +1,11 @@
 import styled from 'styled-components';
+import { usePerformTypeStore } from '../../store/timetable';
 
 const DetailInfo = () => {
+  const performanceTypeData = usePerformTypeStore(
+    (state) => state.performanceTypeData
+  );
+
   return (
     <Wrapper>
       <p>18 : 00</p>
