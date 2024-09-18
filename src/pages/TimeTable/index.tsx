@@ -3,16 +3,14 @@ import styled from 'styled-components';
 import InfoText from '../../components/InfoText';
 import { PerformanceType, TimeTableInfo } from '../../types';
 import DetailInfos from './DetailInfos';
+import { usePerformTypeStore } from '../../store/timetable';
 
 const TimeTable = () => {
   const [selectedDate, setSelectedDate] = useState('10월 07일');
+  const performanceTypeData = usePerformTypeStore(
+    (state) => state.performanceTypeData
+  );
 
-  const performanceTypes: PerformanceType[] = [
-    '댄스',
-    '밴드',
-    '힙합',
-    '축하공연',
-  ];
   const timetableInfo: TimeTableInfo = {
     '10월 07일': [
       {
@@ -82,8 +80,8 @@ const TimeTable = () => {
         <InfoText>타임 테이블</InfoText>
       </InfoTextLayout>
       <TypeLayout>
-        {performanceTypes.map((item) => (
-          <TypeIcon type={item} key={item}>
+        {Object.keys(performanceTypeData).map((item) => (
+          <TypeIcon type={item as PerformanceType} key={item}>
             <p>{item}</p>
           </TypeIcon>
         ))}

@@ -5,7 +5,7 @@ type TimetableState = {
   performanceTypeData: Record<PerformanceType, string>;
 };
 
-export const usePageStore = create<TimetableState>()((set) => ({
+export const usePerformTypeStore = create<TimetableState>()((set) => ({
   performanceTypeData: {
     댄스: '#179A8C',
     밴드: '#5766C6',
