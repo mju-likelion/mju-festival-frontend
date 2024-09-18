@@ -59,6 +59,14 @@ const MobileWrapper = styled.div`
   position: relative;
   overflow-y: auto;
   background-color: #ffffff;
+
+  // 스크롤바 숨기기
+  -ms-overflow-style: none; // IE and Edge
+  scrollbar-width: none; // Firefox
+
+  &::-webkit-scrollbar {
+    display: none; // Chrome, Safari, Opera
+  }
 `;
 
 export default App;

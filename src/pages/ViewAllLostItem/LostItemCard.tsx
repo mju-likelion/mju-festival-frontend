@@ -2,7 +2,11 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { SimpleLostItem } from '../../types/lostItem';
 
-const LostItemCard = ({ lostItem }: { lostItem: SimpleLostItem }) => {
+interface LostItemsProps {
+  lostItem: SimpleLostItem;
+}
+
+const LostItemCard = ({ lostItem }: LostItemsProps) => {
   const { id, title, content, imageUrl } = lostItem;
   const navigate = useNavigate();
 
@@ -28,6 +32,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   border-radius: 12px;
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
+  background-color: ${({ theme }) => theme.colors.white100};
   cursor: pointer;
 `;
 

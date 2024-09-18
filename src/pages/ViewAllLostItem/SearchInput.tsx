@@ -25,6 +25,7 @@ const Wrapper = styled.label`
   display: flex;
   align-items: center;
   padding: 12px 10px;
+  margin-top: 34px;
   background-color: ${({ theme }) => theme.colors.black10};
   border-radius: 8px;
   gap: 8px;
@@ -44,6 +45,7 @@ const SubmitButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  -webkit-tap-highlight-color: transparent;
 `;
 
 export default SearchInput;

@@ -26,7 +26,7 @@ const FloatingButton = () => {
 
 const Wrapper = styled.div`
   width: 66px;
-  position: absolute;
+  position: fixed;
   bottom: 49px;
   right: 24px;
 

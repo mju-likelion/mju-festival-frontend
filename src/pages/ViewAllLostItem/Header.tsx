@@ -27,7 +27,7 @@ const Header = () => {
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 4px 20px 23px 11px;
+  padding: 4px 20px 0 11px;
 `;
 
 const BackButton = styled.div`
