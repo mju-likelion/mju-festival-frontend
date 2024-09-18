@@ -240,6 +240,15 @@ const ContentInput = styled.textarea`
   height: 145px;
   font-size: 17px;
   font-weight: 400;
+
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #cdcccc;
+    border-radius: 12px;
+  }
 `;
 
 const ContentLength = styled.div`
