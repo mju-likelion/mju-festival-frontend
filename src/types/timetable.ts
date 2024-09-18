@@ -5,6 +5,7 @@ interface TimeTableDetailInfo {
   type: PerformanceType;
   image: string;
   teamName: string;
+  time: string;
 }
 
 export type TimeTableInfo = Record<TimeTableDate, TimeTableDetailInfo[]>;
