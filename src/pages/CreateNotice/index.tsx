@@ -77,7 +77,7 @@ const CreateNotice = () => {
 
   return (
     <Wrapper>
-      <Header subTitle="공지사항 내용">공지사항</Header>
+      <Header title="공지사항">공지사항 내용</Header>
       <DateLayout>
         <p>{`등록일 : ${TODAY}`}</p>
       </DateLayout>
