@@ -12,7 +12,9 @@ const TimeTable = () => {
           재미있는 공연을 즐겨보세요!
         </p>
       </TitleLayout>
-      <InfoText>타임 테이블</InfoText>
+      <InfoTextLayout>
+        <InfoText>타임 테이블</InfoText>
+      </InfoTextLayout>
     </Wrapper>
   );
 };
@@ -40,5 +42,10 @@ const TitleLayout = styled.div`
     line-height: normal;
     color: ${({ theme }) => theme.colors.text900};
   }
+`;
+
+const InfoTextLayout = styled.div`
+  padding: 28px 0 31px 0;
+  border: 1px solid orange;
 `;
 export default TimeTable;
