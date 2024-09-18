@@ -1,4 +1,4 @@
-import React, { createContext, useMemo } from 'react';
+import React, { createContext, useContext, useMemo } from 'react';
 import { PerformanceType, TimeTableInfo } from '../types';
 
 interface TimeTableProviderProps {
@@ -84,4 +84,13 @@ export const TimeTableProvider = ({ children }: TimeTableProviderProps) => {
       {children}
     </TimeTableContext.Provider>
   );
+};
+
+export const useTimeTableDatas = () => {
+  const context = useContext(TimeTableContext);
+  if (context === undefined) {
+    throw new Error('타임테이블 정보가 존재하지 않습니다');
+  }
+
+  return context;
 };
