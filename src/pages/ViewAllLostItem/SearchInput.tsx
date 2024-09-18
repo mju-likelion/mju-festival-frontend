@@ -32,6 +32,7 @@ const Wrapper = styled.label`
 `;
 
 const Input = styled.input`
+  flex-grow: 1;
   background-color: transparent;
   color: ${({ theme }) => theme.colors.text500};
   ${({ theme }) => theme.typographies.body2}

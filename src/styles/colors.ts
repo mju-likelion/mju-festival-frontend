@@ -31,7 +31,7 @@ const gray = {
   gray100: '#F0F5F7', // gray-secondary
   gray200: '#E1EBF0', // gray-pale
   gray300: '#BFCBD2',
-  gray400: '#939DA6',
+  gray400: '#939DA6', // gray-dark
   gray500: '#7B858E', // gray-deep
 };
 
