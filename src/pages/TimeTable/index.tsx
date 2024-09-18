@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import InfoText from '../../components/InfoText';
-import { PerformanceType, TimeTableInfo } from '../../types';
+import { TimeTableInfo } from '../../types';
 
 const TimeTable = () => {
   const [selectedDate, setSelectedDate] = useState('10월 07일');
-  const timetableInfo: TimeTableInfo[] = {
+  const timetableInfo: TimeTableInfo = {
     '10월 07일': [
       {
         type: '댄스',
