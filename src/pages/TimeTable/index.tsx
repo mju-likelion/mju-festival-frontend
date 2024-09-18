@@ -1,70 +1,13 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import InfoText from '../../components/InfoText';
-import { PerformanceType, TimeTableInfo } from '../../types';
+import { PerformanceType } from '../../types';
 import DetailInfos from './DetailInfos';
-import { usePerformTypeStore } from '../../store/timetable';
+import { useTimeTableDatas } from '../../context/TimeTable';
 
 const TimeTable = () => {
   const [selectedDate, setSelectedDate] = useState('10월 07일');
-  const performanceTypeData = usePerformTypeStore(
-    (state) => state.performanceTypeData
-  );
-
-  const timetableInfo: TimeTableInfo = {
-    '10월 07일': [
-      {
-        type: '댄스',
-        image: '../../assets/imgs/timetable_infoimg.png',
-        teamName: '댄스 공연 input',
-        time: '18 : 00',
-      },
-      {
-        type: '밴드',
-        image: '/path/to/band.jpg',
-        teamName: '밴드 공연 input',
-        time: '19 : 00',
-      },
-      {
-        type: '힙합',
-        image: '/path/to/hiphop.jpg',
-        teamName: '힙합 공연 input',
-        time: '18 : 00',
-      },
-      {
-        type: '축하공연',
-        image: '/path/to/celebration.jpg',
-        teamName: '축하공연 input',
-        time: '19 : 00',
-      },
-    ],
-    '10월 08일': [
-      {
-        type: '댄스',
-        image: '/path/to/dance.jpg',
-        teamName: '댄스 공연 input',
-        time: '19 : 00',
-      },
-      {
-        type: '밴드',
-        image: '/path/to/band.jpg',
-        teamName: '밴드 공연 input',
-        time: '19 : 00',
-      },
-      {
-        type: '힙합',
-        image: '/path/to/hiphop.jpg',
-        teamName: '힙합 공연 input',
-        time: '19 : 00',
-      },
-      {
-        type: '축하공연',
-        image: '/path/to/celebration.jpg',
-        teamName: '축하공연 input',
-        time: '19 : 00',
-      },
-    ],
-  };
+  const { performanceTypeData, timetableInfo } = useTimeTableDatas();
 
   return (
     <Wrapper>
