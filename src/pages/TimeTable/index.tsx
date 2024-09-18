@@ -90,20 +90,22 @@ const TimeTable = () => {
       </TypeLayout>
       <DateLayout>
         <ButtonContainer>
-          <DateButton
+          <FirstDateButton
             onClick={() => {
               setSelectedDate('10월 07일');
             }}
+            $isSelected={selectedDate === '10월 07일'}
           >
             <p>10월 07일</p>
-          </DateButton>
-          <DateButton
+          </FirstDateButton>
+          <SecondDateButton
             onClick={() => {
               setSelectedDate('10월 08일');
             }}
+            $isSelected={selectedDate === '10월 08일'}
           >
             <p>10월 08일</p>
-          </DateButton>
+          </SecondDateButton>
         </ButtonContainer>
       </DateLayout>
       <DetailInfos timetableInfo={timetableInfo} />
@@ -185,15 +187,43 @@ const ButtonContainer = styled.div`
   background-color: #bfcbd2;
 
   p {
-    /* width: 100%; */
     color: #7b858e;
     font-size: 17px;
     font-weight: 600;
   }
 `;
-const DateButton = styled.button`
+const FirstDateButton = styled.button<{ $isSelected: boolean }>`
   width: 100%;
   height: 38px;
   padding: 9px 0;
+  border-radius: 999px;
+  background-color: ${({ theme, $isSelected }) =>
+    $isSelected ? theme.colors.blue100 : 'transparent'};
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+
+  p {
+    color: ${({ theme, $isSelected }) => $isSelected && theme.colors.white100};
+    transition: color 0.3s ease;
+  }
+`;
+const SecondDateButton = styled.button<{ $isSelected: boolean }>`
+  width: 100%;
+  height: 38px;
+  padding: 9px 0;
+  border-radius: 999px;
+  background-color: transparent;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+
+  background-color: ${({ theme, $isSelected }) =>
+    $isSelected ? theme.colors.blue100 : 'transparent'};
+
+  p {
+    color: ${({ theme, $isSelected }) => $isSelected && theme.colors.white100};
+    transition: color 0.3s ease;
+  }
 `;
 export default TimeTable;
