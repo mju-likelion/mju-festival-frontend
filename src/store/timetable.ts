@@ -6,7 +6,7 @@ type TimeTableState = {
   setCurDate: (selectedDate: string) => void;
 };
 
-export const useTimeTableStore = create<TimeTableState>()(
+export const useTimeTableDateStore = create<TimeTableState>()(
   persist(
     (set) => ({
       selectedDate: '10월 07일',

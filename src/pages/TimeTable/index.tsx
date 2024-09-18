@@ -1,12 +1,12 @@
-import { useState } from 'react';
 import styled from 'styled-components';
 import InfoText from '../../components/InfoText';
 import { PerformanceType } from '../../types';
 import DetailInfos from './DetailInfos';
 import { useTimeTableDatas } from '../../context/TimeTable';
+import { useTimeTableDateStore } from '../../store/timetable';
 
 const TimeTable = () => {
-  const [selectedDate, setSelectedDate] = useState('10월 07일');
+  const { selectedDate, setCurDate } = useTimeTableDateStore();
   const { performanceTypeData } = useTimeTableDatas();
 
   return (
@@ -33,7 +33,7 @@ const TimeTable = () => {
         <ButtonContainer>
           <FirstDateButton
             onClick={() => {
-              setSelectedDate('10월 07일');
+              setCurDate('10월 07일');
             }}
             $isSelected={selectedDate === '10월 07일'}
           >
@@ -41,7 +41,7 @@ const TimeTable = () => {
           </FirstDateButton>
           <SecondDateButton
             onClick={() => {
-              setSelectedDate('10월 08일');
+              setCurDate('10월 08일');
             }}
             $isSelected={selectedDate === '10월 08일'}
           >
