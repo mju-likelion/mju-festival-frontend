@@ -7,7 +7,7 @@ import { useTimeTableDatas } from '../../context/TimeTable';
 
 const TimeTable = () => {
   const [selectedDate, setSelectedDate] = useState('10월 07일');
-  const { performanceTypeData, timetableInfo } = useTimeTableDatas();
+  const { performanceTypeData } = useTimeTableDatas();
 
   return (
     <Wrapper>
@@ -49,7 +49,7 @@ const TimeTable = () => {
           </SecondDateButton>
         </ButtonContainer>
       </DateLayout>
-      <DetailInfos timetableInfo={timetableInfo} />
+      <DetailInfos />
     </Wrapper>
   );
 };

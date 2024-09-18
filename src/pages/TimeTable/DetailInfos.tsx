@@ -1,11 +1,7 @@
 import styled from 'styled-components';
-import { TimeTableInfo } from '../../types';
 import DetailInfo from './DetailInfo';
 
-interface DetailInfoProps {
-  timetableInfo: TimeTableInfo;
-}
-const DetailInfos = ({ timetableInfo }: DetailInfoProps) => {
+const DetailInfos = () => {
   return (
     <Wrapper>
       <DetailInfo />
