@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { ReactComponent as MenuIconSVG } from '../../assets/icons/hamburger.svg';
-import { ReactComponent as BackIcon } from '../../assets/icons/left_arrow.svg';
-import { useAuthStore } from '../../store';
+import { ReactComponent as MenuIconSvg } from '../assets/icons/hamburger.svg';
+import { ReactComponent as BackIcon } from '../assets/icons/left_arrow.svg';
+import { useAuthStore } from '../store';
 
 const Header = () => {
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ const Header = () => {
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 4px 20px 0 11px;
+  padding: 4px 20px 0 11px; // bottom: 0 - 각자 페이지 조절
 `;
 
 const BackButton = styled.div`
@@ -51,7 +51,7 @@ const Role = styled.p`
   ${({ theme }) => theme.typographies.subhead2};
 `;
 
-const MenuIcon = styled(MenuIconSVG)`
+const MenuIcon = styled(MenuIconSvg)`
   cursor: pointer;
 `;
 

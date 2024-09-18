@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getLostItems, getSearchLostItems } from '../../api/lostItem';
 
+import Header from '../../components/Header';
 import InfoText from '../../components/InfoText';
 import { useAuthStore } from '../../store';
 import { SimpleLostItem, SortKey } from '../../types/lostItem';
-import Header from './Header';
 import ItemList from './ItemList';
 import Page from './Page';
 import SearchInput from './SearchInput';
