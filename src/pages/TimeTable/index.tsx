@@ -1,10 +1,17 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import InfoText from '../../components/InfoText';
-import { TimeTableInfo } from '../../types';
+import { PerformanceType, TimeTableInfo } from '../../types';
 
 const TimeTable = () => {
   const [selectedDate, setSelectedDate] = useState('10월 07일');
+
+  const performanceTypes: PerformanceType[] = [
+    '댄스',
+    '밴드',
+    '힙합',
+    '축하공연',
+  ];
   const timetableInfo: TimeTableInfo = {
     '10월 07일': [
       {
@@ -66,9 +73,9 @@ const TimeTable = () => {
         <InfoText>타임 테이블</InfoText>
       </InfoTextLayout>
       <TypeLayout>
-        {timetableInfo.map((item) => (
-          <TypeIcon type={item.type} key={item.teamName}>
-            <p>{item.type}</p>
+        {performanceTypes.map((item) => (
+          <TypeIcon type={item} key={item}>
+            <p>{item}</p>
           </TypeIcon>
         ))}
       </TypeLayout>
