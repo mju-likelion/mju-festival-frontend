@@ -1,12 +1,14 @@
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { deleteLostItem } from '../../api/lostItem';
 import { ReactComponent as PlaceIcon } from '../../assets/icons/place.svg';
 import Header from '../../components/Header';
 import { useAuthStore } from '../../store';
+import Modal from './Modal';
 
 const DetailLostItem = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -15,32 +17,34 @@ const DetailLostItem = () => {
 
   const CalculateDate = (createdAt: string): string => {
     const date = new Date(createdAt);
-
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const day = String(date.getDate()).padStart(2, '0');
-
     return `등록일 : ${year} . ${month} . ${day}`;
   };
   const formattedDate = useMemo(() => CalculateDate(createdAt), [createdAt]);
 
   const handleDelete = async () => {
-    if (window.confirm('정말로 이 아이템을 삭제하시겠습니까?')) {
-      try {
-        if (id && token) {
-          await deleteLostItem(id, token);
-          navigate('/lost-items');
-        } else {
-          console.error('삭제를 위한 ID나 토큰이 없습니다.');
-        }
-      } catch (error) {
-        console.error(error);
+    try {
+      if (id && token) {
+        await deleteLostItem(id, token);
+        setIsModalOpen(false);
+        navigate('/lost-items');
+      } else {
+        console.error('삭제를 위한 ID나 토큰이 없습니다.');
       }
+    } catch (error) {
+      console.error(error);
     }
   };
 
   return (
     <>
+      <Modal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        handleDelete={handleDelete}
+      />
       <Header />
       <TitleWrapper>
         <Title>분실물찾기</Title>
@@ -68,7 +72,9 @@ const DetailLostItem = () => {
               >
                 수정하기
               </EditButton>
-              <DeleteButton onClick={handleDelete}>삭제하기</DeleteButton>
+              <DeleteButton onClick={() => setIsModalOpen(true)}>
+                삭제하기
+              </DeleteButton>
             </ButtonLayout>
             <FoundedButton>분실물 찾음</FoundedButton>
           </>
@@ -77,6 +83,7 @@ const DetailLostItem = () => {
     </>
   );
 };
+
 const TitleWrapper = styled.div`
   display: flex;
   flex-direction: column;
