@@ -12,20 +12,20 @@ const Modal = ({ isModalOpen, setIsModalOpen, handleDelete }: ModalProps) => {
     <>
       {isModalOpen && (
         <OverlayWrapper>
-          <Wrapper>
+          <Layout>
             <Close as={CloseIcon} onClick={() => setIsModalOpen(false)} />
-            <ModalTitle>삭제하기 전 유의사항</ModalTitle>
-            <ModalContent>
+            <Title>삭제하기 전 유의사항</Title>
+            <Content>
               게시물 삭제 후 게시물
               <br />
               복구가 되지 않습니다. <br />
               <br />
               확인하신 후 삭제해주시길 바랍니다.
-            </ModalContent>
-            <ModalButton type="button" onClick={() => handleDelete()}>
+            </Content>
+            <Button type="button" onClick={() => handleDelete()}>
               확인하기
-            </ModalButton>
-          </Wrapper>
+            </Button>
+          </Layout>
         </OverlayWrapper>
       )}
     </>
@@ -44,7 +44,7 @@ const OverlayWrapper = styled.div`
   align-items: center;
 `;
 
-const Wrapper = styled.div`
+const Layout = styled.div`
   position: relative;
   max-width: 330px;
   width: calc(100vw - 60px);
@@ -66,17 +66,17 @@ const Close = styled.img`
   cursor: pointer;
 `;
 
-const ModalTitle = styled.p`
+const Title = styled.p`
   ${({ theme }) => theme.typographies.title1};
 `;
 
-const ModalContent = styled.p`
+const Content = styled.p`
   ${({ theme }) => theme.typographies.body2};
   line-height: 20px;
   white-space: pre-wrap;
 `;
 
-const ModalButton = styled.button`
+const Button = styled.button`
   width: 180px;
   padding: 16px;
   border-radius: 12px;
