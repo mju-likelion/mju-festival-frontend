@@ -5,6 +5,7 @@ import { deleteLostItem } from '../../api/lostItem';
 import { ReactComponent as PlaceIcon } from '../../assets/icons/place.svg';
 import Header from '../../components/Header';
 import { useAuthStore } from '../../store';
+import { formatDate } from '../../utils/dateUtil';
 import Modal from './Modal';
 
 const DetailLostItem = () => {
@@ -15,14 +16,10 @@ const DetailLostItem = () => {
   const { token, role } = useAuthStore();
   const { title, content, createdAt, imageUrl } = location.state;
 
-  const CalculateDate = (createdAt: string): string => {
-    const date = new Date(createdAt);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `등록일 : ${year} . ${month} . ${day}`;
-  };
-  const formattedDate = useMemo(() => CalculateDate(createdAt), [createdAt]);
+  const formattedDate = useMemo(
+    () => formatDate(new Date(createdAt)),
+    [createdAt]
+  );
 
   const handleDelete = async () => {
     try {
