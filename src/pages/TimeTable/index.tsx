@@ -2,12 +2,12 @@ import styled from 'styled-components';
 import InfoText from '../../components/InfoText';
 import { PerformanceType } from '../../types';
 import DetailInfos from './DetailInfos';
-import { useTimeTableDatas } from '../../context/TimeTable';
+import { useTimeTableData } from '../../context/TimeTable';
 import { useTimeTableDateStore } from '../../store/timetable';
 
 const TimeTable = () => {
   const { selectedDate, setCurDate } = useTimeTableDateStore();
-  const { performanceTypeData } = useTimeTableDatas();
+  const { performanceTypeData } = useTimeTableData();
 
   return (
     <Wrapper>

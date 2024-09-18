@@ -1,8 +1,10 @@
 import styled from 'styled-components';
-import { useTimeTableDatas } from '../../context/TimeTable';
+import { useTimeTableData } from '../../context/TimeTable';
+import { useTimeTableDateStore } from '../../store/timetable';
 
 const DetailInfo = () => {
-  const { performanceTypeData, timetableInfo } = useTimeTableDatas();
+  const { performanceTypeData, timetableInfo } = useTimeTableData();
+  const { selectedDate } = useTimeTableDateStore();
 
   return (
     <Wrapper>

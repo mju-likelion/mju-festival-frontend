@@ -86,7 +86,7 @@ export const TimeTableProvider = ({ children }: TimeTableProviderProps) => {
   );
 };
 
-export const useTimeTableDatas = () => {
+export const useTimeTableData = () => {
   const context = useContext(TimeTableContext);
   if (context === undefined) {
     throw new Error('타임테이블 정보가 존재하지 않습니다');
