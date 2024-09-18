@@ -37,6 +37,7 @@ const Wrapper = styled.div`
     font-size: 17px;
     font-weight: 600;
     color: ${({ theme }) => theme.colors.blue100};
+    flex-shrink: 0;
   }
 `;
 
@@ -54,14 +55,20 @@ const InfoContainer = styled.div`
   justify-content: space-between;
   width: 100%;
   height: 100%;
+  gap: 4px;
 `;
 
 const TextBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex: 1;
 `;
 
-const InfoImg = styled.img``;
+const InfoImg = styled.img`
+  width: auto;
+  max-width: 100%;
+  height: auto;
+`;
 
 export default DetailInfo;

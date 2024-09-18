@@ -51,6 +51,7 @@ const TimeTable = () => {
         </ButtonContainer>
       </DateLayout>
       <DetailInfoList />
+      <FooterLayout />
     </Wrapper>
   );
 };
@@ -141,5 +142,11 @@ const SecondDateButton = styled.button<{ $isSelected: boolean }>`
     color: ${({ theme, $isSelected }) => $isSelected && theme.colors.white100};
     transition: color 0.3s ease;
   }
+`;
+
+const FooterLayout = styled.div`
+  width: 100%;
+  height: 88px;
+  background-color: transparent;
 `;
 export default TimeTable;
