@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import InfoText from '../../components/InfoText';
 
 const TimeTable = () => {
   return (
@@ -11,6 +12,7 @@ const TimeTable = () => {
           재미있는 공연을 즐겨보세요!
         </p>
       </TitleLayout>
+      <InfoText>타임 테이블</InfoText>
     </Wrapper>
   );
 };
