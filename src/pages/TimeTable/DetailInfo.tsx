@@ -10,7 +10,11 @@ const DetailInfo = () => {
     <Wrapper>
       <p>18 : 00</p>
       <InfoLayout>
-        <InfoContainer>내용</InfoContainer>
+        <InfoContainer>
+          <TextBox>
+            <p>{timetableInfo[selectedDate]?.teamName}</p>
+          </TextBox>
+        </InfoContainer>
       </InfoLayout>
     </Wrapper>
   );
@@ -43,8 +47,16 @@ const InfoLayout = styled.div`
 `;
 
 const InfoContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
   width: 100%;
   height: 100%;
+`;
+
+const TextBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 export default DetailInfo;

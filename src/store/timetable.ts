@@ -1,9 +1,10 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { TimeTableDate } from '../types';
 
 type TimeTableState = {
-  selectedDate: string;
-  setCurDate: (selectedDate: string) => void;
+  selectedDate: TimeTableDate;
+  setCurDate: (selectedDate: TimeTableDate) => void;
 };
 
 export const useTimeTableDateStore = create<TimeTableState>()(
