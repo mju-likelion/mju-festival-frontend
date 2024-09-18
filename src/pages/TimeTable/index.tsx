@@ -1,7 +1,37 @@
 import styled from 'styled-components';
 import InfoText from '../../components/InfoText';
 
+type PerformanceType = '댄스' | '밴드' | '힙합' | '축하공연';
+interface TimeTableInfo {
+  type: PerformanceType;
+  image: string;
+  teamName: string;
+}
+
 const TimeTable = () => {
+  const october7Info: TimeTableInfo[] = [
+    {
+      type: '댄스',
+      image: '/path/to/dance.jpg',
+      teamName: '댄스 공연 input',
+    },
+    {
+      type: '밴드',
+      image: '/path/to/band.jpg',
+      teamName: '밴드 공연 input',
+    },
+    {
+      type: '힙합',
+      image: '/path/to/hiphop.jpg',
+      teamName: '힙합 공연 input',
+    },
+    {
+      type: '축하공연',
+      image: '/path/to/celebration.jpg',
+      teamName: '축하공연 input',
+    },
+  ];
+
   return (
     <Wrapper>
       <TitleLayout>
@@ -15,6 +45,13 @@ const TimeTable = () => {
       <InfoTextLayout>
         <InfoText>타임 테이블</InfoText>
       </InfoTextLayout>
+      <TypeLayout>
+        {october7Info.map((item) => (
+          <TypeIcon type={item.type} key={item.teamName}>
+            <p>{item.type}</p>
+          </TypeIcon>
+        ))}
+      </TypeLayout>
     </Wrapper>
   );
 };
@@ -47,5 +84,37 @@ const TitleLayout = styled.div`
 const InfoTextLayout = styled.div`
   padding: 28px 0 31px 0;
   border: 1px solid orange;
+`;
+
+const TypeLayout = styled.div`
+  display: flex;
+  padding: 0 44px;
+  gap: 10px;
+`;
+
+const TypeIcon = styled.div<{ type: PerformanceType }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 24px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.white100};
+  background-color: ${({ theme, type }) => {
+    switch (type) {
+      case '댄스':
+        return '#179A8C';
+      case '밴드':
+        return '#5766C6';
+      case '힙합':
+        return '#4B82EF';
+      case '축하공연':
+        return '#FFB20A';
+      default:
+        return theme.colors.white100;
+    }
+  }};
 `;
 export default TimeTable;
