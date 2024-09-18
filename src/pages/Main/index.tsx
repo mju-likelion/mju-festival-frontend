@@ -60,7 +60,7 @@ const Main = () => {
             <MainMenuButton
               bgimg="map"
               type="button"
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/map')}
             >
               지도
             </MainMenuButton>
