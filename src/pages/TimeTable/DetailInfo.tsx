@@ -4,7 +4,9 @@ const DetailInfo = () => {
   return (
     <Wrapper>
       <p>18 : 00</p>
-      <InfoLayout />
+      <InfoLayout>
+        <InfoContainer>내용</InfoContainer>
+      </InfoLayout>
     </Wrapper>
   );
 };
@@ -29,9 +31,15 @@ const Wrapper = styled.div`
 const InfoLayout = styled.div`
   width: 100%;
   height: 124px;
+  padding: 12px 11px;
   border-radius: 12px;
   background-color: ${({ theme }) => theme.colors.white100};
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
+`;
+
+const InfoContainer = styled.div`
+  width: 100%;
+  height: 100%;
 `;
 
 export default DetailInfo;
