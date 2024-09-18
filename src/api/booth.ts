@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import {
+  BoothDepartment,
   BoothDetailInfo,
   BoothEditFields,
   BoothList,
@@ -8,8 +9,15 @@ import {
 } from '../types';
 import { Axios } from './Axios.ts';
 
-export const getBoothList = async () => {
-  const { data } = await Axios.get<BoothList>(`/booths?page=${0}&size=${30}`);
+export const getBoothDepartments = async () => {
+  const { data } = await Axios.get<BoothDepartment[]>(`/booths/departments`);
+  return data;
+};
+
+export const getBooths = async (boothId: string) => {
+  const { data } = await Axios.get<BoothList>(
+    `/booths?department_id=${boothId}&page=${0}&size=${10}`
+  );
   return data.simpleBooths;
 };
 
