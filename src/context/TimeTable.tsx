@@ -31,7 +31,7 @@ const timetableInfo: TimeTableInfo = {
     },
     {
       type: '밴드',
-      image: '/path/to/band.jpg',
+      image: '../../assets/imgs/timetable_infoimg.png',
       teamName: '밴드 공연 input',
       time: '19 : 00',
     },

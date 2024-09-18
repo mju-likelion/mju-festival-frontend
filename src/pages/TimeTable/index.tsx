@@ -4,6 +4,7 @@ import { PerformanceType } from '../../types';
 import DetailInfoList from './DetailInfoList';
 import { useTimeTableData } from '../../context/TimeTable';
 import { useTimeTableDateStore } from '../../store/timetable';
+import TypeIcon from './TypeIcon';
 
 const TimeTable = () => {
   const { selectedDate, setCurDate } = useTimeTableDateStore();
@@ -25,7 +26,7 @@ const TimeTable = () => {
       <TypeLayout>
         {Object.keys(performanceTypeData).map((item) => (
           <TypeIcon type={item as PerformanceType} key={item}>
-            <p>{item}</p>
+            {item}
           </TypeIcon>
         ))}
       </TypeLayout>
@@ -89,32 +90,6 @@ const TypeLayout = styled.div`
   padding: 0 44px;
   gap: 10px;
   border: 1px solid yellow;
-`;
-
-const TypeIcon = styled.div<{ type: PerformanceType }>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 24px;
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 600;
-  color: ${({ theme }) => theme.colors.white100};
-  background-color: ${({ theme, type }) => {
-    switch (type) {
-      case '댄스':
-        return '#179A8C';
-      case '밴드':
-        return '#5766C6';
-      case '힙합':
-        return '#4B82EF';
-      case '축하공연':
-        return '#FFB20A';
-      default:
-        return theme.colors.white100;
-    }
-  }};
 `;
 
 const DateLayout = styled.div`

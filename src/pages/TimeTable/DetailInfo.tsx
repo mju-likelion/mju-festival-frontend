@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useTimeTableData } from '../../context/TimeTable';
 import { useTimeTableDateStore } from '../../store/timetable';
+import TypeIcon from './TypeIcon';
 
 const DetailInfo = () => {
   const { performanceTypeData, timetableInfo } = useTimeTableData();
@@ -12,7 +13,10 @@ const DetailInfo = () => {
       <InfoLayout>
         <InfoContainer>
           <TextBox>
-            <p>{timetableInfo[selectedDate]?.teamName}</p>
+            <p>{timetableInfo[selectedDate]?.[0].teamName}</p>
+            <TypeIcon type={timetableInfo[selectedDate]?.[0].type}>
+              {timetableInfo[selectedDate]?.[0].type}
+            </TypeIcon>
           </TextBox>
         </InfoContainer>
       </InfoLayout>
@@ -58,5 +62,7 @@ const TextBox = styled.div`
   flex-direction: column;
   justify-content: space-between;
 `;
+
+const InfoImg = styled.img``;
 
 export default DetailInfo;
