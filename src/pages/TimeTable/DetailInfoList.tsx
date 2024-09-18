@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import DetailInfo from './DetailInfo';
 
-const DetailInfos = () => {
+const DetailInfoList = () => {
   return (
     <Wrapper>
       <DetailInfo />
@@ -28,4 +28,4 @@ const Contour = styled.div`
   background-color: #b0bdf7;
 `;
 
-export default DetailInfos;
+export default DetailInfoList;

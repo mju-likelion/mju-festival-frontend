@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import InfoText from '../../components/InfoText';
 import { PerformanceType } from '../../types';
-import DetailInfos from './DetailInfos';
+import DetailInfoList from './DetailInfoList';
 import { useTimeTableData } from '../../context/TimeTable';
 import { useTimeTableDateStore } from '../../store/timetable';
 
@@ -49,7 +49,7 @@ const TimeTable = () => {
           </SecondDateButton>
         </ButtonContainer>
       </DateLayout>
-      <DetailInfos />
+      <DetailInfoList />
     </Wrapper>
   );
 };
