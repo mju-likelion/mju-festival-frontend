@@ -17,7 +17,8 @@ const Wrapper = styled.div<{ type: PerformanceType }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 68px;
+  width: 100%;
+  max-width: 68px;
   height: 24px;
   border-radius: 999px;
   background-color: ${({ theme, type }) => {
@@ -36,8 +37,8 @@ const Wrapper = styled.div<{ type: PerformanceType }>`
   }};
 
   p {
-    font-size: 11px;
-    font-weight: 600;
+    font-size: 11px !important;
+    font-weight: 600 !important;
     color: ${({ theme }) => theme.colors.white100};
   }
 `;

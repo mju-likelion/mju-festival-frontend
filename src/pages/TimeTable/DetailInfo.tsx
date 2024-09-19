@@ -9,7 +9,9 @@ interface DetailInfoProps {
 const DetailInfo = ({ info }: DetailInfoProps) => {
   return (
     <Wrapper>
-      <p>{info.time}</p>
+      <TimeLayout>
+        <p>{info.time}</p>
+      </TimeLayout>
       <InfoLayout>
         <InfoContainer>
           <TextBox>
@@ -33,22 +35,24 @@ const Wrapper = styled.div`
   position: relative;
   z-index: 20;
   border: 1px solid skyblue;
+`;
 
+const TimeLayout = styled.div`
   p {
     font-size: 17px;
     font-weight: 600;
     color: ${({ theme }) => theme.colors.blue100};
-    flex-shrink: 0;
+    white-space: nowrap;
   }
 `;
 
 const InfoLayout = styled.div`
-  width: 100%;
   height: 124px;
   padding: 12px 11px;
   border-radius: 12px;
   background-color: ${({ theme }) => theme.colors.white100};
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
+  border: 2px solid blue;
 `;
 
 const InfoContainer = styled.div`
@@ -57,6 +61,7 @@ const InfoContainer = styled.div`
   width: 100%;
   height: 100%;
   gap: 4px;
+  border: 1px solid pink;
 `;
 
 const TextBox = styled.div`
@@ -64,12 +69,16 @@ const TextBox = styled.div`
   flex-direction: column;
   justify-content: space-between;
   border: 1px solid red;
+
+  p:first-child {
+    font-size: 20px;
+    font-weight: 600;
+  }
 `;
 
 const InfoImg = styled.img`
-  width: auto;
-  max-width: 100%;
   height: auto;
+  max-width: 104px;
 `;
 
 export default DetailInfo;

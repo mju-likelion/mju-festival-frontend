@@ -91,6 +91,7 @@ const InfoTextLayout = styled.div`
 
 const TypeLayout = styled.div`
   display: flex;
+  justify-content: center;
   padding: 0 44px;
   gap: 10px;
   border: 1px solid yellow;
