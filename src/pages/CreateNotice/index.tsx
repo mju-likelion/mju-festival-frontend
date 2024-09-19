@@ -1,12 +1,12 @@
-import styled from 'styled-components';
 import { ChangeEvent, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import { Axios } from '../../api/Axios';
-import Header from '../ViewDetailNotice/Header';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
 import { useAuthStore, usePageStore } from '../../store';
 import { ImageNoticeType } from '../../types';
+import Header from '../ViewDetailNotice/Header';
 
 const CreateNotice = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);

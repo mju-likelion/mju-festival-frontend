@@ -53,11 +53,11 @@ export const lostItemSchema = yup.object().shape({
   title: yup
     .string()
     .required(lostItemValidationMessages.REQUIRED)
-    .max(100, lostItemValidationMessages.TITLE_MAX_LENGTH),
+    .max(30, lostItemValidationMessages.TITLE_MAX_LENGTH),
   content: yup
     .string()
     .required(lostItemValidationMessages.REQUIRED)
-    .max(4000, lostItemValidationMessages.CONTENT_MAX_LENGTH),
+    .max(1000, lostItemValidationMessages.CONTENT_MAX_LENGTH),
 });
 
 export const lostItemEditSchema = yup.object().shape({
