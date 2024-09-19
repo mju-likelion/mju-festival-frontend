@@ -3,12 +3,16 @@ import styled from 'styled-components';
 import { LostItemForm } from '../../types/lostItem';
 
 interface LostItemFormFieldsProps {
+  title: string;
+  content: string;
   register: UseFormRegister<LostItemForm>;
   titleCount: string;
   contentCount: string;
 }
 
 const LostItemFormFields = ({
+  title,
+  content,
   register,
   titleCount,
   contentCount,
@@ -19,6 +23,7 @@ const LostItemFormFields = ({
         <p>제목 :</p>
         <TitleInput
           {...register('title', { required: true })}
+          defaultValue={title}
           maxLength={30}
           placeholder="제목을 입력해주세요"
         />
@@ -30,6 +35,7 @@ const LostItemFormFields = ({
         <p>내용 :</p>
         <ContentInput
           {...register('content', { required: true })}
+          defaultValue={content}
           maxLength={1000}
           placeholder="내용을 입력해주세요"
         />

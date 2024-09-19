@@ -6,7 +6,7 @@ const FormActions = () => {
 
   return (
     <Wrapper>
-      <CheckButton type="submit">완료하기</CheckButton>
+      <CheckButton type="submit">수정하기</CheckButton>
       <CancelButton onClick={() => navigate(-1)}>취소하기</CancelButton>
     </Wrapper>
   );

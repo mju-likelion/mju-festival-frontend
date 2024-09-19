@@ -4,10 +4,15 @@ import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.sv
 
 interface ImageUploaderProps {
   imageUrl: string;
+  editImgUrl: string;
   handleImgFile: (e: ChangeEvent<HTMLInputElement>) => Promise<void>;
 }
 
-const ImageUploader = ({ imageUrl, handleImgFile }: ImageUploaderProps) => {
+const ImageUploader = ({
+  imageUrl,
+  editImgUrl,
+  handleImgFile,
+}: ImageUploaderProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleClick = () => {
@@ -17,7 +22,11 @@ const ImageUploader = ({ imageUrl, handleImgFile }: ImageUploaderProps) => {
   };
   return (
     <Wrapper>
-      <UploadImageLayout $imageUrl={imageUrl} onClick={handleClick}>
+      <UploadImageLayout
+        $editImgUrl={editImgUrl}
+        $imageUrl={imageUrl}
+        onClick={handleClick}
+      >
         {!imageUrl && (
           <UploadGuideBox>
             <UploadImageIcon />
@@ -48,13 +57,16 @@ const Wrapper = styled.div`
   margin-bottom: 17px;
 `;
 
-const UploadImageLayout = styled.div<{ $imageUrl: string | null }>`
+const UploadImageLayout = styled.div<{
+  $editImgUrl: string;
+  $imageUrl: string;
+}>`
   width: 100%;
   height: 248px;
   padding: 76px 58px;
   border-radius: 12px;
-  background-image: ${({ $imageUrl }) =>
-    $imageUrl ? `url(${$imageUrl})` : 'none'};
+  background-image: ${({ $editImgUrl, $imageUrl }) =>
+    `url(${$editImgUrl || $imageUrl || ''})`};
   background-size: cover;
   background-color: rgba(0, 0, 0, 0.3);
   cursor: pointer;

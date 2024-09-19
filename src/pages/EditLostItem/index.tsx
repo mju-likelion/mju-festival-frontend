@@ -3,26 +3,35 @@ import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 import { patchLostItem, postLostItemImg } from '../../api/lostItem';
+import Header from '../../components/Header';
+import usePreventRefresh from '../../hooks/usePreventRefresh';
 import { useAuthStore } from '../../store';
 import { LostItemForm, LostItemRequest } from '../../types/lostItem';
+import { getCurrentDate } from '../../utils/dateUtil';
 import { handleError } from '../../utils/errorUtil';
 import { lostItemEditSchema } from '../../validation/schema';
+import FormActions from './FormActions';
+import ImageUploader from './ImageUploader';
+import LostItemFormFields from './LostItemFormFields';
 
 const EditLostItem = () => {
+  usePreventRefresh();
+
   const location = useLocation();
   const navigate = useNavigate();
   const { token } = useAuthStore();
   const [editImgUrl, setEditImgUrl] = useState('');
   const { id, title, content, imageUrl } = location.state;
+  const todayDate = useMemo(() => getCurrentDate(), []);
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm({ resolver: yupResolver(lostItemEditSchema) });
+  const { register, handleSubmit, setValue, watch } = useForm({
+    resolver: yupResolver(lostItemEditSchema),
+  });
+
+  const titleCount = watch('title', '');
+  const contentCount = watch('content', '');
 
   const handleImgFile = async (e: ChangeEvent<HTMLInputElement>) => {
     try {
@@ -30,18 +39,19 @@ const EditLostItem = () => {
         const formData = new FormData();
         formData.append('image', e.target.files[0]);
         const imgUrl = await postLostItemImg(formData, token);
-        setEditImgUrl(imgUrl);
 
+        setEditImgUrl(imgUrl);
         setValue('file', e.target.files[0]);
       }
     } catch (error) {
-      throw error as Error;
+      handleError(error as Error);
     }
   };
 
   const onSubmit = async (formData: LostItemForm) => {
     try {
       const updateFields: Partial<LostItemRequest> = {};
+
       Object.entries(formData).forEach(([key, value]) => {
         const fieldKey = key as keyof LostItemRequest;
         if (value !== location.state[key]) {
@@ -50,11 +60,7 @@ const EditLostItem = () => {
       });
       updateFields.imageUrl = editImgUrl || imageUrl;
 
-      if (
-        Object.keys(updateFields).length > 0 &&
-        token &&
-        updateFields.imageUrl === editImgUrl
-      ) {
+      if (Object.keys(updateFields).length > 0 && token) {
         await patchLostItem(id, updateFields, token);
       }
       navigate('/lost-items');
@@ -65,98 +71,56 @@ const EditLostItem = () => {
 
   return (
     <Wrapper>
-      {/* <Header /> */}
-      <EditForm onSubmit={handleSubmit(onSubmit)}>
-        <ItemLayout>
-          <ImageContainer>
-            <ItemImg src={editImgUrl || imageUrl} />
-            <FileInputContainer>
-              <ItemInput
-                {...register('file')}
-                type="file"
-                id="lostItem"
-                accept="image/*"
-                onChange={handleImgFile}
-              />
-              <ItemLabel htmlFor="lostItem">
-                {!editImgUrl ? (
-                  <>
-                    이미지 업로드 <br /> (이미지는 한 장만 업로드 가능합니다.)
-                    <br />
-                    (JPG, GIF, PNG, PDF)
-                  </>
-                ) : (
-                  ''
-                )}
-              </ItemLabel>
-            </FileInputContainer>
-          </ImageContainer>
-          <ItemTitle
-            defaultValue={title}
-            {...register('title', { required: true, maxLength: 20 })}
-            maxLength={70}
-          />
-          <ItemContent
-            defaultValue={content}
-            {...register('content', { required: true, maxLength: 100 })}
-            maxLength={100}
-          />
-        </ItemLayout>
-        <Button type="submit">수정하기</Button>
-        <p>{errors.title?.message}</p>
-        <p>{errors.content?.message}</p>
-        <p>{errors.file?.message}</p>
-      </EditForm>
+      <Header />
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <TitleLayout>
+          <Title>분실물 등록하기</Title>
+          <SubTitle>분실물을 등록해주세요</SubTitle>
+          <RegisterDate>{todayDate}</RegisterDate>
+        </TitleLayout>
+
+        <ImageUploader
+          imageUrl={imageUrl}
+          editImgUrl={editImgUrl}
+          handleImgFile={handleImgFile}
+        />
+        <LostItemFormFields
+          title={title}
+          content={content}
+          register={register}
+          titleCount={titleCount}
+          contentCount={contentCount}
+        />
+        <FormActions />
+      </form>
     </Wrapper>
   );
 };
 
-const EditForm = styled.form``;
-const Wrapper = styled.div`
-  border: 1px solid red;
-`;
+const Wrapper = styled.div``;
 
-const ItemLayout = styled.div`
+const TitleLayout = styled.div`
   display: flex;
   flex-direction: column;
-`;
-const ImageContainer = styled.div`
-  position: relative;
-  width: 100%;
-  height: 300px;
-  background-color: gray;
-`;
-const ItemImg = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-const FileInputContainer = styled.div`
-  position: absolute;
-  width: 100%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-const ItemInput = styled.input`
-  display: none;
-`;
-const ItemLabel = styled.label`
-  text-align: center;
-  line-height: 30px;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-`;
-const ItemTitle = styled.input``;
-const ItemContent = styled.textarea`
-  width: 100%;
-  background-color: skyblue;
+  padding: 6px 20px;
 `;
 
-const Button = styled.button``;
+const Title = styled.p`
+  ${({ theme }) => theme.typographies.title1};
+  color: ${({ theme }) => theme.colors.text900};
+`;
+
+const SubTitle = styled.p`
+  ${({ theme }) => theme.typographies.callout};
+  color: ${({ theme }) => theme.colors.text900};
+  margin-top: 9px;
+`;
+
+const RegisterDate = styled.p`
+  margin-top: 6px;
+  align-self: flex-end;
+  ${({ theme }) => theme.typographies.caption1};
+  color: ${({ theme }) => theme.colors.gray400};
+`;
+
 export default EditLostItem;
