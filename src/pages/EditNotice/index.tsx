@@ -92,7 +92,7 @@ const EditNotice = () => {
 
   return (
     <Wrapper>
-      <Header />
+      <Header title="공지사항">공지사항 내용</Header>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <UploadImageLayout $imageUrl={imageUrl} onClick={handleClick}>
           {!imageUrl && (

@@ -27,6 +27,14 @@ const blue = {
   blue500: '#9EC7FF',
 };
 
+const gray = {
+  gray100: '#F0F5F7', // gray-secondary
+  gray200: '#E1EBF0', // gray-pale
+  gray300: '#BFCBD2',
+  gray400: '#939DA6', // gray-dark
+  gray500: '#7B858E', // gray-deep
+};
+
 const text = {
   text500: '#5B636B',
   text600: '#424D5C',
@@ -35,4 +43,4 @@ const text = {
   text900: '#181A20',
 };
 
-export const colors = { ...white, ...black, ...blue, ...text };
+export const colors = { ...white, ...black, ...blue, ...gray, ...text };
