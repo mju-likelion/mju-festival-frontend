@@ -1,11 +1,13 @@
 import styled from 'styled-components';
 import DetailInfo from './DetailInfo';
 import { useTimeTableData } from '../../context/TimeTable';
-import { useTimeTableDateStore } from '../../store/timetable';
+import { TimeTableDate } from '../../types';
 
-const DetailInfoList = () => {
+interface DetailInfoListProps {
+  selectedDate: TimeTableDate;
+}
+const DetailInfoList = ({ selectedDate }: DetailInfoListProps) => {
   const { timetableInfo } = useTimeTableData();
-  const { selectedDate } = useTimeTableDateStore();
 
   const selectedTimetable = timetableInfo[selectedDate] || [];
 

@@ -1,14 +1,14 @@
+import { useState } from 'react';
 import styled from 'styled-components';
 import InfoText from '../../components/InfoText';
-import { PerformanceType } from '../../types';
+import { PerformanceType, TimeTableDate } from '../../types';
 import DetailInfoList from './DetailInfoList';
 import { useTimeTableData } from '../../context/TimeTable';
-import { useTimeTableDateStore } from '../../store/timetable';
 import TypeIcon from './TypeIcon';
 import plant from '../../assets/imgs/timetable_plant.png';
 
 const TimeTable = () => {
-  const { selectedDate, setCurDate } = useTimeTableDateStore();
+  const [selectedDate, setSelectedDate] = useState<TimeTableDate>('10월 07일');
   const { performanceTypeData } = useTimeTableData();
 
   return (
@@ -35,7 +35,7 @@ const TimeTable = () => {
         <ButtonContainer>
           <FirstDateButton
             onClick={() => {
-              setCurDate('10월 07일');
+              setSelectedDate('10월 07일');
             }}
             $isSelected={selectedDate === '10월 07일'}
           >
@@ -43,7 +43,7 @@ const TimeTable = () => {
           </FirstDateButton>
           <SecondDateButton
             onClick={() => {
-              setCurDate('10월 08일');
+              setSelectedDate('10월 08일');
             }}
             $isSelected={selectedDate === '10월 08일'}
           >
@@ -51,7 +51,7 @@ const TimeTable = () => {
           </SecondDateButton>
         </ButtonContainer>
       </DateLayout>
-      <DetailInfoList />
+      <DetailInfoList selectedDate={selectedDate} />
       <FooterLayout>
         <img src={plant} alt="식물" />
       </FooterLayout>
