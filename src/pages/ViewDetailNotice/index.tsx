@@ -5,6 +5,7 @@ import Header from './Header';
 import { DetailNoticeType } from '../../types';
 import DeleteNoticeModal from './DeleteNoticeModal';
 import { fetchNotice } from '../../api/notice.ts';
+import { ReactComponent as InstaArrowIconImg } from '../../assets/icons/backIcon.svg';
 
 const ViewDetailNotice = () => {
   const [notice, setNotice] = useState<DetailNoticeType>({
@@ -58,6 +59,10 @@ const ViewDetailNotice = () => {
           <ContentArea>{notice.content}</ContentArea>
         </ContentContainer>
       </ContentLayout>
+      <InstagramBtnLayout>
+        <p>총학생회 인스타그램</p>
+        <InstaArrowIcon />
+      </InstagramBtnLayout>
       <UpdateButton onClick={() => navigate(`/notice/${id}/edit`)}>
         수정하기
       </UpdateButton>
@@ -141,6 +146,25 @@ const ContentArea = styled.textarea`
     background-color: #cdcccc;
     border-radius: 12px;
   }
+`;
+
+const InstagramBtnLayout = styled.div`
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  padding: 0 12px 44px 0;
+
+  p {
+    font-size: 13px;
+    font-weight: 400;
+    color: ${({ theme }) => theme.colors.text500};
+  }
+`;
+
+const InstaArrowIcon = styled(InstaArrowIconImg)`
+  width: 24px;
+  height: 24px;
+  transform: scaleX(-1);
 `;
 
 const UpdateButton = styled.button`
