@@ -9,7 +9,6 @@ import { useAuthStore } from '../../store';
 import { LostItemForm, LostItemRequest } from '../../types/lostItem';
 import { handleError } from '../../utils/errorUtil';
 import { lostItemEditSchema } from '../../validation/schema';
-import Header from '../ViewDetailLostItem/Header'; // 이후 재사용 관련 다시 생각
 
 const EditLostItem = () => {
   const location = useLocation();
@@ -66,7 +65,7 @@ const EditLostItem = () => {
 
   return (
     <Wrapper>
-      <Header />
+      {/* <Header /> */}
       <EditForm onSubmit={handleSubmit(onSubmit)}>
         <ItemLayout>
           <ImageContainer>

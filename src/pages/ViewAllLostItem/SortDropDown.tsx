@@ -70,7 +70,7 @@ const Wrapper = styled.div`
   align-self: flex-end;
   gap: 1px;
 
-  z-index: 999;
+  z-index: 1;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 `;
