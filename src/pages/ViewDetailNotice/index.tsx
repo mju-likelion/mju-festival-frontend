@@ -5,6 +5,7 @@ import Header from './Header';
 import { DetailNoticeType } from '../../types';
 import DeleteNoticeModal from './DeleteNoticeModal';
 import { fetchNotice } from '../../api/notice.ts';
+import { openInstagram } from '../../utils/openInstaUtil.ts';
 import { ReactComponent as InstaArrowIconImg } from '../../assets/icons/backIcon.svg';
 
 const ViewDetailNotice = () => {
@@ -56,10 +57,10 @@ const ViewDetailNotice = () => {
         </TitleContainer>
         <ContentContainer>
           <p>내용 :</p>
-          <ContentArea>{notice.content}</ContentArea>
+          <Content>{notice.content}</Content>
         </ContentContainer>
       </ContentLayout>
-      <InstagramBtnLayout>
+      <InstagramBtnLayout onClick={openInstagram}>
         <p>총학생회 인스타그램</p>
         <InstaArrowIcon />
       </InstagramBtnLayout>
@@ -131,7 +132,7 @@ const ContentContainer = styled.div`
   border: 1px solid red;
 `;
 
-const ContentArea = styled.textarea`
+const Content = styled.textarea`
   width: 100%;
   height: 145px;
   font-size: 17px;
