@@ -5,6 +5,7 @@ import Header from './Header';
 import { DetailNoticeType } from '../../types';
 import DeleteNoticeModal from './DeleteNoticeModal';
 import { fetchNotice } from '../../api/notice.ts';
+import { useAuthStore } from '../../store/auth.ts';
 import { openInstagram } from '../../utils/openInstaUtil.ts';
 import { ReactComponent as InstaArrowIconImg } from '../../assets/icons/backIcon.svg';
 
@@ -20,6 +21,7 @@ const ViewDetailNotice = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
+  const { role } = useAuthStore();
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -64,12 +66,14 @@ const ViewDetailNotice = () => {
         <p>총학생회 인스타그램</p>
         <InstaArrowIcon />
       </InstagramBtnLayout>
-      <ButtonLayout>
-        <UpdateButton onClick={() => navigate(`/notice/${id}/edit`)}>
-          수정하기
-        </UpdateButton>
-        <DeleteButton onClick={openModal}>삭제하기</DeleteButton>
-      </ButtonLayout>
+      {role === 'STUDENT_COUNCIL' && (
+        <ButtonLayout>
+          <UpdateButton onClick={() => navigate(`/notice/${id}/edit`)}>
+            수정하기
+          </UpdateButton>
+          <DeleteButton onClick={openModal}>삭제하기</DeleteButton>
+        </ButtonLayout>
+      )}
       <DeleteNoticeModal
         noticeId={id}
         isOpen={isModalOpen}
