@@ -1,11 +1,12 @@
 import { useMemo, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { deleteLostItem } from '../../api/lostItem';
+import { deleteLostItem, patchLostItemAsFound } from '../../api/lostItem';
 import { ReactComponent as PlaceIcon } from '../../assets/icons/place.svg';
 import Header from '../../components/Header';
 import { useAuthStore } from '../../store';
 import { formatDate } from '../../utils/dateUtil';
+import { handleError } from '../../utils/errorUtil';
 import Modal from './Modal';
 
 const DetailLostItem = () => {
@@ -32,6 +33,17 @@ const DetailLostItem = () => {
       }
     } catch (error) {
       console.error(error);
+    }
+  };
+
+  const handleFoundStatus = async () => {
+    try {
+      if (id && token) {
+        await patchLostItemAsFound(id, token, '이진혁');
+        navigate('/lost-items');
+      }
+    } catch (error) {
+      handleError(error as Error);
     }
   };
 
@@ -73,7 +85,9 @@ const DetailLostItem = () => {
                 삭제하기
               </DeleteButton>
             </ButtonLayout>
-            <FoundedButton>분실물 찾음</FoundedButton>
+            <FoundedButton onClick={handleFoundStatus}>
+              분실물 찾음
+            </FoundedButton>
           </>
         )}
       </Wrapper>
