@@ -43,7 +43,7 @@ const ViewDetailNotice = () => {
             .replace(/-/gi, ' . ')}`}
         </p>
       </DateLayout>
-      {imageUrl && <img src={imageUrl} width="400px" alt="사진" />}
+      <ImageLayout>{imageUrl && <img src={imageUrl} alt="사진" />}</ImageLayout>
       <div>
         <span>제목 : </span>
         <Title>{notice.title}</Title>
@@ -75,6 +75,19 @@ const DateLayout = styled.div`
     font-size: 11px;
     font-weight: 600;
     color: #939da6;
+  }
+`;
+
+const ImageLayout = styled.div`
+  display: flex;
+  width: 100%;
+  height: 248px;
+  padding: 0 20px;
+
+  img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
   }
 `;
 
