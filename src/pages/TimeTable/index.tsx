@@ -159,6 +159,7 @@ const FooterLayout = styled.div`
     bottom: 0;
     width: 100%;
     object-fit: cover;
+    z-index: 10;
   }
 `;
 export default TimeTable;

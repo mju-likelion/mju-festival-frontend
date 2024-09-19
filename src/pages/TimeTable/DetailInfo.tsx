@@ -30,6 +30,8 @@ const Wrapper = styled.div`
   align-items: center;
   gap: 30px;
   height: 124px;
+  position: relative;
+  z-index: 20;
   border: 1px solid skyblue;
 
   p {

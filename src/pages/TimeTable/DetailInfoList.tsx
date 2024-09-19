@@ -37,6 +37,8 @@ const Contour = styled.div`
   height: 1px;
   margin-top: 24px;
   background-color: #b0bdf7;
+  position: relative;
+  z-index: 30;
 `;
 
 export default DetailInfoList;
