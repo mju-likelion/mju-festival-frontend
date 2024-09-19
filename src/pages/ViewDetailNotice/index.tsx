@@ -64,10 +64,12 @@ const ViewDetailNotice = () => {
         <p>총학생회 인스타그램</p>
         <InstaArrowIcon />
       </InstagramBtnLayout>
-      <UpdateButton onClick={() => navigate(`/notice/${id}/edit`)}>
-        수정하기
-      </UpdateButton>
-      <DeleteButton onClick={openModal}>삭제하기</DeleteButton>
+      <ButtonLayout>
+        <UpdateButton onClick={() => navigate(`/notice/${id}/edit`)}>
+          수정하기
+        </UpdateButton>
+        <DeleteButton onClick={openModal}>삭제하기</DeleteButton>
+      </ButtonLayout>
       <DeleteNoticeModal
         noticeId={id}
         isOpen={isModalOpen}
@@ -130,7 +132,6 @@ const ContentContainer = styled.div`
   font-size: 17px;
   font-weight: 400;
   color: ${({ theme }) => theme.colors.text900};
-  border: 1px solid red;
 `;
 
 const Content = styled.div`
@@ -140,7 +141,6 @@ const Content = styled.div`
   font-weight: 400;
   white-space: pre-wrap;
   overflow-y: auto;
-  border: 1px solid orange;
 
   &::-webkit-scrollbar {
     width: 2px;
@@ -171,20 +171,29 @@ const InstaArrowIcon = styled(InstaArrowIconImg)`
   transform: scaleX(-1);
 `;
 
+const ButtonLayout = styled.div`
+  display: flex;
+  padding: 0 20px 88px 20px;
+  gap: 6px;
+
+  button {
+    width: 100%;
+    height: 42px;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 600;
+  }
+`;
+
 const UpdateButton = styled.button`
   background-color: ${({ theme }) => theme.colors.blue100};
-  border-radius: 28px;
-  color: white;
-  width: 174px;
-  height: 42px;
+  color: ${({ theme }) => theme.colors.white100};
 `;
 
 const DeleteButton = styled.button`
-  background-color: #80878d;
-  border-radius: 28px;
-  color: white;
-  width: 174px;
-  height: 42px;
+  background-color: transparent;
+  border: 1px solid ${({ theme }) => theme.colors.blue100};
+  color: ${({ theme }) => theme.colors.blue100};
 `;
 
 export default ViewDetailNotice;
