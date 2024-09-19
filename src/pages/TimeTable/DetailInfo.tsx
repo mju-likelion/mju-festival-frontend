@@ -34,7 +34,6 @@ const Wrapper = styled.div`
   height: 124px;
   position: relative;
   z-index: 20;
-  border: 1px solid skyblue;
 `;
 
 const TimeLayout = styled.div`
@@ -52,7 +51,6 @@ const InfoLayout = styled.div`
   border-radius: 12px;
   background-color: ${({ theme }) => theme.colors.white100};
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
-  border: 2px solid blue;
 `;
 
 const InfoContainer = styled.div`
@@ -61,14 +59,12 @@ const InfoContainer = styled.div`
   width: 100%;
   height: 100%;
   gap: 4px;
-  border: 1px solid pink;
 `;
 
 const TextBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border: 1px solid red;
 
   p:first-child {
     font-size: 20px;

@@ -69,7 +69,6 @@ const TitleLayout = styled.div`
   flex-direction: column;
   padding: 23px 0 28px 20px;
   gap: 9px;
-  border: 1px solid red;
 
   p:nth-of-type(1) {
     font-size: 20px;
@@ -86,7 +85,6 @@ const TitleLayout = styled.div`
 
 const InfoTextLayout = styled.div`
   padding: 28px 0 31px 0;
-  border: 1px solid orange;
 `;
 
 const TypeLayout = styled.div`
@@ -94,12 +92,10 @@ const TypeLayout = styled.div`
   justify-content: center;
   padding: 0 44px;
   gap: 10px;
-  border: 1px solid yellow;
 `;
 
 const DateLayout = styled.div`
   padding: 20px 30px 22px 30px;
-  border: 1px solid green;
 `;
 
 const ButtonContainer = styled.div`
@@ -153,7 +149,6 @@ const FooterLayout = styled.div`
   height: 88px;
   position: relative;
   background-color: transparent;
-  border: 2px solid purple;
 
   :first-child {
     position: absolute;

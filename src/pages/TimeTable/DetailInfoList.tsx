@@ -31,7 +31,6 @@ const Wrapper = styled.div`
   height: 100%;
   padding: 51px 24px;
   background-color: #f0f5f7;
-  border: 1px solid blue;
 `;
 
 const Contour = styled.div`
