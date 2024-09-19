@@ -48,11 +48,16 @@ const ViewDetailNotice = () => {
           <img src={imageUrl} alt="사진" />
         </ImageLayout>
       )}
-      <div>
-        <span>제목 : </span>
-        <Title>{notice.title}</Title>
-      </div>
-      <Content>{notice.content}</Content>
+      <ContentLayout>
+        <TitleContainer>
+          <p>제목 : </p>
+          <Title>{notice.title}</Title>
+        </TitleContainer>
+        <ContentContainer>
+          <p>내용 :</p>
+          <ContentArea>{notice.content}</ContentArea>
+        </ContentContainer>
+      </ContentLayout>
       <UpdateButton onClick={() => navigate(`/notice/${id}/edit`)}>
         수정하기
       </UpdateButton>
@@ -91,20 +96,51 @@ const ImageLayout = styled.div`
   img {
     width: 100%;
     height: auto;
-    object-fit: contain;
+    /* object-fit: contain; */
   }
 `;
 
-const Title = styled.span`
-  font-weight: bold;
+const ContentLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 17px 20px 41px 20px;
 `;
 
-const Content = styled.p`
-  background-color: #eff0f6;
-  max-width: 330px;
-  height: 220px;
-  padding: 18px 15px;
-  line-height: 22px;
+const TitleContainer = styled.div`
+  font-size: 20px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.text900};
+`;
+
+const Title = styled.textarea`
+  width: 100%;
+  font-size: 20px;
+  font-weight: 600;
+`;
+
+const ContentContainer = styled.div`
+  font-size: 17px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.text900};
+  border: 1px solid red;
+`;
+
+const ContentArea = styled.textarea`
+  width: 100%;
+  height: 145px;
+  font-size: 17px;
+  font-weight: 400;
+  border: 1px solid orange;
+
+  &::-webkit-scrollbar {
+    width: 2px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #cdcccc;
+    border-radius: 12px;
+  }
 `;
 
 const UpdateButton = styled.button`
