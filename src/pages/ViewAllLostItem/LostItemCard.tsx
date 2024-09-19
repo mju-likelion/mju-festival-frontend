@@ -4,13 +4,18 @@ import { SimpleLostItem } from '../../types/lostItem';
 
 interface LostItemsProps {
   lostItem: SimpleLostItem;
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const LostItemCard = ({ lostItem }: LostItemsProps) => {
+const LostItemCard = ({ lostItem, setIsModalOpen }: LostItemsProps) => {
   const { id, title, content, imageUrl, isFounded } = lostItem;
   const navigate = useNavigate();
 
   const moveDetailPage = () => {
+    if (isFounded) {
+      setIsModalOpen(true);
+      return;
+    }
     navigate(`/lost-items/${id}`, { state: lostItem });
   };
 

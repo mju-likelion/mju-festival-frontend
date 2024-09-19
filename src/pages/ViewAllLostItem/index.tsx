@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getLostItems, getSearchLostItems } from '../../api/lostItem';
-
 import Header from '../../components/Header';
 import InfoText from '../../components/InfoText';
 import { useAuthStore } from '../../store';
 import { SimpleLostItem, SortKey } from '../../types/lostItem';
 import { handleError } from '../../utils/errorUtil';
 import ItemList from './ItemList';
+import Modal from './Modal';
 import Page from './Page';
 import SearchInput from './SearchInput';
 import SortDropDown from './SortDropDown';
@@ -19,6 +19,7 @@ const LostItem = () => {
   const [page, setPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
   const [keyword, setKeyword] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const SIZE: number = 4;
 
   const { role } = useAuthStore();
@@ -84,7 +85,7 @@ const LostItem = () => {
         </form>
         <SortDropDown setSorted={setSorted} setPage={setPage} />
       </ContentWrapper>
-      <ItemList lostItems={lostItems} />
+      <ItemList lostItems={lostItems} setIsModalOpen={setIsModalOpen} />
       <Page page={page} totalPage={totalPage} setPage={setPage} />
 
       {role === 'STUDENT_COUNCIL' && (
@@ -99,6 +100,7 @@ const LostItem = () => {
           </RegisterButton>
         </ButtonWrapper>
       )}
+      {isModalOpen && <Modal setIsModalOpen={setIsModalOpen} />}
     </>
   );
 };
