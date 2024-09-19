@@ -35,12 +35,14 @@ const ViewDetailNotice = () => {
   return (
     <Wrapper>
       <Header title="공지사항">공지사항 내용</Header>
-      <p>
-        {`등록일 : ${notice.createdAt
-          .toString()
-          .split('T')[0]
-          .replace(/-/gi, ' . ')}`}
-      </p>
+      <DateLayout>
+        <p>
+          {`등록일 : ${notice.createdAt
+            .toString()
+            .split('T')[0]
+            .replace(/-/gi, ' . ')}`}
+        </p>
+      </DateLayout>
       {imageUrl && <img src={imageUrl} width="400px" alt="사진" />}
       <div>
         <span>제목 : </span>
@@ -63,6 +65,18 @@ const ViewDetailNotice = () => {
 };
 
 const Wrapper = styled.div``;
+
+const DateLayout = styled.div`
+  display: flex;
+  justify-content: end;
+  padding: 6px 20px 6px 0;
+
+  p {
+    font-size: 11px;
+    font-weight: 600;
+    color: #939da6;
+  }
+`;
 
 const Title = styled.span`
   font-weight: bold;
