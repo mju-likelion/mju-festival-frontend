@@ -119,8 +119,9 @@ const TitleContainer = styled.div`
   color: ${({ theme }) => theme.colors.text900};
 `;
 
-const Title = styled.textarea`
+const Title = styled.div`
   width: 100%;
+  height: auto;
   font-size: 20px;
   font-weight: 600;
 `;
@@ -132,11 +133,13 @@ const ContentContainer = styled.div`
   border: 1px solid red;
 `;
 
-const Content = styled.textarea`
+const Content = styled.div`
   width: 100%;
   height: 145px;
   font-size: 17px;
   font-weight: 400;
+  white-space: pre-wrap;
+  overflow-y: auto;
   border: 1px solid orange;
 
   &::-webkit-scrollbar {
