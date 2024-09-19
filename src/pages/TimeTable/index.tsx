@@ -5,6 +5,7 @@ import DetailInfoList from './DetailInfoList';
 import { useTimeTableData } from '../../context/TimeTable';
 import { useTimeTableDateStore } from '../../store/timetable';
 import TypeIcon from './TypeIcon';
+import plant from '../../assets/imgs/timetable_plant.png';
 
 const TimeTable = () => {
   const { selectedDate, setCurDate } = useTimeTableDateStore();
@@ -51,7 +52,9 @@ const TimeTable = () => {
         </ButtonContainer>
       </DateLayout>
       <DetailInfoList />
-      <FooterLayout />
+      <FooterLayout>
+        <img src={plant} alt="식물" />
+      </FooterLayout>
     </Wrapper>
   );
 };
@@ -147,6 +150,15 @@ const SecondDateButton = styled.button<{ $isSelected: boolean }>`
 const FooterLayout = styled.div`
   width: 100%;
   height: 88px;
+  position: relative;
   background-color: transparent;
+  border: 2px solid purple;
+
+  :first-child {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    object-fit: cover;
+  }
 `;
 export default TimeTable;
