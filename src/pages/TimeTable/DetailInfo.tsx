@@ -35,7 +35,6 @@ const Wrapper = styled.div`
   border: 1px solid skyblue;
 
   p {
-    white-space: nowrap;
     font-size: 17px;
     font-weight: 600;
     color: ${({ theme }) => theme.colors.blue100};
@@ -64,7 +63,7 @@ const TextBox = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  flex: 1;
+  border: 1px solid red;
 `;
 
 const InfoImg = styled.img`

@@ -17,12 +17,9 @@ const Wrapper = styled.div<{ type: PerformanceType }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
+  width: 68px;
   height: 24px;
   border-radius: 999px;
-  font-size: 11px;
-  font-weight: 600;
-  color: ${({ theme }) => theme.colors.white100};
   background-color: ${({ theme, type }) => {
     switch (type) {
       case '댄스':
@@ -37,6 +34,12 @@ const Wrapper = styled.div<{ type: PerformanceType }>`
         return theme.colors.white100;
     }
   }};
+
+  p {
+    font-size: 11px;
+    font-weight: 600;
+    color: ${({ theme }) => theme.colors.white100};
+  }
 `;
 
 export default TypeIcon;
