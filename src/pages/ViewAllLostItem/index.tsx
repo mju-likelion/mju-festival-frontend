@@ -7,6 +7,7 @@ import Header from '../../components/Header';
 import InfoText from '../../components/InfoText';
 import { useAuthStore } from '../../store';
 import { SimpleLostItem, SortKey } from '../../types/lostItem';
+import { handleError } from '../../utils/errorUtil';
 import ItemList from './ItemList';
 import Page from './Page';
 import SearchInput from './SearchInput';
@@ -31,7 +32,7 @@ const LostItem = () => {
       setLostItems(simpleLostItems);
       setTotalPage(totalPage);
     } catch (error) {
-      console.error(error);
+      handleError(error as Error);
     }
   };
 
@@ -76,32 +77,33 @@ const LostItem = () => {
           잃어버린 물건을 찾아보세요!
         </SubTitle>
       </TitleWrapper>
-      <Wrapper>
+      <ContentWrapper>
         <InfoText>분실물찾기</InfoText>
         <form onSubmit={onSubmit}>
           <SearchInput setKeyword={setKeyword} />
         </form>
         <SortDropDown setSorted={setSorted} setPage={setPage} />
-      </Wrapper>
+      </ContentWrapper>
       <ItemList lostItems={lostItems} />
       <Page page={page} totalPage={totalPage} setPage={setPage} />
 
-      {/* 등록 버튼 디자인 확정 전 */}
       {role === 'STUDENT_COUNCIL' && (
-        <button
-          type="button"
-          onClick={() => {
-            navigate('/lost-items/register');
-          }}
-        >
-          분실물 등록하기
-        </button>
+        <ButtonWrapper>
+          <RegisterButton
+            type="button"
+            onClick={() => {
+              navigate('/lost-items/register');
+            }}
+          >
+            게시물 작성하기
+          </RegisterButton>
+        </ButtonWrapper>
       )}
     </>
   );
 };
 
-const Wrapper = styled.div`
+const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 20px;
@@ -124,4 +126,19 @@ const SubTitle = styled.p`
   margin-top: 9px;
 `;
 
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 41px 0;
+`;
+
+const RegisterButton = styled.button`
+  width: 240px;
+  padding: 16px 11px;
+  border-radius: 12px;
+
+  ${({ theme }) => theme.typographies.body1};
+  color: ${({ theme }) => theme.colors.white100};
+  background-color: ${({ theme }) => theme.colors.blue100};
+`;
 export default LostItem;

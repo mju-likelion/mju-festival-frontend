@@ -2,32 +2,29 @@ import styled from 'styled-components';
 import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg'; // `ReactComponent`로 변경
 
 interface ModalProps {
-  isModalOpen: boolean;
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleDelete: () => void;
 }
 
-const Modal = ({ isModalOpen, setIsModalOpen, handleDelete }: ModalProps) => {
+const Modal = ({ setIsModalOpen, handleDelete }: ModalProps) => {
   return (
     <>
-      {isModalOpen && (
-        <OverlayWrapper>
-          <Layout>
-            <Close as={CloseIcon} onClick={() => setIsModalOpen(false)} />
-            <Title>삭제하기 전 유의사항</Title>
-            <Content>
-              게시물 삭제 후 게시물
-              <br />
-              복구가 되지 않습니다. <br />
-              <br />
-              확인하신 후 삭제해주시길 바랍니다.
-            </Content>
-            <Button type="button" onClick={() => handleDelete()}>
-              확인하기
-            </Button>
-          </Layout>
-        </OverlayWrapper>
-      )}
+      <OverlayWrapper>
+        <Layout>
+          <Close as={CloseIcon} onClick={() => setIsModalOpen(false)} />
+          <Title>삭제하기 전 유의사항</Title>
+          <Content>
+            게시물 삭제 후 게시물
+            <br />
+            복구가 되지 않습니다. <br />
+            <br />
+            확인하신 후 삭제해주시길 바랍니다.
+          </Content>
+          <Button type="button" onClick={() => handleDelete()}>
+            확인하기
+          </Button>
+        </Layout>
+      </OverlayWrapper>
     </>
   );
 };

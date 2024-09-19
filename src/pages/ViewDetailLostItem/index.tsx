@@ -49,11 +49,9 @@ const DetailLostItem = () => {
 
   return (
     <>
-      <Modal
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
-        handleDelete={handleDelete}
-      />
+      {isModalOpen && (
+        <Modal setIsModalOpen={setIsModalOpen} handleDelete={handleDelete} />
+      )}
       <Header />
       <TitleWrapper>
         <Title>분실물찾기</Title>

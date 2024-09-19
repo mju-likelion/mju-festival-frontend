@@ -46,7 +46,6 @@ const Overlay = styled.div`
   width: 100%;
   height: 100%;
   background-color: ${({ theme }) => theme.colors.black30};
-  z-index: 1;
 `;
 
 const Badge = styled.div`
@@ -64,7 +63,6 @@ const Badge = styled.div`
   color: ${({ theme }) => theme.colors.white100};
   background-color: ${({ theme }) => theme.colors.blue100};
   border-radius: 99px;
-  z-index: 2;
 `;
 
 const TextLayout = styled.div`
