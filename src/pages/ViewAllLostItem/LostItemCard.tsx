@@ -7,7 +7,7 @@ interface LostItemsProps {
 }
 
 const LostItemCard = ({ lostItem }: LostItemsProps) => {
-  const { id, title, content, imageUrl } = lostItem;
+  const { id, title, content, imageUrl, isFounded } = lostItem;
   const navigate = useNavigate();
 
   const moveDetailPage = () => {
@@ -16,6 +16,8 @@ const LostItemCard = ({ lostItem }: LostItemsProps) => {
 
   return (
     <Wrapper onClick={moveDetailPage}>
+      {isFounded && <Overlay />}
+      {isFounded && <Badge>찾음</Badge>}
       <TextLayout>
         <Title>{title}</Title>
         <Content>{content}</Content>
@@ -26,7 +28,7 @@ const LostItemCard = ({ lostItem }: LostItemsProps) => {
 };
 
 const Wrapper = styled.div`
-  width: 100%;
+  position: relative;
   display: flex;
   padding: 12px 11px;
   justify-content: space-between;
@@ -34,10 +36,38 @@ const Wrapper = styled.div`
   box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.25);
   background-color: ${({ theme }) => theme.colors.white100};
   cursor: pointer;
+  overflow: hidden;
+`;
+
+const Overlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: ${({ theme }) => theme.colors.black30};
+  z-index: 1;
+`;
+
+const Badge = styled.div`
+  width: 68px;
+  height: 24px;
+  position: absolute;
+  bottom: 12px;
+  right: 11px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ${({ theme }) => theme.typographies.caption1}
+  color: ${({ theme }) => theme.colors.white100};
+  background-color: ${({ theme }) => theme.colors.blue100};
+  border-radius: 99px;
+  z-index: 2;
 `;
 
 const TextLayout = styled.div`
-  // 이미지 크기 고정 100px + gap 10px
   width: calc(100% - 110px);
   padding: 2px 0;
   display: flex;
@@ -50,8 +80,6 @@ const Title = styled.p`
   border-bottom: 1px solid #e1ebf0;
   ${({ theme }) => theme.typographies.title1}
   color: ${({ theme }) => theme.colors.blue100};
-
-  // 텍스트 길어지면 .처리
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -61,7 +89,6 @@ const Content = styled.p`
   height: 54px;
   ${({ theme }) => theme.typographies.body2}
   color: ${({ theme }) => theme.colors.text900};
-
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -73,4 +100,5 @@ const ItemImg = styled.img`
   border-radius: 8px;
   object-fit: cover;
 `;
+
 export default LostItemCard;
