@@ -37,10 +37,15 @@ const DeleteNoticeModal = ({
   );
 };
 const Wrapper = styled.div<{ $isOpen: boolean }>`
-  display: ${({ $isOpen }) => ($isOpen ? 'block' : 'none')};
-  background-color: pink;
-  width: 100px;
-  height: 100px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: ${({ theme }) => theme.colors.black30};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const DeleteButton = styled.button``;
