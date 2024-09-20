@@ -12,7 +12,7 @@ const ViewAllNotice = () => {
   const navigate = useNavigate();
   const { role } = useAuthStore();
   const { curPage, isSorted, setCurPage, setIsSorted } = usePageStore();
-  const sortOptions: SortOptions = { desc: '최신순', asc: '오래된순' };
+  const sortOptions: SortOptions = { desc: '최신순', asc: '나중순' };
   const { notices, totalPage, isLoading } = useFetchNotices({
     isSorted,
     curPage,
@@ -35,13 +35,15 @@ const ViewAllNotice = () => {
       <InfoTextLayout>
         <InfoText>공지사항</InfoText>
       </InfoTextLayout>
-      <select onChange={handleSort}>
-        {Object.entries(sortOptions).map(([key, value]) => (
-          <option value={key} key={key}>
-            {value}
-          </option>
-        ))}
-      </select>
+      <SelectLayout>
+        <select onChange={handleSort}>
+          {Object.entries(sortOptions).map(([key, value]) => (
+            <option value={key} key={key}>
+              {value}
+            </option>
+          ))}
+        </select>
+      </SelectLayout>
       {notices.map((notice) => (
         <NoticeCard
           key={notice.id}
@@ -51,28 +53,30 @@ const ViewAllNotice = () => {
         />
       ))}
 
-      <Layout>
-        <button
-          type="button"
-          disabled={curPage === 0 || isLoading}
-          onClick={() => handlePage(-1)}
-        >
-          {'<'}
-        </button>
-        <TempP>{`${curPage + 1}/${totalPage}`}</TempP>
-        <button
-          type="button"
-          disabled={curPage + 1 === totalPage || isLoading}
-          onClick={() => handlePage(1)}
-        >
-          {'>'}
-        </button>
+      <BtnLayout>
+        <TempBtnDiv>
+          <button
+            type="button"
+            disabled={curPage === 0 || isLoading}
+            onClick={() => handlePage(-1)}
+          >
+            {'<'}
+          </button>
+          <TempP>{`${curPage + 1}/${totalPage}`}</TempP>
+          <button
+            type="button"
+            disabled={curPage + 1 === totalPage || isLoading}
+            onClick={() => handlePage(1)}
+          >
+            {'>'}
+          </button>
+        </TempBtnDiv>
         {role === 'STUDENT_COUNCIL' && (
           <CreateBtn onClick={() => navigate('/create/notice')}>
-            공지사항 작성하기
+            게시물 작성하기
           </CreateBtn>
         )}
-      </Layout>
+      </BtnLayout>
     </Wrapper>
   );
 };
@@ -100,7 +104,28 @@ const InfoTextLayout = styled.div`
   padding: 48px 95px 20px 95px;
 `;
 
-const Layout = styled.div`
+const SelectLayout = styled.div`
+  display: flex;
+  justify-content: end;
+  padding: 0 20px 20px 0;
+
+  select {
+    height: 24px;
+    border-radius: 999px;
+    border: none;
+    background-color: ${({ theme }) => theme.colors.gray300};
+  }
+`;
+
+const BtnLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 75px 52px 75px;
+`;
+
+const TempBtnDiv = styled.div`
   display: flex;
 `;
 const TempP = styled.p`
@@ -108,7 +133,13 @@ const TempP = styled.p`
 `;
 
 const CreateBtn = styled.button`
-  background-color: #002968;
-  color: white;
+  width: 100%;
+  max-width: 240px;
+  height: 52px;
+  border-radius: 12px;
+  background-color: ${({ theme }) => theme.colors.blue100};
+  color: ${({ theme }) => theme.colors.white100};
+  font-size: 17px;
+  font-weight: 600;
 `;
 export default ViewAllNotice;
