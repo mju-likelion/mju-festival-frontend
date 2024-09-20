@@ -6,6 +6,7 @@ import NoticeCard from './NoticeCard';
 import { SortKey, SortOptions } from '../../types';
 import { useAuthStore, usePageStore } from '../../store';
 import useFetchNotices from '../../hooks/useFetchNotices';
+import InfoText from '../../components/InfoText';
 
 const ViewAllNotice = () => {
   const navigate = useNavigate();
@@ -27,7 +28,13 @@ const ViewAllNotice = () => {
 
   return (
     <Wrapper>
-      <Header />
+      <TitleLayout>
+        <p>공지사항</p>
+        <p>실시간으로 올라오는 공지사항을 확인해보세요!</p>
+      </TitleLayout>
+      <InfoTextLayout>
+        <InfoText>공지사항</InfoText>
+      </InfoTextLayout>
       <select onChange={handleSort}>
         {Object.entries(sortOptions).map(([key, value]) => (
           <option value={key} key={key}>
@@ -71,6 +78,27 @@ const ViewAllNotice = () => {
 };
 
 const Wrapper = styled.div``;
+
+const TitleLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+
+  p:nth-of-type(1) {
+    font-size: 20px;
+    font-weight: 600;
+    color: ${({ theme }) => theme.colors.text900};
+  }
+  p:nth-of-type(2) {
+    font-size: 16px;
+    font-weight: 400;
+    color: ${({ theme }) => theme.colors.text900};
+  }
+`;
+
+const InfoTextLayout = styled.div`
+  padding: 48px 95px 20px 95px;
+`;
 
 const Layout = styled.div`
   display: flex;
