@@ -144,7 +144,7 @@ const EditNotice = () => {
           </ContentContainer>
         </UploadContentLayout>
         <BtnWrapper>
-          <CreateButton type="submit">수정하기</CreateButton>
+          <CreateButton type="submit">완료하기</CreateButton>
           <CancelButton onClick={() => navigate(-1)}>취소하기</CancelButton>
         </BtnWrapper>
       </form>
