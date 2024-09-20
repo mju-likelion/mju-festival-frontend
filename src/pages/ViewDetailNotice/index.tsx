@@ -48,12 +48,6 @@ const ViewDetailNotice = () => {
             .replace(/-/gi, ' . ')}`}
         </p>
       </DateLayout>
-      {/* {imageUrl && (
-        <ImageLayout>
-          <img src={imageUrl} alt="사진" />
-        </ImageLayout>
-      )} */}
-
       <ImageLayout>
         {imageUrl ? <img src={imageUrl} alt="사진" /> : <NoImage />}
       </ImageLayout>

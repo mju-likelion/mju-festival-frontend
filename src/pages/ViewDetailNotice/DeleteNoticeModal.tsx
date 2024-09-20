@@ -29,10 +29,7 @@ const DeleteNoticeModal = ({
   return (
     <Wrapper $isOpen={isOpen}>
       <ModalLayout>
-        {/* <button type="button" onClick={closeModal}>
-          X
-        </button> */}
-        <CloseBtn />
+        <CloseBtn onClick={closeModal} />
         <TextContainer>
           <Title>삭제하기 전 유의사항</Title>
           <Content>

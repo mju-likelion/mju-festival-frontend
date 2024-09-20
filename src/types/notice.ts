@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
-
 export interface NoticeType {
   id?: string;
   title: string;
