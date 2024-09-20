@@ -69,3 +69,19 @@ export const patchLostItem = async (
 
   return data;
 };
+
+export const patchLostItemAsFound = async (
+  id: string,
+  token: string,
+  retrieverInfo: string
+) => {
+  await Axios.patch(
+    `lost-items/${id}/found`,
+    { retrieverInfo },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};

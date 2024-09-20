@@ -76,7 +76,7 @@ const Main = () => {
             <MainMenuButton
               bgimg="timetable"
               type="button"
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/timetable')}
             >
               타임테이블
             </MainMenuButton>
