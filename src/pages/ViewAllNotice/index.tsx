@@ -44,14 +44,16 @@ const ViewAllNotice = () => {
           ))}
         </select>
       </SelectLayout>
-      {notices.map((notice) => (
-        <NoticeCard
-          key={notice.id}
-          title={notice.title}
-          content={notice.content}
-          onClick={() => navigate(`/view/detail-notice/${notice.id}`)}
-        />
-      ))}
+      <NoticeLayout>
+        {notices.map((notice) => (
+          <NoticeCard
+            key={notice.id}
+            title={notice.title}
+            content={notice.content}
+            onClick={() => navigate(`/view/detail-notice/${notice.id}`)}
+          />
+        ))}
+      </NoticeLayout>
 
       <BtnLayout>
         <TempBtnDiv>
@@ -115,6 +117,16 @@ const SelectLayout = styled.div`
     border: none;
     background-color: ${({ theme }) => theme.colors.gray300};
   }
+`;
+
+const NoticeLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 581px;
+  padding: 19px 20px;
+  gap: 15px;
+  background-color: ${({ theme }) => theme.colors.gray100};
 `;
 
 const BtnLayout = styled.div`
