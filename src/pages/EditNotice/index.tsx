@@ -143,7 +143,10 @@ const EditNotice = () => {
             </ContentLength>
           </ContentContainer>
         </UploadContentLayout>
-        <CreateButton type="submit">수정하기</CreateButton>
+        <BtnWrapper>
+          <CreateButton type="submit">수정하기</CreateButton>
+          <CancelButton onClick={() => navigate(-1)}>취소하기</CancelButton>
+        </BtnWrapper>
       </form>
     </Wrapper>
   );
@@ -262,12 +265,28 @@ const ContentLength = styled.div`
   }
 `;
 
+const BtnWrapper = styled.div`
+  display: flex;
+  padding: 0 20px 88px 20px;
+  gap: 6px;
+
+  button {
+    width: 100%;
+    height: 52px;
+    border-radius: 12px;
+    font-size: 17px;
+    font-weight: 600;
+  }
+`;
+
 const CreateButton = styled.button`
   background-color: ${({ theme }) => theme.colors.blue100};
-  width: 210px;
-  height: 48px;
-  border-radius: 28px;
   color: white;
+`;
+
+const CancelButton = styled.button`
+  border: 1px solid ${({ theme }) => theme.colors.blue100};
+  color: ${({ theme }) => theme.colors.blue100};
 `;
 
 export default EditNotice;
