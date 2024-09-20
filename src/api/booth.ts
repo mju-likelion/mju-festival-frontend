@@ -14,11 +14,12 @@ export const getBoothDepartments = async () => {
   return data;
 };
 
-export const getBooths = async (boothId: string) => {
+export const getBooths = async (boothId: string, page: number) => {
+  const PAGE = 2;
   const { data } = await Axios.get<BoothList>(
-    `/booths?department_id=${boothId}&page=${0}&size=${10}`
+    `/booths?department_id=${boothId}&page=${page}&size=${PAGE}`
   );
-  return data.simpleBooths;
+  return data;
 };
 
 export const getBoothDetail = async (boothId: string) => {
