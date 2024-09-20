@@ -1,12 +1,17 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getLostItems, getSearchLostItems } from '../../api/lostItem';
-import FloatingButton from '../../components/FloatingButton';
+import Header from '../../components/Header';
+import InfoText from '../../components/InfoText';
 import { useAuthStore } from '../../store';
-import { SimpleLostItem, SortKey, SortOptions } from '../../types/lostItem';
-import Header from './Header';
-import LostItemCard from './LostItemCard';
+import { SimpleLostItem, SortKey } from '../../types/lostItem';
+import { handleError } from '../../utils/errorUtil';
+import ItemList from './ItemList';
+import Modal from './Modal';
+import Page from './Page';
+import SearchInput from './SearchInput';
+import SortDropDown from './SortDropDown';
 
 const LostItem = () => {
   const [lostItems, setLostItems] = useState<SimpleLostItem[]>([]);
@@ -14,32 +19,11 @@ const LostItem = () => {
   const [page, setPage] = useState(0);
   const [totalPage, setTotalPage] = useState(0);
   const [keyword, setKeyword] = useState('');
-  const sortOptions: SortOptions = { desc: '최신순', asc: '오래된순' };
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const SIZE: number = 4;
 
   const { role } = useAuthStore();
   const navigate = useNavigate();
-
-  const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
-    setSorted(e.target.value as SortKey);
-    setPage(0);
-  };
-
-  const handlePageNum = (num: number) => {
-    setPage((prev) => {
-      const nextPage = prev + num;
-
-      if (nextPage < 0 || nextPage + 1 > totalPage) {
-        return prev;
-      }
-
-      return nextPage;
-    });
-  };
-
-  const handleKeyword = (e: ChangeEvent<HTMLInputElement>) => {
-    setKeyword(e.target.value);
-  };
 
   const fetchLostItems = async () => {
     try {
@@ -49,7 +33,7 @@ const LostItem = () => {
       setLostItems(simpleLostItems);
       setTotalPage(totalPage);
     } catch (error) {
-      console.error(error);
+      handleError(error as Error);
     }
   };
 
@@ -85,72 +69,78 @@ const LostItem = () => {
 
   return (
     <>
-      <Wrapper>
-        <Header />
+      <Header />
+      <TitleWrapper>
+        <Title>분실물찾기</Title>
+        <SubTitle>
+          앗! 물건을 잃어버리셨나요?
+          <br />
+          잃어버린 물건을 찾아보세요!
+        </SubTitle>
+      </TitleWrapper>
+      <ContentWrapper>
+        <InfoText>분실물찾기</InfoText>
         <form onSubmit={onSubmit}>
-          <SearchInput onChange={handleKeyword} />
-          <button type="submit">검색하기</button>
+          <SearchInput setKeyword={setKeyword} />
         </form>
-        <ListLayout>
-          <ListTItleContainer>
-            <ListTitle />
-            <SortedSelect onChange={handleSort}>
-              {Object.entries(sortOptions).map(([key, value]) => (
-                <option value={key} key={key}>
-                  {value}
-                </option>
-              ))}
-            </SortedSelect>
-          </ListTItleContainer>
-          <CardContainer>
-            {lostItems.map((lostItem) => (
-              <LostItemCard key={lostItem.id} lostItem={lostItem} />
-            ))}
-            <PageBtnContainer>
-              <PageButton onClick={() => handlePageNum(-1)}>{'<'}</PageButton>
-              <PageP>{`${page + 1}/${totalPage}`}</PageP>
-              <PageButton onClick={() => handlePageNum(1)}>{'>'}</PageButton>
-            </PageBtnContainer>
-          </CardContainer>
-        </ListLayout>
-        {role === 'STUDENT_COUNCIL' && (
-          <button
+        <SortDropDown setSorted={setSorted} setPage={setPage} />
+      </ContentWrapper>
+      <ItemList lostItems={lostItems} setIsModalOpen={setIsModalOpen} />
+      <Page page={page} totalPage={totalPage} setPage={setPage} />
+
+      {role === 'STUDENT_COUNCIL' && (
+        <ButtonWrapper>
+          <RegisterButton
             type="button"
             onClick={() => {
               navigate('/lost-items/register');
             }}
           >
-            분실물 등록하기
-          </button>
-        )}
-      </Wrapper>
-      <FloatingButton />
+            게시물 작성하기
+          </RegisterButton>
+        </ButtonWrapper>
+      )}
+      {isModalOpen && <Modal setIsModalOpen={setIsModalOpen} />}
     </>
   );
 };
 
-const Wrapper = styled.div`
-  width: 100%;
-  border: 4px solid red;
-`;
-
-const SearchInput = styled.input``;
-const ListLayout = styled.div``;
-const ListTItleContainer = styled.div``;
-const ListTitle = styled.p``;
-const SortedSelect = styled.select``;
-const CardContainer = styled.div`
+const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-`;
-const PageBtnContainer = styled.div`
-  position: fixed;
-  bottom: 30rem;
-`;
-const PageButton = styled.button``;
-const PageP = styled.p`
-  display: inline-block;
+  padding: 0 20px;
 `;
 
+const TitleWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 23px 20px 28px 20px;
+`;
+
+const Title = styled.p`
+  ${({ theme }) => theme.typographies.title1};
+  color: ${({ theme }) => theme.colors.text900};
+`;
+
+const SubTitle = styled.p`
+  ${({ theme }) => theme.typographies.callout};
+  color: ${({ theme }) => theme.colors.text900};
+  margin-top: 9px;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 41px 0;
+`;
+
+const RegisterButton = styled.button`
+  width: 240px;
+  padding: 16px 11px;
+  border-radius: 12px;
+
+  ${({ theme }) => theme.typographies.body1};
+  color: ${({ theme }) => theme.colors.white100};
+  background-color: ${({ theme }) => theme.colors.blue100};
+`;
 export default LostItem;

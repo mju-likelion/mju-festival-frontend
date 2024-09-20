@@ -34,7 +34,7 @@ const ViewDetailNotice = () => {
 
   return (
     <Wrapper>
-      <Header />
+      <Header title="공지사항">공지사항 내용</Header>
       <p>
         {`등록일 : ${notice.createdAt
           .toString()

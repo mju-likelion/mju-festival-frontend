@@ -1,9 +1,9 @@
-import styled from 'styled-components';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import LogInForm from './LogInForm.tsx';
+import styled from 'styled-components';
 import { ReactComponent as Logo } from '../../assets/imgs/logo.svg';
 import { ReactComponent as SubTitleLogo } from '../../assets/imgs/logo_subtitle.svg';
+import LogInForm from './LogInForm.tsx';
 
 const UserLogIn = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);

@@ -16,6 +16,9 @@ import LostItem from './pages/ViewAllLostItem/index.tsx';
 import ViewAllNotice from './pages/ViewAllNotice/index.tsx';
 import DetailLostItem from './pages/ViewDetailLostItem/index.tsx';
 import ViewDetailNotice from './pages/ViewDetailNotice/index.tsx';
+import TimeTable from './pages/TimeTable/index.tsx';
+import { TimeTableProvider } from './context/TimeTable.tsx';
+import Map from './pages/Map/index.tsx';
 
 function App() {
   useRouteTracker();
@@ -42,6 +45,15 @@ function App() {
           <Route path="/lost-items/:id" element={<DetailLostItem />} />
           <Route path="/lost-items/:id/edit" element={<EditLostItem />} />
           <Route path="/lost-items/register" element={<CreateLostItem />} />
+          <Route
+            path="/timetable"
+            element={
+              <TimeTableProvider>
+                <TimeTable />
+              </TimeTableProvider>
+            }
+          />
+          <Route path="/map" element={<Map />} />
         </Routes>
       </MobileWrapper>
     </BrowserRouter>
@@ -59,6 +71,14 @@ const MobileWrapper = styled.div`
   position: relative;
   overflow-y: auto;
   background-color: #ffffff;
+
+  // 스크롤바 숨기기
+  -ms-overflow-style: none; // IE and Edge
+  scrollbar-width: none; // Firefox
+
+  &::-webkit-scrollbar {
+    display: none; // Chrome, Safari, Opera
+  }
 `;
 
 export default App;
