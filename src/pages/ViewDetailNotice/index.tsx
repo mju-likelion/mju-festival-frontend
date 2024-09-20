@@ -8,6 +8,7 @@ import { fetchNotice } from '../../api/notice.ts';
 import { useAuthStore } from '../../store/auth.ts';
 import { openInstagram } from '../../utils/openInstaUtil.ts';
 import { ReactComponent as InstaArrowIconImg } from '../../assets/icons/backIcon.svg';
+import NoImage from './NoImage.tsx';
 
 const ViewDetailNotice = () => {
   const [notice, setNotice] = useState<DetailNoticeType>({
@@ -47,11 +48,16 @@ const ViewDetailNotice = () => {
             .replace(/-/gi, ' . ')}`}
         </p>
       </DateLayout>
-      {imageUrl && (
+      {/* {imageUrl && (
         <ImageLayout>
           <img src={imageUrl} alt="사진" />
         </ImageLayout>
-      )}
+      )} */}
+
+      <ImageLayout>
+        {imageUrl ? <img src={imageUrl} alt="사진" /> : <NoImage />}
+      </ImageLayout>
+
       <ContentLayout>
         <TitleContainer>
           <p>제목 : </p>
@@ -108,6 +114,7 @@ const ImageLayout = styled.div`
   img {
     width: 100%;
     height: auto;
+    border-radius: 12px;
     /* object-fit: contain; */
   }
 `;
