@@ -7,6 +7,7 @@ import Header from '../ViewDetailNotice/Header';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
 import { useAuthStore, usePageStore } from '../../store';
 import { ImageNoticeType } from '../../types';
+import { formatDate } from '../../utils/dateUtil';
 
 const CreateNotice = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -18,10 +19,6 @@ const CreateNotice = () => {
   const imageData = new FormData();
 
   const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
-  const TODAY = `${year} / ${month} / ${day}`;
 
   const { register, handleSubmit, watch } = useForm<ImageNoticeType>();
   const titleCount = watch('title', '');
@@ -79,7 +76,7 @@ const CreateNotice = () => {
     <Wrapper>
       <Header title="공지사항">공지사항 내용</Header>
       <DateLayout>
-        <p>{`등록일 : ${TODAY}`}</p>
+        <p>{formatDate(today)}</p>
       </DateLayout>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <UploadImageLayout>
