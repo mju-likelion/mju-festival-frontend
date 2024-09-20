@@ -84,9 +84,7 @@ const ViewDetailNotice = () => {
         noticeId={id}
         isOpen={isModalOpen}
         closeModal={closeModal}
-      >
-        삭제시 복구 불가
-      </DeleteNoticeModal>
+      />
     </Wrapper>
   );
 };

@@ -31,7 +31,6 @@ export interface DeleteNoticeModalProps {
   noticeId?: string;
   isOpen: boolean;
   closeModal: () => void;
-  children: ReactNode;
 }
 
 export interface UseFetchNoticesProps {

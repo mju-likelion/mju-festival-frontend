@@ -8,7 +8,6 @@ const DeleteNoticeModal = ({
   noticeId,
   isOpen,
   closeModal,
-  children,
 }: DeleteNoticeModalProps) => {
   const { token } = useAuthStore();
   const navigate = useNavigate();
@@ -28,11 +27,25 @@ const DeleteNoticeModal = ({
 
   return (
     <Wrapper $isOpen={isOpen}>
-      <p>{children}</p>
-      <button type="button" onClick={closeModal}>
-        X
-      </button>
-      <DeleteButton onClick={() => handleDeleteClick()}>삭제하기</DeleteButton>
+      <ModalLayout>
+        {/* <button type="button" onClick={closeModal}>
+          X
+        </button> */}
+        <TextContainer>
+          <Title>삭제하기 전 유의사항</Title>
+          <Content>
+            게시물 삭제 후 게시물
+            <br />
+            복구가 되지 않습니다.
+            <br />
+            <br />
+            확인하신 후 삭제해주시길 바랍니다
+          </Content>
+        </TextContainer>
+        <DeleteButton onClick={() => handleDeleteClick()}>
+          확인하기
+        </DeleteButton>
+      </ModalLayout>
     </Wrapper>
   );
 };
@@ -48,6 +61,46 @@ const Wrapper = styled.div<{ $isOpen: boolean }>`
   align-items: center;
 `;
 
-const DeleteButton = styled.button``;
+const ModalLayout = styled.div`
+  position: relative;
+  max-width: 330px;
+  width: calc(100vw - 60px);
+  height: 238px;
+  padding: 28px 38px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  background-color: ${({ theme }) => theme.colors.white100};
+  border: 2px solid pink;
+`;
+const TextContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+`;
+
+const Title = styled.p`
+  width: 100%;
+  font-size: 20px;
+  font-weight: 600;
+`;
+
+const Content = styled.p`
+  width: 100%;
+  font-size: 17px;
+  font-weight: 400;
+`;
+
+const DeleteButton = styled.button`
+  width: 100%;
+  max-width: 180px;
+  height: 52px;
+  background-color: ${({ theme }) => theme.colors.blue100};
+  color: ${({ theme }) => theme.colors.white100};
+  border-radius: 12px;
+`;
 
 export default DeleteNoticeModal;
