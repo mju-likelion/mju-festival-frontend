@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Axios } from '../../api/Axios';
 import { useAuthStore } from '../../store';
 import { DeleteNoticeModalProps } from '../../types';
+import { ReactComponent as CloseBtnIcon } from '../../assets/icons/close.svg';
 
 const DeleteNoticeModal = ({
   noticeId,
@@ -31,6 +32,7 @@ const DeleteNoticeModal = ({
         {/* <button type="button" onClick={closeModal}>
           X
         </button> */}
+        <CloseBtn />
         <TextContainer>
           <Title>삭제하기 전 유의사항</Title>
           <Content>
@@ -74,8 +76,8 @@ const ModalLayout = styled.div`
   align-items: center;
   text-align: center;
   background-color: ${({ theme }) => theme.colors.white100};
-  border: 2px solid pink;
 `;
+
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -92,6 +94,13 @@ const Content = styled.p`
   width: 100%;
   font-size: 17px;
   font-weight: 400;
+`;
+
+const CloseBtn = styled(CloseBtnIcon)`
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  cursor: pointer;
 `;
 
 const DeleteButton = styled.button`
