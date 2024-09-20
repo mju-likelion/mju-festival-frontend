@@ -1,3 +1,9 @@
+export interface SelectedBooths {
+  id: string;
+  name: string;
+  page: number;
+}
+
 export interface CheckState extends BoothDepartment {
   isChecked: boolean;
 }

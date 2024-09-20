@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
 import { getBoothDepartments, getBooths } from '../../api/booth.ts';
-import { BoothInfo, CheckState } from '../../types';
+import { BoothInfo, CheckState, SelectedBooths } from '../../types';
 import { ReactComponent as CheckedIcon } from '../../assets/icons/booth-checked.svg';
 import { ReactComponent as UnCheckedIcon } from '../../assets/icons/booth-un-checked.svg';
 
@@ -12,14 +12,21 @@ const BoothPage = () => {
   const [allDepartmentsCheckState, setAllDepartmentsCheckState] = useState<
     CheckState[]
   >([]);
-  // 현재 선택된 부스 id 들을 저장
-  const [selectedDepartmentIdArr, setSelectedDepartmentIdArr] = useState<
-    string[]
+  // 선택된 카테고리들의 정보를 저장
+  const [selectedDepartmentsState, setSelectedDepartmentsState] = useState<
+    SelectedBooths[]
   >([]);
-  // booth 정보(API response)를 저장
+
   const [boothListData, setBoothListData] = useState<
     Record<string, BoothInfo[]>
   >({});
+
+  const [selectedBoothListData, setSelectedBoothListData] = useState<
+    Record<string, BoothInfo[]>
+  >({});
+
+  const [selectedDepartmentTotalPage, setSelectedDepartmentTotalPage] =
+    useState<Record<string, number>>({});
 
   // 데이터 페칭 로딩 중 상태 저장
   const [isLoading, setIsLoading] = useState(false);
@@ -43,32 +50,87 @@ const BoothPage = () => {
     setAllDepartmentsCheckState(initialCheckState);
   };
 
-  const onClick = (id: string, index: number) => {
+  const fetchNextDepartmentBoothList = async (departmentId: string) => {
+    const departmentState = selectedDepartmentsState.find(
+      (department) => department.id === departmentId
+    );
+    if (!departmentState) return;
+
+    if (departmentState.page >= selectedDepartmentTotalPage[departmentId] - 1)
+      return;
+
+    const { simpleBooths } = await getBooths(
+      departmentId,
+      departmentState.page + 1
+    );
+
+    setSelectedDepartmentsState((prevState) =>
+      prevState.map((department) =>
+        department.id === departmentId
+          ? { ...department, page: department.page + 1 }
+          : department
+      )
+    );
+
+    setSelectedBoothListData((prevState) => {
+      const updatedState = { ...prevState };
+      updatedState[departmentId] = [
+        ...updatedState[departmentId],
+        ...simpleBooths,
+      ];
+
+      return updatedState;
+    });
+  };
+
+  const fetchDepartmentBoothList = async (departmentId: string) => {
+    const { simpleBooths, totalPage } = await getBooths(departmentId, 0);
+
+    setSelectedBoothListData((prevState) => ({
+      ...prevState,
+      [departmentId]: simpleBooths,
+    }));
+
+    setSelectedDepartmentTotalPage((prevState) => ({
+      ...prevState,
+      [departmentId]: totalPage,
+    }));
+  };
+
+  const onClickSelectDepartment = async (
+    id: string,
+    name: string,
+    index: number
+  ) => {
     setAllDepartmentsCheckState((prevState) =>
       prevState.map((item, i) =>
         i === index ? { ...item, isChecked: !item.isChecked } : item
       )
     );
-    setSelectedDepartmentIdArr((prev) => {
-      if (prev.includes(id)) {
-        return prev.filter((item) => item !== id);
+
+    setSelectedDepartmentsState((prev) => {
+      const departmentInfo: SelectedBooths = { id, name, page: 0 };
+      const existingIndex = prev.findIndex((item) => item.id === id);
+      if (existingIndex !== -1) {
+        return prev.filter((item) => item.id !== id);
       }
-      return [...prev, id];
+      return [...prev, departmentInfo];
     });
+
+    await fetchDepartmentBoothList(id);
   };
+
   const resetCheckState = () => {
-    if (selectedDepartmentIdArr.length > 0) {
+    if (setSelectedDepartmentsState.length > 0) {
       setAllDepartmentsCheckState((prevState) =>
         prevState.map((item) => ({ ...item, isChecked: false }))
       );
-      setSelectedDepartmentIdArr([]);
+      setSelectedDepartmentsState([]);
     } else {
       setAllDepartmentsCheckState((prevState) =>
         prevState.map((item) => ({ ...item, isChecked: true }))
       );
-      const allDepartmentId = Object.keys(boothListData);
-
-      setSelectedDepartmentIdArr(allDepartmentId);
+      setSelectedDepartmentsState([]);
     }
   };
 
@@ -109,6 +171,7 @@ const BoothPage = () => {
 
     setBoothListData((prevState) => {
       const updatedState = { ...prevState };
+
       if (updatedState[fetchBoothId]) {
         updatedState[fetchBoothId] = [
           ...updatedState[fetchBoothId],
@@ -137,7 +200,7 @@ const BoothPage = () => {
     ) {
       fetchNextPage();
     }
-  }, [inView, allDepartmentsCheckState.length]);
+  }, [inView, allDepartmentsCheckState.length, isInitialLoad]);
 
   useEffect(() => {
     fetchData();
@@ -155,12 +218,12 @@ const BoothPage = () => {
       </P>
       <DepartmentsSelectBox>
         {allDepartmentsCheckState?.map(
-          ({ id, categoryName, isChecked }, index) => (
+          ({ id, name, categoryName, isChecked }, index) => (
             <Department
               key={id}
               role="button"
               $isChecked={isChecked}
-              onClick={() => onClick(id, index)}
+              onClick={() => onClickSelectDepartment(id, name, index)}
             >
               {isChecked ? (
                 <CheckedIcon width={24} />
@@ -174,20 +237,48 @@ const BoothPage = () => {
           )
         )}
         <AllSelectButton
-          $isChecked={selectedDepartmentIdArr.length > 0}
+          $isChecked={selectedDepartmentsState.length > 0}
           onClick={() => resetCheckState()}
         >
-          {selectedDepartmentIdArr.length > 0 ? `선택해제` : `전체선택`}
+          {selectedDepartmentsState.length > 0 ? `선택해제` : `전체선택`}
         </AllSelectButton>
       </DepartmentsSelectBox>
 
       <BoothList>
         {/* 선택된 값이 있는 경우 */}
-        {allDepartmentsCheckState?.map(
-          (booth) =>
-            booth.isChecked && (
-              <DepartmentBooths key={booth.id}>
-                <BoothName>{booth.name}</BoothName>
+        {selectedDepartmentsState?.map((booth) => (
+          <div key={booth.id}>
+            <DepartmentBooths key={booth.id}>
+              <BoothName>{booth.name}</BoothName>
+              {selectedBoothListData[booth.id]?.map(
+                ({ id, name, description, imageUrl }) => (
+                  <BoothBox key={id} onClick={() => navigate(`/booths/${id}`)}>
+                    <TextBox>
+                      <Name>{name}</Name>
+                      <Description>{description}</Description>
+                    </TextBox>
+                    <Img src={imageUrl} alt="부스 이미지" />
+                  </BoothBox>
+                )
+              )}
+            </DepartmentBooths>
+            {booth.page < selectedDepartmentTotalPage[booth.id] - 1 && (
+              <Button
+                type="button"
+                onClick={() => fetchNextDepartmentBoothList(booth.id)}
+              >
+                {booth.name} 부스 더보기
+              </Button>
+            )}
+          </div>
+        ))}
+
+        {/* 모두 선택되지 않은 경우 */}
+        {selectedDepartmentsState.length < 1 &&
+          allDepartmentsCheckState.map((booth) => (
+            <div key={booth.id}>
+              <DepartmentBooths>
+                {boothListData[booth.id] && <BoothName>{booth.name}</BoothName>}
                 {boothListData[booth.id]?.map(
                   ({ id, name, description, imageUrl }) => (
                     <BoothBox
@@ -203,27 +294,9 @@ const BoothPage = () => {
                   )
                 )}
               </DepartmentBooths>
-            )
-        )}
-        {/* 모두 선택되지 않은 경우 */}
-        {selectedDepartmentIdArr.length < 1 &&
-          allDepartmentsCheckState.map((booth) => (
-            <DepartmentBooths key={booth.id}>
-              {boothListData[booth.id] && <BoothName>{booth.name}</BoothName>}
-              {boothListData[booth.id]?.map(
-                ({ id, name, description, imageUrl }) => (
-                  <BoothBox key={id} onClick={() => navigate(`/booths/${id}`)}>
-                    <TextBox>
-                      <Name>{name}</Name>
-                      <Description>{description}</Description>
-                    </TextBox>
-                    <Img src={imageUrl} alt="부스 이미지" />
-                  </BoothBox>
-                )
-              )}
-            </DepartmentBooths>
+              {!isLoading && <div ref={setRef} />}
+            </div>
           ))}
-        {isLoading ? <div>로딩중!!!!!!!!!!!!</div> : <div ref={setRef} />}
       </BoothList>
     </Wrapper>
   );
@@ -297,6 +370,15 @@ const DepartmentBooths = styled.div`
   flex-direction: column;
   align-items: center;
 `;
+const Button = styled.button`
+  margin: 0 auto;
+  padding: 10px;
+  display: block;
+  ${({ theme }) => theme.typographies.callout};
+  color: ${({ theme }) => theme.colors.white100};
+  background-color: ${({ theme }) => theme.colors.blue100};
+  border-radius: 8px;
+`;
 const BoothBox = styled.div`
   max-width: 350px;
   width: calc(100% - 20px);
@@ -328,4 +410,5 @@ const Img = styled.img`
   object-fit: cover;
   border-radius: 8px;
 `;
+
 export default BoothPage;
