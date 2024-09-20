@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from './Header';
 import NoticeCard from './NoticeCard';
 import { SortKey, SortOptions } from '../../types';
 import { useAuthStore, usePageStore } from '../../store';
