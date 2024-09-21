@@ -8,10 +8,12 @@ import { useAuthStore } from '../../store';
 import { BoothEditFields } from '../../types';
 import { handleError } from '../../utils/errorUtil.ts';
 import { boothSchema } from '../../validation/schema.ts';
+import { ReactComponent as BackIcon } from '../../assets/icons/left_arrow.svg';
 
 const BoothEdit = () => {
   const locationData = useLocation();
-  const { id, name, description, location, imageUrl } = locationData.state;
+  const { id, name, department, description, location, imageUrl } =
+    locationData.state;
   const { token } = useAuthStore();
   const navigate = useNavigate();
 
@@ -45,30 +47,121 @@ const BoothEdit = () => {
 
   return (
     <>
-      <EditForm onSubmit={onSubmit}>
-        <Input {...register('name')} defaultValue={name} autoFocus />
-        <p>{errors.name?.message}</p>
-        <Textarea {...register('description')} defaultValue={description} />
-        <p>{errors.description?.message}</p>
-        <Input {...register('location')} defaultValue={location} />
-        <p>{errors.location?.message}</p>
-        <Img src={imageUrl} alt="부스 이미지" />
-        <Button type="submit">수정하기</Button>
-      </EditForm>
+      <BackButton role="button" onClick={() => navigate('/login')}>
+        <BackIcon />
+        뒤로가기
+      </BackButton>
+      <RoleLabel>관리자용</RoleLabel>
+      <Wrapper>
+        <Title>부스정보</Title>
+        <Department>{department}</Department>
+        <EditForm onSubmit={onSubmit}>
+          <Img src={imageUrl} alt="부스 이미지" />
+
+          <NameInputBox>
+            <FieldTitle>제목:</FieldTitle>
+            <input {...register('name')} defaultValue={name} />
+          </NameInputBox>
+          <p>{errors.name?.message}</p>
+          <DescriptionTextarea>
+            <FieldTitle>내용:</FieldTitle>
+            <textarea {...register('description')} defaultValue={description} />
+          </DescriptionTextarea>
+          <p>{errors.description?.message}</p>
+          <LocationInput>
+            <FieldTitle>위치:</FieldTitle>
+            <input {...register('location')} defaultValue={location} />
+          </LocationInput>
+          <p>{errors.location?.message}</p>
+          <Buttons>
+            <EditButton type="submit" onClick={() => navigate(-1)}>
+              완료하기
+            </EditButton>
+            <CancelButton onClick={() => navigate(-1)}>취소하기</CancelButton>
+          </Buttons>
+        </EditForm>
+      </Wrapper>
     </>
   );
 };
-
-const EditForm = styled.form``;
-const Input = styled.input`
-  border: 3px solid dodgerblue;
+const Wrapper = styled.div`
+  padding: 0 20px;
 `;
-const Textarea = styled.textarea`
-  border: 3px solid pink;
+const BackButton = styled.div`
+  padding: 4px 10px;
+
+  display: flex;
+  align-items: center;
+  color: ${({ theme }) => theme.colors.text500};
+  ${({ theme }) => theme.typographies.footnote};
+`;
+const RoleLabel = styled.p`
+  margin-right: 50px;
+  text-align: end;
+  color: ${({ theme }) => theme.colors.text500};
+  ${({ theme }) => theme.typographies.subhead2};
+`;
+const Title = styled.p`
+  margin: 10px 0;
+  color: ${({ theme }) => theme.colors.text900};
+  ${({ theme }) => theme.typographies.title1};
+`;
+const Department = styled.p`
+  color: ${({ theme }) => theme.colors.text900};
+  ${({ theme }) => theme.typographies.callout};
+`;
+const EditForm = styled.form``;
+const NameInputBox = styled.div`
+  color: ${({ theme }) => theme.colors.text900};
+  ${({ theme }) => theme.typographies.title1};
+  & > * {
+    color: ${({ theme }) => theme.colors.text900};
+    ${({ theme }) => theme.typographies.title1};
+  }
+`;
+const FieldTitle = styled.p`
+  height: 120px;
+  display: inline-block;
+  margin-right: 10px;
+`;
+const LocationInput = styled.div`
+  color: ${({ theme }) => theme.colors.text900};
+  ${({ theme }) => theme.typographies.body2};
+`;
+const DescriptionTextarea = styled.div`
+  display: flex;
+  align-items: start;
+  color: ${({ theme }) => theme.colors.text900};
+  ${({ theme }) => theme.typographies.body2};
 `;
 const Img = styled.img`
+  margin: 0 auto 18px;
+  display: block;
   width: 300px;
 `;
-const Button = styled.button``;
+const Buttons = styled.button`
+  width: 100%;
+  display: flex;
+  gap: 20px;
+`;
+const EditButton = styled.button`
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 12px;
+  text-align: center;
+  color: ${({ theme }) => theme.colors.white100};
+  background-color: ${({ theme }) => theme.colors.blue100};
+  ${({ theme }) => theme.typographies.body1};
+`;
+const CancelButton = styled.button`
+  width: 100%;
+  padding: 16px 0;
+  text-align: center;
+  border: 1px solid ${({ theme }) => theme.colors.blue100};
+  border-radius: 12px;
+  color: ${({ theme }) => theme.colors.blue100};
+  background-color: ${({ theme }) => theme.colors.white100};
+  ${({ theme }) => theme.typographies.body1};
+`;
 
 export default BoothEdit;

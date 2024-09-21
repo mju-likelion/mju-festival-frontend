@@ -247,7 +247,7 @@ const BoothPage = () => {
       <BoothList>
         {/* 선택된 값이 있는 경우 */}
         {selectedDepartmentsState?.map((booth) => (
-          <div key={booth.id}>
+          <BoothWrapper key={booth.id}>
             <DepartmentBooths key={booth.id}>
               <BoothName>{booth.name}</BoothName>
               {selectedBoothListData[booth.id]?.map(
@@ -270,13 +270,13 @@ const BoothPage = () => {
                 {booth.name} 부스 더보기
               </Button>
             )}
-          </div>
+          </BoothWrapper>
         ))}
 
         {/* 모두 선택되지 않은 경우 */}
         {selectedDepartmentsState.length < 1 &&
           allDepartmentsCheckState.map((booth) => (
-            <div key={booth.id}>
+            <BoothWrapper key={booth.id}>
               <DepartmentBooths>
                 {boothListData[booth.id] && <BoothName>{booth.name}</BoothName>}
                 {boothListData[booth.id]?.map(
@@ -295,7 +295,7 @@ const BoothPage = () => {
                 )}
               </DepartmentBooths>
               {!isLoading && <div ref={setRef} />}
-            </div>
+            </BoothWrapper>
           ))}
       </BoothList>
     </Wrapper>
@@ -355,6 +355,9 @@ const DepartmentName = styled.p<{ $isChecked: boolean }>`
   color: ${({ theme, $isChecked }) =>
     $isChecked ? theme.colors.white100 : theme.colors.text500};
   ${({ theme }) => theme.typographies.footnote};
+`;
+const BoothWrapper = styled.div`
+  width: 100%;
 `;
 const BoothList = styled.div`
   height: calc(100vh - 250px);

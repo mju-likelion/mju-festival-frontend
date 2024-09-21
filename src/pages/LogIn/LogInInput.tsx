@@ -40,6 +40,7 @@ const Box = styled.div`
   width: 100%;
   padding: 16px 12px;
   display: flex;
+  justify-content: space-between;
   background-color: ${({ theme }) => theme.colors.black10};
   border-radius: 12px;
 

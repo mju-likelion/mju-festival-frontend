@@ -15,7 +15,7 @@ const AdminLogIn = () => {
       </BackButton>
       <Wrapper>
         <Header>
-          <LogoWrapper>
+          <LogoWrapper onClick={() => navigate('/')}>
             <Logo width={126} />
             <SubTitleLogo />
           </LogoWrapper>

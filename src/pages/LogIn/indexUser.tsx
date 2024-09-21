@@ -31,7 +31,7 @@ const UserLogIn = () => {
         </Modal>
       )}
       <Wrapper $isModalOpen={isModalOpen}>
-        <LogoWrapper>
+        <LogoWrapper onClick={() => navigate('/')}>
           <Logo width={126} />
           <SubTitleLogo />
         </LogoWrapper>

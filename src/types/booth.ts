@@ -23,6 +23,7 @@ export interface BoothDetailInfo extends BoothInfo {
   location: string;
   createdAt: string;
   locationImageUrl: string;
+  department: string;
 }
 
 export interface BoothInfo {
