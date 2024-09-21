@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import InfoText from '../../components/InfoText.tsx';
 import MainMenuButton from './MainMenuButton.tsx';
 import { downloadAppByDevice } from '../../utils/downloadAppUtil.ts';
+import { openInstagram } from '../../utils/openInstaUtil.ts';
 import { ReactComponent as MajestyLogo } from '../../assets/imgs/majesty_logo.svg';
 import { ReactComponent as MajestySubLogo } from '../../assets/imgs/majesty_sub_logo.svg';
 import { ReactComponent as TicketIconImg } from '../../assets/imgs/ticket_icon.svg';
@@ -22,11 +23,6 @@ const Main = () => {
   const day = String(today.getDate()).padStart(2, '0');
   const TODAY = `${year} / ${month} / ${day}`;
 
-  const openInstagram = () => {
-    const instagramURL = import.meta.env.VITE_INSTAGRAM_URL;
-    window.open(instagramURL, '_blank', 'noopener,noreferrer');
-  };
-
   return (
     <Wrapper>
       <Header>
@@ -38,7 +34,7 @@ const Main = () => {
       </Header>
       <InfoText>링크 바로가기</InfoText>
       <LinkLayout>
-        <TicketFriendsContainer onClick={() => downloadAppByDevice()}>
+        <TicketFriendsContainer onClick={downloadAppByDevice}>
           <TicketIcon />
           <TicketFriendsBtn type="button">
             <p>티켓프렌즈</p>
@@ -80,7 +76,7 @@ const Main = () => {
             <MainMenuButton
               bgimg="timetable"
               type="button"
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/timetable')}
             >
               타임테이블
             </MainMenuButton>

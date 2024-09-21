@@ -1,17 +1,17 @@
 import styled from 'styled-components';
 import { ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Header from './Header';
 import NoticeCard from './NoticeCard';
 import { SortKey, SortOptions } from '../../types';
 import { useAuthStore, usePageStore } from '../../store';
 import useFetchNotices from '../../hooks/useFetchNotices';
+import InfoText from '../../components/InfoText';
 
 const ViewAllNotice = () => {
   const navigate = useNavigate();
   const { role } = useAuthStore();
   const { curPage, isSorted, setCurPage, setIsSorted } = usePageStore();
-  const sortOptions: SortOptions = { desc: '최신순', asc: '오래된순' };
+  const sortOptions: SortOptions = { desc: '최신순', asc: '나중순' };
   const { notices, totalPage, isLoading } = useFetchNotices({
     isSorted,
     curPage,
@@ -27,52 +27,117 @@ const ViewAllNotice = () => {
 
   return (
     <Wrapper>
-      <Header />
-      <select onChange={handleSort}>
-        {Object.entries(sortOptions).map(([key, value]) => (
-          <option value={key} key={key}>
-            {value}
-          </option>
+      <TitleLayout>
+        <p>공지사항</p>
+        <p>실시간으로 올라오는 공지사항을 확인해보세요!</p>
+      </TitleLayout>
+      <InfoTextLayout>
+        <InfoText>공지사항</InfoText>
+      </InfoTextLayout>
+      <SelectLayout>
+        <select onChange={handleSort}>
+          {Object.entries(sortOptions).map(([key, value]) => (
+            <option value={key} key={key}>
+              {value}
+            </option>
+          ))}
+        </select>
+      </SelectLayout>
+      <NoticeLayout>
+        {notices.map((notice) => (
+          <NoticeCard
+            key={notice.id}
+            title={notice.title}
+            content={notice.content}
+            onClick={() => navigate(`/view/detail-notice/${notice.id}`)}
+          />
         ))}
-      </select>
-      {notices.map((notice) => (
-        <NoticeCard
-          key={notice.id}
-          title={notice.title}
-          content={notice.content}
-          onClick={() => navigate(`/view/detail-notice/${notice.id}`)}
-        />
-      ))}
+      </NoticeLayout>
 
-      <Layout>
-        <button
-          type="button"
-          disabled={curPage === 0 || isLoading}
-          onClick={() => handlePage(-1)}
-        >
-          {'<'}
-        </button>
-        <TempP>{`${curPage + 1}/${totalPage}`}</TempP>
-        <button
-          type="button"
-          disabled={curPage + 1 === totalPage || isLoading}
-          onClick={() => handlePage(1)}
-        >
-          {'>'}
-        </button>
+      <BtnLayout>
+        <TempBtnDiv>
+          <button
+            type="button"
+            disabled={curPage === 0 || isLoading}
+            onClick={() => handlePage(-1)}
+          >
+            {'<'}
+          </button>
+          <TempP>{`${curPage + 1}/${totalPage}`}</TempP>
+          <button
+            type="button"
+            disabled={curPage + 1 === totalPage || isLoading}
+            onClick={() => handlePage(1)}
+          >
+            {'>'}
+          </button>
+        </TempBtnDiv>
         {role === 'STUDENT_COUNCIL' && (
           <CreateBtn onClick={() => navigate('/create/notice')}>
-            공지사항 작성하기
+            게시물 작성하기
           </CreateBtn>
         )}
-      </Layout>
+      </BtnLayout>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div``;
 
-const Layout = styled.div`
+const TitleLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 26px 0 0 20px;
+
+  p:nth-of-type(1) {
+    font-size: 20px;
+    font-weight: 600;
+    color: ${({ theme }) => theme.colors.text900};
+  }
+  p:nth-of-type(2) {
+    font-size: 16px;
+    font-weight: 400;
+    color: ${({ theme }) => theme.colors.text900};
+  }
+`;
+
+const InfoTextLayout = styled.div`
+  padding: 48px 95px 20px 95px;
+`;
+
+const SelectLayout = styled.div`
+  display: flex;
+  justify-content: end;
+  padding: 0 20px 20px 0;
+
+  select {
+    height: 24px;
+    border-radius: 999px;
+    border: none;
+    background-color: ${({ theme }) => theme.colors.gray300};
+  }
+`;
+
+const NoticeLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 581px;
+  padding: 19px 20px;
+  gap: 15px;
+  background-color: ${({ theme }) => theme.colors.gray100};
+`;
+
+const BtnLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 75px 52px 75px;
+`;
+
+const TempBtnDiv = styled.div`
   display: flex;
 `;
 const TempP = styled.p`
@@ -80,7 +145,13 @@ const TempP = styled.p`
 `;
 
 const CreateBtn = styled.button`
-  background-color: #002968;
-  color: white;
+  width: 100%;
+  max-width: 240px;
+  height: 52px;
+  border-radius: 12px;
+  background-color: ${({ theme }) => theme.colors.blue100};
+  color: ${({ theme }) => theme.colors.white100};
+  font-size: 17px;
+  font-weight: 600;
 `;
 export default ViewAllNotice;
