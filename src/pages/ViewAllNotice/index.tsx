@@ -88,6 +88,7 @@ const TitleLayout = styled.div`
   display: flex;
   flex-direction: column;
   gap: 9px;
+  padding: 26px 0 0 20px;
 
   p:nth-of-type(1) {
     font-size: 20px;
