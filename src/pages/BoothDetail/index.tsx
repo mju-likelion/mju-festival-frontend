@@ -83,8 +83,7 @@ const BoothDetail = () => {
         await fetchBoothDetailData();
         if (role === 'BOOTH_MANAGER') {
           const isOwner = await fetchOwnership();
-          // setIsOwner(isOwner);
-          setIsOwner(true);
+          setIsOwner(isOwner);
           if (isOwner) {
             await fetchQr();
           }
