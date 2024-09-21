@@ -39,6 +39,7 @@ const OverlayWrapper = styled.div`
 `;
 
 const Layout = styled.div`
+  z-index: 2;
   position: relative;
   max-width: 330px;
   width: calc(100vw - 60px);
