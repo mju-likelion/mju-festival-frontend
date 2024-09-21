@@ -5,32 +5,45 @@ const NoticeCard = ({ title, content, onClick }: NoticeCardPropType) => {
   return (
     <Wrapper onClick={onClick}>
       <Title>{title}</Title>
+      <Contour />
       <Content>{content}</Content>
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  background-color: wheat;
-  padding: 18px 20px 27px 20px;
-  border-radius: 14px;
-  margin: 4px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  height: 124px;
+  padding: 14px 15px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+  background-color: ${({ theme }) => theme.colors.white100};
+  border-radius: 12px;
 `;
 
 const Title = styled.div`
-  font-weight: bold;
+  color: ${({ theme }) => theme.colors.blue100};
+  font-size: 20px;
+  font-weight: 600;
 `;
 
 const Content = styled.div`
-  height: 34px;
-  width: 290px;
-  line-height: 17px;
+  font-size: 17px;
+  font-weight: 400;
   display: -webkit-box;
   white-space: normal;
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+`;
+
+const Contour = styled.div`
+  width: 100%;
+  height: 1px;
+  background-color: ${({ theme }) => theme.colors.gray200};
 `;
 
 export default NoticeCard;
