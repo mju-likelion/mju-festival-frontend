@@ -15,6 +15,7 @@ import UserLogIn from './pages/LogIn/indexUser.tsx';
 import Main from './pages/Main/index.tsx';
 import Map from './pages/Map/index.tsx';
 import Stamp from './pages/Stamp/index.tsx';
+import StampComplete from './pages/StampComplete/index.tsx';
 import TimeTable from './pages/TimeTable/index.tsx';
 import LostItem from './pages/ViewAllLostItem/index.tsx';
 import ViewAllNotice from './pages/ViewAllNotice/index.tsx';
@@ -55,7 +56,8 @@ function App() {
             }
           />
           <Route path="/map" element={<Map />} />
-          <Route path="/stamp" element={<Stamp />} />
+          <Route path="/stamps" element={<Stamp />} />
+          <Route path="/stamps/completed" element={<StampComplete />} />
         </Routes>
       </MobileWrapper>
     </BrowserRouter>

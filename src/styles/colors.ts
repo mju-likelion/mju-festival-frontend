@@ -35,6 +35,14 @@ const gray = {
   gray500: '#7B858E', // gray-deep
 };
 
+const purple = {
+  purple100: '#E5EAFD', // purple-secondary
+  purple200: '#B0BDF7', // purple-pale
+  purple300: '#7889E7', // purple-light
+  purple400: '#5766C6', // purple-dark
+  purple500: '#3C49A6', // purple-deep
+};
+
 const text = {
   text500: '#5B636B',
   text600: '#424D5C',
@@ -43,4 +51,11 @@ const text = {
   text900: '#181A20',
 };
 
-export const colors = { ...white, ...black, ...blue, ...gray, ...text };
+export const colors = {
+  ...white,
+  ...black,
+  ...blue,
+  ...gray,
+  ...purple,
+  ...text,
+};

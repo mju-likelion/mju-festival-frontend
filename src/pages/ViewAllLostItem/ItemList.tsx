@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ReactComponent as NoDataIcon } from '../../assets/icons/noData.svg';
+import { ReactComponent as BigDelete } from '../../assets/icons/big_delete.svg';
 import { SimpleLostItem } from '../../types/lostItem';
 import LostItemCard from './LostItemCard';
 
@@ -20,7 +20,7 @@ const ItemList = ({ lostItems, setIsModalOpen }: ItemListProps) => {
         ))
       ) : (
         <NoDataLayout>
-          <NoDataIcon />
+          <BigDelete />
           <NoDataText>관련된 게시물이 없습니다.</NoDataText>
         </NoDataLayout>
       )}
