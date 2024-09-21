@@ -35,7 +35,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
-  background-color: #f0f5f7;
+  color: ${({ theme }) => theme.colors.gray100};
 `;
 
 const NoDataLayout = styled.div`
