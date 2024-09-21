@@ -31,7 +31,7 @@ const UserLogIn = () => {
         </Modal>
       )}
       <Wrapper $isModalOpen={isModalOpen}>
-        <LogoWrapper>
+        <LogoWrapper onClick={() => navigate('/')}>
           <Logo width={126} />
           <SubTitleLogo />
         </LogoWrapper>
@@ -43,7 +43,7 @@ const UserLogIn = () => {
 };
 
 const Wrapper = styled.div<{ $isModalOpen: boolean }>`
-  padding: 20px;
+  padding: 0 20px;
   background-color: ${({ $isModalOpen, theme }) =>
     $isModalOpen ? theme.colors.black10 : theme.colors.white100};
 `;

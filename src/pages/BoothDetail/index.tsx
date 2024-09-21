@@ -3,30 +3,49 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getBoothDetail, getOwnership, getQrData } from '../../api/booth.ts';
 
-import BottomSheet from '../../components/QrBottomSheet/index.tsx';
 import { useAuthStore } from '../../store';
 import { BoothDetailInfo } from '../../types';
 import { handleError } from '../../utils/errorUtil.ts';
+import Header from '../../components/Header.tsx';
+import BottomSheet from '../../components/QrBottomSheet/index.tsx';
+import { ReactComponent as LocationIcon } from '../../assets/icons/location_icon.svg';
 
 const BoothDetail = () => {
   const { role, token } = useAuthStore();
 
-  const [isOwner, setIsOwner] = useState(false);
+  const [isOwner, setIsOwner] = useState(true);
   const [qrCode, setQrCode] = useState('');
   const [boothDetailData, setBoothDetailData] = useState<BoothDetailInfo>({
     createdAt: '',
     description: '',
+    department: '',
     id: '',
     imageUrl: '',
     location: '',
     locationImageUrl: '',
     name: '',
   });
-  const { name, description, location, imageUrl, locationImageUrl, createdAt } =
-    boothDetailData;
+  const {
+    name,
+    department,
+    description,
+    location,
+    imageUrl,
+    locationImageUrl,
+    createdAt,
+  } = boothDetailData;
 
   const params = useParams();
   const navigate = useNavigate();
+
+  function formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
+    const day = String(date.getDate()).padStart(2, '0');
+
+    return `${year}.${month}.${day}`;
+  }
 
   const fetchOwnership = async () => {
     if (!params.boothId) {
@@ -69,39 +88,43 @@ const BoothDetail = () => {
           }
         }
       } catch (e) {
-        handleError(e as Error);
+        console.error(e);
       }
     };
     initializeData();
   }, []);
 
   return (
-    <Wrapper>
-      <button type="button" onClick={() => navigate('/booths')}>
-        뒤로가기
-      </button>
-      <h1>{role}</h1>
+    <Wrapper $isOwner={isOwner}>
+      <Header />
       <Box>
-        <p>부스 이름: {name}</p>
-        <p>부스 설명: {description}</p>
-        <p>위치: {location}</p>
-        <p>생성 시간: {createdAt}</p>
-        <Img src={imageUrl} alt="부스 이미지" />
-        <Img src={locationImageUrl} alt="부스 위치 이미지" />
+        <Title>부스정보</Title>
+        <Department>{department}</Department>
+        <CreateAt>등록일: {formatDate(createdAt)}</CreateAt>
+
+        <BoothImg src={imageUrl} alt="부스 이미지" />
+        <Name>제목: {name}</Name>
+        <Description>내용: {description}</Description>
+        <LocationBox>
+          <Location>부스위치:</Location>
+          <LocationIcon />
+          <Location>{location}</Location>
+        </LocationBox>
+        <MapImg src={locationImageUrl} alt="부스 위치 이미지" />
       </Box>
       {role === 'STUDENT' && (
         <StudentAction>
           <Buttons>
-            <Button>QR 촬영하기</Button>
-            <Button>도장판으로</Button>
+            <QRButton onClick={() => navigate(`/`)}>QR 촬영하기</QRButton>
+            <StampButton onClick={() => navigate(`/`)}>도장판으로</StampButton>
           </Buttons>
         </StudentAction>
       )}
       {isOwner && (
         <>
-          <StudentAction>
+          <AdminAction>
             <Buttons>
-              <Button
+              <QRButton
                 onClick={() =>
                   navigate(`/booths/${params.boothId}/edit`, {
                     state: { ...boothDetailData },
@@ -109,9 +132,9 @@ const BoothDetail = () => {
                 }
               >
                 수정하기
-              </Button>
+              </QRButton>
             </Buttons>
-          </StudentAction>
+          </AdminAction>
           <BottomSheet qrCode={qrCode} />
         </>
       )}
@@ -119,22 +142,87 @@ const BoothDetail = () => {
   );
 };
 
-const Wrapper = styled.div`
-  border: 1px solid dodgerblue;
+const Wrapper = styled.div<{ $isOwner: boolean }>`
+  margin-bottom: ${({ $isOwner }) => $isOwner && `250px`};
 `;
 const Box = styled.div`
-  border: 3px solid #ff8f4c;
+  padding: 0 20px;
 `;
-const Img = styled.img`
-  width: 300px;
+const Title = styled.p`
+  margin: 10px 0;
+  color: ${({ theme }) => theme.colors.text900};
+  ${({ theme }) => theme.typographies.title1};
 `;
+const Department = styled.p`
+  color: ${({ theme }) => theme.colors.text900};
+  ${({ theme }) => theme.typographies.callout};
+`;
+const Name = styled.p`
+  margin-bottom: 12px;
+  color: ${({ theme }) => theme.colors.text900};
+  ${({ theme }) => theme.typographies.title1};
+`;
+const Description = styled.p`
+  margin-bottom: 20px;
+  color: ${({ theme }) => theme.colors.text900};
+  ${({ theme }) => theme.typographies.body2};
+`;
+const LocationBox = styled.div`
+  height: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+`;
+const Location = styled.p`
+  color: ${({ theme }) => theme.colors.text900};
+  ${({ theme }) => theme.typographies.body2};
+`;
+const CreateAt = styled.p`
+  text-align: end;
+  color: ${({ theme }) => theme.colors.gray400};
+  ${({ theme }) => theme.typographies.caption1};
+`;
+const BoothImg = styled.img`
+  width: 350px;
+  height: 248px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  object-fit: cover;
+`;
+const MapImg = styled.img`
+  width: 350px;
+  height: 182px;
+  margin-bottom: 40px;
+  border-radius: 12px;
+  object-fit: cover;
+`;
+const AdminAction = styled.div``;
 const StudentAction = styled.div`
-  border: 3px solid pink;
+  padding: 0 20px;
 `;
 const Buttons = styled.button`
+  width: 100%;
   display: flex;
   gap: 20px;
 `;
-const Button = styled.button``;
+const QRButton = styled.button`
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 12px;
+  text-align: center;
+  color: ${({ theme }) => theme.colors.white100};
+  background-color: ${({ theme }) => theme.colors.blue100};
+  ${({ theme }) => theme.typographies.body1};
+`;
+const StampButton = styled.button`
+  width: 100%;
+  padding: 16px 0;
+  text-align: center;
+  border: 1px solid ${({ theme }) => theme.colors.blue100};
+  border-radius: 12px;
+  color: ${({ theme }) => theme.colors.blue100};
+  background-color: ${({ theme }) => theme.colors.white100};
+  ${({ theme }) => theme.typographies.body1};
+`;
 
 export default BoothDetail;

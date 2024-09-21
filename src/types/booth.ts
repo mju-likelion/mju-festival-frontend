@@ -1,3 +1,19 @@
+export interface SelectedBooths {
+  id: string;
+  name: string;
+  page: number;
+}
+
+export interface CheckState extends BoothDepartment {
+  isChecked: boolean;
+}
+
+export interface BoothDepartment {
+  id: string;
+  name: string;
+  categoryName: string;
+}
+
 export interface BoothList {
   simpleBooths: BoothInfo[];
   totalPage: number;
@@ -7,6 +23,7 @@ export interface BoothDetailInfo extends BoothInfo {
   location: string;
   createdAt: string;
   locationImageUrl: string;
+  department: string;
 }
 
 export interface BoothInfo {

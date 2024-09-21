@@ -15,7 +15,7 @@ const AdminLogIn = () => {
       </BackButton>
       <Wrapper>
         <Header>
-          <LogoWrapper>
+          <LogoWrapper onClick={() => navigate('/')}>
             <Logo width={126} />
             <SubTitleLogo />
           </LogoWrapper>
@@ -32,22 +32,23 @@ const Wrapper = styled.div`
   padding: 0 20px;
 `;
 const Header = styled.div`
+  margin-top: 30px;
   display: flex;
   justify-content: space-between;
 `;
 const Role = styled.p`
+  margin-top: 4px;
   color: ${({ theme }) => theme.colors.text500};
   ${({ theme }) => theme.typographies.subhead2};
 `;
 const BackButton = styled.div`
-  padding: 10px;
+  padding: 4px 10px;
   display: flex;
   align-items: center;
   color: ${({ theme }) => theme.colors.text500};
   ${({ theme }) => theme.typographies.footnote};
 `;
 const LogoWrapper = styled.div`
-  margin-top: 30px;
   display: flex;
   flex-direction: column;
 `;
