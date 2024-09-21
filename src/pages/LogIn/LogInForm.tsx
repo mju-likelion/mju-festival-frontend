@@ -107,6 +107,11 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
     getTermsData();
   }, []);
 
+  const placeHolder =
+    auth === 'USER'
+      ? 'MSI(학번) 아이디를 입력해주세요'
+      : '관리자 아이디를 입력해주세요';
+
   return (
     <Form onSubmit={onSubmit}>
       <FieldWrapper>
@@ -114,7 +119,7 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
           <LogInInput
             type="text"
             name="id"
-            placeholder="아이디를 입력해주세요"
+            placeholder={placeHolder}
             register={register}
           />
           <HelperText>{errors.id?.message}</HelperText>
