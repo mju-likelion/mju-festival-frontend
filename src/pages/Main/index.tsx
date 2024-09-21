@@ -22,14 +22,16 @@ const Main = () => {
 
   return (
     <Wrapper>
-      <Header>
+      <HeaderLayout>
         <LogoLayout>
           <MajestyLogo />
           <MajestySubLogo />
         </LogoLayout>
         <p>{formatDate(today)}</p>
-      </Header>
-      <InfoText>링크 바로가기</InfoText>
+      </HeaderLayout>
+      <InfoLayout>
+        <InfoText>링크 바로가기</InfoText>
+      </InfoLayout>
       <LinkLayout>
         <TicketFriendsContainer onClick={downloadAppByDevice}>
           <TicketIcon />
@@ -44,7 +46,9 @@ const Main = () => {
           </InstagramBtn>
         </InstagramContainer>
       </LinkLayout>
-      <InfoText>축제 정보</InfoText>
+      <InfoLayout>
+        <InfoText>축제 정보</InfoText>
+      </InfoLayout>
       <FestivalInfoLayout>
         <BackgroundColor />
         <ButtonContainer>
@@ -110,7 +114,7 @@ const Wrapper = styled.div`
   min-height: 100vh;
 `;
 
-const Header = styled.div`
+const HeaderLayout = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 20px;
@@ -128,6 +132,13 @@ const LogoLayout = styled.div`
     margin-bottom: 4px;
   }
 `;
+
+const InfoLayout = styled.div`
+  display: flex;
+  width: 100%;
+  padding: 40px 95px 28px 95px;
+`;
+
 // 링크 바로가기
 const LinkLayout = styled.div`
   display: flex;
