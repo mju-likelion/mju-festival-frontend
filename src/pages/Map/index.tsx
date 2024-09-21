@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import Header from '../../components/Header.tsx';
 import mapImg from '../../assets/imgs/MapImg.png';
 import { ReactComponent as BoothIcon } from '../../assets/icons/map_booth_icon.svg';
 import { ReactComponent as FoodTruckIcon } from '../../assets/icons/map_foodtruck_icon.svg';
@@ -14,23 +15,26 @@ const Map = () => {
   ];
 
   return (
-    <Wrapper>
-      <TitleLayout>
-        <p>지도</p>
-        <p>각 부스 및 행사장 위치를 파악하고 즐기세요!</p>
-      </TitleLayout>
-      <MapImgLayout>
-        <MapImg src={mapImg} alt="mapImg" />
-      </MapImgLayout>
-      <IconsLayout>
-        {iconsData.map((item) => (
-          <IconContainer key={item.name}>
-            <item.Icon />
-            <p>{item.name}</p>
-          </IconContainer>
-        ))}
-      </IconsLayout>
-    </Wrapper>
+    <>
+      <Header />
+      <Wrapper>
+        <TitleLayout>
+          <p>지도</p>
+          <p>각 부스 및 행사장 위치를 파악하고 즐기세요!</p>
+        </TitleLayout>
+        <MapImgLayout>
+          <MapImg src={mapImg} alt="mapImg" />
+        </MapImgLayout>
+        <IconsLayout>
+          {iconsData.map((item) => (
+            <IconContainer key={item.name}>
+              <item.Icon />
+              <p>{item.name}</p>
+            </IconContainer>
+          ))}
+        </IconsLayout>
+      </Wrapper>
+    </>
   );
 };
 

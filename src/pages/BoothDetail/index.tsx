@@ -13,7 +13,7 @@ import { ReactComponent as LocationIcon } from '../../assets/icons/location_icon
 const BoothDetail = () => {
   const { role, token } = useAuthStore();
 
-  const [isOwner, setIsOwner] = useState(true);
+  const [isOwner, setIsOwner] = useState(false);
   const [qrCode, setQrCode] = useState('');
   const [boothDetailData, setBoothDetailData] = useState<BoothDetailInfo>({
     createdAt: '',

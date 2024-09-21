@@ -45,6 +45,7 @@ const Box = styled.div`
   border-radius: 12px;
 
   input {
+    width: 100%;
     ${({ theme }) => theme.typographies.body2};
   }
 `;

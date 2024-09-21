@@ -5,6 +5,7 @@ import { PerformanceType, TimeTableDate } from '../../types';
 import DetailInfoList from './DetailInfoList';
 import { useTimeTableData } from '../../context/TimeTable';
 import TypeIcon from './TypeIcon';
+import Header from '../../components/Header.tsx';
 import plant from '../../assets/imgs/timetable_plant.png';
 
 const TimeTable = () => {
@@ -13,6 +14,7 @@ const TimeTable = () => {
 
   return (
     <Wrapper>
+      <Header />
       <TitleLayout>
         <p>타임테이블</p>
         <p>
