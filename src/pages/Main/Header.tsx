@@ -1,16 +1,22 @@
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store';
 import { ReactComponent as MenuIconSvg } from '../../assets/icons/hamburger.svg';
 
 const Header = () => {
   const { role } = useAuthStore();
+  const navigate = useNavigate();
 
   return (
     <Wrapper>
       {role === 'STUDENT_COUNCIL' || role === 'BOOTH_MANAGER' ? (
-        <Role>관리자용</Role>
+        <Role>관리자용 </Role>
       ) : (
-        <Placeholder />
+        <Placeholder>
+          <button type="button" onClick={() => navigate('/login')}>
+            로그인
+          </button>
+        </Placeholder>
       )}
       <MenuIcon />
     </Wrapper>
