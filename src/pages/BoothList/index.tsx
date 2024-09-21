@@ -6,6 +6,7 @@ import { getBoothDepartments, getBooths } from '../../api/booth.ts';
 import { BoothInfo, CheckState, SelectedBooths } from '../../types';
 import { ReactComponent as CheckedIcon } from '../../assets/icons/booth-checked.svg';
 import { ReactComponent as UnCheckedIcon } from '../../assets/icons/booth-un-checked.svg';
+import Header from '../../components/Header.tsx';
 
 const BoothPage = () => {
   // 전체 카테고리의 선택 상태 및 정보를 저장
@@ -208,9 +209,8 @@ const BoothPage = () => {
 
   return (
     <Wrapper>
-      <button type="button" onClick={() => navigate('/')}>
-        뒤로가기
-      </button>
+      <Header />
+
       <Title>부스정보</Title>
       <P>
         각 대학별 부스정보를 한 눈에 쉽게 파악하고 즐겁게 <br />

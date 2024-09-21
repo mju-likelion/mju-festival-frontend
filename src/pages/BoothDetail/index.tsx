@@ -3,12 +3,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getBoothDetail, getOwnership, getQrData } from '../../api/booth.ts';
 
-import BottomSheet from '../../components/QrBottomSheet/index.tsx';
 import { useAuthStore } from '../../store';
 import { BoothDetailInfo } from '../../types';
 import { handleError } from '../../utils/errorUtil.ts';
-
-import { ReactComponent as BackIcon } from '../../assets/icons/left_arrow.svg';
+import Header from '../../components/Header.tsx';
+import BottomSheet from '../../components/QrBottomSheet/index.tsx';
 import { ReactComponent as LocationIcon } from '../../assets/icons/location_icon.svg';
 
 const BoothDetail = () => {
@@ -97,11 +96,7 @@ const BoothDetail = () => {
 
   return (
     <Wrapper $isOwner={isOwner}>
-      <BackButton role="button" onClick={() => navigate('/login')}>
-        <BackIcon />
-        뒤로가기
-      </BackButton>
-      {role === 'BOOTH_MANAGER' && <RoleLabel>관리자용</RoleLabel>}
+      <Header />
       <Box>
         <Title>부스정보</Title>
         <Department>{department}</Department>
@@ -149,19 +144,6 @@ const BoothDetail = () => {
 
 const Wrapper = styled.div<{ $isOwner: boolean }>`
   margin-bottom: ${({ $isOwner }) => $isOwner && `250px`};
-`;
-const BackButton = styled.div`
-  padding: 4px 10px;
-  display: flex;
-  align-items: center;
-  color: ${({ theme }) => theme.colors.text500};
-  ${({ theme }) => theme.typographies.footnote};
-`;
-const RoleLabel = styled.p`
-  margin-right: 50px;
-  text-align: end;
-  color: ${({ theme }) => theme.colors.text500};
-  ${({ theme }) => theme.typographies.subhead2};
 `;
 const Box = styled.div`
   padding: 0 20px;

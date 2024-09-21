@@ -8,7 +8,7 @@ import { useAuthStore } from '../../store';
 import { BoothEditFields } from '../../types';
 import { handleError } from '../../utils/errorUtil.ts';
 import { boothSchema } from '../../validation/schema.ts';
-import { ReactComponent as BackIcon } from '../../assets/icons/left_arrow.svg';
+import Header from '../../components/Header.tsx';
 
 const BoothEdit = () => {
   const locationData = useLocation();
@@ -47,11 +47,7 @@ const BoothEdit = () => {
 
   return (
     <>
-      <BackButton role="button" onClick={() => navigate('/login')}>
-        <BackIcon />
-        뒤로가기
-      </BackButton>
-      <RoleLabel>관리자용</RoleLabel>
+      <Header />
       <Wrapper>
         <Title>부스정보</Title>
         <Department>{department}</Department>
@@ -86,20 +82,6 @@ const BoothEdit = () => {
 };
 const Wrapper = styled.div`
   padding: 0 20px;
-`;
-const BackButton = styled.div`
-  padding: 4px 10px;
-
-  display: flex;
-  align-items: center;
-  color: ${({ theme }) => theme.colors.text500};
-  ${({ theme }) => theme.typographies.footnote};
-`;
-const RoleLabel = styled.p`
-  margin-right: 50px;
-  text-align: end;
-  color: ${({ theme }) => theme.colors.text500};
-  ${({ theme }) => theme.typographies.subhead2};
 `;
 const Title = styled.p`
   margin: 10px 0;
