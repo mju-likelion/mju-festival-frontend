@@ -6,6 +6,7 @@ import { SortKey, SortOptions } from '../../types';
 import { useAuthStore, usePageStore } from '../../store';
 import useFetchNotices from '../../hooks/useFetchNotices';
 import InfoText from '../../components/InfoText';
+import TitleLayout from './Header.tsx';
 
 const ViewAllNotice = () => {
   const navigate = useNavigate();
@@ -27,10 +28,7 @@ const ViewAllNotice = () => {
 
   return (
     <Wrapper>
-      <TitleLayout>
-        <p>공지사항</p>
-        <p>실시간으로 올라오는 공지사항을 확인해보세요!</p>
-      </TitleLayout>
+      <TitleLayout />
       <InfoTextLayout>
         <InfoText>공지사항</InfoText>
       </InfoTextLayout>
@@ -83,24 +81,6 @@ const ViewAllNotice = () => {
 };
 
 const Wrapper = styled.div``;
-
-const TitleLayout = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 9px;
-  padding: 26px 0 0 20px;
-
-  p:nth-of-type(1) {
-    font-size: 20px;
-    font-weight: 600;
-    color: ${({ theme }) => theme.colors.text900};
-  }
-  p:nth-of-type(2) {
-    font-size: 16px;
-    font-weight: 400;
-    color: ${({ theme }) => theme.colors.text900};
-  }
-`;
 
 const InfoTextLayout = styled.div`
   padding: 48px 95px 20px 95px;

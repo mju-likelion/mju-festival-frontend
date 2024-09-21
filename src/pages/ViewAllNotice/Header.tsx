@@ -1,36 +1,36 @@
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import Header from '../../components/Header.tsx';
 
-const Header = () => {
-  const navigate = useNavigate();
-
+const TitleLayout = () => {
   return (
     <Wrapper>
-      <Layout>
-        <button type="button" onClick={() => navigate('/')}>
-          뒤로가기
-        </button>
-      </Layout>
-      <Title>공지사항</Title>
-      <p>실시간으로 올라오는 공지사항을 확인해보세요!</p>
+      <Header />
+      <Box>
+        <p>공지사항</p>
+        <p>실시간으로 올라오는 공지사항을 확인해보세요!</p>
+      </Box>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div`
-  background-color: pink;
-  width: 100%;
-  position: sticky;
-  top: 0;
-  z-index: 999;
-`;
+const Wrapper = styled.div``;
 
-const Layout = styled.div`
+const Box = styled.div`
   display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 26px 0 0 20px;
+
+  p:nth-of-type(1) {
+    font-size: 20px;
+    font-weight: 600;
+    color: ${({ theme }) => theme.colors.text900};
+  }
+  p:nth-of-type(2) {
+    font-size: 16px;
+    font-weight: 400;
+    color: ${({ theme }) => theme.colors.text900};
+  }
 `;
 
-const Title = styled.h2`
-  font-size: 24px;
-`;
-
-export default Header;
+export default TitleLayout;
