@@ -14,6 +14,7 @@ import { ReactComponent as BoothStatueImg } from '../../assets/imgs/boothStatue.
 import { ReactComponent as TimeTableStatueImg } from '../../assets/imgs/timetableStatue.svg';
 import { ReactComponent as NoticeStatueImg } from '../../assets/imgs/noticeStatue.svg';
 import { ReactComponent as LostItemStatueImg } from '../../assets/imgs/lostitemStatue.svg';
+import Header from './Header.tsx';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -22,13 +23,14 @@ const Main = () => {
 
   return (
     <Wrapper>
-      <HeaderLayout>
+      <Header />
+      <TitleLayout>
         <LogoLayout>
           <MajestyLogo />
           <MajestySubLogo />
         </LogoLayout>
         <p>{formatDate(today)}</p>
-      </HeaderLayout>
+      </TitleLayout>
       <InfoLayout>
         <InfoText>링크 바로가기</InfoText>
       </InfoLayout>
@@ -114,7 +116,7 @@ const Wrapper = styled.div`
   min-height: 100vh;
 `;
 
-const HeaderLayout = styled.div`
+const TitleLayout = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 20px;
