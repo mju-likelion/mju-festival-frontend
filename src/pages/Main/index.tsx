@@ -14,6 +14,9 @@ import { ReactComponent as BoothStatueImg } from '../../assets/imgs/boothStatue.
 import { ReactComponent as TimeTableStatueImg } from '../../assets/imgs/timetableStatue.svg';
 import { ReactComponent as NoticeStatueImg } from '../../assets/imgs/noticeStatue.svg';
 import { ReactComponent as LostItemStatueImg } from '../../assets/imgs/lostitemStatue.svg';
+import { ReactComponent as FooterLinkIcon } from '../../assets/icons/footer_link_icon.svg';
+import { ReactComponent as FooterHomeIcon } from '../../assets/icons/footer_home_icon.svg';
+import { ReactComponent as FooterMJUIcon } from '../../assets/icons/footer_mju_logo.svg';
 import Header from './Header.tsx';
 
 const Main = () => {
@@ -106,6 +109,21 @@ const Main = () => {
           </ButtonBox>
         </ButtonContainer>
       </FestivalInfoLayout>
+      <Footer>
+        <ContentContainer>
+          <IconLayout>
+            <IconBox>
+              <FooterLinkIcon />
+              <p>https://www.mju.ac.kr/mjukr/index.do</p>
+            </IconBox>
+            <IconBox>
+              <FooterHomeIcon />
+              <p>https://open.kakao.com/o/sneAIT0f</p>
+            </IconBox>
+          </IconLayout>
+          <FooterMJUIcon />
+        </ContentContainer>
+      </Footer>
     </Wrapper>
   );
 };
@@ -236,6 +254,36 @@ const ButtonContainer = styled.div`
 const ButtonBox = styled.div`
   position: relative;
   height: 104px;
+`;
+
+const Footer = styled.div`
+  width: 100%;
+  height: 140px;
+  background-color: ${({ theme }) => theme.colors.text900};
+  padding: 14px 14px 16px 20px;
+`;
+
+const ContentContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const IconLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`;
+
+const IconBox = styled.div`
+  display: flex;
+  align-items: center;
+
+  p {
+    font-size: 13px;
+    font-weight: 400;
+    color: ${({ theme }) => theme.colors.white100};
+  }
 `;
 
 const MapStatue = styled(MapStatueImg)`
