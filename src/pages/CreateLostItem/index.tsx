@@ -1,29 +1,33 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { postLostItem, postLostItemImg } from '../../api/lostItem';
+import Header from '../../components/Header';
 import usePreventRefresh from '../../hooks/usePreventRefresh';
 import { useAuthStore } from '../../store';
 import { LostItemForm, LostItemRequest } from '../../types/lostItem';
+import { getCurrentDate } from '../../utils/dateUtil';
+import { handleError } from '../../utils/errorUtil';
 import { lostItemSchema } from '../../validation/schema';
-import Header from './Header';
+import FormActions from './FormActions';
+import ImageUploader from './ImageUploader';
+import LostItemFormFields from './LostItemFormFields';
 
 const CreateLostItem = () => {
-  usePreventRefresh(); // 새로고침 방지
+  usePreventRefresh();
 
-  const [itemImgUrl, setItemImgUrl] = useState<string>('');
+  const [imageUrl, setImageUrl] = useState<string>('');
   const { token } = useAuthStore();
   const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm({
+  const todayDate = useMemo(() => getCurrentDate(), []);
+
+  const { register, handleSubmit, setValue, watch } = useForm({
     resolver: yupResolver(lostItemSchema),
   });
+  const titleCount = watch('title', '');
+  const contentCount = watch('content', '');
 
   const handleImgFile = async (e: ChangeEvent<HTMLInputElement>) => {
     try {
@@ -31,12 +35,12 @@ const CreateLostItem = () => {
         const formData = new FormData();
         formData.append('image', e.target.files[0]);
         const imgUrl = await postLostItemImg(formData, token);
-        setItemImgUrl(imgUrl);
 
+        setImageUrl(imgUrl);
         setValue('file', e.target.files[0]);
       }
     } catch (error) {
-      throw error as Error;
+      handleError(error as Error);
     }
   };
 
@@ -44,15 +48,14 @@ const CreateLostItem = () => {
     const lostItemData: LostItemRequest = {
       title: data.title,
       content: data.content,
-      imageUrl: itemImgUrl,
+      imageUrl,
     };
 
     try {
       await postLostItem(lostItemData, token);
-      alert('분실물 등록 완료');
       navigate('/lost-items');
     } catch (error) {
-      throw error as Error;
+      handleError(error as Error);
     }
   };
 
@@ -60,102 +63,48 @@ const CreateLostItem = () => {
     <Wrapper>
       <Header />
       <form onSubmit={handleSubmit(onSubmit)}>
-        <ItemLayout>
-          <RegisterDate>등록일</RegisterDate>
-          <ImageContainer>
-            <ItemImg src={itemImgUrl || undefined} />
-            <FileInputContainer>
-              <ItemInput
-                {...register('file', { required: true })}
-                type="file"
-                id="lostItem"
-                // accept 조건 재확인 필수
-                accept="image/*"
-                onChange={handleImgFile}
-              />
-              <ItemLabel htmlFor="lostItem">
-                {!itemImgUrl ? (
-                  <>
-                    이미지 업로드 <br /> (이미지는 한 장만 업로드 가능합니다.)
-                    <br />
-                    (JPG, GIF, PNG, PDF)
-                  </>
-                ) : (
-                  ''
-                )}
-              </ItemLabel>
-            </FileInputContainer>
-          </ImageContainer>
-          <ItemTitle
-            {...register('title', { required: true, maxLength: 20 })}
-            placeholder="제목"
-            maxLength={20}
-          />
-          <ItemContent
-            {...register('content', { required: true, maxLength: 100 })}
-            placeholder="test 내용"
-            maxLength={100}
-          />
-        </ItemLayout>
-        <button type="submit">등록하기</button>
-        <p>
-          form errors :
-          {errors.file?.message ||
-            errors.title?.message ||
-            errors.content?.message}
-        </p>
+        <TitleLayout>
+          <Title>분실물 등록하기</Title>
+          <SubTitle>분실물을 등록해주세요</SubTitle>
+          <RegisterDate>{todayDate}</RegisterDate>
+        </TitleLayout>
+
+        <ImageUploader imageUrl={imageUrl} handleImgFile={handleImgFile} />
+        <LostItemFormFields
+          register={register}
+          titleCount={titleCount}
+          contentCount={contentCount}
+        />
+        <FormActions />
       </form>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div`
-  width: 100%;
-  border: 1px solid red;
-`;
+const Wrapper = styled.div``;
 
-const ItemLayout = styled.div`
+const TitleLayout = styled.div`
   display: flex;
   flex-direction: column;
-`;
-const RegisterDate = styled.p``;
-const ImageContainer = styled.div`
-  position: relative;
-  width: 100%;
-  height: 300px;
-  background-color: gray;
-`;
-const ItemImg = styled.img`
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-`;
-const FileInputContainer = styled.div`
-  position: absolute;
-  width: 100%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-const ItemInput = styled.input`
-  display: none;
-`;
-const ItemLabel = styled.label`
-  text-align: center;
-  line-height: 30px;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
+  padding: 6px 20px;
 `;
 
-const ItemTitle = styled.input``;
-const ItemContent = styled.textarea`
-  width: 100%;
-  background-color: #cccfde;
+const Title = styled.p`
+  ${({ theme }) => theme.typographies.title1};
+  color: ${({ theme }) => theme.colors.text900};
+`;
+
+const SubTitle = styled.p`
+  ${({ theme }) => theme.typographies.callout};
+  color: ${({ theme }) => theme.colors.text900};
+  margin-top: 9px;
+`;
+
+const RegisterDate = styled.p`
+  margin-top: 6px;
+  align-self: flex-end;
+  ${({ theme }) => theme.typographies.caption1};
+  color: ${({ theme }) => theme.colors.gray400};
 `;
 
 export default CreateLostItem;

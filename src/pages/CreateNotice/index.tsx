@@ -1,7 +1,7 @@
-import styled from 'styled-components';
 import { ChangeEvent, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import { Axios } from '../../api/Axios';
 import Header from '../ViewDetailNotice/Header';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
@@ -19,6 +19,10 @@ const CreateNotice = () => {
   const imageData = new FormData();
 
   const today = new Date();
+  const year = today.getFullYear();
+  const month = String(today.getMonth() + 1).padStart(2, '0');
+  const day = String(today.getDate()).padStart(2, '0');
+  const TODAY = `${year} / ${month} / ${day}`;
 
   const { register, handleSubmit, watch } = useForm<ImageNoticeType>();
   const titleCount = watch('title', '');
