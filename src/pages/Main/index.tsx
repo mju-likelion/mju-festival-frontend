@@ -4,6 +4,7 @@ import InfoText from '../../components/InfoText.tsx';
 import MainMenuButton from './MainMenuButton.tsx';
 import { downloadAppByDevice } from '../../utils/downloadAppUtil.ts';
 import { openInstagram } from '../../utils/openInstaUtil.ts';
+import { formatDate } from '../../utils/dateUtil';
 import { ReactComponent as MajestyLogo } from '../../assets/imgs/majesty_logo.svg';
 import { ReactComponent as MajestySubLogo } from '../../assets/imgs/majesty_sub_logo.svg';
 import { ReactComponent as TicketIconImg } from '../../assets/imgs/ticket_icon.svg';
@@ -18,10 +19,6 @@ const Main = () => {
   const navigate = useNavigate();
 
   const today = new Date();
-  const year = today.getFullYear();
-  const month = String(today.getMonth() + 1).padStart(2, '0');
-  const day = String(today.getDate()).padStart(2, '0');
-  const TODAY = `${year} / ${month} / ${day}`;
 
   return (
     <Wrapper>
@@ -30,7 +27,7 @@ const Main = () => {
           <MajestyLogo />
           <MajestySubLogo />
         </LogoLayout>
-        <p>{TODAY}</p>
+        <p>{formatDate(today)}</p>
       </Header>
       <InfoText>링크 바로가기</InfoText>
       <LinkLayout>
