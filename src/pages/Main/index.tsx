@@ -13,7 +13,7 @@ import { ReactComponent as NoticeStatueImg } from '../../assets/imgs/noticeStatu
 import { ReactComponent as TicketIconImg } from '../../assets/imgs/ticket_icon.svg';
 import { ReactComponent as TimeTableStatueImg } from '../../assets/imgs/timetableStatue.svg';
 import InfoText from '../../components/InfoText.tsx';
-import { formatDate } from '../../utils/dateUtil';
+import { getCurrentDate } from '../../utils/dateUtil';
 import { downloadAppByDevice } from '../../utils/downloadAppUtil.ts';
 import { openInstagram } from '../../utils/openInstaUtil.ts';
 import Header from './Header.tsx';
@@ -23,8 +23,6 @@ import Weather from './Weather.tsx';
 const Main = () => {
   const navigate = useNavigate();
 
-  const today = new Date();
-
   return (
     <Wrapper>
       <Header />
@@ -33,7 +31,7 @@ const Main = () => {
           <MajestyLogo />
           <MajestySubLogo />
         </LogoLayout>
-        <p>{formatDate(today)}</p>
+        <p>{getCurrentDate()}</p>
       </TitleLayout>
       <Weather />
       <InfoLayout>
@@ -200,6 +198,8 @@ const TitleLayout = styled.div`
 
   p {
     margin-top: 3px;
+    ${({ theme }) => theme.typographies.subhead1};
+    color: ${({ theme }) => theme.colors.text900};
   }
 `;
 
