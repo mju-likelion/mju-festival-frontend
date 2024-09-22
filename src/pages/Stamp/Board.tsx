@@ -29,7 +29,6 @@ const Board = () => {
       const stampData = await getStamp(token);
 
       if (stampData) {
-        console.log(stampData);
         setStampCount(stampData.stampCount);
         setTotalStampCount(stampData.totalStampCount);
       }
