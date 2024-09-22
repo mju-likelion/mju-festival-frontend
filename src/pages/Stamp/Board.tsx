@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { getStamp } from '../../api/stamp';
+import { getStamp } from '../../api/stamp.ts';
 import { ReactComponent as StampActive } from '../../assets/icons/stamp_active.svg';
 import { ReactComponent as StampDisabled } from '../../assets/icons/stamp_disabled.svg';
 import plant from '../../assets/imgs/stamp_plant.png';
