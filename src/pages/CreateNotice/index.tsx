@@ -3,11 +3,11 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Axios } from '../../api/Axios';
-import Header from '../ViewDetailNotice/Header';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
 import { useAuthStore, usePageStore } from '../../store';
 import { ImageNoticeType } from '../../types';
-import { formatDate } from '../../utils/dateUtil';
+import { getCurrentDate } from '../../utils/dateUtil';
+import Header from '../ViewDetailNotice/Header';
 
 const CreateNotice = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -17,8 +17,6 @@ const CreateNotice = () => {
   const { setCurPage, setIsSorted } = usePageStore();
   const formData = new FormData();
   const imageData = new FormData();
-
-  const today = new Date();
 
   const { register, handleSubmit, watch } = useForm<ImageNoticeType>();
   const titleCount = watch('title', '');
@@ -76,7 +74,7 @@ const CreateNotice = () => {
     <Wrapper>
       <Header title="공지사항">공지사항 내용</Header>
       <DateLayout>
-        <p>{formatDate(today)}</p>
+        <p>등록일 : {getCurrentDate()}</p>
       </DateLayout>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <UploadImageLayout>

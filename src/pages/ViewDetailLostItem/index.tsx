@@ -58,7 +58,7 @@ const DetailLostItem = () => {
         <SubTitle>분실물 내용을 확인하고 찾아가세요!</SubTitle>
       </TitleWrapper>
       <Wrapper>
-        <RegisterDate>{formattedDate}</RegisterDate>
+        <RegisterDate>등록일:{formattedDate}</RegisterDate>
         <ItemImg src={imageUrl} />
         <ItemTextLayout>
           <ItemTitle>제목 : {title}</ItemTitle>
