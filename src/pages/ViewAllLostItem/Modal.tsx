@@ -27,7 +27,7 @@ const Modal = ({ setIsModalOpen }: ModalProps) => {
 };
 
 const OverlayWrapper = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -39,6 +39,7 @@ const OverlayWrapper = styled.div`
 `;
 
 const Layout = styled.div`
+  z-index: 2;
   position: relative;
   max-width: 330px;
   width: calc(100vw - 60px);

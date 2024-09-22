@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
+import { TimeTableProvider } from './context/TimeTable.tsx';
 import useRouteTracker from './hooks/useRouteTracker.tsx';
 import useScreenSize from './hooks/useScreenSize.ts';
 import BoothDetail from './pages/BoothDetail';
@@ -12,13 +13,14 @@ import EditNotice from './pages/EditNotice/index.tsx';
 import AdminLogIn from './pages/LogIn/indexAdmin.tsx';
 import UserLogIn from './pages/LogIn/indexUser.tsx';
 import Main from './pages/Main/index.tsx';
+import Map from './pages/Map/index.tsx';
+import Stamp from './pages/Stamp/index.tsx';
+import StampComplete from './pages/StampComplete/index.tsx';
+import TimeTable from './pages/TimeTable/index.tsx';
 import LostItem from './pages/ViewAllLostItem/index.tsx';
 import ViewAllNotice from './pages/ViewAllNotice/index.tsx';
 import DetailLostItem from './pages/ViewDetailLostItem/index.tsx';
 import ViewDetailNotice from './pages/ViewDetailNotice/index.tsx';
-import TimeTable from './pages/TimeTable/index.tsx';
-import { TimeTableProvider } from './context/TimeTable.tsx';
-import Map from './pages/Map/index.tsx';
 
 function App() {
   useRouteTracker();
@@ -54,6 +56,8 @@ function App() {
             }
           />
           <Route path="/map" element={<Map />} />
+          <Route path="/stamps" element={<Stamp />} />
+          <Route path="/completed-stamps" element={<StampComplete />} />
         </Routes>
       </MobileWrapper>
     </BrowserRouter>
@@ -70,7 +74,7 @@ const MobileWrapper = styled.div`
   margin: auto;
   position: relative;
   overflow-y: auto;
-  background-color: #ffffff;
+  background-color: ${({ theme }) => theme.colors.white100};
 
   // 스크롤바 숨기기
   -ms-overflow-style: none; // IE and Edge
