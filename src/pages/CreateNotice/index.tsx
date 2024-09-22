@@ -18,8 +18,6 @@ const CreateNotice = () => {
   const formData = new FormData();
   const imageData = new FormData();
 
-  const today = new Date();
-
   const { register, handleSubmit, watch } = useForm<ImageNoticeType>();
   const titleCount = watch('title', '');
   const contentCount = watch('content', '');
