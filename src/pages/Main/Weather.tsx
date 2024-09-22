@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getWeather } from '../../api/weather';
+import { ReactComponent as Cloud } from '../../assets/icons/weather_cloud.svg';
+import { ReactComponent as Error } from '../../assets/icons/weather_error.svg';
+import { ReactComponent as Rainy } from '../../assets/icons/weather_rainy.svg';
 import { ReactComponent as Sunny } from '../../assets/icons/weather_sunny.svg';
 import { GroupedWeatherData, WeatherForecast } from '../../types';
 import { handleError } from '../../utils/errorUtil';
@@ -19,6 +22,7 @@ const Weather = () => {
         groupedForecasts[key] = {
           fcstTime: forecast.fcstTime,
           SKY: '',
+          PTY: '',
           T1H: '',
         };
       }
@@ -27,6 +31,8 @@ const Weather = () => {
         groupedForecasts[key].SKY = forecast.fcstValue || '';
       } else if (forecast.category === 'T1H') {
         groupedForecasts[key].T1H = forecast.fcstValue || '';
+      } else if (forecast.category === 'PTY') {
+        groupedForecasts[key].PTY = forecast.fcstValue || '';
       }
     });
     const resultForecasts = Object.values(groupedForecasts);
@@ -42,6 +48,28 @@ const Weather = () => {
     }
   };
 
+  // 오전 오후 시간 포맷팅 함수
+  const formatTime = (fcstTime: string): string => {
+    const hours = parseInt(fcstTime.slice(0, 2), 10);
+    const suffix = hours < 12 ? '오전' : '오후';
+    const formattedHour = hours % 12 || 12;
+    return `${suffix} ${formattedHour}시`;
+  };
+
+  // 날씨에 따라 아이콘 선택
+  const getWeatherIcon = (PTY: string, SKY: string) => {
+    if (PTY === '1' || PTY === '2') {
+      return <Rainy />;
+    }
+    if (SKY === '1') {
+      return <Sunny />;
+    }
+    if (SKY === '3' || SKY === '4') {
+      return <Cloud />;
+    }
+    return <Error />;
+  };
+
   useEffect(() => {
     fetchWeather();
   }, []);
@@ -50,8 +78,8 @@ const Weather = () => {
     <Wrapper>
       {forecasts.map((forecast) => (
         <CardLayout key={forecast.fcstTime}>
-          <Time>{forecast.fcstTime}</Time>
-          <Sunny />
+          <Time>{formatTime(forecast.fcstTime)}</Time>
+          <Icon>{getWeatherIcon(forecast.PTY, forecast.SKY)}</Icon>
           <Temperature>{forecast.T1H}°</Temperature>
         </CardLayout>
       ))}
@@ -61,12 +89,11 @@ const Weather = () => {
 
 const Wrapper = styled.div`
   height: 50px;
+  padding: 0 30px;
+  margin: 42px 0 3px 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border: 1px solid blue;
-  padding: 0 30px;
-  margin: 42px 0 3px 0;
 `;
 
 const CardLayout = styled.div`
@@ -78,6 +105,12 @@ const CardLayout = styled.div`
 const Time = styled.p`
   ${({ theme }) => theme.typographies.caption2};
   color: ${({ theme }) => theme.colors.text900};
+`;
+
+const Icon = styled.div`
+  display: flex;
+  justify-self: center;
+  align-items: center;
 `;
 
 const Temperature = styled.p`

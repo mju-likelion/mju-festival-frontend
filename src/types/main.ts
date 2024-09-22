@@ -16,6 +16,7 @@ export interface WeatherForecast {
   fcstTime: string;
   SKY: string;
   T1H: string;
+  PTY: string;
 }
 
 export interface GroupedWeatherData {
