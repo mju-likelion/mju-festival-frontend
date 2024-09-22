@@ -1,47 +1,45 @@
+import { useMemo } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as StampActive } from '../../assets/icons/stamp_active.svg';
+import { ReactComponent as StampDisabled } from '../../assets/icons/stamp_disabled.svg';
 import plant from '../../assets/imgs/stamp_plant.png';
 
-const stamps = Array.from({ length: 10 }, (_, index) => index);
-
 const Board = () => {
+  const completedStampCount = 5;
+
+  const stamps = useMemo(
+    () =>
+      Array.from({ length: 25 }, (_, index) => ({
+        id: `stamp-${index}`,
+        completed: index < completedStampCount,
+      })),
+    [completedStampCount]
+  );
+
+  const stampLayout = [3, 2, 3, 2, 3, 2, 3, 2, 3, 2];
+
   return (
     <Wrapper>
       <StampTitleLayout>
         <StampTitle>도장을 열심히 모아봐요</StampTitle>
         <StampNum>
-          현재까지 모은 도장 : <span>10</span>개
+          현재까지 모은 도장 : <span>{completedStampCount}</span>개
         </StampNum>
       </StampTitleLayout>
       <StampLayout>
-        <StampRow>
-          {stamps.slice(0, 3).map((stamp) => (
-            <StampBackground key={`stamp-${stamp}`}>
-              <StampActive />
-            </StampBackground>
-          ))}
-        </StampRow>
-        <StampRow>
-          {stamps.slice(3, 5).map((stamp) => (
-            <StampBackground key={`stamp-${stamp}`}>
-              <StampActive />
-            </StampBackground>
-          ))}
-        </StampRow>
-        <StampRow>
-          {stamps.slice(5, 8).map((stamp) => (
-            <StampBackground key={`stamp-${stamp}`}>
-              <StampActive />
-            </StampBackground>
-          ))}
-        </StampRow>
-        <StampRow>
-          {stamps.slice(8).map((stamp) => (
-            <StampBackground key={`stamp-${stamp}`}>
-              <StampActive />
-            </StampBackground>
-          ))}
-        </StampRow>
+        {stampLayout.reduce((rows, rowLength) => {
+          const rowStamps = stamps.splice(0, rowLength);
+          rows.push(
+            <StampRow>
+              {rowStamps.map((stamp) => (
+                <StampBackground key={stamp.id}>
+                  {stamp.completed ? <StampActive /> : <StampDisabled />}
+                </StampBackground>
+              ))}
+            </StampRow>
+          );
+          return rows;
+        }, [] as JSX.Element[])}
       </StampLayout>
       <Plant src={plant} />
     </Wrapper>
@@ -49,9 +47,9 @@ const Board = () => {
 };
 
 const Wrapper = styled.div`
+  position: relative;
   margin-top: 21px;
   width: 100%;
-  height: calc(var(--vh, 1vh) * 100 - 220px);
   background-color: ${({ theme }) => theme.colors.gray100};
 `;
 
@@ -102,4 +100,5 @@ const Plant = styled.img`
   width: 100%;
   height: auto;
 `;
+
 export default Board;
