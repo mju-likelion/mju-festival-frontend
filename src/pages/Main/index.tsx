@@ -1,23 +1,24 @@
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import InfoText from '../../components/InfoText.tsx';
-import MainMenuButton from './MainMenuButton.tsx';
-import { downloadAppByDevice } from '../../utils/downloadAppUtil.ts';
-import { openInstagram } from '../../utils/openInstaUtil.ts';
-import { formatDate } from '../../utils/dateUtil';
+import styled from 'styled-components';
+import { ReactComponent as FooterHomeIcon } from '../../assets/icons/footer_home_icon.svg';
+import { ReactComponent as FooterLinkIcon } from '../../assets/icons/footer_link_icon.svg';
+import { ReactComponent as FooterMJUIcon } from '../../assets/icons/footer_mju_logo.svg';
+import { ReactComponent as BoothStatueImg } from '../../assets/imgs/boothStatue.svg';
+import { ReactComponent as InstagramIconImg } from '../../assets/imgs/instagram_icon.svg';
+import { ReactComponent as LostItemStatueImg } from '../../assets/imgs/lostitemStatue.svg';
 import { ReactComponent as MajestyLogo } from '../../assets/imgs/majesty_logo.svg';
 import { ReactComponent as MajestySubLogo } from '../../assets/imgs/majesty_sub_logo.svg';
-import { ReactComponent as TicketIconImg } from '../../assets/imgs/ticket_icon.svg';
-import { ReactComponent as InstagramIconImg } from '../../assets/imgs/instagram_icon.svg';
 import { ReactComponent as MapStatueImg } from '../../assets/imgs/mapStatue.svg';
-import { ReactComponent as BoothStatueImg } from '../../assets/imgs/boothStatue.svg';
-import { ReactComponent as TimeTableStatueImg } from '../../assets/imgs/timetableStatue.svg';
 import { ReactComponent as NoticeStatueImg } from '../../assets/imgs/noticeStatue.svg';
-import { ReactComponent as LostItemStatueImg } from '../../assets/imgs/lostitemStatue.svg';
-import { ReactComponent as FooterLinkIcon } from '../../assets/icons/footer_link_icon.svg';
-import { ReactComponent as FooterHomeIcon } from '../../assets/icons/footer_home_icon.svg';
-import { ReactComponent as FooterMJUIcon } from '../../assets/icons/footer_mju_logo.svg';
+import { ReactComponent as TicketIconImg } from '../../assets/imgs/ticket_icon.svg';
+import { ReactComponent as TimeTableStatueImg } from '../../assets/imgs/timetableStatue.svg';
+import InfoText from '../../components/InfoText.tsx';
+import { formatDate } from '../../utils/dateUtil';
+import { downloadAppByDevice } from '../../utils/downloadAppUtil.ts';
+import { openInstagram } from '../../utils/openInstaUtil.ts';
 import Header from './Header.tsx';
+import MainMenuButton from './MainMenuButton.tsx';
+import Weather from './Weather.tsx';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -34,6 +35,7 @@ const Main = () => {
         </LogoLayout>
         <p>{formatDate(today)}</p>
       </TitleLayout>
+      <Weather />
       <InfoLayout>
         <InfoText>링크 바로가기</InfoText>
       </InfoLayout>
@@ -194,7 +196,7 @@ const Wrapper = styled.div`
 const TitleLayout = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 20px;
+  padding: 0 20px;
 
   p {
     margin-top: 3px;
