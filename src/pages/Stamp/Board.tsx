@@ -1,36 +1,57 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import styled from 'styled-components';
+import { getStamp } from '../../api/Stamp';
 import { ReactComponent as StampActive } from '../../assets/icons/stamp_active.svg';
 import { ReactComponent as StampDisabled } from '../../assets/icons/stamp_disabled.svg';
 import plant from '../../assets/imgs/stamp_plant.png';
+import { useAuthStore } from '../../store';
+import { handleError } from '../../utils/errorUtil';
 
 const Board = () => {
-  const completedStampCount = 5;
+  const [stampCount, setStampCount] = useState(0);
+  const [totalStampCount, setTotalStampCount] = useState(25); // 기본값으로 25 설정
+  const { token } = useAuthStore();
+  const stampLayout = [3, 2, 3, 2, 3, 2, 3, 2, 3, 1];
 
   const stamps = useMemo(
     () =>
-      Array.from({ length: 25 }, (_, index) => ({
+      Array.from({ length: totalStampCount }, (_, index) => ({
         id: `stamp-${index}`,
-        completed: index < completedStampCount,
+        completed: index < stampCount,
       })),
-    [completedStampCount]
+    [stampCount, totalStampCount]
   );
 
-  const stampLayout = [3, 2, 3, 2, 3, 2, 3, 2, 3, 2];
+  const fetchStampData = async () => {
+    try {
+      const stampData = await getStamp(token);
+
+      if (stampData) {
+        setStampCount(stampData.stampCount);
+        setTotalStampCount(stampData.totalStampCount);
+      }
+    } catch (error) {
+      handleError(error as Error);
+    }
+  };
+
+  useEffect(() => {
+    fetchStampData();
+  }, [token]);
 
   return (
     <Wrapper>
       <StampTitleLayout>
         <StampTitle>도장을 열심히 모아봐요</StampTitle>
         <StampNum>
-          현재까지 모은 도장 : <span>{completedStampCount}</span>개
+          현재까지 모은 도장 : <span>{stampCount}</span>개
         </StampNum>
       </StampTitleLayout>
       <StampLayout>
         {stampLayout.reduce((rows, rowLength) => {
           const rowStamps = stamps.splice(0, rowLength);
           rows.push(
-            <StampRow>
+            <StampRow key={`row-${rows.length}`}>
               {rowStamps.map((stamp) => (
                 <StampBackground key={stamp.id}>
                   {stamp.completed ? <StampActive /> : <StampDisabled />}
