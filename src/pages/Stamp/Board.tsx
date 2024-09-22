@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getStamp } from '../../api/Stamp';
 import { ReactComponent as StampActive } from '../../assets/icons/stamp_active.svg';
@@ -9,9 +10,10 @@ import { handleError } from '../../utils/errorUtil';
 
 const Board = () => {
   const [stampCount, setStampCount] = useState(0);
-  const [totalStampCount, setTotalStampCount] = useState(25); // 기본값으로 25 설정
+  const [totalStampCount, setTotalStampCount] = useState(25);
+  const STAMP_LAYOUT = [3, 2, 3, 2, 3, 2, 3, 2, 3, 2];
+  const navigate = useNavigate();
   const { token } = useAuthStore();
-  const stampLayout = [3, 2, 3, 2, 3, 2, 3, 2, 3, 1];
 
   const stamps = useMemo(
     () =>
@@ -27,6 +29,7 @@ const Board = () => {
       const stampData = await getStamp(token);
 
       if (stampData) {
+        console.log(stampData);
         setStampCount(stampData.stampCount);
         setTotalStampCount(stampData.totalStampCount);
       }
@@ -39,6 +42,12 @@ const Board = () => {
     fetchStampData();
   }, [token]);
 
+  useEffect(() => {
+    if (token && stampCount === totalStampCount) {
+      navigate('/completed-stamps');
+    }
+  }, [stampCount, totalStampCount]);
+
   return (
     <Wrapper>
       <StampTitleLayout>
@@ -48,7 +57,7 @@ const Board = () => {
         </StampNum>
       </StampTitleLayout>
       <StampLayout>
-        {stampLayout.reduce((rows, rowLength) => {
+        {STAMP_LAYOUT.reduce((rows, rowLength) => {
           const rowStamps = stamps.splice(0, rowLength);
           rows.push(
             <StampRow key={`row-${rows.length}`}>

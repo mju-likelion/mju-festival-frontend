@@ -57,7 +57,7 @@ function App() {
           />
           <Route path="/map" element={<Map />} />
           <Route path="/stamps" element={<Stamp />} />
-          <Route path="/stamps/completed" element={<StampComplete />} />
+          <Route path="/completed-stamps" element={<StampComplete />} />
         </Routes>
       </MobileWrapper>
     </BrowserRouter>
