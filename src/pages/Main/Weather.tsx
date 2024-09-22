@@ -58,16 +58,16 @@ const Weather = () => {
 
   // 날씨에 따라 아이콘 선택
   const getWeatherIcon = (PTY: string, SKY: string) => {
-    if (PTY === '1' || PTY === '2') {
-      return <Rainy />;
+    switch (true) {
+      case PTY === '1' || PTY === '2':
+        return <Rainy />;
+      case SKY === '1':
+        return <Sunny />;
+      case SKY === '3' || SKY === '4':
+        return <Cloud />;
+      default:
+        return <Error />;
     }
-    if (SKY === '1') {
-      return <Sunny />;
-    }
-    if (SKY === '3' || SKY === '4') {
-      return <Cloud />;
-    }
-    return <Error />;
   };
 
   useEffect(() => {
