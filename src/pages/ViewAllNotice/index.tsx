@@ -1,8 +1,6 @@
 import styled from 'styled-components';
-import { ChangeEvent } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import NoticeCard from './NoticeCard';
-import { SortKey } from '../../types';
 import { useAuthStore, usePageStore } from '../../store';
 import useFetchNotices from '../../hooks/useFetchNotices';
 import InfoText from '../../components/InfoText';
@@ -85,19 +83,6 @@ const Wrapper = styled.div`
 
 const InfoTextLayout = styled.div`
   padding: 48px 95px 20px 95px;
-`;
-
-const SelectLayout = styled.div`
-  display: flex;
-  justify-content: end;
-  padding: 0 20px 20px 0;
-
-  select {
-    height: 24px;
-    border-radius: 999px;
-    border: none;
-    background-color: ${({ theme }) => theme.colors.gray300};
-  }
 `;
 
 const NoticeLayout = styled.div`
