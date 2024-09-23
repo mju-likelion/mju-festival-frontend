@@ -4,7 +4,7 @@ import { ReactComponent as MenuIconSvg } from '../../assets/icons/hamburger.svg'
 import { useAuthStore } from '../../store';
 
 const Header = () => {
-  const { role, setRole, setToken } = useAuthStore();
+  const { role } = useAuthStore();
   const navigate = useNavigate();
 
   return (
