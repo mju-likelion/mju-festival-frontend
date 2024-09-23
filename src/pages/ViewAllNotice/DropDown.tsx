@@ -65,9 +65,10 @@ const Wrapper = styled.div`
   position: relative;
   height: 24px;
   margin: 34px 0 10px 0;
+  padding-right: 20px;
   display: flex;
   flex-direction: column;
-  align-self: flex-end;
+  align-items: end;
   gap: 1px;
 
   z-index: 1;
@@ -77,7 +78,7 @@ const Wrapper = styled.div`
 
 const DefaultLayout = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
   align-items: center;
   width: 100%;
   max-width: 70px;
@@ -85,8 +86,6 @@ const DefaultLayout = styled.div`
   border-radius: 99px;
   ${({ theme }) => theme.typographies.caption1}
   background-color: ${({ theme }) => theme.colors.gray300};
-  /* flex-grow: 1; */
-  border: 1px solid red;
 `;
 
 const DefaultValue = styled.p`
@@ -98,12 +97,15 @@ const DefaultValue = styled.p`
 const SelectOptions = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: end;
+  width: 100%;
   gap: 2px;
   color: ${({ theme }) => theme.colors.black50};
 `;
 
 const Option = styled.div`
   display: flex;
+  width: 100%;
   max-width: 70px;
   height: 24px;
   justify-content: center;
@@ -111,7 +113,6 @@ const Option = styled.div`
   border-radius: 99px;
   ${({ theme }) => theme.typographies.caption1}
   background-color: ${({ theme }) => theme.colors.gray200};
-  border: 1px solid blue;
 `;
 
 export default DropDown;
