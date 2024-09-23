@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { ReactComponent as MenuCameraIcon } from '../../assets/imgs/menu_camera.svg';
 import menuDefault from '../../assets/imgs/menu_default.svg';
@@ -6,6 +7,7 @@ import { ReactComponent as MenuStampIcon } from '../../assets/imgs/menu_stamp.sv
 
 const FloatingButton = () => {
   const [isButtonOpen, setIsButtonOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleButton = () => {
     setIsButtonOpen(!isButtonOpen);
@@ -15,8 +17,14 @@ const FloatingButton = () => {
     <Wrapper>
       {isButtonOpen && (
         <>
-          <MenuAnimatedButton as={MenuStampIcon} />
-          <MenuAnimatedButton as={MenuCameraIcon} />
+          <MenuAnimatedButton
+            as={MenuStampIcon}
+            onClick={() => navigate('/stamps')}
+          />
+          <MenuAnimatedButton
+            as={MenuCameraIcon}
+            onClick={() => navigate('/qr-reader')}
+          />
         </>
       )}
       <MenuButton src={menuDefault} onClick={handleButton} />

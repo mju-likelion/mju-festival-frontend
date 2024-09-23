@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import back_close from '../../assets/imgs/sheet_back_close.png';
 import back_open from '../../assets/imgs/sheet_back_open.png';
@@ -13,12 +13,22 @@ const BottomSheet = ({ qrCode }: BoothQrData) => {
   const sheet = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleOpen = () => {
+  const handleOpen = useCallback(() => {
     setIsOpen((prev) => !prev);
-  };
+  }, []);
+
+  const backgroundImage = useMemo(
+    () => (isOpen ? back_open : back_close),
+    [isOpen]
+  );
 
   return (
-    <Wrapper ref={sheet} onClick={handleOpen} $isOpen={isOpen}>
+    <Wrapper
+      ref={sheet}
+      onClick={handleOpen}
+      $isOpen={isOpen}
+      $backgroundImage={backgroundImage}
+    >
       <Header isOpen={isOpen} />
       <BottomSheetContent>
         <Content qrCode={qrCode} isOpen={isOpen} />
@@ -27,7 +37,10 @@ const BottomSheet = ({ qrCode }: BoothQrData) => {
   );
 };
 
-const Wrapper = styled(motion.div)<{ $isOpen: boolean }>`
+const Wrapper = styled(motion.div)<{
+  $isOpen: boolean;
+  $backgroundImage: string;
+}>`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -44,10 +57,9 @@ const Wrapper = styled(motion.div)<{ $isOpen: boolean }>`
   height: ${BOTTOM_SHEET_HEIGHT}px;
 
   background-color: ${({ theme }) => theme.colors.blue100};
-  background-image: ${({ $isOpen }) =>
-    $isOpen ? `url(${back_open})` : `url(${back_close})`};
-  background-size: cover; /* 필요에 따라 조정 */
-  background-position: center; /* 필요에 따라 조정 */
+  background-image: url(${({ $backgroundImage }) => $backgroundImage});
+  background-size: cover;
+  background-position: center;
 
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   transition:
