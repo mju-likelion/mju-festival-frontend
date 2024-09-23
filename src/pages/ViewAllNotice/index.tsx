@@ -13,7 +13,7 @@ import { ReactComponent as RightArrowActive } from '../../assets/icons/right_arr
 const ViewAllNotice = () => {
   const navigate = useNavigate();
   const { role } = useAuthStore();
-  const { curPage, isSorted, setCurPage, setIsSorted } = usePageStore();
+  const { isSorted, setIsSorted } = usePageStore();
   const [search, setSearch] = useSearchParams();
   const sortOptions: SortOptions = { desc: '최신순', asc: '나중순' };
 
