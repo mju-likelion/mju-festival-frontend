@@ -10,7 +10,7 @@ const Header = () => {
 
   return (
     <Wrapper>
-      <BackButton onClick={() => navigate('/')}>
+      <BackButton onClick={() => navigate('/main')}>
         <BackIcon />
         뒤로가기
       </BackButton>
