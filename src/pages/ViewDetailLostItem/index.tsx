@@ -114,7 +114,8 @@ const DetailLostItem = () => {
               type="text"
               value={recipientName}
               onChange={(e) => setRecipientName(e.target.value)}
-              placeholder="수령인 정보를 입력하세요"
+              placeholder="ex) 학번, 이름 등 (최대 150자)"
+              maxLength={150}
             />
           }
           onConfirm={handleFoundStatus}
