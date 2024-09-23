@@ -1,11 +1,9 @@
 import {
   createBrowserRouter,
-  Outlet,
   RouterProvider,
   ScrollRestoration,
 } from 'react-router-dom';
 import styled from 'styled-components';
-import Footer from './components/Footer/index.tsx';
 import { TimeTableProvider } from './context/TimeTable.tsx';
 import useRouteTracker from './hooks/useRouteTracker.tsx';
 import useScreenSize from './hooks/useScreenSize.ts';
@@ -28,19 +26,25 @@ import LostItem from './pages/ViewAllLostItem/index.tsx';
 import ViewAllNotice from './pages/ViewAllNotice/index.tsx';
 import DetailLostItem from './pages/ViewDetailLostItem/index.tsx';
 import ViewDetailNotice from './pages/ViewDetailNotice/index.tsx';
+import Landing from './pages/Landing/index.tsx';
+import Layout from './pages/Landing/Layout.tsx';
 
 const router = createBrowserRouter([
   {
     element: (
       <>
         <ScrollRestoration />
-        <Outlet />
-        <Footer />
+        {/* <Outlet /> */}
+        <Layout />
       </>
     ),
     children: [
       {
         path: '/',
+        element: <Landing />,
+      },
+      {
+        path: '/main',
         element: <Main />,
       },
       {
