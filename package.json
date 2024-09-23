@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
+    "@zxing/browser": "^0.1.5",
+    "@zxing/library": "^0.21.3",
     "axios": "^1.7.2",
     "framer-motion": "^11.3.29",
     "jsencrypt": "^3.3.2",
@@ -21,7 +23,9 @@
     "react-ga4": "^2.1.0",
     "react-hook-form": "^7.52.1",
     "react-intersection-observer": "^9.13.1",
+    "react-qr-code": "^2.0.15",
     "react-router-dom": "^6.24.1",
+    "react-zxing": "^2.0.2",
     "styled-components": "^6.1.11",
     "styled-reset": "^4.5.2",
     "yup": "^1.4.0",

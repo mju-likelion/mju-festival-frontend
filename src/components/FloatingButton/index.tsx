@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { ReactComponent as MenuCameraIcon } from '../../assets/imgs/menu_camera_img.svg';
-import menuDefaultImg from '../../assets/imgs/menu_default_img.svg';
-import { ReactComponent as MenuStampIcon } from '../../assets/imgs/menu_stamp_img.svg';
+import { ReactComponent as MenuCameraIcon } from '../../assets/imgs/menu_camera.svg';
+import menuDefault from '../../assets/imgs/menu_default.svg';
+import { ReactComponent as MenuStampIcon } from '../../assets/imgs/menu_stamp.svg';
 
 const FloatingButton = () => {
   const [isButtonOpen, setIsButtonOpen] = useState(false);
@@ -19,7 +19,7 @@ const FloatingButton = () => {
           <MenuAnimatedButton as={MenuCameraIcon} />
         </>
       )}
-      <MenuButton src={menuDefaultImg} onClick={handleButton} />
+      <MenuButton src={menuDefault} onClick={handleButton} />
     </Wrapper>
   );
 };
@@ -33,6 +33,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
+  z-index: 50;
 `;
 
 const fadeIn = keyframes`

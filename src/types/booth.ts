@@ -43,7 +43,10 @@ export interface BoothQrData {
   qrCode: string;
 }
 
-export type BottomSheetPropTypes = BoothQrData;
+export interface BottomSheetPropTypes {
+  qrCode: string;
+  isOpen: boolean;
+}
 
 export interface Ownership {
   isOwner: boolean;

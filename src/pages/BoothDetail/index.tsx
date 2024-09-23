@@ -3,12 +3,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getBoothDetail, getOwnership, getQrData } from '../../api/booth.ts';
 
+import { ReactComponent as LocationIcon } from '../../assets/icons/location_icon.svg';
+import Header from '../../components/Header.tsx';
+import BottomSheet from '../../components/QrBottomSheet/index.tsx';
 import { useAuthStore } from '../../store';
 import { BoothDetailInfo } from '../../types';
 import { handleError } from '../../utils/errorUtil.ts';
-import Header from '../../components/Header.tsx';
-import BottomSheet from '../../components/QrBottomSheet/index.tsx';
-import { ReactComponent as LocationIcon } from '../../assets/icons/location_icon.svg';
 
 const BoothDetail = () => {
   const { role, token } = useAuthStore();
@@ -95,50 +95,54 @@ const BoothDetail = () => {
   }, []);
 
   return (
-    <Wrapper $isOwner={isOwner}>
-      <Header />
-      <Box>
-        <Title>부스정보</Title>
-        <Department>{department}</Department>
-        <CreateAt>등록일: {formatDate(createdAt)}</CreateAt>
+    <>
+      <Wrapper $isOwner={isOwner}>
+        <Header />
+        <Box>
+          <Title>부스정보</Title>
+          <Department>{department}</Department>
+          <CreateAt>등록일: {formatDate(createdAt)}</CreateAt>
 
-        <BoothImg src={imageUrl} alt="부스 이미지" />
-        <Name>제목: {name}</Name>
-        <Description>내용: {description}</Description>
-        <LocationBox>
-          <Location>부스위치:</Location>
-          <LocationIcon />
-          <Location>{location}</Location>
-        </LocationBox>
-        <MapImg src={locationImageUrl} alt="부스 위치 이미지" />
-      </Box>
-      {role === 'STUDENT' && (
-        <StudentAction>
-          <Buttons>
-            <QRButton onClick={() => navigate(`/`)}>QR 촬영하기</QRButton>
-            <StampButton onClick={() => navigate(`/`)}>도장판으로</StampButton>
-          </Buttons>
-        </StudentAction>
-      )}
-      {isOwner && (
-        <>
-          <AdminAction>
+          <BoothImg src={imageUrl} alt="부스 이미지" />
+          <Name>제목: {name}</Name>
+          <Description>내용: {description}</Description>
+          <LocationBox>
+            <Location>부스위치:</Location>
+            <LocationIcon />
+            <Location>{location}</Location>
+          </LocationBox>
+          <MapImg src={locationImageUrl} alt="부스 위치 이미지" />
+        </Box>
+        {role === 'STUDENT' && (
+          <StudentAction>
             <Buttons>
-              <QRButton
-                onClick={() =>
-                  navigate(`/booths/${params.boothId}/edit`, {
-                    state: { ...boothDetailData },
-                  })
-                }
-              >
-                수정하기
-              </QRButton>
+              <QRButton onClick={() => navigate(`/`)}>QR 촬영하기</QRButton>
+              <StampButton onClick={() => navigate(`/`)}>
+                도장판으로
+              </StampButton>
             </Buttons>
-          </AdminAction>
-          <BottomSheet qrCode={qrCode} />
-        </>
-      )}
-    </Wrapper>
+          </StudentAction>
+        )}
+        {isOwner && (
+          <>
+            <AdminAction>
+              <Buttons>
+                <QRButton
+                  onClick={() =>
+                    navigate(`/booths/${params.boothId}/edit`, {
+                      state: { ...boothDetailData },
+                    })
+                  }
+                >
+                  수정하기
+                </QRButton>
+              </Buttons>
+            </AdminAction>
+            <BottomSheet qrCode={qrCode} />
+          </>
+        )}
+      </Wrapper>
+    </>
   );
 };
 
@@ -196,7 +200,9 @@ const MapImg = styled.img`
   border-radius: 12px;
   object-fit: cover;
 `;
-const AdminAction = styled.div``;
+const AdminAction = styled.div`
+  padding: 0 20px;
+`;
 const StudentAction = styled.div`
   padding: 0 20px;
 `;

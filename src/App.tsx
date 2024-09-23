@@ -21,6 +21,7 @@ import LostItem from './pages/ViewAllLostItem/index.tsx';
 import ViewAllNotice from './pages/ViewAllNotice/index.tsx';
 import DetailLostItem from './pages/ViewDetailLostItem/index.tsx';
 import ViewDetailNotice from './pages/ViewDetailNotice/index.tsx';
+import QrReader from './pages/QrReader/index.tsx';
 
 function App() {
   useRouteTracker();
@@ -58,6 +59,7 @@ function App() {
           <Route path="/map" element={<Map />} />
           <Route path="/stamps" element={<Stamp />} />
           <Route path="/completed-stamps" element={<StampComplete />} />
+          <Route path="/qr-reader" element={<QrReader />} />
         </Routes>
       </MobileWrapper>
     </BrowserRouter>
