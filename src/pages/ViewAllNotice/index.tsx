@@ -12,10 +12,10 @@ const ViewAllNotice = () => {
   const navigate = useNavigate();
   const { role } = useAuthStore();
   const { curPage, isSorted, setCurPage, setIsSorted } = usePageStore();
+  const [search, setSearch] = useSearchParams();
   const sortOptions: SortOptions = { desc: '최신순', asc: '나중순' };
 
-  const [search, setSearch] = useSearchParams();
-  const currentPage = Math.max(parseInt(search.get('page') || 1), 1);
+  const currentPage = Math.max(parseInt(search.get('page') ?? '1', 10), 1);
 
   const { notices, totalPage, isLoading } = useFetchNotices({
     isSorted,
