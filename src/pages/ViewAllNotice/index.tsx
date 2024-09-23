@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import NoticeCard from './NoticeCard';
 import { SortKey, SortOptions } from '../../types';
