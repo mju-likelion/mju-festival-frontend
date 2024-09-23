@@ -1,31 +1,25 @@
 import styled from 'styled-components';
-import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg'; // `ReactComponent`로 변경
+import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg';
 
 interface ModalProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  handleDelete: () => void;
+  title: string;
+  content: React.ReactNode;
+  onConfirm: () => void;
 }
 
-const Modal = ({ setIsModalOpen, handleDelete }: ModalProps) => {
+const Modal = ({ setIsModalOpen, title, content, onConfirm }: ModalProps) => {
   return (
-    <>
-      <OverlayWrapper>
-        <Layout>
-          <Close as={CloseIcon} onClick={() => setIsModalOpen(false)} />
-          <Title>삭제하기 전 유의사항</Title>
-          <Content>
-            게시물 삭제 후 게시물
-            <br />
-            복구가 되지 않습니다. <br />
-            <br />
-            확인하신 후 삭제해주시길 바랍니다.
-          </Content>
-          <Button type="button" onClick={() => handleDelete()}>
-            확인하기
-          </Button>
-        </Layout>
-      </OverlayWrapper>
-    </>
+    <OverlayWrapper>
+      <Layout>
+        <Close as={CloseIcon} onClick={() => setIsModalOpen(false)} />
+        <Title>{title}</Title>
+        <Content>{content}</Content>
+        <Button type="button" onClick={onConfirm}>
+          확인하기
+        </Button>
+      </Layout>
+    </OverlayWrapper>
   );
 };
 
@@ -38,14 +32,15 @@ const OverlayWrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.black30};
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const Layout = styled.div`
   position: relative;
   max-width: 330px;
   width: calc(100vw - 60px);
-  height: 238px;
+  height: 248px;
+  margin-top: 324px;
   padding: 28px 38px;
   border-radius: 12px;
   display: flex;
@@ -67,7 +62,7 @@ const Title = styled.p`
   ${({ theme }) => theme.typographies.title1};
 `;
 
-const Content = styled.p`
+const Content = styled.div`
   ${({ theme }) => theme.typographies.body2};
   line-height: 20px;
   white-space: pre-wrap;

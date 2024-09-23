@@ -11,6 +11,8 @@ import Modal from './Modal';
 
 const DetailLostItem = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isFoundModalOpen, setIsFoundModalOpen] = useState(false);
+  const [recipientName, setRecipientName] = useState('');
   const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -39,7 +41,8 @@ const DetailLostItem = () => {
   const handleFoundStatus = async () => {
     try {
       if (id && token) {
-        await patchLostItemAsFound(id, token, '이진혁');
+        await patchLostItemAsFound(id, token, recipientName);
+        setIsFoundModalOpen(false);
         navigate('/lost-items');
       }
     } catch (error) {
@@ -49,9 +52,6 @@ const DetailLostItem = () => {
 
   return (
     <>
-      {isModalOpen && (
-        <Modal setIsModalOpen={setIsModalOpen} handleDelete={handleDelete} />
-      )}
       <Header />
       <TitleWrapper>
         <Title>분실물찾기</Title>
@@ -83,12 +83,43 @@ const DetailLostItem = () => {
                 삭제하기
               </DeleteButton>
             </ButtonLayout>
-            <FoundedButton onClick={handleFoundStatus}>
+            <FoundedButton onClick={() => setIsFoundModalOpen(true)}>
               분실물 찾음
             </FoundedButton>
           </>
         )}
       </Wrapper>
+      {isModalOpen && (
+        <Modal
+          setIsModalOpen={setIsModalOpen}
+          title="삭제하기 전 유의사항"
+          content={
+            <>
+              게시물 삭제 후 게시물
+              <br />
+              복구가 되지 않습니다. <br />
+              <br />
+              확인하신 후 삭제해주시길 바랍니다.
+            </>
+          }
+          onConfirm={handleDelete}
+        />
+      )}
+      {isFoundModalOpen && (
+        <Modal
+          setIsModalOpen={setIsFoundModalOpen}
+          title="수령인 정보 입력"
+          content={
+            <RecipientInput
+              type="text"
+              value={recipientName}
+              onChange={(e) => setRecipientName(e.target.value)}
+              placeholder="수령인 정보를 입력하세요"
+            />
+          }
+          onConfirm={handleFoundStatus}
+        />
+      )}
     </>
   );
 };
@@ -184,6 +215,15 @@ const DeleteButton = styled(Button)`
 const FoundedButton = styled(Button)`
   color: ${({ theme }) => theme.colors.white100};
   background-color: ${({ theme }) => theme.colors.blue100};
+`;
+
+const RecipientInput = styled.input`
+  padding: 10px;
+  ${({ theme }) => theme.typographies.body2};
+  border: 1px solid ${({ theme }) => theme.colors.black10};
+  border-radius: 12px;
+  line-height: 20px;
+  white-space: pre-wrap;
 `;
 
 export default DetailLostItem;
