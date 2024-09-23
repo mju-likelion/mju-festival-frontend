@@ -7,6 +7,8 @@ import { useAuthStore, usePageStore } from '../../store';
 import useFetchNotices from '../../hooks/useFetchNotices';
 import InfoText from '../../components/InfoText';
 import TitleLayout from './Header.tsx';
+import { ReactComponent as LeftArrowActive } from '../../assets/icons/left_arrow_active.svg';
+import { ReactComponent as RightArrowActive } from '../../assets/icons/right_arrow_active.svg';
 
 const ViewAllNotice = () => {
   const navigate = useNavigate();
@@ -23,10 +25,6 @@ const ViewAllNotice = () => {
   });
   const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
     setIsSorted(e.target.value as SortKey);
-  };
-
-  const handlePage = (index: number) => {
-    setCurPage(index === 1 ? curPage + 1 : curPage - 1);
   };
 
   return (
@@ -56,31 +54,33 @@ const ViewAllNotice = () => {
       </NoticeLayout>
 
       <BtnLayout>
-        <TempBtnDiv>
+        <PageBtnContainer>
           <button
             type="button"
             disabled={currentPage === 1 || isLoading}
+            aria-label="Previous page"
             onClick={() =>
               setSearch({
                 page: String(currentPage - 1),
               })
             }
           >
-            {'<'}
+            <LeftArrowActive />
           </button>
           <TempP>{`${currentPage}/${totalPage}`}</TempP>
           <button
             type="button"
             disabled={currentPage === totalPage || isLoading}
+            aria-label="Previous page"
             onClick={() =>
               setSearch({
                 page: String(currentPage + 1),
               })
             }
           >
-            {'>'}
+            <RightArrowActive />
           </button>
-        </TempBtnDiv>
+        </PageBtnContainer>
         {role === 'STUDENT_COUNCIL' && (
           <CreateBtn onClick={() => navigate('/create/notice')}>
             게시물 작성하기
@@ -130,11 +130,18 @@ const BtnLayout = styled.div`
   padding: 14px 75px 52px 75px;
 `;
 
-const TempBtnDiv = styled.div`
+const PageBtnContainer = styled.div`
+  width: 88px;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+  margin-top: 14px;
+  gap: 1px;
 `;
 const TempP = styled.p`
-  margin: 0 10px;
+  ${({ theme }) => theme.typographies.footout};
+  color: ${({ theme }) => theme.colors.text900};
 `;
 
 const CreateBtn = styled.button`
