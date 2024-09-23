@@ -218,7 +218,7 @@ const BackgroundColor = styled.div`
   position: absolute;
   background: linear-gradient(
     to bottom,
-    rgba(158, 199, 255, 0.7) 0%,
+    rgba(158, 199, 255, 0.3) 0%,
     rgba(158, 199, 255, 0) 100%
   );
   width: 100%;
@@ -260,20 +260,18 @@ const TimeTableStatue = styled(TimeTableStatueImg)`
   position: absolute;
   left: -2px;
   bottom: -3px;
-  transform: scaleX(-1);
   z-index: 20;
 `;
 
 const NoticeStatue = styled(NoticeStatueImg)`
   position: absolute;
   right: -2px;
-  bottom: -3px;
+  bottom: -4px;
   z-index: 20;
 `;
 
 const LostItemStatue = styled(LostItemStatueImg)`
   position: absolute;
-  bottom: -3px;
   z-index: 20;
 `;
 export default Main;

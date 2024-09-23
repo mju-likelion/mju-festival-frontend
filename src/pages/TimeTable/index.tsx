@@ -6,7 +6,6 @@ import DetailInfoList from './DetailInfoList';
 import { useTimeTableData } from '../../context/TimeTable';
 import TypeIcon from './TypeIcon';
 import Header from '../../components/Header.tsx';
-import plant from '../../assets/imgs/timetable_plant.png';
 
 const TimeTable = () => {
   const [selectedDate, setSelectedDate] = useState<TimeTableDate>('10월 07일');
@@ -54,9 +53,7 @@ const TimeTable = () => {
         </ButtonContainer>
       </DateLayout>
       <DetailInfoList selectedDate={selectedDate} />
-      <FooterLayout>
-        <img src={plant} alt="식물" />
-      </FooterLayout>
+      <FooterLayout />
     </Wrapper>
   );
 };
@@ -150,15 +147,6 @@ const SecondDateButton = styled.button<{ $isSelected: boolean }>`
 const FooterLayout = styled.div`
   width: 100%;
   height: 88px;
-  position: relative;
   background-color: transparent;
-
-  :first-child {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    object-fit: cover;
-    z-index: 10;
-  }
 `;
 export default TimeTable;

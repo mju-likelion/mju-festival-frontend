@@ -1,10 +1,8 @@
 import styled from 'styled-components';
-import Header from '../../components/Header.tsx';
 
 const TitleLayout = () => {
   return (
     <Wrapper>
-      <Header />
       <Box>
         <p>공지사항</p>
         <p>실시간으로 올라오는 공지사항을 확인해보세요!</p>
