@@ -1,8 +1,5 @@
 import {
-  BrowserRouter,
   createBrowserRouter,
-  Route,
-  Routes,
   Outlet,
   ScrollRestoration,
   RouterProvider,
