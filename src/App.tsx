@@ -1,4 +1,9 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  Outlet,
+  ScrollRestoration,
+  RouterProvider,
+} from 'react-router-dom';
 import styled from 'styled-components';
 import { TimeTableProvider } from './context/TimeTable.tsx';
 import useRouteTracker from './hooks/useRouteTracker.tsx';
@@ -21,46 +26,106 @@ import LostItem from './pages/ViewAllLostItem/index.tsx';
 import ViewAllNotice from './pages/ViewAllNotice/index.tsx';
 import DetailLostItem from './pages/ViewDetailLostItem/index.tsx';
 import ViewDetailNotice from './pages/ViewDetailNotice/index.tsx';
+import Footer from './components/Footer/index.tsx';
+
+const router = createBrowserRouter([
+  {
+    element: (
+      <>
+        <ScrollRestoration />
+        <Outlet />
+        <Footer />
+      </>
+    ),
+    children: [
+      {
+        path: '/',
+        element: <Main />,
+      },
+      {
+        path: '/view/all-notices',
+        element: <ViewAllNotice />,
+      },
+      {
+        path: '/create/notice',
+        element: <CreateNotice />,
+      },
+      {
+        path: '/notice/:id/edit',
+        element: <EditNotice />,
+      },
+      {
+        path: '/booths',
+        element: <Booth />,
+      },
+      {
+        path: '/booths/:boothId',
+        element: <BoothDetail />,
+      },
+      {
+        path: '/booths/:boothId/edit',
+        element: <BoothEdit />,
+      },
+      {
+        path: '/login',
+        element: <UserLogIn />,
+      },
+      {
+        path: '/admin/login',
+        element: <AdminLogIn />,
+      },
+      {
+        path: '/view/detail-notice/:id',
+        element: <ViewDetailNotice />,
+      },
+      {
+        path: '/lost-items',
+        element: <LostItem />,
+      },
+      {
+        path: '/lost-items/:id',
+        element: <DetailLostItem />,
+      },
+      {
+        path: '/lost-items/:id/edit',
+        element: <EditLostItem />,
+      },
+      {
+        path: '/lost-items/register',
+        element: <CreateLostItem />,
+      },
+      {
+        path: '/timetable',
+        element: (
+          <TimeTableProvider>
+            <TimeTable />
+          </TimeTableProvider>
+        ),
+      },
+      {
+        path: '/map',
+        element: <Map />,
+      },
+      {
+        path: '/stamps',
+        element: <Stamp />,
+      },
+      {
+        path: '/completed-stamps',
+        element: <StampComplete />,
+      },
+    ],
+  },
+]);
 
 function App() {
   useRouteTracker();
   useScreenSize();
 
   return (
-    <BrowserRouter>
-      <MobileWrapper>
-        <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/view/all-notices" element={<ViewAllNotice />} />
-          <Route path="/create/notice" element={<CreateNotice />} />
-          <Route path="/notice/:id/edit" element={<EditNotice />} />
-          <Route path="/booths" element={<Booth />} />
-          <Route path="/booths/:boothId" element={<BoothDetail />} />
-          <Route path="/booths/:boothId/edit" element={<BoothEdit />} />
-          <Route path="/login" element={<UserLogIn />} />
-          <Route path="/admin/login" element={<AdminLogIn />} />
-          <Route
-            path="/view/detail-notice/:id"
-            element={<ViewDetailNotice />}
-          />
-          <Route path="/lost-items" element={<LostItem />} />
-          <Route path="/lost-items/:id" element={<DetailLostItem />} />
-          <Route path="/lost-items/:id/edit" element={<EditLostItem />} />
-          <Route path="/lost-items/register" element={<CreateLostItem />} />
-          <Route
-            path="/timetable"
-            element={
-              <TimeTableProvider>
-                <TimeTable />
-              </TimeTableProvider>
-            }
-          />
-          <Route path="/map" element={<Map />} />
-          <Route path="/stamps" element={<Stamp />} />
-          <Route path="/completed-stamps" element={<StampComplete />} />
-        </Routes>
-      </MobileWrapper>
-    </BrowserRouter>
+    <MobileWrapper>
+      <RouterProvider router={router} />
+    </MobileWrapper>
   );
 }
 
@@ -73,7 +138,7 @@ const MobileWrapper = styled.div`
   height: calc(var(--vh, 1vh) * 100);
   margin: auto;
   position: relative;
-  overflow-y: auto;
+  /* overflow-y: auto; */
   background-color: ${({ theme }) => theme.colors.white100};
 
   // 스크롤바 숨기기

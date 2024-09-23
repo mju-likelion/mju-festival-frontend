@@ -68,7 +68,7 @@ const LostItem = () => {
   }, [sorted, page]);
 
   return (
-    <>
+    <Wrapper>
       <Header />
       <TitleWrapper>
         <Title>분실물찾기</Title>
@@ -101,9 +101,13 @@ const LostItem = () => {
         </ButtonWrapper>
       )}
       {isModalOpen && <Modal setIsModalOpen={setIsModalOpen} />}
-    </>
+    </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  background-color: ${({ theme }) => theme.colors.white100};
+`;
 
 const ContentWrapper = styled.div`
   display: flex;
@@ -131,7 +135,7 @@ const SubTitle = styled.p`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
-  margin: 41px 0;
+  padding: 41px 0;
 `;
 
 const RegisterButton = styled.button`

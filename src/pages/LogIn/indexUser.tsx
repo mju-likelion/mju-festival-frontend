@@ -43,12 +43,12 @@ const UserLogIn = () => {
 };
 
 const Wrapper = styled.div<{ $isModalOpen: boolean }>`
-  padding: 0 20px;
+  padding: 0 20px 54px 20px;
   background-color: ${({ $isModalOpen, theme }) =>
     $isModalOpen ? theme.colors.black10 : theme.colors.white100};
 `;
 const LogoWrapper = styled.div`
-  margin-top: 58px;
+  padding-top: 58px;
   display: flex;
   flex-direction: column;
 `;

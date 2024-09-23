@@ -42,6 +42,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 6px 20px 88px 20px;
+  background-color: ${({ theme }) => theme.colors.white100};
 `;
 
 const TitleLayout = styled.div`

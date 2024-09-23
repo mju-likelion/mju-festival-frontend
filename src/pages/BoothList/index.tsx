@@ -156,7 +156,9 @@ const BoothPage = () => {
   );
 };
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  background-color: ${({ theme }) => theme.colors.white100};
+`;
 const Title = styled.p`
   margin: 32px 20px 10px;
   color: ${({ theme }) => theme.colors.text900};
