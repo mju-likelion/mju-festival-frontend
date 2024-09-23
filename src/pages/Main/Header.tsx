@@ -4,9 +4,15 @@ import { ReactComponent as MenuIconSvg } from '../../assets/icons/hamburger.svg'
 import { useAuthStore } from '../../store';
 
 const Header = () => {
-  const { role } = useAuthStore();
+  const { role, setRole, setToken } = useAuthStore();
   const navigate = useNavigate();
 
+  const logout = () => {
+    if (window.confirm('로그아웃 할까요?')) {
+      setRole('');
+      setToken('');
+    }
+  };
   return (
     <Wrapper>
       {(role === 'STUDENT_COUNCIL' || role === 'BOOTH_MANAGER') && (
