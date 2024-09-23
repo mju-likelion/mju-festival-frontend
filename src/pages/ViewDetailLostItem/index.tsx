@@ -114,6 +114,7 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 20px;
+  background-color: ${({ theme }) => theme.colors.white100};
 `;
 
 const RegisterDate = styled.p`

@@ -97,7 +97,9 @@ const EditLostItem = () => {
   );
 };
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  background-color: ${({ theme }) => theme.colors.white100};
+`;
 
 const TitleLayout = styled.div`
   display: flex;
