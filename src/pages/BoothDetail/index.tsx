@@ -206,11 +206,12 @@ const AdminAction = styled.div`
 const StudentAction = styled.div`
   padding: 0 20px;
 `;
-const Buttons = styled.button`
+const Buttons = styled.div`
   width: 100%;
   display: flex;
   gap: 20px;
 `;
+
 const QRButton = styled.button`
   width: 100%;
   padding: 16px 0;

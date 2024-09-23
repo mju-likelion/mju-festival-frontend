@@ -1,16 +1,17 @@
 import { motion } from 'framer-motion';
 import QRCode from 'react-qr-code';
 import styled from 'styled-components';
+import { ReactComponent as SmallQrImg } from '../../assets/imgs/sheet_small_qr.svg';
 import { BottomSheetPropTypes } from '../../types';
 
 const Content = ({ qrCode, isOpen }: BottomSheetPropTypes) => {
   return (
-    <Wrapper isOpen={isOpen}>
+    <Wrapper $isOpen={isOpen}>
       <TextLayout
         as={motion.div}
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: isOpen ? 0 : 1, y: isOpen ? -10 : 0 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.5 }}
       >
         <Title>QR 촬영하기</Title>
         <SubTitle>
@@ -19,25 +20,28 @@ const Content = ({ qrCode, isOpen }: BottomSheetPropTypes) => {
           보여주시면 됩니다.
         </SubTitle>
       </TextLayout>
-      <QrLayout
-        as={motion.div}
-        initial={{ height: '44px', width: '44px' }}
-        animate={{
-          height: isOpen ? '142px' : '44px',
-          width: isOpen ? '142px' : '44px',
-        }}
-        transition={{ duration: 1.5 }}
-      >
-        {qrCode && <QRCode value={qrCode} size={isOpen ? 132 : 34} />}
-      </QrLayout>
+      {!isOpen ? (
+        <SmallQrImg />
+      ) : (
+        <QrLayout
+          as={motion.div}
+          animate={{
+            height: isOpen ? '142px' : '64px',
+            width: isOpen ? '142px' : '64px',
+          }}
+          transition={{ duration: 0.6 }}
+        >
+          {qrCode && <QRCode value={qrCode} size={isOpen ? 132 : 34} />}
+        </QrLayout>
+      )}
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div<{ isOpen: boolean }>`
+const Wrapper = styled.div<{ $isOpen: boolean }>`
   display: flex;
-  flex-direction: ${({ isOpen }) => (isOpen ? 'column' : 'row')};
-  justify-content: ${({ isOpen }) => (isOpen ? 'center' : 'space-between')};
+  flex-direction: ${({ $isOpen }) => ($isOpen ? 'column' : 'row')};
+  justify-content: ${({ $isOpen }) => ($isOpen ? 'center' : 'space-between')};
   align-items: center;
 `;
 
