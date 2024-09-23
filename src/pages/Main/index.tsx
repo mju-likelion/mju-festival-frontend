@@ -28,7 +28,7 @@ const Main = () => {
           <MajestyLogo />
           <MajestySubLogo />
         </LogoLayout>
-        <p>{getCurrentDate()}</p>
+        <p>{getCurrentDate().replace(/\./g, '/')}</p>
       </TitleLayout>
       <Weather />
       <InfoLayout>
