@@ -26,25 +26,21 @@ const DetailLostItem = () => {
 
   const handleDelete = async () => {
     try {
-      if (id && token) {
-        await deleteLostItem(id, token);
-        setIsModalOpen(false);
-        navigate('/lost-items');
-      } else {
-        console.error('삭제를 위한 ID나 토큰이 없습니다.');
-      }
+      if (!id || !token) throw new Error('삭제를 위한 ID나 토큰이 없습니다.');
+      await deleteLostItem(id, token);
+      setIsModalOpen(false);
+      navigate('/lost-items');
     } catch (error) {
-      console.error(error);
+      handleError(error as Error);
     }
   };
 
   const handleFoundStatus = async () => {
     try {
-      if (id && token) {
-        await patchLostItemAsFound(id, token, recipientName);
-        setIsFoundModalOpen(false);
-        navigate('/lost-items');
-      }
+      if (!id || !token) return;
+      await patchLostItemAsFound(id, token, recipientName);
+      setIsFoundModalOpen(false);
+      navigate('/lost-items');
     } catch (error) {
       handleError(error as Error);
     }
@@ -69,6 +65,7 @@ const DetailLostItem = () => {
           <PlaceIcon />
           명진당
         </PlaceLayout>
+
         {role === 'STUDENT_COUNCIL' && (
           <>
             <ButtonLayout>
@@ -89,6 +86,7 @@ const DetailLostItem = () => {
           </>
         )}
       </Wrapper>
+
       {isModalOpen && (
         <Modal
           setIsModalOpen={setIsModalOpen}
@@ -105,6 +103,7 @@ const DetailLostItem = () => {
           onConfirm={handleDelete}
         />
       )}
+
       {isFoundModalOpen && (
         <Modal
           setIsModalOpen={setIsFoundModalOpen}

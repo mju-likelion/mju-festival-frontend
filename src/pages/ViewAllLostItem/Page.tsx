@@ -9,15 +9,13 @@ interface PageProps {
 }
 
 const Page = ({ page, totalPage, setPage }: PageProps) => {
-  const handlePageNum = (num: number) => {
+  const isPageValid = (nextPage: number) =>
+    nextPage >= 0 && nextPage < totalPage;
+
+  const handlePageNum = (num: 1 | -1) => {
     setPage((prev) => {
       const nextPage = prev + num;
-
-      if (nextPage < 0 || nextPage + 1 > totalPage) {
-        return prev;
-      }
-
-      return nextPage;
+      return isPageValid(nextPage) ? nextPage : prev;
     });
   };
 
