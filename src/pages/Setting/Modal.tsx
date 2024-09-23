@@ -23,7 +23,7 @@ const Modal = ({ setIsModalOpen, handleWithdraw }: ModalProps) => {
           <Button
             type="button"
             onClick={async () => {
-              await handleWithdraw(); // 비동기 호출
+              await handleWithdraw();
               setIsModalOpen(false);
             }}
           >

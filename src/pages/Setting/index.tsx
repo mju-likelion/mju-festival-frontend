@@ -10,7 +10,14 @@ import Modal from './Modal';
 const Setting = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { token } = useAuthStore();
+  const { token, setRole, setToken } = useAuthStore();
+
+  const logout = () => {
+    if (window.confirm('로그아웃 할까요?')) {
+      setRole('');
+      setToken('');
+    }
+  };
 
   const handleWithdraw = async () => {
     try {
@@ -31,7 +38,7 @@ const Setting = () => {
         <LogInButton onClick={() => navigate('/login')}>
           로그인 페이지
         </LogInButton>
-        <LogOutButton>로그인</LogOutButton>
+        <LogOutButton onClick={() => logout()}>로그아웃</LogOutButton>
         <WithdrawButton
           onClick={() => {
             setIsModalOpen(true);

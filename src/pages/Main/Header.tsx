@@ -1,19 +1,11 @@
-import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useAuthStore } from '../../store';
+import styled from 'styled-components';
 import { ReactComponent as MenuIconSvg } from '../../assets/icons/hamburger.svg';
+import { useAuthStore } from '../../store';
 
 const Header = () => {
   const { role, setRole, setToken } = useAuthStore();
   const navigate = useNavigate();
-
-  const logout = () => {
-    // eslint-disable-next-line no-restricted-globals
-    if (confirm('로그아웃 할까요?')) {
-      setRole('');
-      setToken('');
-    }
-  };
 
   return (
     <Wrapper>
