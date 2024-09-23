@@ -1,9 +1,25 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { deleteUser } from '../../api/setting';
 import Header from '../../components/Header';
+import { useAuthStore } from '../../store';
+import { handleError } from '../../utils/errorUtil';
+import Modal from './Modal';
 
 const Setting = () => {
   const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { token } = useAuthStore();
+
+  const handleWithdraw = async () => {
+    try {
+      await deleteUser(token);
+    } catch (error) {
+      handleError(error as Error);
+    }
+  };
+
   return (
     <Wrapper>
       <Header />
@@ -16,8 +32,20 @@ const Setting = () => {
           로그인 페이지
         </LogInButton>
         <LogOutButton>로그인</LogOutButton>
-        <WithdrawButton>탈퇴하기</WithdrawButton>
+        <WithdrawButton
+          onClick={() => {
+            setIsModalOpen(true);
+          }}
+        >
+          탈퇴하기
+        </WithdrawButton>
       </ButtonLayout>
+      {isModalOpen && (
+        <Modal
+          setIsModalOpen={setIsModalOpen}
+          handleWithdraw={handleWithdraw}
+        />
+      )}
     </Wrapper>
   );
 };
