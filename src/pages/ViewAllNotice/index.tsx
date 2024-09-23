@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { ChangeEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import NoticeCard from './NoticeCard';
 import { SortKey, SortOptions } from '../../types';
 import { useAuthStore, usePageStore } from '../../store';
@@ -13,11 +13,14 @@ const ViewAllNotice = () => {
   const { role } = useAuthStore();
   const { curPage, isSorted, setCurPage, setIsSorted } = usePageStore();
   const sortOptions: SortOptions = { desc: '최신순', asc: '나중순' };
+
+  const [search, setSearch] = useSearchParams();
+  const currentPage = Math.max(parseInt(search.get('page') || 1), 1);
+
   const { notices, totalPage, isLoading } = useFetchNotices({
     isSorted,
-    curPage,
+    curPage: currentPage - 1,
   });
-
   const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
     setIsSorted(e.target.value as SortKey);
   };
@@ -56,16 +59,24 @@ const ViewAllNotice = () => {
         <TempBtnDiv>
           <button
             type="button"
-            disabled={curPage === 0 || isLoading}
-            onClick={() => handlePage(-1)}
+            disabled={currentPage === 1 || isLoading}
+            onClick={() =>
+              setSearch({
+                page: currentPage - 1,
+              })
+            }
           >
             {'<'}
           </button>
-          <TempP>{`${curPage + 1}/${totalPage}`}</TempP>
+          <TempP>{`${currentPage}/${totalPage}`}</TempP>
           <button
             type="button"
-            disabled={curPage + 1 === totalPage || isLoading}
-            onClick={() => handlePage(1)}
+            disabled={currentPage === totalPage || isLoading}
+            onClick={() =>
+              setSearch({
+                page: currentPage + 1,
+              })
+            }
           >
             {'>'}
           </button>
