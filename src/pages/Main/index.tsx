@@ -12,7 +12,7 @@ import { ReactComponent as TimeTableStatueImg } from '../../assets/imgs/timetabl
 import InfoText from '../../components/InfoText.tsx';
 import { getCurrentDate } from '../../utils/dateUtil';
 import { downloadAppByDevice } from '../../utils/downloadAppUtil.ts';
-import { openInstagram } from '../../utils/openInstaUtil.ts';
+import { openInstagram } from '../../utils/openLinkUtil.ts';
 import Header from './Header.tsx';
 import MainMenuButton from './MainMenuButton.tsx';
 import Weather from './Weather.tsx';

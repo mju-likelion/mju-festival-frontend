@@ -1,24 +1,10 @@
 import styled from 'styled-components';
-import { ReactComponent as FooterHomeIcon } from '../assets/icons/footer_home_icon.svg';
-import { ReactComponent as FooterLinkIcon } from '../assets/icons/footer_link_icon.svg';
-import { ReactComponent as FooterMJUIcon } from '../assets/icons/footer_mju_logo.svg';
+import ContentLayout from './ContentLayout';
 
 const Footer = () => {
   return (
     <Wrapper>
-      <ContentLayout>
-        <IconContainer>
-          <IconBox>
-            <FooterLinkIcon />
-            <p>https://www.mju.ac.kr/mjukr/index.do</p>
-          </IconBox>
-          <IconBox>
-            <FooterHomeIcon />
-            <p>https://open.kakao.com/o/sneAIT0f</p>
-          </IconBox>
-        </IconContainer>
-        <FooterMJUIcon />
-      </ContentLayout>
+      <ContentLayout />
       <PeopleLayout>
         <PeopleContainer>
           <PeopleBox>
@@ -84,30 +70,6 @@ const Wrapper = styled.div`
   height: 140px;
   background-color: ${({ theme }) => theme.colors.text900};
   padding: 14px 14px 16px 20px;
-`;
-
-const ContentLayout = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`;
-
-const IconContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-`;
-
-const IconBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 4px;
-
-  p {
-    font-size: 13px;
-    font-weight: 400;
-    color: ${({ theme }) => theme.colors.white100};
-  }
 `;
 
 export default Footer;

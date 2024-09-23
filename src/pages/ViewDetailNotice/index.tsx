@@ -6,7 +6,7 @@ import { DetailNoticeType } from '../../types';
 import DeleteNoticeModal from './DeleteNoticeModal';
 import { fetchNotice } from '../../api/notice.ts';
 import { useAuthStore } from '../../store';
-import { openInstagram } from '../../utils/openInstaUtil.ts';
+import { openInstagram } from '../../utils/openLinkUtil.ts';
 import { ReactComponent as InstaArrowIconImg } from '../../assets/icons/backIcon.svg';
 import NoImage from './NoImage.tsx';
 
