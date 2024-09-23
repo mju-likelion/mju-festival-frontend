@@ -5,18 +5,13 @@ import LostItemCard from './LostItemCard';
 
 interface ItemListProps {
   lostItems: SimpleLostItem[];
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const ItemList = ({ lostItems, setIsModalOpen }: ItemListProps) => {
+const ItemList = ({ lostItems }: ItemListProps) => {
   return (
     <Wrapper>
       {lostItems.length > 0 ? (
         lostItems.map((lostItem) => (
-          <LostItemCard
-            key={lostItem.id}
-            lostItem={lostItem}
-            setIsModalOpen={setIsModalOpen}
-          />
+          <LostItemCard key={lostItem.id} lostItem={lostItem} />
         ))
       ) : (
         <NoDataLayout>

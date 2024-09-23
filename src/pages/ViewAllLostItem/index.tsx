@@ -85,7 +85,7 @@ const LostItem = () => {
         </form>
         <SortDropDown setSorted={setSorted} setPage={setPage} />
       </ContentWrapper>
-      <ItemList lostItems={lostItems} setIsModalOpen={setIsModalOpen} />
+      <ItemList lostItems={lostItems} />
       <Page page={page} totalPage={totalPage} setPage={setPage} />
 
       {role === 'STUDENT_COUNCIL' && (
