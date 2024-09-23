@@ -15,7 +15,7 @@ export const getBoothDepartments = async () => {
 };
 
 export const getBooths = async (boothId: string, page: number) => {
-  const PAGE = 5;
+  const PAGE = 2;
   const { data } = await Axios.get<BoothList>(
     `/booths?department_id=${boothId}&page=${page}&size=${PAGE}`
   );

@@ -29,7 +29,8 @@ const AdminLogIn = () => {
 };
 
 const Wrapper = styled.div`
-  padding: 0 20px;
+  padding: 0 20px 305px 20px;
+  background-color: ${({ theme }) => theme.colors.white100};
 `;
 const Header = styled.div`
   margin-top: 30px;
