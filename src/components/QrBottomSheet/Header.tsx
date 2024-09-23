@@ -1,27 +1,20 @@
 import styled from 'styled-components';
+import { ReactComponent as DownIcon } from '../../assets/icons/sheet_down_arrow.svg';
+import { ReactComponent as UpIcon } from '../../assets/icons/sheet_up_arrow.svg';
 
-const Header = () => {
-  return (
-    <Wrapper>
-      <Handle />
-    </Wrapper>
-  );
+interface HeaderProps {
+  isOpen: boolean;
+}
+
+const Header = ({ isOpen }: HeaderProps) => {
+  return <Wrapper>{isOpen ? <DownIcon /> : <UpIcon />}</Wrapper>;
 };
 
 const Wrapper = styled.div`
+  width: 100%;
   height: 24px;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
-  position: relative;
-  padding-top: 12px;
-  padding-bottom: 4px;
+  display: flex;
+  justify-content: center;
 `;
 
-const Handle = styled.div`
-  width: 40px;
-  height: 4px;
-  border-radius: 2px;
-  background-color: #dee2e6;
-  margin: auto;
-`;
 export default Header;

@@ -60,3 +60,21 @@ export const getQrData = async (token: string, id: string) => {
   );
   return data.qrCode;
 };
+
+export const postBoothVisit = async (
+  qrId: string,
+  token: string,
+  strategy: string
+) => {
+  alert(qrId);
+  alert(strategy);
+  await Axios.post(
+    `/booths/${qrId}/visit?strategy=${strategy}`,
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};

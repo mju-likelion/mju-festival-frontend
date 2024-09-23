@@ -1,10 +1,11 @@
 import {
   createBrowserRouter,
   Outlet,
-  ScrollRestoration,
   RouterProvider,
+  ScrollRestoration,
 } from 'react-router-dom';
 import styled from 'styled-components';
+import Footer from './components/Footer/index.tsx';
 import { TimeTableProvider } from './context/TimeTable.tsx';
 import useRouteTracker from './hooks/useRouteTracker.tsx';
 import useScreenSize from './hooks/useScreenSize.ts';
@@ -19,6 +20,7 @@ import AdminLogIn from './pages/LogIn/indexAdmin.tsx';
 import UserLogIn from './pages/LogIn/indexUser.tsx';
 import Main from './pages/Main/index.tsx';
 import Map from './pages/Map/index.tsx';
+import QrReader from './pages/QrReader/index.tsx';
 import Stamp from './pages/Stamp/index.tsx';
 import StampComplete from './pages/StampComplete/index.tsx';
 import TimeTable from './pages/TimeTable/index.tsx';
@@ -26,7 +28,6 @@ import LostItem from './pages/ViewAllLostItem/index.tsx';
 import ViewAllNotice from './pages/ViewAllNotice/index.tsx';
 import DetailLostItem from './pages/ViewDetailLostItem/index.tsx';
 import ViewDetailNotice from './pages/ViewDetailNotice/index.tsx';
-import Footer from './components/Footer/index.tsx';
 
 const router = createBrowserRouter([
   {
@@ -113,6 +114,10 @@ const router = createBrowserRouter([
       {
         path: '/completed-stamps',
         element: <StampComplete />,
+      },
+      {
+        path: '/qr-reader',
+        element: <QrReader />,
       },
     ],
   },
