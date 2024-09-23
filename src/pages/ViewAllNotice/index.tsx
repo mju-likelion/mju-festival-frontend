@@ -2,20 +2,20 @@ import styled from 'styled-components';
 import { ChangeEvent } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import NoticeCard from './NoticeCard';
-import { SortKey, SortOptions } from '../../types';
+import { SortKey } from '../../types';
 import { useAuthStore, usePageStore } from '../../store';
 import useFetchNotices from '../../hooks/useFetchNotices';
 import InfoText from '../../components/InfoText';
 import TitleLayout from './Header.tsx';
 import { ReactComponent as LeftArrowActive } from '../../assets/icons/left_arrow_active.svg';
 import { ReactComponent as RightArrowActive } from '../../assets/icons/right_arrow_active.svg';
+import DropDown from './DropDown.tsx';
 
 const ViewAllNotice = () => {
   const navigate = useNavigate();
   const { role } = useAuthStore();
-  const { isSorted, setIsSorted } = usePageStore();
+  const { isSorted, setIsSorted, setCurPage } = usePageStore();
   const [search, setSearch] = useSearchParams();
-  const sortOptions: SortOptions = { desc: '최신순', asc: '나중순' };
 
   const currentPage = Math.max(parseInt(search.get('page') ?? '1', 10), 1);
 
@@ -23,9 +23,6 @@ const ViewAllNotice = () => {
     isSorted,
     curPage: currentPage - 1,
   });
-  const handleSort = (e: ChangeEvent<HTMLSelectElement>) => {
-    setIsSorted(e.target.value as SortKey);
-  };
 
   return (
     <Wrapper>
@@ -33,15 +30,7 @@ const ViewAllNotice = () => {
       <InfoTextLayout>
         <InfoText>공지사항</InfoText>
       </InfoTextLayout>
-      <SelectLayout>
-        <select onChange={handleSort}>
-          {Object.entries(sortOptions).map(([key, value]) => (
-            <option value={key} key={key}>
-              {value}
-            </option>
-          ))}
-        </select>
-      </SelectLayout>
+      <DropDown setIsSorted={setIsSorted} setPage={setCurPage} />
       <NoticeLayout>
         {notices.map((notice) => (
           <NoticeCard
@@ -52,7 +41,6 @@ const ViewAllNotice = () => {
           />
         ))}
       </NoticeLayout>
-
       <BtnLayout>
         <PageBtnContainer>
           <button
