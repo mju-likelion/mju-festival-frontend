@@ -62,7 +62,7 @@ const ViewAllNotice = () => {
             disabled={currentPage === 1 || isLoading}
             onClick={() =>
               setSearch({
-                page: currentPage - 1,
+                page: String(currentPage - 1),
               })
             }
           >
@@ -74,7 +74,7 @@ const ViewAllNotice = () => {
             disabled={currentPage === totalPage || isLoading}
             onClick={() =>
               setSearch({
-                page: currentPage + 1,
+                page: String(currentPage + 1),
               })
             }
           >
