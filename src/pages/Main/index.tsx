@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ReactComponent as BoothStatueImg } from '../../assets/imgs/boothStatue.svg';
 import { ReactComponent as InstagramIconImg } from '../../assets/imgs/instagram_icon.svg';
@@ -55,7 +55,9 @@ const Main = () => {
         <BackgroundColor />
         <ButtonContainer>
           <ButtonBox>
-            <MapStatue />
+            <Link to="/map">
+              <MapStatue />
+            </Link>
             <MainMenuButton
               bgimg="map"
               type="button"
@@ -65,7 +67,9 @@ const Main = () => {
             </MainMenuButton>
           </ButtonBox>
           <ButtonBox>
-            <BoothStatue />
+            <Link to="/booths">
+              <BoothStatue />
+            </Link>
             <MainMenuButton
               bgimg="booth"
               type="button"
@@ -75,7 +79,9 @@ const Main = () => {
             </MainMenuButton>
           </ButtonBox>
           <ButtonBox>
-            <TimeTableStatue />
+            <Link to="/timetable">
+              <TimeTableStatue />
+            </Link>
             <MainMenuButton
               bgimg="timetable"
               type="button"
@@ -85,7 +91,9 @@ const Main = () => {
             </MainMenuButton>
           </ButtonBox>
           <ButtonBox>
-            <NoticeStatue />
+            <Link to="/view/all-notices">
+              <NoticeStatue />
+            </Link>
             <MainMenuButton
               bgimg="notice"
               type="button"
@@ -95,7 +103,9 @@ const Main = () => {
             </MainMenuButton>
           </ButtonBox>
           <ButtonBox>
-            <LostItemStatue />
+            <Link to="/lost-items">
+              <LostItemStatue />
+            </Link>
             <MainMenuButton
               bgimg="lostItem"
               type="button"
