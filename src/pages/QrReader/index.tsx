@@ -1,5 +1,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FadeLoader } from 'react-spinners'; // react-spinners의 FadeLoader 가져오기
 import { useZxing } from 'react-zxing';
 import styled from 'styled-components';
 import { postBoothVisit } from '../../api/booth';
@@ -14,6 +16,7 @@ import { handleError } from '../../utils/errorUtil';
 const QrReader = () => {
   const navigate = useNavigate();
   const { token } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleResult = async (qrUrl: string) => {
     try {
@@ -22,13 +25,14 @@ const QrReader = () => {
       const strategy = url.searchParams.get('strategy');
 
       if (qrId && token && strategy) {
+        setIsLoading(true);
         await postBoothVisit(qrId, token, strategy);
       }
-
       navigate(`/stamps`);
     } catch (error) {
-      alert(error);
       handleError(error as Error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -57,10 +61,28 @@ const QrReader = () => {
         <StyledBottomLeft />
         <StyledBottomRight />
         <video ref={ref} />
+        {isLoading && (
+          <LoadingOverlay>
+            <FadeLoader color="#9EC7FF" />
+          </LoadingOverlay>
+        )}
       </CameraLayout>
     </Wrapper>
   );
 };
+
+const LoadingOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: ${({ theme }) => theme.colors.black30};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const Wrapper = styled.div``;
 
 const TitleLayout = styled.div`
