@@ -4,13 +4,23 @@ import styled, { keyframes } from 'styled-components';
 import { ReactComponent as MenuCameraIcon } from '../../assets/imgs/menu_camera.svg';
 import menuDefault from '../../assets/imgs/menu_default.svg';
 import { ReactComponent as MenuStampIcon } from '../../assets/imgs/menu_stamp.svg';
+import { useAuthStore } from '../../store';
 
 const FloatingButton = () => {
   const [isButtonOpen, setIsButtonOpen] = useState(false);
   const navigate = useNavigate();
+  const { role, token } = useAuthStore();
 
   const handleButton = () => {
     setIsButtonOpen(!isButtonOpen);
+  };
+
+  const handleNavigate = (path: string) => {
+    if (token && role === 'STUDENT') {
+      navigate(path);
+    } else {
+      alert('해당 페이지는 학생 로그인 후 이용 가능합니다.');
+    }
   };
 
   return (
@@ -19,11 +29,11 @@ const FloatingButton = () => {
         <>
           <MenuAnimatedButton
             as={MenuStampIcon}
-            onClick={() => navigate('/stamps')}
+            onClick={() => handleNavigate('/stamps')}
           />
           <MenuAnimatedButton
             as={MenuCameraIcon}
-            onClick={() => navigate('/qr-reader')}
+            onClick={() => handleNavigate('/qr-reader')}
           />
         </>
       )}
