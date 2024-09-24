@@ -123,6 +123,7 @@ const Main = () => {
               key={item.text}
               initial={{ x: index % 2 === 0 ? -100 : 100, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
+              viewport={{ once: true, amount: 0.5 }}
               transition={{
                 duration: 0.2,
                 ease: 'easeInOut',
