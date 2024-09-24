@@ -23,6 +23,7 @@ export const boothSchema = yup.object().shape({
     .string()
     .required(boothValidationMessages.REQUIRED)
     .max(100, boothValidationMessages.LOCATION_MAX_LENGTH),
+  file: yup.mixed<File>(),
 });
 
 export const lostItemSchema = yup.object().shape({

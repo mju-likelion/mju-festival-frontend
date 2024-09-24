@@ -1,45 +1,67 @@
+import { ChangeEvent, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { patchBoothDetail } from '../../api/booth.ts';
 
+import { patchBoothDetail } from '../../api/booth.ts';
 import { useAuthStore } from '../../store';
-import { BoothEditFields } from '../../types';
+import { BoothEditData, BoothEditFields } from '../../types';
 import { handleError } from '../../utils/errorUtil.ts';
 import { boothSchema } from '../../validation/schema.ts';
 import Header from '../../components/Header.tsx';
+import { postLostItemImg } from '../../api/lostItem.ts';
+import ImageUploader from '../EditLostItem/ImageUploader.tsx';
 
 const BoothEdit = () => {
   const locationData = useLocation();
   const { id, name, department, description, location, imageUrl } =
     locationData.state;
+  const [editImgUrl, setEditImgUrl] = useState('');
+
   const { token } = useAuthStore();
   const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<BoothEditFields>({
     resolver: yupResolver(boothSchema),
     mode: 'onChange',
   });
 
+  const handleImgFile = async (e: ChangeEvent<HTMLInputElement>) => {
+    try {
+      if (e.target.files && e.target.files.length > 0) {
+        const formData = new FormData();
+        formData.append('image', e.target.files[0]);
+        const imgUrl = await postLostItemImg(formData, token);
+
+        setEditImgUrl(imgUrl);
+        setValue('file', e.target.files[0]);
+      }
+    } catch (error) {
+      handleError(error as Error);
+    }
+  };
+
   const onSubmit = handleSubmit(async (formData) => {
     try {
-      const updateFields: Partial<BoothEditFields> = {};
+      const updateFields: Partial<BoothEditData> = {};
       Object.entries(formData).forEach(([key, value]) => {
-        const fieldKey = key as keyof BoothEditFields;
+        const fieldKey = key as keyof BoothEditData;
         if (value !== locationData.state[key]) {
           updateFields[fieldKey] = value;
         }
       });
+      updateFields.imageUrl = editImgUrl || imageUrl;
 
       if (Object.keys(updateFields).length > 0 && token) {
         await patchBoothDetail(id, updateFields, token);
       }
-      navigate(`/booths/${id}`);
+      navigate(`/booths`);
     } catch (e) {
       handleError(e as Error);
     }
@@ -52,27 +74,29 @@ const BoothEdit = () => {
         <Title>부스정보</Title>
         <Department>{department}</Department>
         <EditForm onSubmit={onSubmit}>
-          <Img src={imageUrl} alt="부스 이미지" />
+          <ImageUploader
+            imageUrl={imageUrl}
+            editImgUrl={editImgUrl}
+            handleImgFile={handleImgFile}
+          />
 
           <NameInputBox>
             <FieldTitle>제목:</FieldTitle>
-            <input {...register('name')} defaultValue={name} />
+            <Input {...register('name')} defaultValue={name} />
           </NameInputBox>
           <p>{errors.name?.message}</p>
           <DescriptionTextarea>
             <FieldTitle>내용:</FieldTitle>
-            <textarea {...register('description')} defaultValue={description} />
+            <Textarea {...register('description')} defaultValue={description} />
           </DescriptionTextarea>
           <p>{errors.description?.message}</p>
-          <LocationInput>
+          <LocationInputBox>
             <FieldTitle>위치:</FieldTitle>
-            <input {...register('location')} defaultValue={location} />
-          </LocationInput>
+            <Input {...register('location')} defaultValue={location} />
+          </LocationInputBox>
           <p>{errors.location?.message}</p>
           <Buttons>
-            <EditButton type="submit" onClick={() => navigate(-1)}>
-              완료하기
-            </EditButton>
+            <EditButton type="submit">완료하기</EditButton>
             <CancelButton onClick={() => navigate(-1)}>취소하기</CancelButton>
           </Buttons>
         </EditForm>
@@ -94,6 +118,7 @@ const Department = styled.p`
 `;
 const EditForm = styled.form``;
 const NameInputBox = styled.div`
+  display: flex;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.title1};
   & > * {
@@ -102,24 +127,25 @@ const NameInputBox = styled.div`
   }
 `;
 const FieldTitle = styled.p`
-  height: 120px;
   display: inline-block;
   margin-right: 10px;
+  white-space: nowrap;
 `;
-const LocationInput = styled.div`
+const Input = styled.textarea`
+  width: 100%;
+`;
+const Textarea = styled.textarea`
+  width: 100%;
+`;
+const LocationInputBox = styled.div`
+  display: flex;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.body2};
 `;
 const DescriptionTextarea = styled.div`
   display: flex;
-  align-items: start;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.body2};
-`;
-const Img = styled.img`
-  margin: 0 auto 18px;
-  display: block;
-  width: 300px;
 `;
 const Buttons = styled.button`
   width: 100%;
