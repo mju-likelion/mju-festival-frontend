@@ -19,6 +19,7 @@ import UserLogIn from './pages/LogIn/indexUser.tsx';
 import Main from './pages/Main/index.tsx';
 import Map from './pages/Map/index.tsx';
 import QrReader from './pages/QrReader/index.tsx';
+import Setting from './pages/Setting/index.tsx';
 import Stamp from './pages/Stamp/index.tsx';
 import StampComplete from './pages/StampComplete/index.tsx';
 import TimeTable from './pages/TimeTable/index.tsx';
@@ -122,6 +123,10 @@ const router = createBrowserRouter([
       {
         path: '/qr-reader',
         element: <QrReader />,
+      },
+      {
+        path: '/setting',
+        element: <Setting />,
       },
     ],
   },

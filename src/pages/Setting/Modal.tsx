@@ -3,21 +3,30 @@ import { ReactComponent as CloseIcon } from '../../assets/icons/close.svg';
 
 interface ModalProps {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  handleWithdraw: () => Promise<void>;
 }
 
-const Modal = ({ setIsModalOpen }: ModalProps) => {
+const Modal = ({ setIsModalOpen, handleWithdraw }: ModalProps) => {
   return (
     <>
       <OverlayWrapper>
         <Layout>
           <Close as={CloseIcon} onClick={() => setIsModalOpen(false)} />
-          <Title>찾아간 분실물</Title>
+          <Title>탈퇴하기</Title>
           <Content>
-            찾아간 분실물로
+            탈퇴한 후에는
             <br />
-            내용물을 확인할 수 없습니다.
+            &apos;<span>부스 참여 기록</span>&apos;이 사라집니다.
+            <br /> <br />
+            내용을 확인하셨다면 버튼을 누르세요.
           </Content>
-          <Button type="button" onClick={() => setIsModalOpen(false)}>
+          <Button
+            type="button"
+            onClick={async () => {
+              await handleWithdraw();
+              setIsModalOpen(false);
+            }}
+          >
             확인하기
           </Button>
         </Layout>
@@ -35,15 +44,15 @@ const OverlayWrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.black30};
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const Layout = styled.div`
-  z-index: 2;
   position: relative;
   max-width: 330px;
   width: calc(100vw - 60px);
-  height: 238px;
+  height: 248px;
+  margin-top: 254px;
   padding: 28px 38px;
   border-radius: 12px;
   display: flex;
@@ -69,6 +78,10 @@ const Content = styled.p`
   ${({ theme }) => theme.typographies.body2};
   line-height: 20px;
   white-space: pre-wrap;
+
+  span {
+    ${({ theme }) => theme.typographies.body1};
+  }
 `;
 
 const Button = styled.button`

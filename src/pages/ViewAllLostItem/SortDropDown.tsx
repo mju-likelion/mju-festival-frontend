@@ -70,7 +70,6 @@ const Wrapper = styled.div`
   align-self: flex-end;
   gap: 1px;
 
-  z-index: 1;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 `;
@@ -99,6 +98,7 @@ const SelectOptions = styled.div`
   flex-direction: column;
   gap: 1px;
   color: ${({ theme }) => theme.colors.black50};
+  z-index: 1;
 `;
 
 const Option = styled.div`
