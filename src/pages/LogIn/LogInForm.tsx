@@ -77,7 +77,7 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
     setRole(response.role || 'STUDENT');
     setIsModalOpen(true);
     if (auth === 'ADMIN') {
-      navigate('/');
+      navigate('/main');
     }
   };
 

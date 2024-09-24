@@ -21,7 +21,7 @@ const StampComplete = () => {
         <br />
         행운의 주인공이 되어보세요!
       </SubTitle>
-      <Button onClick={() => navigate('/')}>홈으로</Button>
+      <Button onClick={() => navigate('/main')}>홈으로</Button>
     </Wrapper>
   );
 };
