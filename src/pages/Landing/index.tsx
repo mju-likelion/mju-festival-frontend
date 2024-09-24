@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ReactComponent as LandingContent } from '../../assets/imgs/landing_header_content.svg';
 import { ReactComponent as LandingTitleLogo } from '../../assets/imgs/landing_title.svg';
@@ -33,7 +34,12 @@ const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-image: url(${landingBg});
+  background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.5) 20.37%,
+      rgba(0, 0, 0, 0) 100%
+    ),
+    url(${landingBg});
   background-size: cover;
   background-position: center;
   width: 100%;
