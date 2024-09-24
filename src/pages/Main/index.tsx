@@ -9,6 +9,7 @@ import { ReactComponent as MapStatueImg } from '../../assets/imgs/mapStatue.svg'
 import { ReactComponent as NoticeStatueImg } from '../../assets/imgs/noticeStatue.svg';
 import { ReactComponent as TicketIconImg } from '../../assets/imgs/ticket_icon.svg';
 import { ReactComponent as TimeTableStatueImg } from '../../assets/imgs/timetableStatue.svg';
+import FloatingButton from '../../components/FloatingButton/index.tsx';
 import InfoText from '../../components/InfoText.tsx';
 import { getCurrentDate } from '../../utils/dateUtil';
 import { downloadAppByDevice } from '../../utils/downloadAppUtil.ts';
@@ -106,6 +107,7 @@ const Main = () => {
           </ButtonBox>
         </ButtonContainer>
       </FestivalInfoLayout>
+      <FloatingButton />
     </Wrapper>
   );
 };
