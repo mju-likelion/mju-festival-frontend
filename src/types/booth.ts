@@ -37,11 +37,15 @@ export interface BoothEditFields {
 
 export interface BoothQrData {
   qrCode: string;
+  department: string;
+  fetchQr: () => Promise<void>;
 }
 
 export interface BottomSheetPropTypes {
   qrCode: string;
   isOpen: boolean;
+  department: string;
+  fetchQr: () => Promise<void>;
 }
 
 export interface Ownership {

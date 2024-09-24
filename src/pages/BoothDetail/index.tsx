@@ -92,6 +92,15 @@ const BoothDetail = () => {
       }
     };
     initializeData();
+
+    // const timer = setInterval(() => {
+    //   if (isOwner) {
+    //     fetchQr();
+    //     console.log('리프레시');
+    //   }
+    // }, 60000);
+
+    // return () => clearInterval(timer);
   }, []);
 
   return (
@@ -138,7 +147,11 @@ const BoothDetail = () => {
                 </QRButton>
               </Buttons>
             </AdminAction>
-            <BottomSheet qrCode={qrCode} />
+            <BottomSheet
+              qrCode={qrCode}
+              department={department}
+              fetchQr={fetchQr}
+            />
           </>
         )}
       </Wrapper>

@@ -4,11 +4,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { patchBoothDetail } from '../../api/booth.ts';
 
+import Header from '../../components/Header.tsx';
 import { useAuthStore } from '../../store';
 import { BoothEditFields } from '../../types';
 import { handleError } from '../../utils/errorUtil.ts';
 import { boothSchema } from '../../validation/schema.ts';
-import Header from '../../components/Header.tsx';
 
 const BoothEdit = () => {
   const locationData = useLocation();
@@ -121,7 +121,7 @@ const Img = styled.img`
   display: block;
   width: 300px;
 `;
-const Buttons = styled.button`
+const Buttons = styled.div`
   width: 100%;
   display: flex;
   gap: 20px;
