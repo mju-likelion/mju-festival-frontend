@@ -6,17 +6,19 @@ import { ReactComponent as Refresh } from '../../assets/icons/qr_refresh.svg';
 import { ReactComponent as SmallQrImg } from '../../assets/imgs/sheet_small_qr.svg';
 import { BottomSheetPropTypes } from '../../types';
 
+const INITIAL_SECONDS = 60;
+
 const Content = ({
   qrCode,
   isOpen,
   department,
   fetchQr,
 }: BottomSheetPropTypes) => {
-  const [seconds, setSeconds] = useState(60);
+  const [seconds, setSeconds] = useState(INITIAL_SECONDS);
 
   const handleRefreshClick = (event: React.MouseEvent | React.TouchEvent) => {
     event.stopPropagation();
-    setSeconds(60);
+    setSeconds(INITIAL_SECONDS);
     fetchQr();
   };
 
@@ -28,12 +30,12 @@ const Content = ({
         }
         // 타이머가 0이 되었을 때
         fetchQr();
-        return 60; // 다시 초기화
+        return INITIAL_SECONDS; // 다시 초기화
       });
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [fetchQr]);
 
   const formatTime = (seconds: number) => {
     const minutes = String(Math.floor(seconds / 60)).padStart(2, '0');
@@ -52,21 +54,25 @@ const Content = ({
         >
           <Title>QR 촬영하기</Title>
           <SubTitle>
-            {!isOpen
-              ? `부스 QR 이미지를 카메라에 맞춰`
-              : `${department} QR 이미지`}
-            <br />
-            {!isOpen && '보여주시면 됩니다.'}
+            {isOpen ? (
+              `${department} QR 이미지`
+            ) : (
+              <>
+                부스 QR 이미지를 카메라에 맞춰
+                <br />
+                보여주시면 됩니다.
+              </>
+            )}
           </SubTitle>
         </TextLayout>
 
-        {!isOpen ? (
-          <SmallQrImg />
-        ) : (
+        {isOpen ? (
           <RefreshContainer>
             <RefreshText>{formatTime(seconds)}</RefreshText>
             <Refresh onClick={handleRefreshClick} />
           </RefreshContainer>
+        ) : (
+          <SmallQrImg />
         )}
       </TopSection>
 

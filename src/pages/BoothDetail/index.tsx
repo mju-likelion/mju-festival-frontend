@@ -96,7 +96,6 @@ const BoothDetail = () => {
     // const timer = setInterval(() => {
     //   if (isOwner) {
     //     fetchQr();
-    //     console.log('리프레시');
     //   }
     // }, 60000);
 
