@@ -115,8 +115,8 @@ const BoothDetail = () => {
           <Name>제목: {name}</Name>
           <Description>내용: {description}</Description>
           <LocationBox>
-            <Location>부스위치:</Location>
-            <LocationIcon />
+            <LocationTitle>부스위치:</LocationTitle>
+            <StyledLocationIcon />
             <Location>{location}</Location>
           </LocationBox>
           <MapImg src={locationImageUrl} alt="부스 위치 이미지" />
@@ -177,23 +177,40 @@ const Name = styled.p`
   margin-bottom: 12px;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.title1};
+  overflow-wrap: break-word;
+  white-space: normal;
 `;
 const Description = styled.p`
   margin-bottom: 20px;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.body2};
+  overflow-wrap: break-word;
+  white-space: normal;
 `;
 const LocationBox = styled.div`
   height: 30px;
   margin-bottom: 30px;
   display: flex;
   align-items: center;
+  gap: 2px;
 `;
-const Location = styled.p`
+const LocationTitle = styled.p`
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.body2};
+  white-space: nowrap;
+`;
+const StyledLocationIcon = styled(LocationIcon)`
+  flex-shrink: 0;
+`;
+const Location = styled.p`
+  width: 100%;
+  color: ${({ theme }) => theme.colors.text900};
+  ${({ theme }) => theme.typographies.body2};
+  overflow-wrap: break-word;
+  white-space: normal;
 `;
 const CreateAt = styled.p`
+  margin-bottom: 10px;
   text-align: end;
   color: ${({ theme }) => theme.colors.gray400};
   ${({ theme }) => theme.typographies.caption1};
