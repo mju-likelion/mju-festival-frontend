@@ -9,11 +9,15 @@ import { useAuthStore } from '../../store';
 import { BoothEditData, BoothEditFields } from '../../types';
 import { handleError } from '../../utils/errorUtil.ts';
 import { boothSchema } from '../../validation/schema.ts';
+
+import usePreventRefresh from '../../hooks/usePreventRefresh.ts';
 import Header from '../../components/Header.tsx';
 import { postLostItemImg } from '../../api/lostItem.ts';
 import ImageUploader from '../EditLostItem/ImageUploader.tsx';
 
 const BoothEdit = () => {
+  usePreventRefresh();
+
   const locationData = useLocation();
   const { id, name, department, description, location, imageUrl } =
     locationData.state;
@@ -26,11 +30,16 @@ const BoothEdit = () => {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<BoothEditFields>({
     resolver: yupResolver(boothSchema),
     mode: 'onChange',
   });
+
+  const nameWatch = watch('name', '');
+  const descriptionWatch = watch('description', '');
+  const locationWatch = watch('location', '');
 
   const handleImgFile = async (e: ChangeEvent<HTMLInputElement>) => {
     try {
@@ -82,18 +91,31 @@ const BoothEdit = () => {
 
           <NameInputBox>
             <FieldTitle>제목:</FieldTitle>
-            <Input {...register('name')} defaultValue={name} />
+            <Input {...register('name')} defaultValue={name} maxLength={30} />
           </NameInputBox>
+          <LengthCount>({nameWatch?.length || 0}/30)</LengthCount>
+
           <p>{errors.name?.message}</p>
           <DescriptionTextarea>
             <FieldTitle>내용:</FieldTitle>
-            <Textarea {...register('description')} defaultValue={description} />
+            <Textarea
+              {...register('description')}
+              defaultValue={description}
+              maxLength={1000}
+            />
           </DescriptionTextarea>
+          <LengthCount>({descriptionWatch?.length || 0}/1000)</LengthCount>
+
           <p>{errors.description?.message}</p>
           <LocationInputBox>
             <FieldTitle>위치:</FieldTitle>
-            <Input {...register('location')} defaultValue={location} />
+            <Input
+              {...register('location')}
+              defaultValue={location}
+              maxLength={30}
+            />
           </LocationInputBox>
+          <LengthCount>({locationWatch?.length || 0}/30)</LengthCount>
           <p>{errors.location?.message}</p>
           <Buttons>
             <EditButton type="submit">완료하기</EditButton>
@@ -113,12 +135,16 @@ const Title = styled.p`
   ${({ theme }) => theme.typographies.title1};
 `;
 const Department = styled.p`
+  margin-bottom: 6px;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.callout};
 `;
-const EditForm = styled.form``;
+const EditForm = styled.form`
+  width: 100%;
+`;
 const NameInputBox = styled.div`
   display: flex;
+  align-items: center;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.title1};
   & > * {
@@ -127,18 +153,31 @@ const NameInputBox = styled.div`
   }
 `;
 const FieldTitle = styled.p`
-  display: inline-block;
+  display: block;
   margin-right: 10px;
   white-space: nowrap;
 `;
-const Input = styled.textarea`
+const Input = styled.input`
   width: 100%;
+  color: ${({ theme }) => theme.colors.text900};
+  ${({ theme }) => theme.typographies.body2};
+`;
+const LengthCount = styled.p`
+  margin-bottom: 12px;
+  text-align: end;
+  color: ${({ theme }) => theme.colors.text500};
+  ${({ theme }) => theme.typographies.caption2};
 `;
 const Textarea = styled.textarea`
   width: 100%;
+  height: 150px;
+  color: ${({ theme }) => theme.colors.text900};
+  ${({ theme }) => theme.typographies.body2};
 `;
 const LocationInputBox = styled.div`
+  width: 100%;
   display: flex;
+  align-items: center;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.body2};
 `;

@@ -231,10 +231,15 @@ const BoothBox = styled.div`
   gap: 10px;
 `;
 const TextBox = styled.div`
-  width: 100%;
+  width: calc(100% - 100px - 10px);
+  display: flex;
+  flex-direction: column;
 `;
 const Name = styled.p`
-  height: 34px;
+  width: 100%;
+  display: block;
+  overflow-wrap: break-word;
+  white-space: normal;
   margin-bottom: 8px;
   color: ${({ theme }) => theme.colors.blue100};
   ${({ theme }) => theme.typographies.title1};
