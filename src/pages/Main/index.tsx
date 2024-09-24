@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import { ReactComponent as BoothStatueImg } from '../../assets/imgs/boothStatue.svg';
 import { ReactComponent as InstagramIconImg } from '../../assets/imgs/instagram_icon.svg';
 import { ReactComponent as LostItemStatueImg } from '../../assets/imgs/lostitemStatue.svg';
