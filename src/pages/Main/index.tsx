@@ -17,12 +17,18 @@ import { openInstagram } from '../../utils/openLinkUtil.ts';
 import Header from './Header.tsx';
 import MainMenuButton from './MainMenuButton.tsx';
 import Weather from './Weather.tsx';
+import { MainButtonBgImg } from '../../types/index.ts';
 
 const Main = () => {
   const navigate = useNavigate();
 
   return (
-    <Wrapper>
+    <Wrapper
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 1 }}
+    >
       <Header />
       <TitleLayout>
         <LogoLayout>
@@ -36,13 +42,39 @@ const Main = () => {
         <InfoText>링크 바로가기</InfoText>
       </InfoLayout>
       <LinkLayout>
-        <TicketFriendsContainer onClick={downloadAppByDevice}>
+        <TicketFriendsContainer
+          onClick={downloadAppByDevice}
+          initial={{
+            y: 100,
+            opacity: 0,
+          }}
+          animate={{
+            y: 0,
+            opacity: 1,
+            scale: 1,
+          }}
+          transition={{ duration: 0.4, ease: 'easeInOut' }}
+          whileTap={{ scale: 0.9 }}
+        >
           <TicketIcon />
           <TicketFriendsBtn type="button">
             <p>티켓프렌즈</p>
           </TicketFriendsBtn>
         </TicketFriendsContainer>
-        <InstagramContainer onClick={openInstagram}>
+        <InstagramContainer
+          onClick={openInstagram}
+          initial={{
+            y: 100,
+            opacity: 0,
+          }}
+          animate={{
+            y: 0,
+            opacity: 1,
+            scale: 1,
+          }}
+          transition={{ duration: 0.4, ease: 'easeInOut' }}
+          whileTap={{ scale: 0.9 }}
+        >
           <InstagramIcon />
           <InstagramBtn>
             <p>학생회 인스타</p>
@@ -55,78 +87,72 @@ const Main = () => {
       <FestivalInfoLayout>
         <BackgroundColor />
         <ButtonContainer>
-          <ButtonBox>
-            <Link to="/map">
-              <MapStatue />
-            </Link>
-            <MainMenuButton
-              bgimg="map"
-              type="button"
-              onClick={() => navigate('/map')}
+          {[
+            {
+              to: '/map',
+              img: MapStatue,
+              text: '지도',
+              bgimg: 'map' as MainButtonBgImg,
+            },
+            {
+              to: '/booths',
+              img: BoothStatue,
+              text: '부스정보',
+              bgimg: 'booth' as MainButtonBgImg,
+            },
+            {
+              to: '/timetable',
+              img: TimeTableStatue,
+              text: '타임테이블',
+              bgimg: 'timetable' as MainButtonBgImg,
+            },
+            {
+              to: '/view/all-notices',
+              img: NoticeStatue,
+              text: '공지사항',
+              bgimg: 'notice' as MainButtonBgImg,
+            },
+            {
+              to: '/lost-items',
+              img: LostItemStatue,
+              text: '분실물 찾기',
+              bgimg: 'lostItem' as MainButtonBgImg,
+            },
+          ].map((item, index) => (
+            <ButtonBox
+              key={item.text}
+              initial={{ x: index % 2 === 0 ? -100 : 100, opacity: 0 }}
+              whileInView={{ x: 0, opacity: 1 }}
+              transition={{
+                duration: 0.2,
+                ease: 'easeInOut',
+                delay: index * 0.1,
+              }}
             >
-              지도
-            </MainMenuButton>
-          </ButtonBox>
-          <ButtonBox>
-            <Link to="/booths">
-              <BoothStatue />
-            </Link>
-            <MainMenuButton
-              bgimg="booth"
-              type="button"
-              onClick={() => navigate('/booths')}
-            >
-              부스정보
-            </MainMenuButton>
-          </ButtonBox>
-          <ButtonBox>
-            <Link to="/timetable">
-              <TimeTableStatue />
-            </Link>
-            <MainMenuButton
-              bgimg="timetable"
-              type="button"
-              onClick={() => navigate('/timetable')}
-            >
-              타임테이블
-            </MainMenuButton>
-          </ButtonBox>
-          <ButtonBox>
-            <Link to="/view/all-notices">
-              <NoticeStatue />
-            </Link>
-            <MainMenuButton
-              bgimg="notice"
-              type="button"
-              onClick={() => navigate('/view/all-notices')}
-            >
-              공지사항
-            </MainMenuButton>
-          </ButtonBox>
-          <ButtonBox>
-            <Link to="/lost-items">
-              <LostItemStatue />
-            </Link>
-            <MainMenuButton
-              bgimg="lostItem"
-              type="button"
-              onClick={() => navigate('/lost-items')}
-            >
-              분실물 찾기
-            </MainMenuButton>
-          </ButtonBox>
+              <Link to={item.to}>
+                <item.img />
+              </Link>
+              <MainMenuButton
+                bgimg={item.bgimg}
+                type="button"
+                onClick={() => navigate(item.to)}
+              >
+                {item.text}
+              </MainMenuButton>
+            </ButtonBox>
+          ))}
         </ButtonContainer>
       </FestivalInfoLayout>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = motion(styled.div`
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   background-color: ${({ theme }) => theme.colors.white100};
-`;
+`);
 
 const TitleLayout = styled.div`
   display: flex;
@@ -162,14 +188,14 @@ const LinkLayout = styled.div`
   padding: 0 9px;
 `;
 
-const TicketFriendsContainer = styled.div`
+const TicketFriendsContainer = motion(styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
   background-color: ${({ theme }) => theme.colors.blue200};
   border-radius: 12px;
   padding: 14px;
-`;
+`);
 
 const TicketFriendsBtn = styled.button`
   width: 100%;
@@ -188,14 +214,14 @@ const TicketIcon = styled(TicketIconImg)`
   flex-shrink: 0;
 `;
 
-const InstagramContainer = styled.div`
+const InstagramContainer = motion(styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
   background-color: ${({ theme }) => theme.colors.blue200};
   border-radius: 12px;
   padding: 14px;
-`;
+`);
 
 const InstagramBtn = styled.button`
   width: 100%;
@@ -247,10 +273,10 @@ const ButtonContainer = styled.div`
   z-index: 20;
 `;
 
-const ButtonBox = styled.div`
+const ButtonBox = motion(styled.div`
   position: relative;
   height: 104px;
-`;
+`);
 
 const MapStatue = styled(MapStatueImg)`
   position: absolute;
