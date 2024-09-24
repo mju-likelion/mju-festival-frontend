@@ -9,28 +9,53 @@ import landingBg from '../../assets/imgs/landing_Bg.webp';
 
 const Landing = () => {
   const navigate = useNavigate();
+
   return (
-    <Wrapper>
-      <TitleLayout>
+    <Wrapper
+      initial="hidden"
+      animate="visible"
+      exit="hidden"
+      variants={{
+        hidden: { opacity: 0, y: 60 },
+        visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.4 } },
+      }}
+    >
+      <TitleLayout
+        variants={{
+          hidden: { opacity: 0 },
+          visible: { opacity: 1, transition: { duration: 0.8, delay: 0.3 } },
+        }}
+      >
         <LandingContent />
         <LandingTitleLogo />
       </TitleLayout>
-      <LoginContainer>
-        <LogInBtn onClick={() => navigate('/login')}>로그인하러가기</LogInBtn>
-
+      <LoginLayout
+        variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+      >
+        <LogInBtn
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: 'spring', stiffness: 400, damping: 10 }}
+          onClick={() => navigate('/login')}
+        >
+          로그인하러가기
+        </LogInBtn>
         <MainBox>
           <MainBtn onClick={() => navigate('/main')}>
             로그인 없이 이용하기
             <RightArrow />
           </MainBtn>
         </MainBox>
-      </LoginContainer>
-      <MJULogo />
+      </LoginLayout>
+      <LogoLayout
+        variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+      >
+        <MJULogo />
+      </LogoLayout>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div`
+const Wrapper = motion(styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -45,16 +70,16 @@ const Wrapper = styled.div`
   width: 100%;
   height: 100vh;
   padding: 151px 16px 44px 16px;
-`;
+`);
 
-const TitleLayout = styled.div`
+const TitleLayout = motion(styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 100px;
-`;
+`);
 
-const LoginContainer = styled.div`
+const LoginLayout = motion(styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -62,9 +87,9 @@ const LoginContainer = styled.div`
   max-width: 358px;
   margin-top: 155px;
   margin-bottom: 88px;
-`;
+`);
 
-const LogInBtn = styled.button`
+const LogInBtn = motion(styled.button`
   width: 100%;
   max-width: 358px;
   height: 52px;
@@ -73,7 +98,7 @@ const LogInBtn = styled.button`
   font-weight: 600;
   background-color: ${({ theme }) => theme.colors.blue100};
   color: ${({ theme }) => theme.colors.white100};
-`;
+`);
 
 const MainBtn = styled.button`
   display: flex;
@@ -89,4 +114,5 @@ const MainBox = styled.div`
   width: 100%;
 `;
 
+const LogoLayout = motion(styled.div``);
 export default Landing;

@@ -128,7 +128,11 @@ const Main = () => {
                 duration: 0.2,
                 ease: 'easeInOut',
                 delay: index * 0.1,
+                type: 'spring',
+                stiffness: 400,
+                damping: 10,
               }}
+              whileTap={{ scale: 0.9 }}
             >
               <Link to={item.to}>
                 <item.img />
