@@ -1,48 +1,51 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ReactComponent as LandingContent } from '../../assets/imgs/landing_header_content.svg';
 import { ReactComponent as LandingTitleLogo } from '../../assets/imgs/landing_title.svg';
 import { ReactComponent as RightArrow } from '../../assets/icons/landing_right_arrow.svg';
+import { ReactComponent as MJULogo } from '../../assets/imgs/landing_mju_logo.svg';
 import landingBg from '../../assets/imgs/landing_Bg.webp';
 
 const Landing = () => {
+  const navigate = useNavigate();
   return (
     <Wrapper>
-      <Layout>
+      <TitleLayout>
         <LandingContent />
-        <LandingTitle />
-        <LoginContainer>
-          <StyledLink to="/login">
-            <LogInBtn>로그인하러가기</LogInBtn>
-          </StyledLink>
-          <StyledLink to="/main">
-            <MainBtn>
-              로그인 없이 이용하기
-              <RightArrow />
-            </MainBtn>
-          </StyledLink>
-        </LoginContainer>
-      </Layout>
+        <LandingTitleLogo />
+      </TitleLayout>
+      <LoginContainer>
+        <LogInBtn onClick={() => navigate('/login')}>로그인하러가기</LogInBtn>
+
+        <MainBox>
+          <MainBtn onClick={() => navigate('/main')}>
+            로그인 없이 이용하기
+            <RightArrow />
+          </MainBtn>
+        </MainBox>
+      </LoginContainer>
+      <MJULogo />
     </Wrapper>
   );
 };
 
 const Wrapper = styled.div`
-  background-image: url(${landingBg});
-  background-size: cover;
-  background-position: center;
-  height: 100vh;
-`;
-
-const Layout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 80px 20px 16px 20px;
+  background-image: url(${landingBg});
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100vh;
+  padding: 151px 16px 44px 16px;
 `;
 
-const LandingTitle = styled(LandingTitleLogo)`
-  padding-top: 10px;
+const TitleLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 100px;
 `;
 
 const LoginContainer = styled.div`
@@ -50,12 +53,14 @@ const LoginContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  /* padding-top: 194px; */
+  max-width: 358px;
+  margin-top: 155px;
+  margin-bottom: 88px;
 `;
 
 const LogInBtn = styled.button`
   width: 100%;
-  max-width: 350px;
+  max-width: 358px;
   height: 52px;
   border-radius: 12px;
   font-size: 17px;
@@ -66,19 +71,16 @@ const LogInBtn = styled.button`
 
 const MainBtn = styled.button`
   display: flex;
-  justify-content: center;
+
   align-items: center;
-  width: 100%;
-  padding-top: 12px;
   color: ${({ theme }) => theme.colors.white100};
   ${({ theme }) => theme.typographies.footnote};
 `;
 
-const StyledLink = styled(Link)`
-  display: block;
+const MainBox = styled.div`
+  display: flex;
+  justify-content: end;
   width: 100%;
-  max-width: 350px;
-  text-align: center;
-  text-decoration: none;
 `;
+
 export default Landing;
