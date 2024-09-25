@@ -16,8 +16,8 @@ const Landing = () => {
       animate="visible"
       exit="hidden"
       variants={{
-        hidden: { opacity: 0, y: 60 },
-        visible: { opacity: 1, y: 0, transition: { staggerChildren: 0.4 } },
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { staggerChildren: 0.4 } },
       }}
     >
       <TitleLayout
