@@ -1,5 +1,5 @@
-import { ChangeEvent, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -10,9 +10,9 @@ import { BoothEditData, BoothEditFields } from '../../types';
 import { handleError } from '../../utils/errorUtil.ts';
 import { boothSchema } from '../../validation/schema.ts';
 
-import usePreventRefresh from '../../hooks/usePreventRefresh.ts';
-import Header from '../../components/Header.tsx';
 import { postLostItemImg } from '../../api/lostItem.ts';
+import Header from '../../components/Header.tsx';
+import usePreventRefresh from '../../hooks/usePreventRefresh.ts';
 import ImageUploader from '../EditLostItem/ImageUploader.tsx';
 
 const BoothEdit = () => {
@@ -78,7 +78,7 @@ const BoothEdit = () => {
 
   return (
     <>
-      <Header />
+      <Header path={`/booths/${id}`} />
       <Wrapper>
         <Title>부스정보</Title>
         <Department>{department}</Department>

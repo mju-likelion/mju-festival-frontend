@@ -69,7 +69,7 @@ const LostItem = () => {
 
   return (
     <Wrapper>
-      <Header />
+      <Header path="/main" />
       <TitleWrapper>
         <Title>분실물찾기</Title>
         <SubTitle>

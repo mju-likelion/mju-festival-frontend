@@ -92,20 +92,12 @@ const BoothDetail = () => {
       }
     };
     initializeData();
-
-    // const timer = setInterval(() => {
-    //   if (isOwner) {
-    //     fetchQr();
-    //   }
-    // }, 60000);
-
-    // return () => clearInterval(timer);
   }, []);
 
   return (
     <>
       <Wrapper $isOwner={isOwner}>
-        <Header />
+        <Header path="/main" />
         <Box>
           <Title>부스정보</Title>
           <Department>{department}</Department>
