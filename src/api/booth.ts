@@ -66,8 +66,6 @@ export const postBoothVisit = async (
   token: string,
   strategy: string
 ) => {
-  alert(qrId);
-  alert(strategy);
   await Axios.post(
     `/booths/${qrId}/visit?strategy=${strategy}`,
     {},
