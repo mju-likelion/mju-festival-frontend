@@ -47,7 +47,7 @@ const ViewAllNotice = () => {
         <PageBtnContainer>
           <button
             type="button"
-            disabled={currentPage === 1 || isLoading}
+            disabled={currentPage === 1}
             aria-label="Previous page"
             onClick={() =>
               setSearch({
@@ -62,7 +62,7 @@ const ViewAllNotice = () => {
           </TempP>
           <button
             type="button"
-            disabled={currentPage === totalPage || isLoading}
+            disabled={currentPage === totalPage || !notices.length}
             aria-label="Previous page"
             onClick={() =>
               setSearch({
