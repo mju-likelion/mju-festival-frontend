@@ -3,7 +3,7 @@ import {
   BoothDepartment,
   BoothDetailInfo,
   BoothEditFields,
-  BoothList,
+  BoothPreview,
   BoothQrData,
   Ownership,
 } from '../types';
@@ -14,10 +14,9 @@ export const getBoothDepartments = async () => {
   return data;
 };
 
-export const getBooths = async (boothId: string, page: number) => {
-  const PAGE = 2;
-  const { data } = await Axios.get<BoothList>(
-    `/booths?department_id=${boothId}&page=${page}&size=${PAGE}`
+export const getBooths = async (boothId: string) => {
+  const { data } = await Axios.get<BoothPreview[]>(
+    `/booths?department_id=${boothId}`
   );
   return data;
 };
