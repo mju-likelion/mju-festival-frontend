@@ -240,13 +240,13 @@ const StudentAction = styled.div`
 `;
 const Buttons = styled.div`
   width: 100%;
+  padding-bottom: 100px;
   display: flex;
   gap: 20px;
 `;
 
 const QRButton = styled.button`
   width: 100%;
-  margin-bottom: 100px;
   padding: 16px 0;
   border-radius: 12px;
   text-align: center;
