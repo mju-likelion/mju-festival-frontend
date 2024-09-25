@@ -5,7 +5,7 @@ import { useAuthStore, usePageStore } from '../../store';
 import useFetchNotices from '../../hooks/useFetchNotices';
 import InfoText from '../../components/InfoText';
 import TitleLayout from './Header.tsx';
-import Header from '../../components/Header.tsx';
+import HeadeToMain from '../../components/HeaderToMain.tsx';
 import { ReactComponent as LeftArrowActive } from '../../assets/icons/left_arrow_active.svg';
 import { ReactComponent as RightArrowActive } from '../../assets/icons/right_arrow_active.svg';
 import DropDown from './DropDown.tsx';
@@ -25,7 +25,7 @@ const ViewAllNotice = () => {
 
   return (
     <Wrapper>
-      <Header />
+      <HeadeToMain />
       <TitleLayout />
       <InfoTextLayout>
         <InfoText>공지사항</InfoText>
