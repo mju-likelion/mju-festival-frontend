@@ -57,7 +57,9 @@ const ViewAllNotice = () => {
           >
             <LeftArrowActive />
           </button>
-          <TempP>{`${currentPage}/${totalPage}`}</TempP>
+          <TempP>
+            {(notices.length && `${currentPage}/${totalPage}`) || '0/0'}
+          </TempP>
           <button
             type="button"
             disabled={currentPage === totalPage || isLoading}
