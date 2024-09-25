@@ -17,7 +17,7 @@ const Landing = () => {
       exit="hidden"
       variants={{
         hidden: { opacity: 0 },
-        visible: { opacity: 1, transition: { staggerChildren: 0.4 } },
+        visible: { opacity: 1, transition: { staggerChildren: 0.5 } },
       }}
     >
       <TitleLayout
@@ -68,7 +68,8 @@ const Wrapper = motion(styled.div`
   background-size: cover;
   background-position: center;
   width: 100%;
-  height: 100vh;
+  /* height: 100vh; */
+  min-height: 100vh;
   padding: 151px 16px 44px 16px;
 `);
 
@@ -86,7 +87,7 @@ const LoginLayout = motion(styled.div`
   width: 100%;
   max-width: 358px;
   margin-top: 155px;
-  margin-bottom: 88px;
+  flex-grow: 1;
 `);
 
 const LogInBtn = motion(styled.button`
@@ -114,5 +115,7 @@ const MainBox = styled.div`
   width: 100%;
 `;
 
-const LogoLayout = motion(styled.div``);
+const LogoLayout = motion(styled.div`
+  padding-top: 88px;
+`);
 export default Landing;
