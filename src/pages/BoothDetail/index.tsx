@@ -102,9 +102,12 @@ const BoothDetail = () => {
           <Title>부스정보</Title>
           <Department>{department}</Department>
           <CreateAt>등록일: {formatDate(createdAt)}</CreateAt>
-
           <BoothImg src={imageUrl} alt="부스 이미지" />
-          <Name>제목: {name}</Name>
+          <TextBox>
+            <FieldTitle>제목:</FieldTitle>
+            <Name>{name}</Name>
+          </TextBox>
+
           <Description>내용: {description}</Description>
           <LocationBox>
             <LocationTitle>부스위치:</LocationTitle>
@@ -147,7 +150,7 @@ const BoothDetail = () => {
 };
 
 const Wrapper = styled.div<{ $isOwner: boolean }>`
-  margin-bottom: ${({ $isOwner }) => $isOwner && `250px`};
+  background-color: ${({ theme }) => theme.colors.white100};
 `;
 const Box = styled.div`
   padding: 0 20px;
@@ -162,24 +165,25 @@ const Department = styled.p`
   ${({ theme }) => theme.typographies.callout};
 `;
 const Name = styled.p`
+  width: 100%;
   margin-bottom: 12px;
-  color: ${({ theme }) => theme.colors.text900};
-  ${({ theme }) => theme.typographies.title1};
+  display: block;
   overflow-wrap: break-word;
   white-space: normal;
 `;
-const Description = styled.p`
+const Description = styled.div`
   margin-bottom: 20px;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.body2};
   overflow-wrap: break-word;
-  white-space: normal;
+  white-space: pre-wrap;
+  line-height: 20px;
 `;
 const LocationBox = styled.div`
   height: 30px;
   margin-bottom: 30px;
   display: flex;
-  align-items: center;
+  align-items: start;
   gap: 2px;
 `;
 const LocationTitle = styled.p`
@@ -206,9 +210,20 @@ const CreateAt = styled.p`
 const BoothImg = styled.img`
   width: 350px;
   height: 248px;
-  margin-bottom: 16px;
+  margin: 0 auto 16px;
+  display: block;
   border-radius: 12px;
   object-fit: cover;
+`;
+const FieldTitle = styled.p`
+  margin-right: 4px;
+  white-space: nowrap;
+`;
+const TextBox = styled.div`
+  width: calc(100% - 40px);
+  display: flex;
+  color: ${({ theme }) => theme.colors.text900};
+  ${({ theme }) => theme.typographies.title1};
 `;
 const MapImg = styled.img`
   width: 350px;
@@ -231,6 +246,7 @@ const Buttons = styled.div`
 
 const QRButton = styled.button`
   width: 100%;
+  margin-bottom: 100px;
   padding: 16px 0;
   border-radius: 12px;
   text-align: center;
