@@ -3933,6 +3933,11 @@ react-router@6.25.1:
   dependencies:
     "@remix-run/router" "1.18.0"
 
+react-spinners@^0.14.1:
+  version "0.14.1"
+  resolved "https://registry.yarnpkg.com/react-spinners/-/react-spinners-0.14.1.tgz#de7d7d6b3e6d4f29d9620c65495b502c7dd90812"
+  integrity sha512-2Izq+qgQ08HTofCVEdcAQCXFEYfqTDdfeDQJeo/HHQiQJD4imOicNLhkfN2eh1NYEWVOX4D9ok2lhuDB0z3Aag==
+
 react-zxing@^2.0.2:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/react-zxing/-/react-zxing-2.0.2.tgz#6f67d20fa41f1af390c7735fcacaeabcfb6d541b"

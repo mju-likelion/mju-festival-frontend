@@ -9,7 +9,7 @@ import Header from './Header';
 
 const BOTTOM_SHEET_HEIGHT = 310;
 
-const BottomSheet = ({ qrCode }: BoothQrData) => {
+const BottomSheet = ({ qrCode, department, fetchQr }: BoothQrData) => {
   const sheet = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -31,7 +31,12 @@ const BottomSheet = ({ qrCode }: BoothQrData) => {
     >
       <Header isOpen={isOpen} />
       <BottomSheetContent>
-        <Content qrCode={qrCode} isOpen={isOpen} />
+        <Content
+          qrCode={qrCode}
+          department={department}
+          isOpen={isOpen}
+          fetchQr={fetchQr}
+        />
       </BottomSheetContent>
     </Wrapper>
   );

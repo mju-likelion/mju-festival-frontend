@@ -1,5 +1,5 @@
-import styled from 'styled-components';
 import { FieldPath, FieldValues, UseFormRegister } from 'react-hook-form';
+import styled from 'styled-components';
 import { ReactComponent as Checked } from '../../assets/icons/checkbox_check.svg';
 import { ReactComponent as UnChecked } from '../../assets/icons/checkbox_empty.svg';
 
@@ -21,8 +21,10 @@ const CheckBox = <T extends FieldValues>({
       <Input
         type="checkbox"
         id={name}
-        {...register(name as FieldPath<T>)}
-        onChange={() => setIsChecked(!isChecked)}
+        {...register(name as FieldPath<T>, {
+          onChange: (e) => setIsChecked(e.target.checked),
+        })}
+        checked={isChecked}
         required
       />
       <CustomLabel htmlFor={name}>
