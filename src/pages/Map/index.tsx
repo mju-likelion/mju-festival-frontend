@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import Header from '../../components/Header.tsx';
-import mapImg from '../../assets/imgs/MapImg.png';
 import { ReactComponent as BoothIcon } from '../../assets/icons/map_booth_icon.svg';
-import { ReactComponent as FoodTruckIcon } from '../../assets/icons/map_foodtruck_icon.svg';
 import { ReactComponent as EventIcon } from '../../assets/icons/map_event_icon.svg';
+import { ReactComponent as FoodTruckIcon } from '../../assets/icons/map_foodtruck_icon.svg';
 import { ReactComponent as MicIcon } from '../../assets/icons/map_mic_icon.svg';
+import mapImg from '../../assets/imgs/MapImg.png';
+import Header from '../../components/Header.tsx';
 
 const Map = () => {
   const iconsData = [
@@ -16,7 +16,7 @@ const Map = () => {
 
   return (
     <>
-      <Header />
+      <Header path="/main" />
       <Wrapper>
         <TitleLayout>
           <p>지도</p>

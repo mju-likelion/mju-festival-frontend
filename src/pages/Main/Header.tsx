@@ -13,6 +13,7 @@ const Header = () => {
       setToken('');
     }
   };
+
   return (
     <Wrapper>
       {(role === 'STUDENT_COUNCIL' || role === 'BOOTH_MANAGER') && (
@@ -25,7 +26,7 @@ const Header = () => {
       ) : (
         <AuthButton onClick={() => logout()}>로그아웃</AuthButton>
       )}
-      <MenuIcon />
+      <MenuIcon onClick={() => navigate('/setting')} />
     </Wrapper>
   );
 };

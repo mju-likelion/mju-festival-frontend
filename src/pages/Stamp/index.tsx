@@ -6,7 +6,7 @@ import Board from './Board';
 const Stamp = () => {
   return (
     <Wrapper>
-      <Header />
+      <Header path={-1} />
       <TitleLayout>
         <Title>도장판</Title>
         <SubTitle>

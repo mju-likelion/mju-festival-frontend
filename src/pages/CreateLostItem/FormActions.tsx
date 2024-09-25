@@ -7,7 +7,7 @@ const FormActions = () => {
   return (
     <Wrapper>
       <CheckButton type="submit">완료하기</CheckButton>
-      <CancelButton type="button" onClick={() => navigate(-1)}>
+      <CancelButton type="button" onClick={() => navigate('/lost-items')}>
         취소하기
       </CancelButton>
     </Wrapper>

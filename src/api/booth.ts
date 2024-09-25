@@ -19,6 +19,7 @@ export const getBooths = async (boothId: string, page: number) => {
   const { data } = await Axios.get<BoothList>(
     `/booths?department_id=${boothId}&page=${page}&size=${PAGE}`
   );
+
   return data;
 };
 

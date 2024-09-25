@@ -1,14 +1,14 @@
-import styled from 'styled-components';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import NoticeCard from './NoticeCard';
-import { useAuthStore, usePageStore } from '../../store';
-import useFetchNotices from '../../hooks/useFetchNotices';
-import InfoText from '../../components/InfoText';
-import TitleLayout from './Header.tsx';
-import Header from '../../components/Header.tsx';
+import styled from 'styled-components';
 import { ReactComponent as LeftArrowActive } from '../../assets/icons/left_arrow_active.svg';
 import { ReactComponent as RightArrowActive } from '../../assets/icons/right_arrow_active.svg';
+import Header from '../../components/Header.tsx';
+import InfoText from '../../components/InfoText';
+import useFetchNotices from '../../hooks/useFetchNotices';
+import { useAuthStore, usePageStore } from '../../store';
 import DropDown from './DropDown.tsx';
+import TitleLayout from './Header.tsx';
+import NoticeCard from './NoticeCard';
 
 const ViewAllNotice = () => {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ const ViewAllNotice = () => {
 
   return (
     <Wrapper>
-      <Header />
+      <Header path="/main" />
       <TitleLayout />
       <InfoTextLayout>
         <InfoText>공지사항</InfoText>

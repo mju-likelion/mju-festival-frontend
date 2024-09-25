@@ -1,12 +1,12 @@
-import styled from 'styled-components';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useInView } from 'react-intersection-observer';
+import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import { getBoothDepartments, getBooths } from '../../api/booth.ts';
-import { BoothDepartment, BoothInfo, FetchBoothListParams } from '../../types';
 import { ReactComponent as CheckedIcon } from '../../assets/icons/booth-checked.svg';
 import { ReactComponent as UnCheckedIcon } from '../../assets/icons/booth-un-checked.svg';
 import Header from '../../components/Header.tsx';
+import { BoothDepartment, BoothInfo, FetchBoothListParams } from '../../types';
 
 const BoothPage = () => {
   const [departmentList, setDepartmentList] = useState<BoothDepartment[]>([]);
@@ -107,7 +107,7 @@ const BoothPage = () => {
 
   return (
     <Wrapper>
-      <Header />
+      <Header path="/main" />
       <Title>부스정보</Title>
       <P>
         각 대학별 부스정보를 한 눈에 쉽게 파악하고 즐겁게 <br />
