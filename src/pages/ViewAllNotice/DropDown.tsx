@@ -64,14 +64,9 @@ const DropDown = ({ setIsSorted, setPage }: DropDownProps) => {
 const Wrapper = styled.div`
   position: relative;
   height: 24px;
-  /* margin: 34px 0 10px 0; */
-  /* padding-right: 20px; */
-  /* display: flex; */
   flex-direction: column;
-  /* align-items: end; */
   gap: 1px;
 
-  z-index: 1;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
 `;
