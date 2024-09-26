@@ -93,8 +93,11 @@ const EditNotice = () => {
 
   return (
     <Wrapper>
-      {/* <Header title="공지사항">공지사항 내용</Header> */}
       <Header path={`/view/detail-notice/${id}`} />
+      <TextLayout>
+        <TopTitle>공지사항</TopTitle>
+        <SubTitle>공지사항 내용</SubTitle>
+      </TextLayout>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <UploadImageLayout>
           <UploadImageContainer $imageUrl={imageUrl} onClick={handleClick}>
@@ -292,6 +295,26 @@ const CreateButton = styled.button`
 const CancelButton = styled.button`
   border: 1px solid ${({ theme }) => theme.colors.blue100};
   color: ${({ theme }) => theme.colors.blue100};
+`;
+
+const TextLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 6px 0 6px 20px;
+`;
+
+const TopTitle = styled.h2`
+  font-size: 20px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.text900};
+  white-space: nowrap;
+`;
+
+const SubTitle = styled.p`
+  font-size: 16px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.text900};
 `;
 
 export default EditNotice;

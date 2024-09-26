@@ -40,6 +40,10 @@ const ViewDetailNotice = () => {
   return (
     <Wrapper>
       <Header path="/view/all-notices" />
+      <TextLayout>
+        <TopTitle>공지사항</TopTitle>
+        <SubTitle>공지사항 내용</SubTitle>
+      </TextLayout>
       <DateLayout>
         <p>
           {`등록일 : ${notice.createdAt
@@ -51,7 +55,6 @@ const ViewDetailNotice = () => {
       <ImageLayout>
         {imageUrl ? <img src={imageUrl} alt="사진" /> : <NoImage />}
       </ImageLayout>
-
       <ContentLayout>
         <TitleContainer>
           <Title>{notice.title}</Title>
@@ -197,6 +200,26 @@ const DeleteButton = styled.button`
   background-color: transparent;
   border: 1px solid ${({ theme }) => theme.colors.blue100};
   color: ${({ theme }) => theme.colors.blue100};
+`;
+
+const TextLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 6px 0 6px 20px;
+`;
+
+const TopTitle = styled.h2`
+  font-size: 20px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.text900};
+  white-space: nowrap;
+`;
+
+const SubTitle = styled.p`
+  font-size: 16px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.text900};
 `;
 
 export default ViewDetailNotice;
