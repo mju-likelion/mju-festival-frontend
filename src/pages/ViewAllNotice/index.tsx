@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import NoticeCard from './NoticeCard';
-import { useAuthStore, usePageStore } from '../../store';
+import { useAuthStore } from '../../store';
 import useFetchNotices from '../../hooks/useFetchNotices';
 import InfoText from '../../components/InfoText';
 import TitleLayout from './TitleLayout.tsx';
@@ -15,7 +15,6 @@ import { SortKey } from '../../types/index.ts';
 const ViewAllNotice = () => {
   const navigate = useNavigate();
   const { role } = useAuthStore();
-  const { setCurPage } = usePageStore();
   const [isSorted, setIsSorted] = useState<SortKey>('desc');
   const [search, setSearch] = useSearchParams();
 
@@ -34,7 +33,10 @@ const ViewAllNotice = () => {
         <InfoText>공지사항</InfoText>
       </InfoTextLayout>
       <DropDownLayout>
-        <DropDown setIsSorted={setIsSorted} setPage={setCurPage} />
+        <DropDown
+          setIsSorted={setIsSorted}
+          setPage={() => setSearch({ page: '1' })}
+        />
       </DropDownLayout>
       <NoticeLayout>
         {notices.map((notice) => (

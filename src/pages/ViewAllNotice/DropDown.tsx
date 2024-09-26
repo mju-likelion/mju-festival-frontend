@@ -6,7 +6,7 @@ import { ReactComponent as UpArrowIcon } from '../../assets/icons/up_arrow.svg';
 
 interface DropDownProps {
   setIsSorted: React.Dispatch<React.SetStateAction<SortKey>>;
-  setPage: (curPage: number) => void;
+  setPage: () => void;
 }
 
 const DropDown = ({ setIsSorted, setPage }: DropDownProps) => {
@@ -30,7 +30,7 @@ const DropDown = ({ setIsSorted, setPage }: DropDownProps) => {
 
   const handleSorted = (option: SortKey) => {
     setIsSorted(option);
-    setPage(0);
+    setPage();
     setSortOption(sortOptions[option]);
     setIsOpen(false);
   };
