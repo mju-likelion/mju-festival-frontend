@@ -104,8 +104,8 @@ const BoothDetail = () => {
           <CreateAt>등록일: {formatDate(createdAt)}</CreateAt>
 
           <BoothImg src={imageUrl} alt="부스 이미지" />
-          <Name>제목: {name}</Name>
-          <Description>내용: {description}</Description>
+          <Name>{name}</Name>
+          <Description>{description}</Description>
           <LocationBox>
             <LocationTitle>부스위치:</LocationTitle>
             <StyledLocationIcon />
@@ -147,7 +147,8 @@ const BoothDetail = () => {
 };
 
 const Wrapper = styled.div<{ $isOwner: boolean }>`
-  margin-bottom: ${({ $isOwner }) => $isOwner && `250px`};
+  padding-bottom: ${({ $isOwner }) => ($isOwner ? `250px` : `40px`)};
+  background-color: ${({ theme }) => theme.colors.white100};
 `;
 const Box = styled.div`
   padding: 0 20px;
@@ -172,6 +173,7 @@ const Description = styled.p`
   margin-bottom: 20px;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.body2};
+  line-height: 20px;
   overflow-wrap: break-word;
   white-space: normal;
 `;
