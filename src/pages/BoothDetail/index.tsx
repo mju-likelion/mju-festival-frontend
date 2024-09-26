@@ -116,8 +116,10 @@ const BoothDetail = () => {
         {role === 'STUDENT' && (
           <StudentAction>
             <Buttons>
-              <QRButton onClick={() => navigate(`/`)}>QR 촬영하기</QRButton>
-              <StampButton onClick={() => navigate(`/`)}>
+              <QRButton onClick={() => navigate(`/qr-reader`)}>
+                QR 촬영하기
+              </QRButton>
+              <StampButton onClick={() => navigate(`/stamps`)}>
                 도장판으로
               </StampButton>
             </Buttons>
