@@ -1,5 +1,5 @@
-import { ChangeEvent, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -10,9 +10,9 @@ import { BoothEditData, BoothEditFields } from '../../types';
 import { handleError } from '../../utils/errorUtil.ts';
 import { boothSchema } from '../../validation/schema.ts';
 
-import usePreventRefresh from '../../hooks/usePreventRefresh.ts';
-import Header from '../../components/Header.tsx';
 import { postLostItemImg } from '../../api/lostItem.ts';
+import Header from '../../components/Header.tsx';
+import usePreventRefresh from '../../hooks/usePreventRefresh.ts';
 import ImageUploader from '../EditLostItem/ImageUploader.tsx';
 
 const BoothEdit = () => {
@@ -37,9 +37,9 @@ const BoothEdit = () => {
     mode: 'onChange',
   });
 
-  const nameWatch = watch('name', '');
-  const descriptionWatch = watch('description', '');
-  const locationWatch = watch('location', '');
+  const nameWatch = watch('name', name);
+  const descriptionWatch = watch('description', description);
+  const locationWatch = watch('location', location);
 
   const handleImgFile = async (e: ChangeEvent<HTMLInputElement>) => {
     try {
@@ -78,7 +78,7 @@ const BoothEdit = () => {
 
   return (
     <>
-      <Header />
+      <Header path={`/booths/${id}`} />
       <Wrapper>
         <Title>부스정보</Title>
         <Department>{department}</Department>
@@ -93,7 +93,7 @@ const BoothEdit = () => {
             <FieldTitle>제목:</FieldTitle>
             <Input {...register('name')} defaultValue={name} maxLength={30} />
           </NameInputBox>
-          <LengthCount>({nameWatch?.length || 0}/30)</LengthCount>
+          <LengthCount>({nameWatch.length}/30)</LengthCount>
 
           <p>{errors.name?.message}</p>
           <DescriptionTextarea>
@@ -104,7 +104,7 @@ const BoothEdit = () => {
               maxLength={1000}
             />
           </DescriptionTextarea>
-          <LengthCount>({descriptionWatch?.length || 0}/1000)</LengthCount>
+          <LengthCount>({descriptionWatch.length}/1000)</LengthCount>
 
           <p>{errors.description?.message}</p>
           <LocationInputBox>
@@ -115,7 +115,7 @@ const BoothEdit = () => {
               maxLength={30}
             />
           </LocationInputBox>
-          <LengthCount>({locationWatch?.length || 0}/30)</LengthCount>
+          <LengthCount>({locationWatch.length}/30)</LengthCount>
           <p>{errors.location?.message}</p>
           <Buttons>
             <EditButton type="submit">완료하기</EditButton>
@@ -159,8 +159,6 @@ const FieldTitle = styled.p`
 `;
 const Input = styled.input`
   width: 100%;
-  color: ${({ theme }) => theme.colors.text900};
-  ${({ theme }) => theme.typographies.body2};
 `;
 const LengthCount = styled.p`
   margin-bottom: 12px;

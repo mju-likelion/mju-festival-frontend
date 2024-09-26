@@ -1,15 +1,14 @@
-import styled from 'styled-components';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
-import { FadeLoader } from 'react-spinners';
+import styled from 'styled-components';
 import NoticeCard from './NoticeCard';
 import { useAuthStore } from '../../store';
 import useFetchNotices from '../../hooks/useFetchNotices';
 import InfoText from '../../components/InfoText';
 import TitleLayout from './TitleLayout.tsx';
-import HeaderToMain from '../../components/HeaderToMain.tsx';
 import { ReactComponent as LeftArrowActive } from '../../assets/icons/left_arrow_active.svg';
 import { ReactComponent as RightArrowActive } from '../../assets/icons/right_arrow_active.svg';
+import Header from '../../components/Header.tsx';
 import DropDown from './DropDown.tsx';
 import { SortKey } from '../../types/index.ts';
 import LoadingSpinner from '../../components/LoadingSpinner.tsx';
@@ -29,7 +28,7 @@ const ViewAllNotice = () => {
 
   return (
     <Wrapper>
-      <HeaderToMain />
+      <Header path="/main" />
       <TitleLayout />
       <InfoTextLayout>
         <InfoText>공지사항</InfoText>
@@ -149,15 +148,4 @@ const CreateBtn = styled.button`
   font-weight: 600;
 `;
 
-const LoadingOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: ${({ theme }) => theme.colors.black30};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
 export default ViewAllNotice;

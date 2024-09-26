@@ -48,7 +48,7 @@ const DetailLostItem = () => {
 
   return (
     <>
-      <Header />
+      <Header path="/lost-items" />
       <TitleWrapper>
         <Title>분실물찾기</Title>
         <SubTitle>분실물 내용을 확인하고 찾아가세요!</SubTitle>

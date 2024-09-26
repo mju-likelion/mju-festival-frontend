@@ -46,7 +46,7 @@ const QrReader = () => {
 
   return (
     <Wrapper>
-      <Header />
+      <Header path={-1} />
       <TitleLayout>
         <Title>QR 촬영</Title>
         <SubTitle>각 부스별 QR을 촬영해서 도장을 모아보세요!</SubTitle>

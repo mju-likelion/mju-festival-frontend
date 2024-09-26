@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import styled from 'styled-components';
+import Header from '../../components/Header.tsx';
 import InfoText from '../../components/InfoText';
+import { useTimeTableData } from '../../context/TimeTable';
 import { PerformanceType, TimeTableDate } from '../../types';
 import DetailInfoList from './DetailInfoList';
-import { useTimeTableData } from '../../context/TimeTable';
 import TypeIcon from './TypeIcon';
-import Header from '../../components/Header.tsx';
 
 const TimeTable = () => {
   const [selectedDate, setSelectedDate] = useState<TimeTableDate>('10월 07일');
@@ -13,7 +13,7 @@ const TimeTable = () => {
 
   return (
     <Wrapper>
-      <Header />
+      <Header path="/main" />
       <TitleLayout>
         <p>타임테이블</p>
         <p>

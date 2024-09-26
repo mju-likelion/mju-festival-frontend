@@ -71,7 +71,7 @@ const EditLostItem = () => {
 
   return (
     <Wrapper>
-      <Header />
+      <Header path={-1} />
       <form onSubmit={handleSubmit(onSubmit)}>
         <TitleLayout>
           <Title>분실물 등록하기</Title>
