@@ -5,7 +5,7 @@ import { ReactComponent as DownArrowIcon } from '../../assets/icons/down_arrow.s
 import { ReactComponent as UpArrowIcon } from '../../assets/icons/up_arrow.svg';
 
 interface DropDownProps {
-  setIsSorted: (value: SortKey) => void;
+  setIsSorted: React.Dispatch<React.SetStateAction<SortKey>>;
   setPage: (curPage: number) => void;
 }
 

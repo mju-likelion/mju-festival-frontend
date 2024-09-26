@@ -10,12 +10,13 @@ import HeaderToMain from '../../components/HeaderToMain.tsx';
 import { ReactComponent as LeftArrowActive } from '../../assets/icons/left_arrow_active.svg';
 import { ReactComponent as RightArrowActive } from '../../assets/icons/right_arrow_active.svg';
 import DropDown from './DropDown.tsx';
+import { SortKey } from '../../types/index.ts';
 
 const ViewAllNotice = () => {
   const navigate = useNavigate();
   const { role } = useAuthStore();
   const { setCurPage } = usePageStore();
-  const [isSorted, setIsSorted] = useState('desc');
+  const [isSorted, setIsSorted] = useState<SortKey>('desc');
   const [search, setSearch] = useSearchParams();
 
   const currentPage = Math.max(parseInt(search.get('page') ?? '1', 10), 1);
