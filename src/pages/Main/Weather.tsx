@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getWeather } from '../../api/weather';
-import { ReactComponent as Cloud } from '../../assets/icons/weather_cloud.svg';
+import { ReactComponent as DayCloud } from '../../assets/icons/weather_day_cloud.svg';
+import { ReactComponent as DayRainy } from '../../assets/icons/weather_day_rainy.svg';
+import { ReactComponent as DaySunny } from '../../assets/icons/weather_day_sunny.svg';
 import { ReactComponent as Error } from '../../assets/icons/weather_error.svg';
-import { ReactComponent as Rainy } from '../../assets/icons/weather_rainy.svg';
-import { ReactComponent as Sunny } from '../../assets/icons/weather_sunny.svg';
+import { ReactComponent as NightCloud } from '../../assets/icons/weather_night_cloud.svg';
+import { ReactComponent as NightMoon } from '../../assets/icons/weather_night_moon.svg';
+import { ReactComponent as NightRainy } from '../../assets/icons/weather_night_rainy.svg';
 import { GroupedWeatherData, WeatherForecast } from '../../types';
 
 const Weather = () => {
@@ -61,15 +64,26 @@ const Weather = () => {
     return `${suffix} ${formattedHour}시`;
   };
 
+  const isDayTime = (fcstTime: string) => {
+    const hours = parseInt(fcstTime.slice(0, 2), 10);
+    // 낮 기준 06:30 ~ 18:00
+    return (
+      hours >= 6 &&
+      (hours < 18 || (hours === 18 && parseInt(fcstTime.slice(2), 10) === 0))
+    );
+  };
+
   // 날씨에 따라 아이콘 선택
-  const getWeatherIcon = (PTY: string, SKY: string) => {
+  const getWeatherIcon = (PTY: string, SKY: string, fcstTime: string) => {
+    const dayTime = isDayTime(fcstTime);
+
     switch (true) {
       case PTY === '1' || PTY === '2':
-        return <Rainy />;
+        return dayTime ? <DayRainy /> : <NightRainy />;
       case SKY === '1':
-        return <Sunny />;
+        return dayTime ? <DaySunny /> : <NightMoon />;
       case SKY === '3' || SKY === '4':
-        return <Cloud />;
+        return dayTime ? <DayCloud /> : <NightCloud />;
       default:
         return <Error />;
     }
@@ -107,7 +121,9 @@ const Weather = () => {
       {forecasts.map((forecast) => (
         <CardLayout key={forecast.fcstTime}>
           <Time>{formatTime(forecast.fcstTime)}</Time>
-          <Icon>{getWeatherIcon(forecast.PTY, forecast.SKY)}</Icon>
+          <Icon>
+            {getWeatherIcon(forecast.PTY, forecast.SKY, forecast.fcstTime)}
+          </Icon>
           <Temperature>{forecast.T1H}°</Temperature>
         </CardLayout>
       ))}
@@ -117,7 +133,7 @@ const Weather = () => {
 
 const Wrapper = styled.div`
   height: 50px;
-  padding: 0 30px;
+  padding: 0 20px;
   margin: 42px 0 3px 0;
   display: flex;
   justify-content: space-between;
@@ -128,6 +144,7 @@ const CardLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 3px;
 `;
 
 const Time = styled.p`
