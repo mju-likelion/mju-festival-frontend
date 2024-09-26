@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
 import NoticeCard from './NoticeCard';
 import { useAuthStore, usePageStore } from '../../store';
 import useFetchNotices from '../../hooks/useFetchNotices';
@@ -13,12 +14,13 @@ import DropDown from './DropDown.tsx';
 const ViewAllNotice = () => {
   const navigate = useNavigate();
   const { role } = useAuthStore();
-  const { isSorted, setIsSorted, setCurPage } = usePageStore();
+  const { setCurPage } = usePageStore();
+  const [isSorted, setIsSorted] = useState('desc');
   const [search, setSearch] = useSearchParams();
 
   const currentPage = Math.max(parseInt(search.get('page') ?? '1', 10), 1);
 
-  const { notices, totalPage, isLoading } = useFetchNotices({
+  const { notices, totalPage } = useFetchNotices({
     isSorted,
     curPage: currentPage - 1,
   });
