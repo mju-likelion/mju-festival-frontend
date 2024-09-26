@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
+import { FadeLoader } from 'react-spinners';
 import NoticeCard from './NoticeCard';
 import { useAuthStore } from '../../store';
 import useFetchNotices from '../../hooks/useFetchNotices';
@@ -11,6 +12,7 @@ import { ReactComponent as LeftArrowActive } from '../../assets/icons/left_arrow
 import { ReactComponent as RightArrowActive } from '../../assets/icons/right_arrow_active.svg';
 import DropDown from './DropDown.tsx';
 import { SortKey } from '../../types/index.ts';
+import LoadingSpinner from '../../components/LoadingSpinner.tsx';
 
 const ViewAllNotice = () => {
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ const ViewAllNotice = () => {
 
   const currentPage = Math.max(parseInt(search.get('page') ?? '1', 10), 1);
 
-  const { notices, totalPage } = useFetchNotices({
+  const { notices, totalPage, isLoading } = useFetchNotices({
     isSorted,
     curPage: currentPage - 1,
   });
@@ -48,6 +50,7 @@ const ViewAllNotice = () => {
           />
         ))}
       </NoticeLayout>
+      <LoadingSpinner isLoading={isLoading} />
       <BtnLayout>
         <PageBtnContainer>
           <button
@@ -144,5 +147,17 @@ const CreateBtn = styled.button`
   color: ${({ theme }) => theme.colors.white100};
   font-size: 17px;
   font-weight: 600;
+`;
+
+const LoadingOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: ${({ theme }) => theme.colors.black30};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 export default ViewAllNotice;
