@@ -38,17 +38,25 @@ const Footer = () => {
     </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  width: 100%;
+  height: 140px;
+  background-color: ${({ theme }) => theme.colors.text900};
+  padding: 14px 14px 16px 20px;
+`;
+
 const PeopleLayout = styled.div`
   display: flex;
   padding-right: 36px;
 `;
+
 const PeopleContainer = styled.div`
   padding-top: 4px;
 `;
 
 const PeopleBox = styled.div`
   display: flex;
-  width: 100%;
   width: 167px;
   height: 16px;
   gap: 4px;
@@ -63,13 +71,6 @@ const PeopleBox = styled.div`
     font-weight: 400;
     color: ${({ theme }) => theme.colors.white100};
   }
-`;
-
-const Wrapper = styled.div`
-  width: 100%;
-  height: 140px;
-  background-color: ${({ theme }) => theme.colors.text900};
-  padding: 14px 14px 16px 20px;
 `;
 
 export default Footer;

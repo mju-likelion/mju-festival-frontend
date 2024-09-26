@@ -14,6 +14,8 @@ import CreateLostItem from './pages/CreateLostItem/index.tsx';
 import CreateNotice from './pages/CreateNotice/index.tsx';
 import EditLostItem from './pages/EditLostItem/index.tsx';
 import EditNotice from './pages/EditNotice/index.tsx';
+import Landing from './pages/Landing/index.tsx';
+import Layout from './pages/Landing/Layout.tsx';
 import AdminLogIn from './pages/LogIn/indexAdmin.tsx';
 import UserLogIn from './pages/LogIn/indexUser.tsx';
 import Main from './pages/Main/index.tsx';
@@ -27,15 +29,12 @@ import LostItem from './pages/ViewAllLostItem/index.tsx';
 import ViewAllNotice from './pages/ViewAllNotice/index.tsx';
 import DetailLostItem from './pages/ViewDetailLostItem/index.tsx';
 import ViewDetailNotice from './pages/ViewDetailNotice/index.tsx';
-import Landing from './pages/Landing/index.tsx';
-import Layout from './pages/Landing/Layout.tsx';
 
 const router = createBrowserRouter([
   {
     element: (
       <>
         <ScrollRestoration />
-        {/* <Outlet /> */}
         <Layout />
       </>
     ),
@@ -144,23 +143,21 @@ function App() {
 }
 
 const MobileWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   font-family: 'Pretendard Variable', Pretendard, sans-serif;
-  // 확정 전 임의로 px 설정
-  /* min-width: 360px; */
   width: 100%;
   max-width: 430px;
   height: calc(var(--vh, 1vh) * 100);
   margin: auto;
   position: relative;
-  /* overflow-y: auto; */
   background-color: ${({ theme }) => theme.colors.white100};
-
-  // 스크롤바 숨기기
-  -ms-overflow-style: none; // IE and Edge
-  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 
   &::-webkit-scrollbar {
-    display: none; // Chrome, Safari, Opera
+    display: none;
   }
 `;
 
