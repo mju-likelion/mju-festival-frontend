@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Header from './Header';
 import { DetailNoticeType } from '../../types';
 import DeleteNoticeModal from './DeleteNoticeModal';
 import { fetchNotice } from '../../api/notice.ts';
@@ -9,6 +8,7 @@ import { useAuthStore } from '../../store';
 import { openInstagram } from '../../utils/openLinkUtil.ts';
 import { ReactComponent as InstaArrowIconImg } from '../../assets/icons/backIcon.svg';
 import NoImage from './NoImage.tsx';
+import Header from '../../components/Header.tsx';
 
 const ViewDetailNotice = () => {
   const [notice, setNotice] = useState<DetailNoticeType>({
@@ -39,7 +39,7 @@ const ViewDetailNotice = () => {
 
   return (
     <Wrapper>
-      <Header title="공지사항">공지사항 내용</Header>
+      <Header path="/view/all-notices" />
       <DateLayout>
         <p>
           {`등록일 : ${notice.createdAt

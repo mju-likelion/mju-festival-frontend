@@ -3,11 +3,11 @@ import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Axios } from '../../api/Axios';
-import Header from '../ViewDetailNotice/Header';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
 import { useAuthStore } from '../../store';
 import { DetailNoticeType, ImageNoticeType } from '../../types';
 import { fetchNotice } from '../../api/notice.ts';
+import Header from '../../components/Header.tsx';
 
 const EditNotice = () => {
   const [notice, setNotice] = useState<DetailNoticeType>({
@@ -93,7 +93,8 @@ const EditNotice = () => {
 
   return (
     <Wrapper>
-      <Header title="공지사항">공지사항 내용</Header>
+      {/* <Header title="공지사항">공지사항 내용</Header> */}
+      <Header path={`/view/detail-notice/${id}`} />
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <UploadImageLayout>
           <UploadImageContainer $imageUrl={imageUrl} onClick={handleClick}>
