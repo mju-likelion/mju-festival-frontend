@@ -202,6 +202,7 @@ const TicketFriendsContainer = motion(styled.div`
   background-color: ${({ theme }) => theme.colors.blue200};
   border-radius: 12px;
   padding: 14px;
+  cursor: pointer;
 `);
 
 const TicketFriendsBtn = styled.button`
@@ -228,6 +229,7 @@ const InstagramContainer = motion(styled.div`
   background-color: ${({ theme }) => theme.colors.blue200};
   border-radius: 12px;
   padding: 14px;
+  cursor: pointer;
 `);
 
 const InstagramBtn = styled.button`

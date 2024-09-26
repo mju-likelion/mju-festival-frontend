@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Axios } from '../../api/Axios';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
-import { useAuthStore, usePageStore } from '../../store';
+import { useAuthStore } from '../../store';
 import { ImageNoticeType } from '../../types';
 import { getCurrentDate } from '../../utils/dateUtil';
 import Header from '../ViewDetailNotice/Header';
@@ -14,7 +14,6 @@ const CreateNotice = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const navigate = useNavigate();
   const { token } = useAuthStore();
-  const { setCurPage, setIsSorted } = usePageStore();
   const formData = new FormData();
   const imageData = new FormData();
 
@@ -59,8 +58,6 @@ const CreateNotice = () => {
           'Content-Type': 'application/json',
         },
       });
-      setCurPage(0);
-      setIsSorted('desc');
       navigate('/view/all-notices');
     } catch (e) {
       alert('올바른 업로드를 해주세요');

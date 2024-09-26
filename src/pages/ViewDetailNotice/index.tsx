@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Header from './Header';
 import { DetailNoticeType } from '../../types';
 import DeleteNoticeModal from './DeleteNoticeModal';
 import { fetchNotice } from '../../api/notice.ts';
@@ -9,6 +8,7 @@ import { useAuthStore } from '../../store';
 import { openInstagram } from '../../utils/openLinkUtil.ts';
 import { ReactComponent as InstaArrowIconImg } from '../../assets/icons/backIcon.svg';
 import NoImage from './NoImage.tsx';
+import Header from '../../components/Header.tsx';
 
 const ViewDetailNotice = () => {
   const [notice, setNotice] = useState<DetailNoticeType>({
@@ -39,7 +39,11 @@ const ViewDetailNotice = () => {
 
   return (
     <Wrapper>
-      <Header title="공지사항">공지사항 내용</Header>
+      <Header path="/view/all-notices" />
+      <TextLayout>
+        <TopTitle>공지사항</TopTitle>
+        <SubTitle>공지사항 내용</SubTitle>
+      </TextLayout>
       <DateLayout>
         <p>
           {`등록일 : ${notice.createdAt
@@ -51,14 +55,11 @@ const ViewDetailNotice = () => {
       <ImageLayout>
         {imageUrl ? <img src={imageUrl} alt="사진" /> : <NoImage />}
       </ImageLayout>
-
       <ContentLayout>
         <TitleContainer>
-          <p>제목 : </p>
           <Title>{notice.title}</Title>
         </TitleContainer>
         <ContentContainer>
-          <p>내용 :</p>
           <Content>{notice.content}</Content>
         </ContentContainer>
       </ContentLayout>
@@ -199,6 +200,26 @@ const DeleteButton = styled.button`
   background-color: transparent;
   border: 1px solid ${({ theme }) => theme.colors.blue100};
   color: ${({ theme }) => theme.colors.blue100};
+`;
+
+const TextLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding: 6px 0 6px 20px;
+`;
+
+const TopTitle = styled.h2`
+  font-size: 20px;
+  font-weight: 600;
+  color: ${({ theme }) => theme.colors.text900};
+  white-space: nowrap;
+`;
+
+const SubTitle = styled.p`
+  font-size: 16px;
+  font-weight: 400;
+  color: ${({ theme }) => theme.colors.text900};
 `;
 
 export default ViewDetailNotice;

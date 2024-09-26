@@ -1,19 +1,22 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useState } from 'react';
 import styled from 'styled-components';
+import NoticeCard from './NoticeCard';
+import { useAuthStore } from '../../store';
+import useFetchNotices from '../../hooks/useFetchNotices';
+import InfoText from '../../components/InfoText';
+import TitleLayout from './TitleLayout.tsx';
 import { ReactComponent as LeftArrowActive } from '../../assets/icons/left_arrow_active.svg';
 import { ReactComponent as RightArrowActive } from '../../assets/icons/right_arrow_active.svg';
 import Header from '../../components/Header.tsx';
-import InfoText from '../../components/InfoText';
-import useFetchNotices from '../../hooks/useFetchNotices';
-import { useAuthStore, usePageStore } from '../../store';
 import DropDown from './DropDown.tsx';
-import TitleLayout from './Header.tsx';
-import NoticeCard from './NoticeCard';
+import { SortKey } from '../../types/index.ts';
+import LoadingSpinner from '../../components/LoadingSpinner.tsx';
 
 const ViewAllNotice = () => {
   const navigate = useNavigate();
   const { role } = useAuthStore();
-  const { isSorted, setIsSorted, setCurPage } = usePageStore();
+  const [isSorted, setIsSorted] = useState<SortKey>('desc');
   const [search, setSearch] = useSearchParams();
 
   const currentPage = Math.max(parseInt(search.get('page') ?? '1', 10), 1);
@@ -31,7 +34,10 @@ const ViewAllNotice = () => {
         <InfoText>공지사항</InfoText>
       </InfoTextLayout>
       <DropDownLayout>
-        <DropDown setIsSorted={setIsSorted} setPage={setCurPage} />
+        <DropDown
+          setIsSorted={setIsSorted}
+          setPage={() => setSearch({ page: '1' })}
+        />
       </DropDownLayout>
       <NoticeLayout>
         {notices.map((notice) => (
@@ -43,11 +49,12 @@ const ViewAllNotice = () => {
           />
         ))}
       </NoticeLayout>
+      <LoadingSpinner isLoading={isLoading} />
       <BtnLayout>
         <PageBtnContainer>
           <button
             type="button"
-            disabled={currentPage === 1 || isLoading}
+            disabled={currentPage === 1}
             aria-label="Previous page"
             onClick={() =>
               setSearch({
@@ -57,10 +64,12 @@ const ViewAllNotice = () => {
           >
             <LeftArrowActive />
           </button>
-          <TempP>{`${currentPage}/${totalPage}`}</TempP>
+          <TempP>
+            {(notices.length && `${currentPage}/${totalPage}`) || '0/0'}
+          </TempP>
           <button
             type="button"
-            disabled={currentPage === totalPage || isLoading}
+            disabled={currentPage === totalPage || !notices.length}
             aria-label="Previous page"
             onClick={() =>
               setSearch({
@@ -138,4 +147,5 @@ const CreateBtn = styled.button`
   font-size: 17px;
   font-weight: 600;
 `;
+
 export default ViewAllNotice;
