@@ -103,11 +103,6 @@ const BoothPage = () => {
           <DepartmentBooths>
             {Object.entries(filteredBooths)?.map(
               ([departmentId, boothList]) => {
-                const department = departmentList.find(
-                  (dep) => dep.id === departmentId
-                );
-                const categoryName = department?.categoryName;
-
                 return (
                   <CategoryBox key={departmentId}>
                     {boothList.map((booth) => (
@@ -116,8 +111,8 @@ const BoothPage = () => {
                         onClick={() => navigate(`/booths/${booth.id}`)}
                       >
                         <TextBox>
-                          <Name>{booth.name}</Name>
-                          <Description>{categoryName}</Description>
+                          <Name>{booth.departmentName}</Name>
+                          <Description>{booth.name}</Description>
                         </TextBox>
                         <Img src={booth.imageUrl} alt="부스 이미지" />
                       </BoothBox>
@@ -134,6 +129,7 @@ const BoothPage = () => {
 };
 
 const Wrapper = styled.div`
+  width: 100%;
   background-color: ${({ theme }) => theme.colors.white100};
 `;
 const Title = styled.p`
@@ -235,8 +231,8 @@ const Name = styled.p`
   border-bottom: 1px solid ${({ theme }) => theme.colors.black30};
 `;
 const Description = styled.p`
-  color: ${({ theme }) => theme.colors.blue100};
-  ${({ theme }) => theme.typographies.title1};
+  color: ${({ theme }) => theme.colors.text900};
+  ${({ theme }) => theme.typographies.body2};
 `;
 const Img = styled.img`
   width: 100px;

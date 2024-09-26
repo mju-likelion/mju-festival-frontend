@@ -10,13 +10,13 @@ import {
 import { Axios } from './Axios.ts';
 
 export const getBoothDepartments = async () => {
-  const { data } = await Axios.get<BoothDepartment[]>(`/booths/departments`);
+  const { data } = await Axios.get<BoothDepartment[]>(`/booths/affiliations`);
   return data;
 };
 
 export const getBooths = async (boothId: string) => {
   const { data } = await Axios.get<BoothPreview[]>(
-    `/booths?department_id=${boothId}`
+    `/booths?affiliation_id=${boothId}`
   );
   return data;
 };

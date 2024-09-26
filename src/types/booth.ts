@@ -7,6 +7,7 @@ export interface BoothDepartment {
 export interface BoothPreview {
   id: string;
   name: string;
+  departmentName: string;
   imageUrl: string;
 }
 
