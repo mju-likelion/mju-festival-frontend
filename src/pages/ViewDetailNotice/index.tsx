@@ -54,11 +54,9 @@ const ViewDetailNotice = () => {
 
       <ContentLayout>
         <TitleContainer>
-          <p>제목 : </p>
           <Title>{notice.title}</Title>
         </TitleContainer>
         <ContentContainer>
-          <p>내용 :</p>
           <Content>{notice.content}</Content>
         </ContentContainer>
       </ContentLayout>
