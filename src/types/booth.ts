@@ -1,18 +1,18 @@
-export interface FetchBoothListParams {
-  id: string;
-  currentPage: number;
-  isLastPage: boolean;
-}
-
 export interface BoothDepartment {
   id: string;
   name: string;
   categoryName: string;
 }
 
-export interface BoothList {
-  simpleBooths: BoothInfo[];
-  totalPage: number;
+export interface BoothPreview {
+  id: string;
+  name: string;
+  departmentName: string;
+  imageUrl: string;
+}
+
+export interface BoothListObj {
+  [key: string]: BoothPreview[];
 }
 
 export interface BoothDetailInfo extends BoothInfo {

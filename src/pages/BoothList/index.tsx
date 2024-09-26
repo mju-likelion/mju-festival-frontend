@@ -1,109 +1,67 @@
-import { useEffect, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getBoothDepartments, getBooths } from '../../api/booth.ts';
+import { BoothDepartment, BoothListObj } from '../../types';
 import { ReactComponent as CheckedIcon } from '../../assets/icons/booth-checked.svg';
 import { ReactComponent as UnCheckedIcon } from '../../assets/icons/booth-un-checked.svg';
 import Header from '../../components/Header.tsx';
-import { BoothDepartment, BoothInfo, FetchBoothListParams } from '../../types';
 
 const BoothPage = () => {
   const [departmentList, setDepartmentList] = useState<BoothDepartment[]>([]);
-  const [selectedBoothListData, setSelectedBoothListData] = useState<
-    Record<string, BoothInfo[]>
-  >({});
-  const [currentDepartment, setCurrentDepartment] =
-    useState<FetchBoothListParams>({
-      id: '',
-      currentPage: 0,
-      isLastPage: false,
-    });
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [hasFetchedInitialData, setHasFetchedInitialData] = useState(false);
-
-  const { ref, inView } = useInView();
-  const setRef = ref as React.RefCallback<HTMLDivElement>;
-
+  useState<BoothDepartment[]>();
+  const [selectedDepartmentIdArr, setSelectedDepartmentIdArr] = useState<
+    string[]
+  >([]);
+  const [boothList, setBoothList] = useState<BoothListObj>({});
   const navigate = useNavigate();
 
   const fetchData = async () => {
     const departments = await getBoothDepartments();
     setDepartmentList(departments);
-    setCurrentDepartment({
-      id: departments[0].id,
-      currentPage: 0,
-      isLastPage: false,
-    });
-    await fetchInitialData(departments[0].id);
-  };
 
-  const fetchInitialData = async (id: string) => {
-    setIsLoading(true);
-    const { simpleBooths, totalPage } = await getBooths(id, 0);
-    setSelectedBoothListData({
-      [id]: simpleBooths,
-    });
-
-    if (currentDepartment.currentPage + 1 >= totalPage) {
-      setCurrentDepartment({ id, currentPage: 0, isLastPage: true });
-    } else {
-      setCurrentDepartment({ id, currentPage: 1, isLastPage: false });
-    }
-
-    setHasFetchedInitialData(true);
-    setIsLoading(false);
-  };
-
-  const fetchNextDepartmentBoothList = async (id: string) => {
-    setIsLoading(true);
-    if (currentDepartment.isLastPage || !hasFetchedInitialData || isLoading) {
-      return;
-    }
-
-    const { simpleBooths, totalPage } = await getBooths(
-      id,
-      currentDepartment.currentPage
+    const boothsByDepartment = await Promise.all(
+      departments.map(async (department) => {
+        const booths = await getBooths(department.id);
+        return { [department.id]: booths };
+      })
     );
-    if (currentDepartment.currentPage + 1 >= totalPage) {
-      setCurrentDepartment({ id, currentPage: 0, isLastPage: true });
-    }
-    setCurrentDepartment((prevState) => ({
-      ...prevState,
-      currentPage: prevState.currentPage + 1,
-    }));
 
-    setSelectedBoothListData((prevState) => {
-      const updatedState = { ...prevState };
-      if (!Array.isArray(updatedState[id])) {
-        updatedState[id] = [];
-      }
-      updatedState[id] = [...updatedState[id], ...simpleBooths];
-      return updatedState;
-    });
-    setIsLoading(false);
+    const boothsObject = boothsByDepartment.reduce((acc, curr) => {
+      return { ...acc, ...curr };
+    }, {});
+
+    setBoothList(boothsObject);
   };
 
-  const onClickSelectDepartment = async (id: string) => {
-    setHasFetchedInitialData(false);
-    setCurrentDepartment({ id, currentPage: 0, isLastPage: false });
-    await fetchInitialData(id);
+  const filterSelectedDepartments = (selectedIds: string[]) => {
+    return Object.fromEntries(
+      Object.entries(boothList).filter(([key]) => selectedIds.includes(key))
+    );
   };
 
-  useEffect(() => {
-    if (inView && !isLoading && hasFetchedInitialData) {
-      fetchNextDepartmentBoothList(currentDepartment.id);
-    }
-  }, [inView, isLoading, currentDepartment.id]);
+  const handleCategorySelect = (categoryId: string) => {
+    setSelectedDepartmentIdArr((prevState) =>
+      prevState.includes(categoryId)
+        ? prevState.filter((department) => department !== categoryId)
+        : [...prevState, categoryId]
+    );
+  };
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  const currentDept = departmentList.find(
-    (department) => department.id === currentDepartment.id
-  );
+  const deselectAllDepartments = () => {
+    setSelectedDepartmentIdArr([]);
+  };
+
+  const filteredBooths =
+    selectedDepartmentIdArr.length > 0
+      ? filterSelectedDepartments(selectedDepartmentIdArr)
+      : boothList;
+
+  const isAnySelected = selectedDepartmentIdArr.length > 0;
 
   return (
     <Wrapper>
@@ -118,38 +76,52 @@ const BoothPage = () => {
           <Department
             key={id}
             role="button"
-            $isChecked={currentDepartment.id === id}
-            onClick={() => onClickSelectDepartment(id)}
+            $isChecked={selectedDepartmentIdArr.includes(id)}
+            onClick={() => handleCategorySelect(id)}
           >
-            {currentDepartment.id === id ? (
+            {selectedDepartmentIdArr.includes(id) ? (
               <CheckedIcon width={24} />
             ) : (
               <UnCheckedIcon width={24} />
             )}
-            <DepartmentName $isChecked={currentDepartment.id === id}>
+            <DepartmentName $isChecked={selectedDepartmentIdArr.includes(id)}>
               {categoryName}
             </DepartmentName>
           </Department>
         ))}
+        <DeSelectButton
+          role="button"
+          $isChecked={isAnySelected}
+          onClick={deselectAllDepartments}
+        >
+          선택해제
+        </DeSelectButton>
       </DepartmentsSelectBox>
 
       <BoothList>
         <BoothWrapper>
           <DepartmentBooths>
-            {currentDepartment.id && <BoothName>{currentDept?.name}</BoothName>}
-            {selectedBoothListData[currentDepartment.id]?.map(
-              ({ id, name, description, imageUrl }) => (
-                <BoothBox key={id} onClick={() => navigate(`/booths/${id}`)}>
-                  <TextBox>
-                    <Name>{name}</Name>
-                    <Description>{description}</Description>
-                  </TextBox>
-                  <Img src={imageUrl} alt="부스 이미지" />
-                </BoothBox>
-              )
+            {Object.entries(filteredBooths)?.map(
+              ([departmentId, boothList]) => {
+                return (
+                  <CategoryBox key={departmentId}>
+                    {boothList.map((booth) => (
+                      <BoothBox
+                        key={booth.id}
+                        onClick={() => navigate(`/booths/${booth.id}`)}
+                      >
+                        <TextBox>
+                          <Name>{booth.departmentName}</Name>
+                          <Description>{booth.name}</Description>
+                        </TextBox>
+                        <Img src={booth.imageUrl} alt="부스 이미지" />
+                      </BoothBox>
+                    ))}
+                  </CategoryBox>
+                );
+              }
             )}
           </DepartmentBooths>
-          {!isLoading && <div ref={setRef} />}
         </BoothWrapper>
       </BoothList>
     </Wrapper>
@@ -187,13 +159,20 @@ const Department = styled.div<{ $isChecked: boolean }>`
     $isChecked ? theme.colors.blue100 : '#E1EBF0'};
   cursor: pointer;
 `;
-const BoothName = styled.div`
-  width: 200px;
-  margin: 37px auto;
-  border-bottom: 1px solid ${({ theme }) => theme.colors.blue100};
+const DeSelectButton = styled.div<{ $isChecked: boolean }>`
+  width: 88px;
+  padding: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 999px;
+  background-color: ${({ theme, $isChecked }) =>
+    $isChecked ? theme.colors.blue100 : '#E1EBF0'};
+  cursor: pointer;
   text-align: center;
-  color: ${({ theme }) => theme.colors.blue100};
-  ${({ theme }) => theme.typographies.title1};
+  color: ${({ theme, $isChecked }) =>
+    $isChecked ? theme.colors.white100 : theme.colors.text500};
+  ${({ theme }) => theme.typographies.footnote};
 `;
 const DepartmentName = styled.p<{ $isChecked: boolean }>`
   width: calc(100% - 24px);
@@ -206,7 +185,6 @@ const BoothWrapper = styled.div`
   width: 100%;
 `;
 const BoothList = styled.div`
-  height: calc(100vh - 250px);
   margin: 0 10px;
   display: flex;
   flex-direction: column;
@@ -214,6 +192,12 @@ const BoothList = styled.div`
   overflow-y: scroll;
 `;
 const DepartmentBooths = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+const CategoryBox = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;

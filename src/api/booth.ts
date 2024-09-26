@@ -3,21 +3,20 @@ import {
   BoothDepartment,
   BoothDetailInfo,
   BoothEditFields,
-  BoothList,
+  BoothPreview,
   BoothQrData,
   Ownership,
 } from '../types';
 import { Axios } from './Axios.ts';
 
 export const getBoothDepartments = async () => {
-  const { data } = await Axios.get<BoothDepartment[]>(`/booths/departments`);
+  const { data } = await Axios.get<BoothDepartment[]>(`/booths/affiliations`);
   return data;
 };
 
-export const getBooths = async (boothId: string, page: number) => {
-  const PAGE = 2;
-  const { data } = await Axios.get<BoothList>(
-    `/booths?department_id=${boothId}&page=${page}&size=${PAGE}`
+export const getBooths = async (boothId: string) => {
+  const { data } = await Axios.get<BoothPreview[]>(
+    `/booths?affiliation_id=${boothId}`
   );
 
   return data;
@@ -29,11 +28,14 @@ export const getBoothDetail = async (boothId: string) => {
 };
 
 export const getOwnership = async (token: string, boothId: string) => {
-  const { data } = await Axios.get<Ownership>(`/booths/${boothId}/ownership`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const { data } = await Axios.get<Ownership>(
+    `/booths/${boothId}/managing-info`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
   return data.isOwner;
 };
 

@@ -102,13 +102,10 @@ const BoothDetail = () => {
           <Title>부스정보</Title>
           <Department>{department}</Department>
           <CreateAt>등록일: {formatDate(createdAt)}</CreateAt>
-          <BoothImg src={imageUrl} alt="부스 이미지" />
-          <TextBox>
-            <FieldTitle>제목:</FieldTitle>
-            <Name>{name}</Name>
-          </TextBox>
 
-          <Description>내용: {description}</Description>
+          <BoothImg src={imageUrl} alt="부스 이미지" />
+          <Name>{name}</Name>
+          <Description>{description}</Description>
           <LocationBox>
             <LocationTitle>부스위치:</LocationTitle>
             <StyledLocationIcon />
@@ -154,6 +151,7 @@ const BoothDetail = () => {
 };
 
 const Wrapper = styled.div<{ $isOwner: boolean }>`
+  padding-bottom: ${({ $isOwner }) => ($isOwner ? `250px` : `40px`)};
   background-color: ${({ theme }) => theme.colors.white100};
 `;
 const Box = styled.div`
@@ -169,25 +167,25 @@ const Department = styled.p`
   ${({ theme }) => theme.typographies.callout};
 `;
 const Name = styled.p`
-  width: 100%;
   margin-bottom: 12px;
-  display: block;
+  color: ${({ theme }) => theme.colors.text900};
+  ${({ theme }) => theme.typographies.title1};
   overflow-wrap: break-word;
   white-space: normal;
 `;
-const Description = styled.div`
+const Description = styled.p`
   margin-bottom: 20px;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.body2};
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
   line-height: 20px;
+  overflow-wrap: break-word;
+  white-space: normal;
 `;
 const LocationBox = styled.div`
   height: 30px;
   margin-bottom: 30px;
   display: flex;
-  align-items: start;
+  align-items: center;
   gap: 2px;
 `;
 const LocationTitle = styled.p`
@@ -214,20 +212,9 @@ const CreateAt = styled.p`
 const BoothImg = styled.img`
   width: 350px;
   height: 248px;
-  margin: 0 auto 16px;
-  display: block;
+  margin-bottom: 16px;
   border-radius: 12px;
   object-fit: cover;
-`;
-const FieldTitle = styled.p`
-  margin-right: 4px;
-  white-space: nowrap;
-`;
-const TextBox = styled.div`
-  width: calc(100% - 40px);
-  display: flex;
-  color: ${({ theme }) => theme.colors.text900};
-  ${({ theme }) => theme.typographies.title1};
 `;
 const MapImg = styled.img`
   width: 350px;
@@ -244,7 +231,6 @@ const StudentAction = styled.div`
 `;
 const Buttons = styled.div`
   width: 100%;
-  padding-bottom: 100px;
   display: flex;
   gap: 20px;
 `;
