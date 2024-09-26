@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { deleteUser } from '../../api/setting';
-import Header from '../../components/Header';
 import { useAuthStore } from '../../store';
 import { handleError } from '../../utils/errorUtil';
+import Header from './Header';
 import Modal from './Modal';
 
 const Setting = () => {
@@ -17,11 +17,13 @@ const Setting = () => {
       setRole('');
       setToken('');
     }
+    navigate('/main');
   };
 
   const handleWithdraw = async () => {
     try {
       await deleteUser(token);
+      navigate('/main');
     } catch (error) {
       handleError(error as Error);
     }

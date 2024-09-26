@@ -4,13 +4,25 @@ import { ReactComponent as MenuIconSvg } from '../assets/icons/hamburger.svg';
 import { ReactComponent as BackIcon } from '../assets/icons/left_arrow.svg';
 import { useAuthStore } from '../store';
 
-const Header = () => {
+interface HeaderProps {
+  path: string | number;
+}
+
+const Header = ({ path }: HeaderProps) => {
   const navigate = useNavigate();
   const { role } = useAuthStore();
 
+  const handleBackClick = () => {
+    if (typeof path === 'number') {
+      navigate(path); // 뒤로가기
+    } else {
+      navigate(path); // 문자열 경로 이동
+    }
+  };
+
   return (
     <Wrapper>
-      <BackButton onClick={() => navigate(-1)}>
+      <BackButton onClick={handleBackClick}>
         <BackIcon />
         뒤로가기
       </BackButton>
@@ -18,7 +30,7 @@ const Header = () => {
         {(role === 'STUDENT_COUNCIL' || role === 'BOOTH_MANAGER') && (
           <Role>관리자용</Role>
         )}
-        <MenuIcon />
+        <MenuIcon onClick={() => navigate('/setting')} />
       </AdminMenuLayout>
     </Wrapper>
   );
@@ -31,6 +43,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   background-color: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(10px);
+  z-index: 999;
   padding: 4px 20px 0 11px; // bottom: 0 - 각자 페이지 조절
 `;
 

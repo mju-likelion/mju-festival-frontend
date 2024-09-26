@@ -97,7 +97,7 @@ const BoothDetail = () => {
   return (
     <>
       <Wrapper $isOwner={isOwner}>
-        <Header />
+        <Header path="/main" />
         <Box>
           <Title>부스정보</Title>
           <Department>{department}</Department>
@@ -138,7 +138,11 @@ const BoothDetail = () => {
                 </QRButton>
               </Buttons>
             </AdminAction>
-            <BottomSheet qrCode={qrCode} />
+            <BottomSheet
+              qrCode={qrCode}
+              department={department}
+              fetchQr={fetchQr}
+            />
           </>
         )}
       </Wrapper>

@@ -34,6 +34,7 @@ const Board = () => {
       }
     } catch (error) {
       handleError(error as Error);
+      navigate(-1);
     }
   };
 

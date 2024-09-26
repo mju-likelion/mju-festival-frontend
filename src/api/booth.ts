@@ -18,6 +18,7 @@ export const getBooths = async (boothId: string) => {
   const { data } = await Axios.get<BoothPreview[]>(
     `/booths?affiliation_id=${boothId}`
   );
+
   return data;
 };
 
@@ -68,8 +69,6 @@ export const postBoothVisit = async (
   token: string,
   strategy: string
 ) => {
-  alert(qrId);
-  alert(strategy);
   await Axios.post(
     `/booths/${qrId}/visit?strategy=${strategy}`,
     {},

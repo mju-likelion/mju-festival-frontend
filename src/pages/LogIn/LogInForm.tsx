@@ -38,11 +38,15 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<AuthFormValues>({
     resolver: yupResolver(loginSchema),
     mode: 'onChange',
   });
+
+  const loginWatch = watch('id', '');
+  const passwordWatch = watch('password', '');
 
   const toggleEye = () => {
     setIsOpen((prevIsOpen) => !prevIsOpen);
@@ -77,7 +81,7 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
     setRole(response.role || 'STUDENT');
     setIsModalOpen(true);
     if (auth === 'ADMIN') {
-      navigate('/');
+      navigate('/main');
     }
   };
 
@@ -112,6 +116,8 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
       ? 'MSI(학번) 아이디를 입력해주세요'
       : '관리자 아이디를 입력해주세요';
 
+  const hasValueMessage = '입력을 완료했습니다.';
+
   return (
     <Form onSubmit={onSubmit}>
       <FieldWrapper>
@@ -122,7 +128,9 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
             placeholder={placeHolder}
             register={register}
           />
-          <HelperText>{errors.id?.message}</HelperText>
+          <HelperText $isActive={loginWatch.length > 0}>
+            {loginWatch.length > 0 ? hasValueMessage : errors.id?.message}
+          </HelperText>
         </InputWrapper>
         <InputWrapper>
           <LogInInput
@@ -133,10 +141,16 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
             toggleEye={toggleEye}
             isOpen={isOpen}
           />
-          <HelperText>{errors.password?.message}</HelperText>
+          <HelperText $isActive={passwordWatch.length > 0}>
+            {passwordWatch.length > 0
+              ? hasValueMessage
+              : errors.password?.message}
+          </HelperText>
         </InputWrapper>
       </FieldWrapper>
-      <LogInButton />
+      <LogInButton
+        $isActive={loginWatch.length > 0 && passwordWatch.length > 0}
+      />
       {auth === 'USER' && (
         <AdminLogin onClick={() => navigate('/admin/login')}>
           관리자용 로그인
@@ -171,9 +185,10 @@ const FieldWrapper = styled.div`
   gap: 20px;
 `;
 const InputWrapper = styled.div``;
-const HelperText = styled.p`
+const HelperText = styled.p<{ $isActive: boolean }>`
   padding: 2px 0 0 12px;
-  color: ${({ theme }) => theme.colors.text700};
+  color: ${({ theme, $isActive }) =>
+    $isActive ? theme.colors.mint400 : theme.colors.text700};
   ${({ theme }) => theme.typographies.footnote};
 `;
 const TermBox = styled.div`
