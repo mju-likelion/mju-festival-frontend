@@ -43,6 +43,10 @@ const purple = {
   purple500: '#3C49A6', // purple-deep
 };
 
+const mint = {
+  mint400: '#179A8C', // mint-dark
+};
+
 const text = {
   text500: '#5B636B',
   text600: '#424D5C',
@@ -57,5 +61,6 @@ export const colors = {
   ...blue,
   ...gray,
   ...purple,
+  ...mint,
   ...text,
 };
