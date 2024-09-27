@@ -2,6 +2,7 @@ import { ChangeEvent, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import axios, { AxiosError } from 'axios';
 import { Axios } from '../../api/Axios';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
 import { useAuthStore } from '../../store';
@@ -56,6 +57,7 @@ const CreateNotice = () => {
       formData.append('imageUrl', imageUrl);
     }
     if (role !== 'STUDENT_COUNCIL') {
+      setIsLoading(false);
       setError('공지 작성 권한이 없습니다.');
       return;
     }
@@ -69,7 +71,11 @@ const CreateNotice = () => {
       });
       navigate('/view/all-notices');
     } catch (e) {
-      setError('작성 형식이 잘못되었습니다');
+      if (axios.isAxiosError(e)) {
+        if (e.response && e.response.data.errorCode === 40104) {
+          setError('로그인이 만료되었습니다. 다시 로그인을 해주세요.');
+        } else setError('작성 형식이 잘못되었습니다');
+      }
     } finally {
       setIsLoading(false);
     }
