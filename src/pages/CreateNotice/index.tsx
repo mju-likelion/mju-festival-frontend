@@ -9,13 +9,14 @@ import { ImageNoticeType } from '../../types';
 import { getCurrentDate } from '../../utils/dateUtil';
 import Header from '../ViewDetailNotice/Header';
 import ErrorMessage from '../../components/ErrorMessage';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const CreateNotice = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const navigate = useNavigate();
   const { token } = useAuthStore();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<null | string>(null);
   const formData = new FormData();
   const imageData = new FormData();
@@ -48,6 +49,7 @@ const CreateNotice = () => {
   };
 
   const handleFormSubmit = async (data: ImageNoticeType) => {
+    setIsLoading(true);
     formData.append('title', data.title);
     formData.append('content', data.content);
     if (imageUrl) {
@@ -68,6 +70,10 @@ const CreateNotice = () => {
       setIsLoading(false);
     }
   };
+
+  if (isLoading) {
+    return <LoadingSpinner isLoading={isLoading} />;
+  }
 
   if (error) {
     return <ErrorMessage>{error}</ErrorMessage>;
