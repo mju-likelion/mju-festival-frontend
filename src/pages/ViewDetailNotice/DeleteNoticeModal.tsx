@@ -1,30 +1,52 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { Axios } from '../../api/Axios';
 import { useAuthStore } from '../../store';
 import { DeleteNoticeModalProps } from '../../types';
 import { ReactComponent as CloseBtnIcon } from '../../assets/icons/close.svg';
+import LoadingSpinner from '../../components/LoadingSpinner';
+import ErrorMessage from '../../components/ErrorMessage';
 
 const DeleteNoticeModal = ({
   noticeId,
   isOpen,
   closeModal,
 }: DeleteNoticeModalProps) => {
-  const { token } = useAuthStore();
+  const { role, token } = useAuthStore();
+  const [error, setError] = useState<null | string>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   if (!isOpen) return null;
 
   const handleDeleteClick = async () => {
+    if (!token || role !== 'STUDENT_COUNCIL') {
+      setError('게시물 삭제 권한이 없습니다.');
+      return;
+    }
+
+    setIsLoading(true);
+
     try {
       await Axios.delete(`/announcements/${noticeId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       navigate('/view/all-notices');
     } catch (error) {
-      console.error('삭제실패', error);
+      setError('게시물 삭제 권한이 없습니다.');
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  if (isLoading) {
+    return <LoadingSpinner isLoading={isLoading} />;
+  }
+
+  if (error) {
+    return <ErrorMessage>{error}</ErrorMessage>;
+  }
 
   return (
     <Wrapper $isOpen={isOpen}>
@@ -41,9 +63,7 @@ const DeleteNoticeModal = ({
             확인하신 후 삭제해주시길 바랍니다
           </Content>
         </TextContainer>
-        <DeleteButton onClick={() => handleDeleteClick()}>
-          확인하기
-        </DeleteButton>
+        <DeleteButton onClick={handleDeleteClick}>확인하기</DeleteButton>
       </ModalLayout>
     </Wrapper>
   );
