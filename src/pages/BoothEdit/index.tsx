@@ -91,7 +91,12 @@ const BoothEdit = () => {
 
           <NameInputBox>
             <FieldTitle>제목:</FieldTitle>
-            <Input {...register('name')} defaultValue={name} maxLength={30} />
+            <Input
+              {...register('name')}
+              defaultValue={name}
+              maxLength={30}
+              placeholder="부스명을 입력해주세요"
+            />
           </NameInputBox>
           <LengthCount>({nameWatch.length}/30)</LengthCount>
 
@@ -102,6 +107,7 @@ const BoothEdit = () => {
               {...register('description')}
               defaultValue={description}
               maxLength={1000}
+              placeholder="부스소개를 입력해주세요"
             />
           </DescriptionTextarea>
           <LengthCount>({descriptionWatch.length}/1000)</LengthCount>
@@ -113,6 +119,7 @@ const BoothEdit = () => {
               {...register('location')}
               defaultValue={location}
               maxLength={30}
+              placeholder="위치를 입력해주세요"
             />
           </LocationInputBox>
           <LengthCount>({locationWatch.length}/30)</LengthCount>
@@ -146,7 +153,8 @@ const EditForm = styled.form`
 `;
 const NameInputBox = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: start;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.title1};
   & > * {
@@ -177,12 +185,13 @@ const Textarea = styled.textarea`
 const LocationInputBox = styled.div`
   width: 100%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.body2};
 `;
 const DescriptionTextarea = styled.div`
   display: flex;
+  flex-direction: column;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.body2};
 `;
