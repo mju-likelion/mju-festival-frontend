@@ -63,6 +63,13 @@ const BoothPage = () => {
 
   const isAnySelected = selectedDepartmentIdArr.length > 0;
 
+  const getCategoryNameById = (id: string) => {
+    const department = departmentList.find(
+      (department) => department.id === id
+    );
+    return department ? department.categoryName : '';
+  };
+
   return (
     <Wrapper>
       <Header path="/main" />
@@ -105,6 +112,9 @@ const BoothPage = () => {
               ([departmentId, boothList]) => {
                 return (
                   <CategoryBox key={departmentId}>
+                    <CategoryName>
+                      {getCategoryNameById(departmentId)}
+                    </CategoryName>
                     {boothList.map((booth) => (
                       <BoothBox
                         key={booth.id}
@@ -161,6 +171,7 @@ const Department = styled.div<{ $isChecked: boolean }>`
 `;
 const DeSelectButton = styled.div<{ $isChecked: boolean }>`
   width: 88px;
+  height: 30px;
   padding: 3px;
   display: flex;
   justify-content: center;
@@ -203,6 +214,15 @@ const CategoryBox = styled.div`
   flex-direction: column;
   align-items: center;
 `;
+const CategoryName = styled.div`
+  width: 200px;
+  padding-bottom: 6px;
+  margin: 38px 0;
+  text-align: center;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.blue400};
+  color: ${({ theme }) => theme.colors.blue100};
+  ${({ theme }) => theme.typographies.title1};
+`;
 const BoothBox = styled.div`
   max-width: 350px;
   width: calc(100% - 20px);
@@ -225,6 +245,7 @@ const Name = styled.p`
   overflow-wrap: break-word;
   white-space: normal;
   margin-bottom: 8px;
+  padding-bottom: 10px;
   color: ${({ theme }) => theme.colors.blue100};
   ${({ theme }) => theme.typographies.title1};
   border-bottom: 1px solid ${({ theme }) => theme.colors.black30};
