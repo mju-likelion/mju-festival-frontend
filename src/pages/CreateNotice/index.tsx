@@ -15,7 +15,7 @@ const CreateNotice = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { token } = useAuthStore();
+  const { role, token } = useAuthStore();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<null | string>(null);
   const formData = new FormData();
@@ -43,7 +43,7 @@ const CreateNotice = () => {
         });
         setImageUrl(url);
       } catch (error) {
-        console.error('이미지 업로드 오류', error);
+        setError('잘못된 이미지 형식입니다.');
       }
     }
   };
@@ -54,6 +54,10 @@ const CreateNotice = () => {
     formData.append('content', data.content);
     if (imageUrl) {
       formData.append('imageUrl', imageUrl);
+    }
+    if (role !== 'STUDENT_COUNCIL') {
+      setError('공지 작성 권한이 없습니다.');
+      return;
     }
 
     try {

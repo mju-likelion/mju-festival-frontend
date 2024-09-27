@@ -16,7 +16,7 @@ import ErrorMessage from '../../components/ErrorMessage.tsx';
 
 const ViewAllNotice = () => {
   const navigate = useNavigate();
-  const { role } = useAuthStore();
+  const { token, role } = useAuthStore();
   const [isSorted, setIsSorted] = useState<SortKey>('desc');
   const [search, setSearch] = useSearchParams();
 
@@ -26,6 +26,12 @@ const ViewAllNotice = () => {
     isSorted,
     curPage: currentPage - 1,
   });
+
+  const handleClick = () => {
+    if (token && role === 'STUDENT_COUNCIL') {
+      navigate('/create/notice');
+    }
+  };
 
   if (isLoading) {
     return <LoadingSpinner isLoading={isLoading} />;
@@ -90,9 +96,7 @@ const ViewAllNotice = () => {
           </button>
         </PageBtnContainer>
         {role === 'STUDENT_COUNCIL' && (
-          <CreateBtn onClick={() => navigate('/create/notice')}>
-            게시물 작성하기
-          </CreateBtn>
+          <CreateBtn onClick={handleClick}>게시물 작성하기</CreateBtn>
         )}
       </BtnLayout>
     </Wrapper>
