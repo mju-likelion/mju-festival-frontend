@@ -74,8 +74,10 @@ const CreateNotice = () => {
     } catch (e) {
       if (axios.isAxiosError(e)) {
         const errorCode: ErrorCode = e.response?.data.errorCode;
-        if (errorCode === ERROR_CODES.UNAUTHORIZED) {
-          setError('로그인이 유효하지 않습니다. 다시 로그인해주세요');
+        if (errorCode && Object.values(ERROR_CODES).includes(errorCode)) {
+          setError(
+            '로그인이 유효하지 않습니다. 로그아웃 이후 다시 로그인해주세요'
+          );
         } else setError('작성 형식이 잘못되었습니다');
       }
     } finally {
