@@ -8,12 +8,15 @@ import { useAuthStore } from '../../store';
 import { ImageNoticeType } from '../../types';
 import { getCurrentDate } from '../../utils/dateUtil';
 import Header from '../ViewDetailNotice/Header';
+import ErrorMessage from '../../components/ErrorMessage';
 
 const CreateNotice = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const navigate = useNavigate();
   const { token } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<null | string>(null);
   const formData = new FormData();
   const imageData = new FormData();
 
@@ -60,12 +63,15 @@ const CreateNotice = () => {
       });
       navigate('/view/all-notices');
     } catch (e) {
-      alert('올바른 업로드를 해주세요');
+      setError('작성 형식이 잘못되었습니다');
+    } finally {
+      setIsLoading(false);
     }
-    /**
-     * @Todo finally 추가
-     */
   };
+
+  if (error) {
+    return <ErrorMessage>{error}</ErrorMessage>;
+  }
 
   return (
     <Wrapper>
