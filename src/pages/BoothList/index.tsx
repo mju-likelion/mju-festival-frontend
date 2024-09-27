@@ -171,6 +171,7 @@ const Department = styled.div<{ $isChecked: boolean }>`
 `;
 const DeSelectButton = styled.div<{ $isChecked: boolean }>`
   width: 88px;
+  height: 30px;
   padding: 3px;
   display: flex;
   justify-content: center;
