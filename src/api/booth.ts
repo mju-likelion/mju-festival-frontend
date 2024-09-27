@@ -29,7 +29,7 @@ export const getBoothDetail = async (boothId: string) => {
 
 export const getOwnership = async (token: string, boothId: string) => {
   const { data } = await Axios.get<Ownership>(
-    `/booths/${boothId}/managing-info`,
+    `/booths/${boothId}/managing-detail`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
