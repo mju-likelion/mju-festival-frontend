@@ -88,7 +88,7 @@ const BoothDetail = () => {
           }
         }
       } catch (e) {
-        console.error(e);
+        handleError(e as Error);
       }
     };
     initializeData();

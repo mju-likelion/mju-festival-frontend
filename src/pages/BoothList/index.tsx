@@ -6,6 +6,7 @@ import { BoothDepartment, BoothListObj } from '../../types';
 import { ReactComponent as CheckedIcon } from '../../assets/icons/booth-checked.svg';
 import { ReactComponent as UnCheckedIcon } from '../../assets/icons/booth-un-checked.svg';
 import Header from '../../components/Header.tsx';
+import { handleError } from '../../utils/errorUtil.ts';
 
 const BoothPage = () => {
   const [departmentList, setDepartmentList] = useState<BoothDepartment[]>([]);
@@ -17,21 +18,25 @@ const BoothPage = () => {
   const navigate = useNavigate();
 
   const fetchData = async () => {
-    const departments = await getBoothDepartments();
-    setDepartmentList(departments);
+    try {
+      const departments = await getBoothDepartments();
+      setDepartmentList(departments);
 
-    const boothsByDepartment = await Promise.all(
-      departments.map(async (department) => {
-        const booths = await getBooths(department.id);
-        return { [department.id]: booths };
-      })
-    );
+      const boothsByDepartment = await Promise.all(
+        departments.map(async (department) => {
+          const booths = await getBooths(department.id);
+          return { [department.id]: booths };
+        })
+      );
 
-    const boothsObject = boothsByDepartment.reduce((acc, curr) => {
-      return { ...acc, ...curr };
-    }, {});
+      const boothsObject = boothsByDepartment.reduce((acc, curr) => {
+        return { ...acc, ...curr };
+      }, {});
 
-    setBoothList(boothsObject);
+      setBoothList(boothsObject);
+    } catch (e) {
+      handleError(e as Error);
+    }
   };
 
   const filterSelectedDepartments = (selectedIds: string[]) => {
