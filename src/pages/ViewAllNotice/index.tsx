@@ -19,13 +19,14 @@ const ViewAllNotice = () => {
   const { token, role } = useAuthStore();
   const [isSorted, setIsSorted] = useState<SortKey>('desc');
   const [search, setSearch] = useSearchParams();
-
   const currentPage = Math.max(parseInt(search.get('page') ?? '1', 10), 1);
-
   const { notices, totalPage, isLoading, error } = useFetchNotices({
     isSorted,
     curPage: currentPage - 1,
   });
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === totalPage;
+  const isEmptyNoticeList = !notices.length;
 
   const handleClick = () => {
     if (token && role === 'STUDENT_COUNCIL') {
@@ -69,7 +70,7 @@ const ViewAllNotice = () => {
         <PageBtnContainer>
           <button
             type="button"
-            disabled={currentPage === 1}
+            disabled={isFirstPage}
             aria-label="Previous page"
             onClick={() =>
               setSearch({
@@ -84,7 +85,7 @@ const ViewAllNotice = () => {
           </TempP>
           <button
             type="button"
-            disabled={currentPage === totalPage || !notices.length}
+            disabled={isLastPage || isEmptyNoticeList}
             aria-label="Previous page"
             onClick={() =>
               setSearch({
