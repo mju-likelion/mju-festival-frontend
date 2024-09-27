@@ -8,6 +8,8 @@ import { useAuthStore } from '../../store';
 import { DetailNoticeType, ImageNoticeType } from '../../types';
 import { fetchNotice } from '../../api/notice.ts';
 import Header from '../../components/Header.tsx';
+import LoadingSpinner from '../../components/LoadingSpinner.tsx';
+import ErrorMessage from '../../components/ErrorMessage.tsx';
 
 const EditNotice = () => {
   const [notice, setNotice] = useState<DetailNoticeType>({
@@ -19,7 +21,9 @@ const EditNotice = () => {
   });
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const { id } = useParams();
-  const { token } = useAuthStore();
+  const { role, token } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<null | string>(null);
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formData = new FormData();
@@ -59,12 +63,13 @@ const EditNotice = () => {
         );
         setImageUrl(data.url);
       } catch (error) {
-        console.error('이미지 업로드 오류', error);
+        setError('잘못된 이미지 형식입니다.');
       }
     }
   };
 
   const handleFormSubmit = async (data: ImageNoticeType) => {
+    setIsLoading(true);
     if (data.title) {
       formData.append('title', data.title);
     }
@@ -73,6 +78,10 @@ const EditNotice = () => {
     }
     if (imageUrl) {
       formData.append('imageUrl', imageUrl);
+    }
+    if (role !== 'STUDENT_COUNCIL') {
+      setError('공지 작성 권한이 없습니다.');
+      return;
     }
 
     try {
@@ -84,12 +93,19 @@ const EditNotice = () => {
       });
       navigate(`/view/detail-notice/${id}`);
     } catch (e) {
-      alert('올바른 업로드를 해주세요');
+      setError('작성 형식이 잘못되었습니다');
+    } finally {
+      setIsLoading(false);
     }
-    /**
-     * @Todo finally 추가
-     */
   };
+
+  if (isLoading) {
+    return <LoadingSpinner isLoading={isLoading} />;
+  }
+
+  if (error) {
+    return <ErrorMessage>{error}</ErrorMessage>;
+  }
 
   return (
     <Wrapper>
