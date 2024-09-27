@@ -10,6 +10,7 @@ import { ReactComponent as InstaArrowIconImg } from '../../assets/icons/backIcon
 import NoImage from './NoImage.tsx';
 import Header from '../../components/Header.tsx';
 import ErrorMessage from '../../components/ErrorMessage.tsx';
+import LoadingSpinner from '../../components/LoadingSpinner.tsx';
 
 const ViewDetailNotice = () => {
   const [notice, setNotice] = useState<DetailNoticeType>({
@@ -22,6 +23,7 @@ const ViewDetailNotice = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [error, setError] = useState<null | string>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const { id } = useParams();
   const { role } = useAuthStore();
@@ -36,12 +38,18 @@ const ViewDetailNotice = () => {
       setImageUrl(response.imageUrl || null);
     } catch (err) {
       setError('공지사항의 상세 정보를 불러오는 중 오류가 발생했습니다.');
+    } finally {
+      setIsLoading(false);
     }
   }, [id]);
 
   useEffect(() => {
     getNotice();
   }, [getNotice]);
+
+  if (isLoading) {
+    return <LoadingSpinner isLoading={isLoading} />;
+  }
 
   if (error) {
     return <ErrorMessage>{error}</ErrorMessage>;
