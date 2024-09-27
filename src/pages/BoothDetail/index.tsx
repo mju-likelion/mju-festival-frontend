@@ -97,7 +97,7 @@ const BoothDetail = () => {
   return (
     <>
       <Wrapper $isOwner={isOwner}>
-        <Header path="/main" />
+        <Header path="/booths" />
         <Box>
           <Title>부스정보</Title>
           <Department>{department}</Department>
