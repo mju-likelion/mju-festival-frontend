@@ -12,6 +12,7 @@ import Header from '../../components/Header.tsx';
 import DropDown from './DropDown.tsx';
 import { SortKey } from '../../types/index.ts';
 import LoadingSpinner from '../../components/LoadingSpinner.tsx';
+import ErrorMessage from '../../components/ErrorMessage.tsx';
 
 const ViewAllNotice = () => {
   const navigate = useNavigate();
@@ -21,10 +22,18 @@ const ViewAllNotice = () => {
 
   const currentPage = Math.max(parseInt(search.get('page') ?? '1', 10), 1);
 
-  const { notices, totalPage, isLoading } = useFetchNotices({
+  const { notices, totalPage, isLoading, error } = useFetchNotices({
     isSorted,
     curPage: currentPage - 1,
   });
+
+  if (isLoading) {
+    return <LoadingSpinner isLoading={isLoading} />;
+  }
+
+  if (error) {
+    return <ErrorMessage>{error}</ErrorMessage>;
+  }
 
   return (
     <Wrapper>
@@ -49,7 +58,7 @@ const ViewAllNotice = () => {
           />
         ))}
       </NoticeLayout>
-      <LoadingSpinner isLoading={isLoading} />
+
       <BtnLayout>
         <PageBtnContainer>
           <button

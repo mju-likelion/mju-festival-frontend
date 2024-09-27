@@ -6,6 +6,7 @@ const useFetchNotices = ({ isSorted, curPage }: UseFetchNoticesProps) => {
   const [notices, setNotices] = useState<NoticeType[]>([]);
   const [totalPage, setTotalPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<null | string>(null);
   const SIZE = 4;
 
   const fetchNotices = useCallback(async () => {
@@ -14,8 +15,7 @@ const useFetchNotices = ({ isSorted, curPage }: UseFetchNoticesProps) => {
       setTotalPage(response.totalPage);
       setNotices(response.simpleAnnouncements);
     } catch (err) {
-      alert('올바른 동작을 해주세요');
-      setIsLoading(true);
+      setError('공지사항을 불러오는 중 오류가 발생했습니다.');
     } finally {
       setIsLoading(false);
     }
@@ -25,7 +25,7 @@ const useFetchNotices = ({ isSorted, curPage }: UseFetchNoticesProps) => {
     fetchNotices();
   }, [fetchNotices]);
 
-  return { notices, totalPage, isLoading };
+  return { notices, totalPage, isLoading, error };
 };
 
 export default useFetchNotices;
