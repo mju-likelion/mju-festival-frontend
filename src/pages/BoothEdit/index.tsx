@@ -128,6 +128,7 @@ const BoothEdit = () => {
 };
 const Wrapper = styled.div`
   padding: 0 20px;
+  background-color: ${({ theme }) => theme.colors.white100};
 `;
 const Title = styled.p`
   margin: 10px 0;
@@ -141,6 +142,7 @@ const Department = styled.p`
 `;
 const EditForm = styled.form`
   width: 100%;
+  padding-bottom: 40px;
 `;
 const NameInputBox = styled.div`
   display: flex;

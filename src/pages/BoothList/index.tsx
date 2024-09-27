@@ -217,7 +217,7 @@ const CategoryBox = styled.div`
 const CategoryName = styled.div`
   width: 200px;
   padding-bottom: 6px;
-  margin-bottom: 38px;
+  margin: 38px 0;
   text-align: center;
   border-bottom: 1px solid ${({ theme }) => theme.colors.blue400};
   color: ${({ theme }) => theme.colors.blue100};

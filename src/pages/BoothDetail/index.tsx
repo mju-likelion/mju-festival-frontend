@@ -153,7 +153,7 @@ const BoothDetail = () => {
 };
 
 const Wrapper = styled.div<{ $isOwner: boolean }>`
-  padding-bottom: ${({ $isOwner }) => ($isOwner ? `250px` : `40px`)};
+  padding-bottom: ${({ $isOwner }) => ($isOwner ? `150px` : `40px`)};
   background-color: ${({ theme }) => theme.colors.white100};
 `;
 const Box = styled.div`
@@ -188,7 +188,6 @@ const LocationBox = styled.div`
   margin-bottom: 30px;
   display: flex;
   align-items: center;
-  gap: 2px;
 `;
 const LocationTitle = styled.p`
   color: ${({ theme }) => theme.colors.text900};
@@ -212,14 +211,14 @@ const CreateAt = styled.p`
   ${({ theme }) => theme.typographies.caption1};
 `;
 const BoothImg = styled.img`
-  width: 350px;
+  width: 100%;
   height: 248px;
   margin-bottom: 16px;
   border-radius: 12px;
   object-fit: cover;
 `;
 const MapImg = styled.img`
-  width: 350px;
+  width: 100%;
   height: 182px;
   margin-bottom: 40px;
   border-radius: 12px;
