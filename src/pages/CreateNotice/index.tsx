@@ -2,7 +2,6 @@ import { ChangeEvent, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
 import { Axios } from '../../api/Axios';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
 import { useAuthStore } from '../../store';
@@ -11,18 +10,17 @@ import { getCurrentDate } from '../../utils/dateUtil';
 import Header from '../ViewDetailNotice/Header';
 import ErrorMessage from '../../components/ErrorMessage';
 import LoadingSpinner from '../../components/LoadingSpinner';
-import { ERROR_CODES, ErrorCode } from '../../types/errorCode';
+import { useAxiosErrorHandler } from '../../hooks/useErrorHandler';
 
 const CreateNotice = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const navigate = useNavigate();
   const { role, token } = useAuthStore();
+  const { error, handleAxiosError } = useAxiosErrorHandler();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<null | string>(null);
   const formData = new FormData();
   const imageData = new FormData();
-
   const { register, handleSubmit, watch } = useForm<ImageNoticeType>();
   const titleCount = watch('title', '');
   const contentCount = watch('content', '');
@@ -45,7 +43,7 @@ const CreateNotice = () => {
         });
         setImageUrl(url);
       } catch (error) {
-        setError('잘못된 이미지 형식입니다.');
+        handleAxiosError('잘못된 이미지 형식입니다.', e);
       }
     }
   };
@@ -59,7 +57,7 @@ const CreateNotice = () => {
     }
     if (role !== 'STUDENT_COUNCIL') {
       setIsLoading(false);
-      setError('공지 작성 권한이 없습니다.');
+      handleAxiosError('공지 작성 권한이 없습니다.');
       return;
     }
 
@@ -72,14 +70,7 @@ const CreateNotice = () => {
       });
       navigate('/view/all-notices');
     } catch (e) {
-      if (axios.isAxiosError(e)) {
-        const errorCode: ErrorCode = e.response?.data.errorCode;
-        if (errorCode && Object.values(ERROR_CODES).includes(errorCode)) {
-          setError(
-            '로그인이 유효하지 않습니다. 로그아웃 이후 다시 로그인해주세요'
-          );
-        } else setError('작성 형식이 잘못되었습니다');
-      }
+      handleAxiosError('작성 형식이 잘못되었습니다.', e);
     } finally {
       setIsLoading(false);
     }
