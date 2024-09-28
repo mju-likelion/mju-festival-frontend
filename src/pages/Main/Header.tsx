@@ -26,7 +26,7 @@ const Header = () => {
       ) : (
         <AuthButton onClick={() => logout()}>로그아웃</AuthButton>
       )}
-      {role !== '' && <MenuIcon onClick={() => navigate('/setting')} />}
+      <MenuIcon onClick={() => navigate('/setting')} />
     </Wrapper>
   );
 };
