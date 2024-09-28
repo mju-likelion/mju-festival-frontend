@@ -118,7 +118,7 @@ const BoothEdit = () => {
             <Input
               {...register('location')}
               defaultValue={location}
-              maxLength={30}
+              maxLength={100}
               placeholder="위치를 입력해주세요"
             />
           </LocationInputBox>

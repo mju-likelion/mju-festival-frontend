@@ -3,12 +3,12 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getBoothDetail, getOwnership, getQrData } from '../../api/booth.ts';
 
-import { ReactComponent as LocationIcon } from '../../assets/icons/location_icon.svg';
 import Header from '../../components/Header.tsx';
 import BottomSheet from '../../components/QrBottomSheet/index.tsx';
 import { useAuthStore } from '../../store';
 import { BoothDetailInfo } from '../../types';
 import { handleError } from '../../utils/errorUtil.ts';
+import { ReactComponent as LocationIcon } from '../../assets/icons/location_icon.svg';
 
 const BoothDetail = () => {
   const { role, token } = useAuthStore();
