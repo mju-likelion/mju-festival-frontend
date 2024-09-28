@@ -2,10 +2,11 @@ import styled from 'styled-components';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 import { Axios } from '../../api/Axios';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
-import { useAuthStore } from '../../store';
-import { DetailNoticeType, ImageNoticeType } from '../../types';
+import { useAuthStore, useErrorStore } from '../../store';
+import { DetailNoticeType, ERRORS, ImageNoticeType } from '../../types';
 import { fetchNotice } from '../../api/notice.ts';
 import Header from '../../components/Header.tsx';
 import LoadingSpinner from '../../components/LoadingSpinner.tsx';
@@ -22,8 +23,8 @@ const EditNotice = () => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const { id } = useParams();
   const { role, token } = useAuthStore();
+  const { errorMessage, setErrorMessage } = useErrorStore();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<null | string>(null);
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formData = new FormData();
@@ -63,7 +64,11 @@ const EditNotice = () => {
         );
         setImageUrl(data.url);
       } catch (error) {
-        setError('잘못된 이미지 형식입니다.');
+        if (axios.isAxiosError(e)) {
+          if (!e.response || !ERRORS.has(e.response.data.errorCode)) {
+            setErrorMessage('잘못된 이미지 형식입니다.');
+          }
+        }
       }
     }
   };
@@ -80,7 +85,7 @@ const EditNotice = () => {
       formData.append('imageUrl', imageUrl);
     }
     if (role !== 'STUDENT_COUNCIL') {
-      setError('공지 작성 권한이 없습니다.');
+      setErrorMessage('공지 작성 권한이 없습니다.');
       return;
     }
 
@@ -93,7 +98,11 @@ const EditNotice = () => {
       });
       navigate(`/view/detail-notice/${id}`);
     } catch (e) {
-      setError('작성 형식이 잘못되었습니다');
+      if (axios.isAxiosError(e)) {
+        if (!e.response || !ERRORS.has(e.response.data.errorCode)) {
+          setErrorMessage('작성 형식이 잘못되었습니다.');
+        }
+      }
     } finally {
       setIsLoading(false);
     }
@@ -103,8 +112,8 @@ const EditNotice = () => {
     return <LoadingSpinner isLoading={isLoading} />;
   }
 
-  if (error) {
-    return <ErrorMessage>{error}</ErrorMessage>;
+  if (errorMessage) {
+    return <ErrorMessage>{errorMessage}</ErrorMessage>;
   }
 
   return (

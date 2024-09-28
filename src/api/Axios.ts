@@ -1,21 +1,27 @@
 import axios from 'axios';
-import { useAuthStore } from '../store';
-import { ERRORS } from '../types/errorCode';
+import { useAuthStore, useErrorStore } from '../store';
+import { ERRORS } from '../types';
 
 export const Axios = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
 });
 
-Axios.interceptors.response.use(undefined, (res) => {
-  if (ERRORS.has(res.data.errorCode)) {
-    useAuthStore.setState({
-      token: '',
-      role: '',
-    });
-    // 메시지는 zustand로 관리해서 해당 컴포넌트에서 사용해서 띄울 예정
+Axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    const { setErrorMessage } = useErrorStore.getState();
+    if (ERRORS.has(error.response.data.errorCode)) {
+      useAuthStore.setState({
+        token: '',
+        role: '',
+      });
+      setErrorMessage('로그인이 유효하지 않습니다. 다시 로그인해주세요');
+    }
+    return Promise.reject(error);
   }
-  return res;
-});
+);
 
 export const AxiosWeather = axios.create({
   baseURL: import.meta.env.VITE_WEATHER_API_URL,
