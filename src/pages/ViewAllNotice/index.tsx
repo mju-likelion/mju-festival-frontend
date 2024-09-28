@@ -1,9 +1,9 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
 import styled from 'styled-components';
+import { useQuery } from '@tanstack/react-query';
 import NoticeCard from './NoticeCard';
 import { useAuthStore } from '../../store';
-import useFetchNotices from '../../hooks/useFetchNotices';
 import InfoText from '../../components/InfoText';
 import TitleLayout from './TitleLayout.tsx';
 import { ReactComponent as LeftArrowActive } from '../../assets/icons/left_arrow_active.svg';
@@ -13,6 +13,7 @@ import DropDown from './DropDown.tsx';
 import { SortKey } from '../../types/index.ts';
 import LoadingSpinner from '../../components/LoadingSpinner.tsx';
 import ErrorMessage from '../../components/ErrorMessage.tsx';
+import { getNotices } from '../../api/notice.ts';
 
 const ViewAllNotice = () => {
   const navigate = useNavigate();
@@ -20,13 +21,10 @@ const ViewAllNotice = () => {
   const [isSorted, setIsSorted] = useState<SortKey>('desc');
   const [search, setSearch] = useSearchParams();
   const currentPage = Math.max(parseInt(search.get('page') ?? '1', 10), 1);
-  const { notices, totalPage, isLoading, error } = useFetchNotices({
-    isSorted,
-    curPage: currentPage - 1,
+  const { data, isPending, isError, error } = useQuery({
+    queryKey: ['notices', currentPage, isSorted],
+    queryFn: () => getNotices(isSorted, currentPage - 1, 4),
   });
-  const isFirstPage = currentPage === 1;
-  const isLastPage = currentPage === totalPage;
-  const isEmptyNoticeList = !notices.length;
 
   const handleClick = () => {
     if (token && role === 'STUDENT_COUNCIL') {
@@ -34,13 +32,18 @@ const ViewAllNotice = () => {
     }
   };
 
-  if (isLoading) {
-    return <LoadingSpinner isLoading={isLoading} />;
+  if (isPending) {
+    return <LoadingSpinner isLoading={isPending} />;
   }
 
-  if (error) {
-    return <ErrorMessage>{error}</ErrorMessage>;
+  if (isError) {
+    return <ErrorMessage>{String(error)}</ErrorMessage>;
   }
+  const notices = data.simpleAnnouncements;
+  const { totalPage } = data;
+  const isFirstPage = currentPage === 1;
+  const isLastPage = currentPage === totalPage;
+  const isEmptyNoticeList = !notices.length;
 
   return (
     <Wrapper>

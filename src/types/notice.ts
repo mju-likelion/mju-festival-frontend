@@ -30,8 +30,3 @@ export interface DeleteNoticeModalProps {
   isOpen: boolean;
   closeModal: () => void;
 }
-
-export interface UseFetchNoticesProps {
-  isSorted: string;
-  curPage: number;
-}
