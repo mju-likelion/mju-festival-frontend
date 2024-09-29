@@ -154,6 +154,7 @@ const EditNotice = () => {
               defaultValue={notice.title}
               maxLength={30}
               placeholder="제목을 입력해주세요"
+              required
             />
             <TitleLength>
               <p>({titleCount?.length}/30)</p>
@@ -166,6 +167,7 @@ const EditNotice = () => {
               defaultValue={notice.content}
               maxLength={1000}
               placeholder="내용을 입력해주세요"
+              required
             />
             <ContentLength>
               <p>({contentCount?.length}/1000)</p>
