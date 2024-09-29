@@ -6,7 +6,7 @@ import { ReactComponent as Refresh } from '../../assets/icons/qr_refresh.svg';
 import { ReactComponent as SmallQrImg } from '../../assets/imgs/sheet_small_qr.svg';
 import { BottomSheetPropTypes } from '../../types';
 
-const INITIAL_SECONDS = 60;
+const INITIAL_SECONDS = 30;
 
 const Content = ({
   qrCode,
@@ -23,19 +23,18 @@ const Content = ({
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    const timer = setInterval(() => {
       setSeconds((prev) => {
-        if (prev > 0) {
-          return prev - 1;
+        if (prev <= 0) {
+          clearInterval(timer);
+          return 0;
         }
-        // 타이머가 0이 되었을 때
-        fetchQr();
-        return INITIAL_SECONDS; // 다시 초기화
+        return prev - 1;
       });
     }, 1000);
 
-    return () => clearInterval(interval);
-  }, [fetchQr]);
+    return () => clearInterval(timer);
+  }, []);
 
   const formatTime = (seconds: number) => {
     const minutes = String(Math.floor(seconds / 60)).padStart(2, '0');
