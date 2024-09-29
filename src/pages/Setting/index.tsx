@@ -17,13 +17,15 @@ const Setting = () => {
       setRole('');
       setToken('');
     }
-    navigate('/main');
+    navigate('/');
   };
 
   const handleWithdraw = async () => {
     try {
       await deleteUser(token);
-      navigate('/main');
+      setToken('');
+      setRole('');
+      navigate('/');
     } catch (error) {
       handleError(error as Error);
     }
@@ -40,17 +42,18 @@ const Setting = () => {
         <LogInButton onClick={() => navigate('/login')}>
           로그인 페이지
         </LogInButton>
+
         {role !== '' && (
-          <>
-            <LogOutButton onClick={() => logout()}>로그아웃</LogOutButton>
-            <WithdrawButton
-              onClick={() => {
-                setIsModalOpen(true);
-              }}
-            >
-              탈퇴하기
-            </WithdrawButton>
-          </>
+          <LogOutButton onClick={() => logout()}>로그아웃</LogOutButton>
+        )}
+        {role === 'STUDENT' && (
+          <WithdrawButton
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+          >
+            탈퇴하기
+          </WithdrawButton>
         )}
       </ButtonLayout>
       {isModalOpen && (
