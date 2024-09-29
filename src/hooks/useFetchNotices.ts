@@ -10,6 +10,7 @@ const useFetchNotices = ({ isSorted, curPage }: UseFetchNoticesProps) => {
 
   const fetchNotices = useCallback(async () => {
     try {
+      setIsLoading(true);
       const response = await getNotices(isSorted, curPage, SIZE);
       setTotalPage(response.totalPage);
       setNotices(response.simpleAnnouncements);
