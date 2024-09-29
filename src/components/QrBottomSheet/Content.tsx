@@ -15,18 +15,31 @@ const Content = ({
   fetchQr,
 }: BottomSheetPropTypes) => {
   const [seconds, setSeconds] = useState(INITIAL_SECONDS);
+  const [isTimerActive, setIsTimerActive] = useState(true);
 
-  const handleRefreshClick = (event: React.MouseEvent | React.TouchEvent) => {
+  const handleRefreshClick = async (
+    event: React.MouseEvent | React.TouchEvent
+  ) => {
     event.stopPropagation();
+    await fetchQr();
     setSeconds(INITIAL_SECONDS);
-    fetchQr();
+    setIsTimerActive(true);
+  };
+
+  const formatTime = (seconds: number) => {
+    const minutes = String(Math.floor(seconds / 60)).padStart(2, '0');
+    const secs = String(seconds % 60).padStart(2, '0');
+    return `${minutes}:${secs}`;
   };
 
   useEffect(() => {
+    if (!isTimerActive) return;
+
     const timer = setInterval(() => {
       setSeconds((prev) => {
-        if (prev <= 0) {
+        if (prev <= 1) {
           clearInterval(timer);
+          setIsTimerActive(false);
           return 0;
         }
         return prev - 1;
@@ -34,13 +47,7 @@ const Content = ({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, []);
-
-  const formatTime = (seconds: number) => {
-    const minutes = String(Math.floor(seconds / 60)).padStart(2, '0');
-    const secs = String(seconds % 60).padStart(2, '0');
-    return `${minutes}:${secs}`;
-  };
+  }, [isTimerActive]);
 
   return (
     <Wrapper $isOpen={isOpen}>
