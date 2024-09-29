@@ -4,24 +4,23 @@ import styled from 'styled-components';
 import { getStamp } from '../../api/stamp.ts';
 import { ReactComponent as StampActive } from '../../assets/icons/stamp_active.svg';
 import { ReactComponent as StampDisabled } from '../../assets/icons/stamp_disabled.svg';
-import plant from '../../assets/imgs/stamp_plant.png';
 import { useAuthStore } from '../../store';
 import { handleError } from '../../utils/errorUtil';
 
 const Board = () => {
-  const [stampCount, setStampCount] = useState(0);
-  const [totalStampCount, setTotalStampCount] = useState(25);
-  const STAMP_LAYOUT = [3, 2, 3, 2, 3, 2, 3, 2, 3, 2];
+  const [participatedBoothNames, setParticipatedBoothNames] = useState([]);
+  const [boothsCountToComplete, setBoothsCountToComplete] = useState(5);
+  const STAMP_LAYOUT = [3, 2];
   const navigate = useNavigate();
   const { token } = useAuthStore();
 
   const stamps = useMemo(
     () =>
-      Array.from({ length: totalStampCount }, (_, index) => ({
+      Array.from({ length: boothsCountToComplete }, (_, index) => ({
         id: `stamp-${index}`,
-        completed: index < stampCount,
+        completed: index < participatedBoothNames.length,
       })),
-    [stampCount, totalStampCount]
+    [participatedBoothNames, boothsCountToComplete]
   );
 
   const fetchStampData = async () => {
@@ -29,8 +28,8 @@ const Board = () => {
       const stampData = await getStamp(token);
 
       if (stampData) {
-        setStampCount(stampData.stampCount);
-        setTotalStampCount(stampData.totalStampCount);
+        setParticipatedBoothNames(stampData.participatedBoothNames);
+        setBoothsCountToComplete(stampData.boothsCountToComplete);
       }
     } catch (error) {
       handleError(error as Error);
@@ -43,18 +42,16 @@ const Board = () => {
   }, [token]);
 
   useEffect(() => {
-    if (token && stampCount === totalStampCount) {
+    if (participatedBoothNames.length >= boothsCountToComplete) {
       navigate('/completed-stamps');
     }
-  }, [stampCount, totalStampCount]);
+  }, [participatedBoothNames, boothsCountToComplete]);
 
   return (
     <Wrapper>
       <StampTitleLayout>
         <StampTitle>도장을 열심히 모아봐요</StampTitle>
-        <StampNum>
-          현재까지 모은 도장 : <span>{stampCount}</span>개
-        </StampNum>
+        <StampSubTitle>도장판 부스</StampSubTitle>
       </StampTitleLayout>
       <StampLayout>
         {STAMP_LAYOUT.reduce((rows, rowLength) => {
@@ -71,7 +68,22 @@ const Board = () => {
           return rows;
         }, [] as JSX.Element[])}
       </StampLayout>
-      <Plant src={plant} />
+      <StampNumLayout>
+        <StampNum>
+          현재까지 모은 도장 :
+          <span>
+            {Math.min(participatedBoothNames.length, boothsCountToComplete)}
+          </span>
+          개
+        </StampNum>
+        <StampNum>
+          남은 도장의 개수 :
+          <span>
+            {Math.max(boothsCountToComplete - participatedBoothNames.length, 0)}
+          </span>
+          개
+        </StampNum>
+      </StampNumLayout>
     </Wrapper>
   );
 };
@@ -80,6 +92,7 @@ const Wrapper = styled.div`
   position: relative;
   margin-top: 21px;
   width: 100%;
+  height: 522px;
   background-color: ${({ theme }) => theme.colors.gray100};
 `;
 
@@ -87,8 +100,8 @@ const StampTitleLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 9px;
-  padding: 24px 24px 26px 24px;
+  gap: 21px;
+  padding: 24px 24px 78px 24px;
 `;
 
 const StampTitle = styled.p`
@@ -96,11 +109,7 @@ const StampTitle = styled.p`
   color: ${({ theme }) => theme.colors.blue100};
 `;
 
-const StampNum = styled.span`
-  ${({ theme }) => theme.typographies.subhead2};
-  color: ${({ theme }) => theme.colors.blue100};
-`;
-
+const StampSubTitle = styled(StampTitle)``;
 const StampLayout = styled.div`
   display: flex;
   flex-direction: column;
@@ -124,11 +133,17 @@ const StampRow = styled.div`
   gap: 20px;
 `;
 
-const Plant = styled.img`
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: auto;
+const StampNumLayout = styled.div`
+  margin-top: 66px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+`;
+
+const StampNum = styled.span`
+  ${({ theme }) => theme.typographies.subhead2};
+  color: ${({ theme }) => theme.colors.blue100};
 `;
 
 export default Board;

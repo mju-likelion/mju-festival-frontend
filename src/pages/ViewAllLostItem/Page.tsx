@@ -19,10 +19,12 @@ const Page = ({ page, totalPage, setPage }: PageProps) => {
     });
   };
 
+  const currentPage = totalPage > 0 ? page + 1 : 0;
+
   return (
     <PageWrapper>
       <PageButton as={LeftArrowActive} onClick={() => handlePageNum(-1)} />
-      <PageNum>{`${page + 1}/${totalPage}`}</PageNum>
+      <PageNum>{`${currentPage}/${totalPage}`}</PageNum>
       <PageButton as={RightArrowActive} onClick={() => handlePageNum(1)} />
     </PageWrapper>
   );
