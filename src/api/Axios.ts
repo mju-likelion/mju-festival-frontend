@@ -8,6 +8,8 @@ export const Axios = axios.create({
 
 Axios.interceptors.response.use(
   (response) => {
+    const { setErrorMessage } = useErrorStore.getState();
+    setErrorMessage(null);
     return response;
   },
   (error) => {
