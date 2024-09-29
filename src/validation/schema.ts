@@ -31,26 +31,7 @@ export const lostItemSchema = yup.object().shape({
     .mixed<File>()
     .test('imgRequired', lostItemValidationMessages.IMG_REQUIRED, (file) => {
       return file instanceof File;
-    })
-
-    // 파일 validation 프론트 필요 여부 확인
-    .test(
-      'fileSize',
-      lostItemValidationMessages.FILE_SIZE,
-      (value) => !value || (value && value.size <= 10 * 1024 * 1024) // 상수화 고민
-    )
-    .test(
-      'fileType',
-      lostItemValidationMessages.FILE_TYPE,
-      (value) =>
-        !value ||
-        (value &&
-          ['image/jpg', 'image/jpeg', 'image/gif', 'image/png'].includes(
-            value.type
-          ))
-      // 상수화 고민
-    ),
-
+    }),
   title: yup
     .string()
     .required(lostItemValidationMessages.REQUIRED)
