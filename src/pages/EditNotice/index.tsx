@@ -85,6 +85,7 @@ const EditNotice = () => {
       formData.append('imageUrl', imageUrl);
     }
     if (role !== 'STUDENT_COUNCIL') {
+      setIsLoading(false);
       setErrorMessage('공지 작성 권한이 없습니다.');
       return;
     }
