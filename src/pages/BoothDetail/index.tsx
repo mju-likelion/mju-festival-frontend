@@ -9,10 +9,11 @@ import { useAuthStore } from '../../store';
 import { BoothDetailInfo } from '../../types';
 import { handleError } from '../../utils/errorUtil.ts';
 import { ReactComponent as LocationIcon } from '../../assets/icons/location_icon.svg';
+import LoadingSpinner from '../../components/LoadingSpinner.tsx';
 
 const BoothDetail = () => {
   const { role, token } = useAuthStore();
-
+  const [isLoading, setIsLoading] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
   const [qrCode, setQrCode] = useState('');
   const [boothDetailData, setBoothDetailData] = useState<BoothDetailInfo>({
@@ -79,6 +80,7 @@ const BoothDetail = () => {
   useEffect(() => {
     const initializeData = async () => {
       try {
+        setIsLoading(true);
         await fetchBoothDetailData();
         if (role === 'BOOTH_MANAGER') {
           const isOwner = await fetchOwnership();
@@ -87,8 +89,10 @@ const BoothDetail = () => {
             await fetchQr();
           }
         }
+        setIsLoading(false);
       } catch (e) {
         handleError(e as Error);
+        setIsLoading(false);
       }
     };
     initializeData();
@@ -98,6 +102,7 @@ const BoothDetail = () => {
     <>
       <Wrapper $isOwner={isOwner}>
         <Header path="/booths" />
+        <LoadingSpinner isLoading={isLoading} />
         <Box>
           <Title>부스정보</Title>
           <Department>{department}</Department>
