@@ -2,14 +2,10 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Header from '../../components/Header.tsx';
 import InfoText from '../../components/InfoText';
-import { useTimeTableData } from '../../context/TimeTable';
-import { PerformanceType, TimeTableDate } from '../../types';
-import DetailInfoList from './DetailInfoList';
-import TypeIcon from './TypeIcon';
+import { TimeTableDate } from '../../types';
 
 const TimeTable = () => {
   const [selectedDate, setSelectedDate] = useState<TimeTableDate>('10월 07일');
-  const { performanceTypeData } = useTimeTableData();
 
   return (
     <Wrapper>
@@ -25,13 +21,6 @@ const TimeTable = () => {
       <InfoTextLayout>
         <InfoText>타임 테이블</InfoText>
       </InfoTextLayout>
-      <TypeLayout>
-        {Object.keys(performanceTypeData).map((item) => (
-          <TypeIcon type={item as PerformanceType} key={item}>
-            {item}
-          </TypeIcon>
-        ))}
-      </TypeLayout>
       <DateLayout>
         <ButtonContainer>
           <FirstDateButton
@@ -52,7 +41,7 @@ const TimeTable = () => {
           </SecondDateButton>
         </ButtonContainer>
       </DateLayout>
-      <DetailInfoList selectedDate={selectedDate} />
+      <ContextLayout>내용</ContextLayout>
       <FooterLayout />
     </Wrapper>
   );
@@ -87,15 +76,9 @@ const InfoTextLayout = styled.div`
   padding: 28px 0 31px 0;
 `;
 
-const TypeLayout = styled.div`
-  display: flex;
-  justify-content: center;
-  padding: 0 44px;
-  gap: 10px;
-`;
-
 const DateLayout = styled.div`
   padding: 20px 30px 22px 30px;
+  border: 1px solid red;
 `;
 
 const ButtonContainer = styled.div`
@@ -142,6 +125,12 @@ const SecondDateButton = styled.button<{ $isSelected: boolean }>`
     color: ${({ theme, $isSelected }) => $isSelected && theme.colors.white100};
     transition: color 0.3s ease;
   }
+`;
+
+const ContextLayout = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: ${({ theme }) => theme.colors.gray100};
 `;
 
 const FooterLayout = styled.div`
