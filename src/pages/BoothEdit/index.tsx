@@ -118,7 +118,7 @@ const BoothEdit = () => {
             <Input
               {...register('location')}
               defaultValue={location}
-              maxLength={30}
+              maxLength={100}
               placeholder="위치를 입력해주세요"
             />
           </LocationInputBox>
@@ -188,6 +188,10 @@ const LocationInputBox = styled.div`
   flex-direction: column;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.body2};
+  & > * {
+    color: ${({ theme }) => theme.colors.text900};
+    ${({ theme }) => theme.typographies.body2};
+  }
 `;
 const DescriptionTextarea = styled.div`
   display: flex;
