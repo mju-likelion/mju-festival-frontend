@@ -65,6 +65,7 @@ const Setting = () => {
 
 const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.white100};
+  padding-bottom: 200px;
 `;
 
 const TitleLayout = styled.div`
@@ -89,7 +90,7 @@ const ButtonLayout = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 30px;
-  padding: 0 20px 200px 20px;
+  padding: 0 20px;
 `;
 
 const Button = styled.button`

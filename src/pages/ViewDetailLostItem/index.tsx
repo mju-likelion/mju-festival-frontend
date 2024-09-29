@@ -47,24 +47,24 @@ const DetailLostItem = () => {
   };
 
   return (
-    <>
+    <Wrapper>
       <Header path="/lost-items" />
-      <TitleWrapper>
+      <TitleLayout>
         <Title>분실물찾기</Title>
         <SubTitle>분실물 내용을 확인하고 찾아가세요!</SubTitle>
-      </TitleWrapper>
-      <Wrapper>
+      </TitleLayout>
+      <ContentLayout>
         <RegisterDate>등록일:{formattedDate}</RegisterDate>
         <ItemImg src={imageUrl} />
-        <ItemTextLayout>
+        <ItemTextContainer>
           <ItemTitle>제목 : {title}</ItemTitle>
           <ItemContent>내용 : {content}</ItemContent>
-        </ItemTextLayout>
-        <PlaceLayout>
+        </ItemTextContainer>
+        <PlaceContainer>
           찾아가는 위치:
           <PlaceIcon />
           명진당
-        </PlaceLayout>
+        </PlaceContainer>
 
         {role === 'STUDENT_COUNCIL' && (
           <>
@@ -85,7 +85,7 @@ const DetailLostItem = () => {
             </FoundedButton>
           </>
         )}
-      </Wrapper>
+      </ContentLayout>
 
       {isModalOpen && (
         <Modal
@@ -120,11 +120,16 @@ const DetailLostItem = () => {
           onConfirm={handleFoundStatus}
         />
       )}
-    </>
+    </Wrapper>
   );
 };
 
-const TitleWrapper = styled.div`
+const Wrapper = styled.div`
+  background-color: ${({ theme }) => theme.colors.white100};
+  padding-bottom: 100px;
+`;
+
+const TitleLayout = styled.div`
   display: flex;
   flex-direction: column;
   padding: 6px 20px;
@@ -141,7 +146,7 @@ const SubTitle = styled.p`
   margin-top: 9px;
 `;
 
-const Wrapper = styled.div`
+const ContentLayout = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0 20px;
@@ -161,7 +166,7 @@ const ItemImg = styled.img`
   margin: 9px 0 17px 0;
 `;
 
-const ItemTextLayout = styled.div`
+const ItemTextContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -179,7 +184,7 @@ const ItemContent = styled.p`
   color: ${({ theme }) => theme.colors.text900};
 `;
 
-const PlaceLayout = styled.div`
+const PlaceContainer = styled.div`
   display: flex;
   align-items: center;
   margin: 12px 0 63px 0;

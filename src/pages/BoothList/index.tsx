@@ -1,13 +1,13 @@
-import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import { getBoothDepartments, getBooths } from '../../api/booth.ts';
-import { BoothDepartment, BoothListObj } from '../../types';
 import { ReactComponent as CheckedIcon } from '../../assets/icons/booth-checked.svg';
 import { ReactComponent as UnCheckedIcon } from '../../assets/icons/booth-un-checked.svg';
 import Header from '../../components/Header.tsx';
-import { handleError } from '../../utils/errorUtil.ts';
 import LoadingSpinner from '../../components/LoadingSpinner.tsx';
+import { BoothDepartment, BoothListObj } from '../../types';
+import { handleError } from '../../utils/errorUtil.ts';
 
 const BoothPage = () => {
   const [departmentList, setDepartmentList] = useState<BoothDepartment[]>([]);
@@ -151,6 +151,7 @@ const BoothPage = () => {
 
 const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.white100};
+  padding-bottom: 100px;
 `;
 const Title = styled.p`
   margin: 32px 20px 10px;

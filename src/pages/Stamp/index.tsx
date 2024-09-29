@@ -24,6 +24,8 @@ const Stamp = () => {
 const Wrapper = styled.div`
   height: 100%;
   position: relative;
+  padding-bottom: 100px;
+  background-color: ${({ theme }) => theme.colors.white100};
 `;
 
 const TitleLayout = styled.div`

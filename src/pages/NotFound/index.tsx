@@ -25,7 +25,7 @@ const Index = () => {
 };
 
 const Wrapper = styled.div`
-  padding: 0 50px;
+  padding: 100px 50px;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -68,6 +68,7 @@ const Button = styled.button`
   border-radius: 12px;
   padding: 16px 11px;
   margin-top: 50px;
+  margin-bottom: 50px;
   ${({ theme }) => theme.typographies.body1};
   color: ${({ theme }) => theme.colors.white100};
   background-color: ${({ theme }) => theme.colors.blue100};

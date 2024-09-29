@@ -1,17 +1,17 @@
-import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import NoticeCard from './NoticeCard';
-import { useAuthStore } from '../../store';
-import useFetchNotices from '../../hooks/useFetchNotices';
-import InfoText from '../../components/InfoText';
-import TitleLayout from './TitleLayout.tsx';
 import { ReactComponent as LeftArrowActive } from '../../assets/icons/left_arrow_active.svg';
 import { ReactComponent as RightArrowActive } from '../../assets/icons/right_arrow_active.svg';
 import Header from '../../components/Header.tsx';
-import DropDown from './DropDown.tsx';
-import { SortKey } from '../../types/index.ts';
+import InfoText from '../../components/InfoText';
 import LoadingSpinner from '../../components/LoadingSpinner.tsx';
+import useFetchNotices from '../../hooks/useFetchNotices';
+import { useAuthStore } from '../../store';
+import { SortKey } from '../../types/index.ts';
+import DropDown from './DropDown.tsx';
+import NoticeCard from './NoticeCard';
+import TitleLayout from './TitleLayout.tsx';
 
 const ViewAllNotice = () => {
   const navigate = useNavigate();
@@ -132,6 +132,7 @@ const PageBtnContainer = styled.div`
   margin-top: 14px;
   gap: 1px;
 `;
+
 const TempP = styled.p`
   ${({ theme }) => theme.typographies.footout};
   color: ${({ theme }) => theme.colors.text900};

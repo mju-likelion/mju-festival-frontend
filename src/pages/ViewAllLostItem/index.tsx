@@ -107,6 +107,7 @@ const LostItem = () => {
 
 const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.white100};
+  padding-bottom: 100px;
 `;
 
 const ContentWrapper = styled.div`
@@ -135,7 +136,7 @@ const SubTitle = styled.p`
 const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
-  padding: 41px 0;
+  margin-top: 41px;
 `;
 
 const RegisterButton = styled.button`

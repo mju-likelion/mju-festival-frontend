@@ -40,7 +40,7 @@ const Layout = styled.div`
   max-width: 330px;
   width: calc(100vw - 60px);
   height: 248px;
-  margin-top: 324px;
+  margin-top: 234px;
   padding: 28px 38px;
   border-radius: 12px;
   display: flex;
