@@ -85,9 +85,9 @@ const BoothDetail = () => {
         if (role === 'BOOTH_MANAGER') {
           const isOwner = await fetchOwnership();
           setIsOwner(isOwner);
-          if (isOwner) {
-            await fetchQr();
-          }
+          // if (isOwner) {
+          //   await fetchQr();
+          // }
         }
         setIsLoading(false);
       } catch (e) {

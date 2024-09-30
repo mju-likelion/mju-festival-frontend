@@ -32,6 +32,14 @@ const Content = ({
     return `${minutes}:${secs}`;
   };
 
+  // 열릴 때 타이머 초기화
+  useEffect(() => {
+    if (isOpen) {
+      setSeconds(INITIAL_SECONDS);
+      setIsTimerActive(true);
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     if (!isTimerActive) return;
 
