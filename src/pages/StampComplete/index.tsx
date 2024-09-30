@@ -27,10 +27,11 @@ const StampComplete = () => {
 };
 
 const Wrapper = styled.div`
-  padding: 126px 20px 0 20px;
+  padding: 100px 20px 100px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: ${({ theme }) => theme.colors.white100};
 `;
 
 const Title = styled.p`

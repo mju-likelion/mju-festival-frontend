@@ -12,7 +12,7 @@ interface SortDropDownProps {
 const SortDropDown = ({ setSorted, setPage }: SortDropDownProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const sortOptions: SortOptions = { desc: '최신순', asc: '오래된순' };
-  const [sortOption, setSortOption] = useState(sortOptions.desc);
+  const [sortOption, setSortOption] = useState<SortKey>('desc');
   const SelectContainerRef = useRef<HTMLDivElement | null>(null);
 
   // dropdown 이외 클릭 시 close
@@ -32,7 +32,7 @@ const SortDropDown = ({ setSorted, setPage }: SortDropDownProps) => {
   const handleSorted = (option: SortKey) => {
     setSorted(option);
     setPage(0);
-    setSortOption(sortOptions[option]);
+    setSortOption(option);
     setIsOpen(false);
   };
 
@@ -43,15 +43,19 @@ const SortDropDown = ({ setSorted, setPage }: SortDropDownProps) => {
     };
   }, [SelectContainerRef]);
 
+  const availableOptions = Object.entries(sortOptions).filter(
+    ([key]) => key !== sortOption
+  );
+
   return (
     <Wrapper ref={SelectContainerRef}>
       <DefaultLayout onClick={handleOpen}>
-        <DefaultValue>{sortOption}</DefaultValue>
+        <DefaultValue>{sortOptions[sortOption]}</DefaultValue>
         {isOpen ? <UpArrowIcon /> : <DownArrowIcon />}
       </DefaultLayout>
       {isOpen && (
         <SelectOptions>
-          {Object.entries(sortOptions).map(([key, value]) => (
+          {availableOptions.map(([key, value]) => (
             <Option key={key} onClick={() => handleSorted(key as SortKey)}>
               {value}
             </Option>

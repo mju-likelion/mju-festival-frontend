@@ -31,6 +31,7 @@ const QrReader = () => {
       navigate(`/stamps`);
     } catch (error) {
       handleError(error as Error);
+      navigate(-1);
     } finally {
       setIsLoading(false);
     }
@@ -83,7 +84,10 @@ const LoadingOverlay = styled.div`
   align-items: center;
 `;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  background-color: ${({ theme }) => theme.colors.white100};
+  padding-bottom: 100px;
+`;
 
 const TitleLayout = styled.div`
   display: flex;

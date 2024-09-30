@@ -99,6 +99,7 @@ const EditLostItem = () => {
 
 const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.white100};
+  padding-bottom: 100px;
 `;
 
 const TitleLayout = styled.div`
