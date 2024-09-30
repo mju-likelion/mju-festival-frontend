@@ -8,6 +8,7 @@ import InfoText from '../../components/InfoText';
 import TitleLayout from './TitleLayout.tsx';
 import { ReactComponent as LeftArrowActive } from '../../assets/icons/left_arrow_active.svg';
 import { ReactComponent as RightArrowActive } from '../../assets/icons/right_arrow_active.svg';
+import { ReactComponent as BigDelete } from '../../assets/icons/big_delete.svg';
 import Header from '../../components/Header.tsx';
 import DropDown from './DropDown.tsx';
 import { SortKey } from '../../types/index.ts';
@@ -40,14 +41,21 @@ const ViewAllNotice = () => {
         />
       </DropDownLayout>
       <NoticeLayout>
-        {notices.map((notice) => (
-          <NoticeCard
-            key={notice.id}
-            title={notice.title}
-            content={notice.content}
-            onClick={() => navigate(`/view/detail-notice/${notice.id}`)}
-          />
-        ))}
+        {notices && notices.length > 0 ? (
+          notices.map((notice) => (
+            <NoticeCard
+              key={notice.id}
+              title={notice.title}
+              content={notice.content}
+              onClick={() => navigate(`/view/detail-notice/${notice.id}`)}
+            />
+          ))
+        ) : (
+          <NoDataLayout>
+            <BigDelete />
+            <NoDataText>관련된 게시물이 없습니다.</NoDataText>
+          </NoDataLayout>
+        )}
       </NoticeLayout>
       <LoadingSpinner isLoading={isLoading} />
       <BtnLayout>
@@ -146,6 +154,20 @@ const CreateBtn = styled.button`
   color: ${({ theme }) => theme.colors.white100};
   font-size: 17px;
   font-weight: 600;
+`;
+
+const NoDataLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  gap: 20px;
+`;
+
+const NoDataText = styled.p`
+  ${({ theme }) => theme.typographies.title1};
+  color: ${({ theme }) => theme.colors.black50};
 `;
 
 export default ViewAllNotice;
