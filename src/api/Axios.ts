@@ -19,7 +19,7 @@ Axios.interceptors.response.use(
         token: '',
         role: '',
       });
-      setErrorMessage('로그인이 유효하지 않습니다. 다시 로그인해주세요');
+      setErrorMessage('인증 정보가 올바르지 않습니다. 다시 로그인해주세요');
     }
     return Promise.reject(error);
   }
