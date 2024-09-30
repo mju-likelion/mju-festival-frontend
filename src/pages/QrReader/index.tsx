@@ -31,6 +31,7 @@ const QrReader = () => {
       navigate(`/stamps`);
     } catch (error) {
       handleError(error as Error);
+      navigate(-1);
     } finally {
       setIsLoading(false);
     }

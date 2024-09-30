@@ -23,6 +23,9 @@ const Setting = () => {
   const handleWithdraw = async () => {
     try {
       await deleteUser(token);
+      setRole('');
+      setToken('');
+
       navigate('/main');
     } catch (error) {
       handleError(error as Error);

@@ -17,6 +17,7 @@ export const handleError = (e: Error) => {
     }
     alert(customError.response.data.message ?? '알 수 없는 에러');
   } else {
+    alert(e.message);
     console.error('알 수 없는 에러', e);
   }
 };
