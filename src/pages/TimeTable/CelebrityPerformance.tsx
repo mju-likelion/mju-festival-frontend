@@ -80,11 +80,12 @@ const InformLayout = styled.div`
 const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 `;
 const Name = styled.div`
   display: flex;
   align-items: center;
-  height: 100%;
+  height: 66px;
   width: 100%;
   padding-left: 4px;
   ${({ theme }) => theme.typographies.title1};
