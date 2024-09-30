@@ -199,7 +199,10 @@ const TicketFriendsContainer = motion(styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
-  background-color: ${({ theme }) => theme.colors.blue200};
+  background: var(
+    --gradient-02,
+    linear-gradient(111deg, #365ac0 -56.21%, #4b82ef 143.67%)
+  );
   border-radius: 12px;
   padding: 14px;
   cursor: pointer;
@@ -226,7 +229,10 @@ const InstagramContainer = motion(styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
-  background-color: ${({ theme }) => theme.colors.blue200};
+  background: var(
+    --gradient-02,
+    linear-gradient(111deg, #365ac0 -56.21%, #4b82ef 143.67%)
+  );
   border-radius: 12px;
   padding: 14px;
   cursor: pointer;
