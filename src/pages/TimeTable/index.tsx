@@ -5,6 +5,7 @@ import InfoText from '../../components/InfoText';
 import { TimeTableDate } from '../../types';
 import UnivPerformance from './UnivPerformance.tsx';
 import ClubPerformance from './ClubPerformance.tsx';
+import InfoTitle from './InfoTitle.tsx';
 
 const TimeTable = () => {
   const [selectedDate, setSelectedDate] = useState<TimeTableDate>('10월 07일');
@@ -46,12 +47,14 @@ const TimeTable = () => {
       <ContextLayout>
         {selectedDate === '10월 07일' && (
           <UniversityContainer>
+            <InfoTitle>학교 내부 공연</InfoTitle>
             <UnivPerformance title="백마 체전 시상식" time="18:20 ~ 18:30" />
             <ClubPerformance date="10월 07일" />
           </UniversityContainer>
         )}
         {selectedDate === '10월 08일' && (
           <UniversityContainer>
+            <InfoTitle>학교 내부 공연</InfoTitle>
             <UnivPerformance title="명지대 응원단 연합" time="18:05 ~ 18:25" />
             <ClubPerformance date="10월 08일" />
             <UnivPerformance title="유끼즈" time="19:10 ~ 19:50" />
