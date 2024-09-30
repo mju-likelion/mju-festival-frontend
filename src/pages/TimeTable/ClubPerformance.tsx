@@ -47,9 +47,11 @@ const ClubPerformance = ({ date }: ClubPerformanceProps) => {
 
   return (
     <Wrapper>
-      <Title>동아리 공연</Title>
-      <TimetableHr />
-      <Time>18:40 ~ 20:20</Time>
+      <InfoLayout>
+        <Title>동아리 공연</Title>
+        <TimetableHr />
+        <Time>18:40 ~ 20:20</Time>
+      </InfoLayout>
       <PerformanceList>
         {performances.map((performance) => (
           <PerformanceItem key={performance.teamName}>
@@ -75,6 +77,13 @@ const Wrapper = styled.div`
   box-shadow: 2px 2px 10px #b6bcc5;
 `;
 
+const InfoLayout = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 0.2;
+`;
+
 const Title = styled.p`
   ${({ theme }) => theme.typographies.title1};
   color: ${({ theme }) => theme.colors.blue100};
@@ -97,9 +106,10 @@ const TeamName = styled.p`
 const PerformanceList = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: 100%;
   gap: 22px;
-  border: 1px solid red;
+  flex: 0.7;
 `;
 
 const PerformanceItem = styled.div`
