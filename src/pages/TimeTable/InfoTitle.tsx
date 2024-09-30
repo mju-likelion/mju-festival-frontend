@@ -24,6 +24,7 @@ const Wrapper = styled.div`
 const Title = styled.p`
   text-align: center;
   ${({ theme }) => theme.typographies.body1};
+  color: ${({ theme }) => theme.colors.blue100};
 `;
 const DashedLine = styled(Dashed)``;
 

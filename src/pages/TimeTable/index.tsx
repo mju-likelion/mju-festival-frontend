@@ -6,6 +6,7 @@ import { TimeTableDate } from '../../types';
 import UnivPerformance from './UnivPerformance.tsx';
 import ClubPerformance from './ClubPerformance.tsx';
 import InfoTitle from './InfoTitle.tsx';
+import CelebrityPerformance from './CelebrityPerformance.tsx';
 
 const TimeTable = () => {
   const [selectedDate, setSelectedDate] = useState<TimeTableDate>('10월 07일');
@@ -46,19 +47,34 @@ const TimeTable = () => {
       </DateLayout>
       <ContextLayout>
         {selectedDate === '10월 07일' && (
-          <UniversityContainer>
-            <InfoTitle>학교 내부 공연</InfoTitle>
-            <UnivPerformance title="백마 체전 시상식" time="18:20 ~ 18:30" />
-            <ClubPerformance date="10월 07일" />
-          </UniversityContainer>
+          <>
+            <UniversityContainer>
+              <InfoTitle>학교 내부 공연</InfoTitle>
+              <UnivPerformance title="백마 체전 시상식" time="18:20 ~ 18:30" />
+              <ClubPerformance date="10월 07일" />
+            </UniversityContainer>
+            <CelebrityContainer>
+              <InfoTitle>연예인 공연</InfoTitle>
+              <CelebrityPerformance date="10월 07일" />
+            </CelebrityContainer>
+          </>
         )}
         {selectedDate === '10월 08일' && (
-          <UniversityContainer>
-            <InfoTitle>학교 내부 공연</InfoTitle>
-            <UnivPerformance title="명지대 응원단 연합" time="18:05 ~ 18:25" />
-            <ClubPerformance date="10월 08일" />
-            <UnivPerformance title="유끼즈" time="19:10 ~ 19:50" />
-          </UniversityContainer>
+          <>
+            <UniversityContainer>
+              <InfoTitle>학교 내부 공연</InfoTitle>
+              <UnivPerformance
+                title="명지대 응원단 연합"
+                time="18:05 ~ 18:25"
+              />
+              <ClubPerformance date="10월 08일" />
+              <UnivPerformance title="유끼즈" time="19:10 ~ 19:50" />
+            </UniversityContainer>
+            <CelebrityContainer>
+              <InfoTitle>연예인 공연</InfoTitle>
+              <CelebrityPerformance date="10월 08일" />
+            </CelebrityContainer>
+          </>
         )}
       </ContextLayout>
       <FooterLayout />
@@ -156,6 +172,13 @@ const UniversityContainer = styled.div`
   flex-direction: column;
   gap: 20px;
   padding: 34px 20px 0 20px;
+`;
+
+const CelebrityContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 30px 20px 32px 20px;
+  gap: 34px;
 `;
 
 const FooterLayout = styled.div`

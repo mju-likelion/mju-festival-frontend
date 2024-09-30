@@ -6,4 +6,10 @@ export interface TimeTableDetailInfo {
   teamName: string;
 }
 
+export interface CelebrityTimeTableDetail {
+  name: string;
+  img: string;
+}
+
 export type TimeTableInfo = Record<TimeTableDate, TimeTableDetailInfo[]>;
+export type CelebrityInfo = Record<TimeTableDate, CelebrityTimeTableDetail[]>;
