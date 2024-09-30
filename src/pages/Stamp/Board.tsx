@@ -150,9 +150,14 @@ const StampBackground = styled.div`
   align-items: center;
 `;
 
-const BoothName = styled.span`
+const BoothName = styled.p`
   ${({ theme }) => theme.typographies.footnote};
   color: ${({ theme }) => theme.colors.blue100};
+
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const NumLayout = styled.div`
@@ -163,7 +168,7 @@ const NumLayout = styled.div`
   gap: 6px;
 `;
 
-const StampNum = styled.span`
+const StampNum = styled.p`
   ${({ theme }) => theme.typographies.subhead2};
   color: ${({ theme }) => theme.colors.blue100};
 `;
