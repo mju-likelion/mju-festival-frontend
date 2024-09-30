@@ -15,6 +15,7 @@ const TypeIcon = ({ type, children }: TypeIconProps) => {
 
 const Wrapper = styled.div<{ type: PerformanceType }>`
   display: flex;
+  flex: 1;
   justify-content: center;
   align-items: center;
   width: 100%;

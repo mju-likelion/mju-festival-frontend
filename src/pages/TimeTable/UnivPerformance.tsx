@@ -25,7 +25,7 @@ const Wrapper = styled.div`
   width: 100%;
   background-color: ${({ theme }) => theme.colors.white100};
   border-radius: 12px;
-  box-shadow: 2px 2px 9px rgba(36, 39, 46, 0.3);
+  box-shadow: 2px 2px 10px #b6bcc5;
 `;
 
 const Title = styled.p`
