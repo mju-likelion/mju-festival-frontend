@@ -2,13 +2,14 @@ import styled from 'styled-components';
 import { ReactComponent as TimetableHrImg } from '../../assets/imgs/timetable_hr.svg';
 import { ReactComponent as Dashed } from '../../assets/imgs/timetable_dashed.svg';
 import TypeIcon from './TypeIcon';
+import { TimeTableDate, TimeTableInfo } from '../../types';
 
 interface ClubPerformanceProps {
-  date: string;
+  date: TimeTableDate;
 }
 
-const ClubPerformData = {
-  '10/07': [
+const ClubPerformData: TimeTableInfo = {
+  '10월 07일': [
     {
       type: '밴드',
       teamName: '마라톤',
@@ -30,7 +31,7 @@ const ClubPerformData = {
       teamName: '울림소리',
     },
   ],
-  '10/08': [
+  '10월 08일': [
     {
       type: '댄스',
       teamName: 'CDC',

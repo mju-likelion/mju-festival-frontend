@@ -30,8 +30,6 @@ const Wrapper = styled.div<{ type: PerformanceType }>`
         return '#5766C6';
       case '힙합':
         return '#4B82EF';
-      case '축하공연':
-        return '#FFB20A';
       default:
         return theme.colors.white100;
     }

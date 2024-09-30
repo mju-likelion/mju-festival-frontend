@@ -47,13 +47,13 @@ const TimeTable = () => {
         {selectedDate === '10월 07일' && (
           <UniversityContainer>
             <UnivPerformance title="백마 체전 시상식" time="18:20 ~ 18:30" />
-            <ClubPerformance date="10/07" />
+            <ClubPerformance date="10월 07일" />
           </UniversityContainer>
         )}
         {selectedDate === '10월 08일' && (
           <UniversityContainer>
             <UnivPerformance title="명지대 응원단 연합" time="18:05 ~ 18:25" />
-            <ClubPerformance date="10/08" />
+            <ClubPerformance date="10월 08일" />
             <UnivPerformance title="유끼즈" time="19:10 ~ 19:50" />
           </UniversityContainer>
         )}
