@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Header from '../../components/Header.tsx';
 import InfoText from '../../components/InfoText';
 import { TimeTableDate } from '../../types';
+import UnivPerformance from './UnivPerformance.tsx';
 
 const TimeTable = () => {
   const [selectedDate, setSelectedDate] = useState<TimeTableDate>('10월 07일');
@@ -41,7 +42,19 @@ const TimeTable = () => {
           </SecondDateButton>
         </ButtonContainer>
       </DateLayout>
-      <ContextLayout>내용</ContextLayout>
+      <ContextLayout>
+        {selectedDate === '10월 07일' && (
+          <UniversityContainer>
+            <UnivPerformance title="백마 체전 시상식" time="18:20 ~ 18:30" />
+          </UniversityContainer>
+        )}
+        {selectedDate === '10월 08일' && (
+          <UniversityContainer>
+            <UnivPerformance title="명지대 응원단 연합" time="18:05 ~ 18:25" />
+            <UnivPerformance title="유끼즈" time="19:10 ~ 19:50" />
+          </UniversityContainer>
+        )}
+      </ContextLayout>
       <FooterLayout />
     </Wrapper>
   );
@@ -78,7 +91,6 @@ const InfoTextLayout = styled.div`
 
 const DateLayout = styled.div`
   padding: 20px 30px 22px 30px;
-  border: 1px solid red;
 `;
 
 const ButtonContainer = styled.div`
@@ -131,6 +143,10 @@ const ContextLayout = styled.div`
   width: 100%;
   height: 100%;
   background-color: ${({ theme }) => theme.colors.gray100};
+`;
+
+const UniversityContainer = styled.div`
+  padding: 34px 20px 0 20px;
 `;
 
 const FooterLayout = styled.div`
