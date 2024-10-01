@@ -72,12 +72,12 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
     encryptLogInData: LogInFormDataValues,
     encryptInfo: EncryptKeyInfo
   ) => {
-    setIsModalOpen(true);
     const response = await postLogIn(
       encryptLogInData,
       auth,
       encryptInfo.rsaKeyStrategy
     );
+    setIsModalOpen(true);
     setToken(response.accessToken);
     setRole(response.role || 'STUDENT');
     if (auth === 'ADMIN') {
