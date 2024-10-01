@@ -19,7 +19,7 @@ const FloatingButton = () => {
     if (token && role === 'STUDENT') {
       navigate(path);
     } else {
-      alert('해당 페이지는 학생 로그인 후 이용 가능합니다.');
+      alert('해당 기능은 학생 로그인 후 이용 가능합니다.');
     }
   };
 

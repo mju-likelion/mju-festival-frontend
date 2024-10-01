@@ -4,33 +4,33 @@ import styled from 'styled-components';
 import { getStamp } from '../../api/stamp.ts';
 import { ReactComponent as StampActive } from '../../assets/icons/stamp_active.svg';
 import { ReactComponent as StampDisabled } from '../../assets/icons/stamp_disabled.svg';
-import plant from '../../assets/imgs/stamp_plant.png';
 import { useAuthStore } from '../../store';
 import { handleError } from '../../utils/errorUtil';
 
 const Board = () => {
-  const [stampCount, setStampCount] = useState(0);
-  const [totalStampCount, setTotalStampCount] = useState(25);
-  const STAMP_LAYOUT = [3, 2, 3, 2, 3, 2, 3, 2, 3, 2];
+  const [participatedBoothNames, setParticipatedBoothNames] = useState([]);
+  const [boothsCountToComplete, setBoothsCountToComplete] = useState(5);
   const navigate = useNavigate();
   const { token } = useAuthStore();
 
-  const stamps = useMemo(
-    () =>
-      Array.from({ length: totalStampCount }, (_, index) => ({
-        id: `stamp-${index}`,
-        completed: index < stampCount,
-      })),
-    [stampCount, totalStampCount]
-  );
+  const STAMP_LAYOUT = [3, 2];
+
+  const stamps = useMemo(() => {
+    const completedCount = participatedBoothNames.length;
+    return Array.from({ length: boothsCountToComplete }, (_, index) => ({
+      id: `stamp-${index}`,
+      completed: index < completedCount,
+      boothName: participatedBoothNames[index] || null,
+    }));
+  }, [participatedBoothNames, boothsCountToComplete]);
 
   const fetchStampData = async () => {
     try {
       const stampData = await getStamp(token);
 
       if (stampData) {
-        setStampCount(stampData.stampCount);
-        setTotalStampCount(stampData.totalStampCount);
+        setParticipatedBoothNames(stampData.participatedBoothNames);
+        setBoothsCountToComplete(stampData.boothsCountToComplete);
       }
     } catch (error) {
       handleError(error as Error);
@@ -43,35 +43,58 @@ const Board = () => {
   }, [token]);
 
   useEffect(() => {
-    if (token && stampCount === totalStampCount) {
+    if (participatedBoothNames.length >= boothsCountToComplete) {
       navigate('/completed-stamps');
     }
-  }, [stampCount, totalStampCount]);
+  }, [participatedBoothNames, boothsCountToComplete]);
 
   return (
     <Wrapper>
-      <StampTitleLayout>
-        <StampTitle>도장을 열심히 모아봐요</StampTitle>
-        <StampNum>
-          현재까지 모은 도장 : <span>{stampCount}</span>개
-        </StampNum>
-      </StampTitleLayout>
+      <TitleLayout>
+        <Title>도장을 열심히 모아봐요</Title>
+      </TitleLayout>
+
       <StampLayout>
-        {STAMP_LAYOUT.reduce((rows, rowLength) => {
-          const rowStamps = stamps.splice(0, rowLength);
-          rows.push(
-            <StampRow key={`row-${rows.length}`}>
+        {STAMP_LAYOUT.map((rowLength, rowIndex) => {
+          const startIndex = STAMP_LAYOUT.slice(0, rowIndex).reduce(
+            (sum, len) => sum + len,
+            0
+          );
+          const rowStamps = stamps.slice(startIndex, startIndex + rowLength);
+
+          return (
+            <StampRow key={`row-${rowLength}`}>
               {rowStamps.map((stamp) => (
-                <StampBackground key={stamp.id}>
-                  {stamp.completed ? <StampActive /> : <StampDisabled />}
-                </StampBackground>
+                <StampContainer key={stamp.id}>
+                  <StampBackground>
+                    {stamp.completed ? <StampActive /> : <StampDisabled />}
+                  </StampBackground>
+                  {stamp.completed && stamp.boothName && (
+                    <BoothName>{stamp.boothName}</BoothName>
+                  )}
+                </StampContainer>
               ))}
             </StampRow>
           );
-          return rows;
-        }, [] as JSX.Element[])}
+        })}
       </StampLayout>
-      <Plant src={plant} />
+
+      <NumLayout>
+        <StampNum>
+          현재까지 모은 도장 :
+          <span>
+            {Math.min(participatedBoothNames.length, boothsCountToComplete)}
+          </span>
+          개
+        </StampNum>
+        <StampNum>
+          남은 도장의 개수 :
+          <span>
+            {Math.max(boothsCountToComplete - participatedBoothNames.length, 0)}
+          </span>
+          개
+        </StampNum>
+      </NumLayout>
     </Wrapper>
   );
 };
@@ -80,24 +103,20 @@ const Wrapper = styled.div`
   position: relative;
   margin-top: 21px;
   width: 100%;
+  height: 476px;
   background-color: ${({ theme }) => theme.colors.gray100};
 `;
 
-const StampTitleLayout = styled.div`
+const TitleLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 9px;
-  padding: 24px 24px 26px 24px;
+  gap: 21px;
+  padding: 24px 24px 61px 24px;
 `;
 
-const StampTitle = styled.p`
+const Title = styled.p`
   ${({ theme }) => theme.typographies.body1};
-  color: ${({ theme }) => theme.colors.blue100};
-`;
-
-const StampNum = styled.span`
-  ${({ theme }) => theme.typographies.subhead2};
   color: ${({ theme }) => theme.colors.blue100};
 `;
 
@@ -105,7 +124,20 @@ const StampLayout = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
+  gap: 40px;
+`;
+
+const StampRow = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+`;
+
+const StampContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
 `;
 
 const StampBackground = styled.div`
@@ -118,17 +150,27 @@ const StampBackground = styled.div`
   align-items: center;
 `;
 
-const StampRow = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 20px;
+const BoothName = styled.p`
+  ${({ theme }) => theme.typographies.footnote};
+  color: ${({ theme }) => theme.colors.blue100};
+
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
-const Plant = styled.img`
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: auto;
+const NumLayout = styled.div`
+  margin-top: 66px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+`;
+
+const StampNum = styled.p`
+  ${({ theme }) => theme.typographies.subhead2};
+  color: ${({ theme }) => theme.colors.blue100};
 `;
 
 export default Board;

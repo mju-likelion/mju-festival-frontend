@@ -14,6 +14,7 @@ import { postLostItemImg } from '../../api/lostItem.ts';
 import Header from '../../components/Header.tsx';
 import usePreventRefresh from '../../hooks/usePreventRefresh.ts';
 import ImageUploader from '../EditLostItem/ImageUploader.tsx';
+import LoadingSpinner from '../../components/LoadingSpinner.tsx';
 
 const BoothEdit = () => {
   usePreventRefresh();
@@ -21,6 +22,7 @@ const BoothEdit = () => {
   const locationData = useLocation();
   const { id, name, department, description, location, imageUrl } =
     locationData.state;
+  const [isLoading, setIsLoading] = useState(false);
   const [editImgUrl, setEditImgUrl] = useState('');
 
   const { token } = useAuthStore();
@@ -58,6 +60,7 @@ const BoothEdit = () => {
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
+      setIsLoading(true);
       const updateFields: Partial<BoothEditData> = {};
       Object.entries(formData).forEach(([key, value]) => {
         const fieldKey = key as keyof BoothEditData;
@@ -71,14 +74,17 @@ const BoothEdit = () => {
         await patchBoothDetail(id, updateFields, token);
       }
       navigate(`/booths`);
+      setIsLoading(false);
     } catch (e) {
       handleError(e as Error);
+      setIsLoading(false);
     }
   });
 
   return (
     <>
       <Header path={`/booths/${id}`} />
+      <LoadingSpinner isLoading={isLoading} />
       <Wrapper>
         <Title>부스정보</Title>
         <Department>{department}</Department>
@@ -91,7 +97,12 @@ const BoothEdit = () => {
 
           <NameInputBox>
             <FieldTitle>제목:</FieldTitle>
-            <Input {...register('name')} defaultValue={name} maxLength={30} />
+            <Input
+              {...register('name')}
+              defaultValue={name}
+              maxLength={30}
+              placeholder="부스명을 입력해주세요"
+            />
           </NameInputBox>
           <LengthCount>({nameWatch.length}/30)</LengthCount>
 
@@ -102,6 +113,7 @@ const BoothEdit = () => {
               {...register('description')}
               defaultValue={description}
               maxLength={1000}
+              placeholder="부스소개를 입력해주세요"
             />
           </DescriptionTextarea>
           <LengthCount>({descriptionWatch.length}/1000)</LengthCount>
@@ -112,7 +124,8 @@ const BoothEdit = () => {
             <Input
               {...register('location')}
               defaultValue={location}
-              maxLength={30}
+              maxLength={100}
+              placeholder="위치를 입력해주세요"
             />
           </LocationInputBox>
           <LengthCount>({locationWatch.length}/30)</LengthCount>
@@ -128,6 +141,7 @@ const BoothEdit = () => {
 };
 const Wrapper = styled.div`
   padding: 0 20px;
+  background-color: ${({ theme }) => theme.colors.white100};
 `;
 const Title = styled.p`
   margin: 10px 0;
@@ -141,10 +155,12 @@ const Department = styled.p`
 `;
 const EditForm = styled.form`
   width: 100%;
+  padding-bottom: 40px;
 `;
 const NameInputBox = styled.div`
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: start;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.title1};
   & > * {
@@ -175,12 +191,17 @@ const Textarea = styled.textarea`
 const LocationInputBox = styled.div`
   width: 100%;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.body2};
+  & > * {
+    color: ${({ theme }) => theme.colors.text900};
+    ${({ theme }) => theme.typographies.body2};
+  }
 `;
 const DescriptionTextarea = styled.div`
   display: flex;
+  flex-direction: column;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.body2};
 `;

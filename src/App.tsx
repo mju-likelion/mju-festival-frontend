@@ -4,7 +4,6 @@ import {
   ScrollRestoration,
 } from 'react-router-dom';
 import styled from 'styled-components';
-import { TimeTableProvider } from './context/TimeTable.tsx';
 import useRouteTracker from './hooks/useRouteTracker.tsx';
 import useScreenSize from './hooks/useScreenSize.ts';
 import BoothDetail from './pages/BoothDetail';
@@ -29,6 +28,7 @@ import LostItem from './pages/ViewAllLostItem/index.tsx';
 import ViewAllNotice from './pages/ViewAllNotice/index.tsx';
 import DetailLostItem from './pages/ViewDetailLostItem/index.tsx';
 import ViewDetailNotice from './pages/ViewDetailNotice/index.tsx';
+import NotFound from './pages/NotFound';
 
 const router = createBrowserRouter([
   {
@@ -101,11 +101,7 @@ const router = createBrowserRouter([
       },
       {
         path: '/timetable',
-        element: (
-          <TimeTableProvider>
-            <TimeTable />
-          </TimeTableProvider>
-        ),
+        element: <TimeTable />,
       },
       {
         path: '/map',
@@ -126,6 +122,10 @@ const router = createBrowserRouter([
       {
         path: '/setting',
         element: <Setting />,
+      },
+      {
+        path: '/*',
+        element: <NotFound />,
       },
     ],
   },

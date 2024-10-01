@@ -13,9 +13,13 @@ const BottomSheet = ({ qrCode, department, fetchQr }: BoothQrData) => {
   const sheet = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleOpen = useCallback(() => {
+  const handleOpen = useCallback(async () => {
     setIsOpen((prev) => !prev);
-  }, []);
+
+    if (!isOpen) {
+      await fetchQr();
+    }
+  }, [isOpen]);
 
   const backgroundImage = useMemo(
     () => (isOpen ? back_open : back_close),

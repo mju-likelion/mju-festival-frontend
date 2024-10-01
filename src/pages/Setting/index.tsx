@@ -10,20 +10,22 @@ import Modal from './Modal';
 const Setting = () => {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { token, setRole, setToken } = useAuthStore();
+  const { role, token, setRole, setToken } = useAuthStore();
 
   const logout = () => {
     if (window.confirm('로그아웃 할까요?')) {
       setRole('');
       setToken('');
     }
-    navigate('/main');
+    navigate('/');
   };
 
   const handleWithdraw = async () => {
     try {
       await deleteUser(token);
-      navigate('/main');
+      setToken('');
+      setRole('');
+      navigate('/');
     } catch (error) {
       handleError(error as Error);
     }
@@ -40,14 +42,19 @@ const Setting = () => {
         <LogInButton onClick={() => navigate('/login')}>
           로그인 페이지
         </LogInButton>
-        <LogOutButton onClick={() => logout()}>로그아웃</LogOutButton>
-        <WithdrawButton
-          onClick={() => {
-            setIsModalOpen(true);
-          }}
-        >
-          탈퇴하기
-        </WithdrawButton>
+
+        {role !== '' && (
+          <LogOutButton onClick={() => logout()}>로그아웃</LogOutButton>
+        )}
+        {role === 'STUDENT' && (
+          <WithdrawButton
+            onClick={() => {
+              setIsModalOpen(true);
+            }}
+          >
+            탈퇴하기
+          </WithdrawButton>
+        )}
       </ButtonLayout>
       {isModalOpen && (
         <Modal
@@ -61,6 +68,7 @@ const Setting = () => {
 
 const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.white100};
+  padding-bottom: 200px;
 `;
 
 const TitleLayout = styled.div`
@@ -85,7 +93,7 @@ const ButtonLayout = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 30px;
-  padding: 0 20px 200px 20px;
+  padding: 0 20px;
 `;
 
 const Button = styled.button`

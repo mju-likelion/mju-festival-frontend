@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { SortKey, SortOptions } from '../../types';
 import { ReactComponent as DownArrowIcon } from '../../assets/icons/down_arrow.svg';
 import { ReactComponent as UpArrowIcon } from '../../assets/icons/up_arrow.svg';
+import { SortKey, SortOptions } from '../../types';
 
 interface DropDownProps {
   setIsSorted: React.Dispatch<React.SetStateAction<SortKey>>;
@@ -12,7 +12,7 @@ interface DropDownProps {
 const DropDown = ({ setIsSorted, setPage }: DropDownProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const sortOptions: SortOptions = { desc: '최신순', asc: '나중순' };
-  const [sortOption, setSortOption] = useState<string>(sortOptions.desc);
+  const [sortOption, setSortOption] = useState<SortKey>('desc');
   const SelectContainerRef = useRef<HTMLDivElement | null>(null);
 
   const handleClickOutside = (e: MouseEvent) => {
@@ -31,7 +31,7 @@ const DropDown = ({ setIsSorted, setPage }: DropDownProps) => {
   const handleSorted = (option: SortKey) => {
     setIsSorted(option);
     setPage();
-    setSortOption(sortOptions[option]);
+    setSortOption(option);
     setIsOpen(false);
   };
 
@@ -42,15 +42,19 @@ const DropDown = ({ setIsSorted, setPage }: DropDownProps) => {
     };
   }, []);
 
+  const availableOptions = Object.entries(sortOptions).filter(
+    ([key]) => key !== sortOption
+  );
+
   return (
     <Wrapper ref={SelectContainerRef}>
       <DefaultLayout onClick={handleOpen}>
-        <DefaultValue>{sortOption}</DefaultValue>
+        <DefaultValue>{sortOptions[sortOption]}</DefaultValue>
         {isOpen ? <UpArrowIcon /> : <DownArrowIcon />}
       </DefaultLayout>
       {isOpen && (
         <SelectOptions>
-          {Object.entries(sortOptions).map(([key, value]) => (
+          {availableOptions.map(([key, value]) => (
             <Option key={key} onClick={() => handleSorted(key as SortKey)}>
               {value}
             </Option>

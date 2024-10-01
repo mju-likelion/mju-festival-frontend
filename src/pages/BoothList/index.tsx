@@ -1,11 +1,13 @@
-import styled from 'styled-components';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import { getBoothDepartments, getBooths } from '../../api/booth.ts';
-import { BoothDepartment, BoothListObj } from '../../types';
 import { ReactComponent as CheckedIcon } from '../../assets/icons/booth-checked.svg';
 import { ReactComponent as UnCheckedIcon } from '../../assets/icons/booth-un-checked.svg';
 import Header from '../../components/Header.tsx';
+import LoadingSpinner from '../../components/LoadingSpinner.tsx';
+import { BoothDepartment, BoothListObj } from '../../types';
+import { handleError } from '../../utils/errorUtil.ts';
 
 const BoothPage = () => {
   const [departmentList, setDepartmentList] = useState<BoothDepartment[]>([]);
@@ -14,24 +16,32 @@ const BoothPage = () => {
     string[]
   >([]);
   const [boothList, setBoothList] = useState<BoothListObj>({});
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const fetchData = async () => {
-    const departments = await getBoothDepartments();
-    setDepartmentList(departments);
+    try {
+      setIsLoading(true);
+      const departments = await getBoothDepartments();
+      setDepartmentList(departments);
 
-    const boothsByDepartment = await Promise.all(
-      departments.map(async (department) => {
-        const booths = await getBooths(department.id);
-        return { [department.id]: booths };
-      })
-    );
+      const boothsByDepartment = await Promise.all(
+        departments.map(async (department) => {
+          const booths = await getBooths(department.id);
+          return { [department.id]: booths };
+        })
+      );
 
-    const boothsObject = boothsByDepartment.reduce((acc, curr) => {
-      return { ...acc, ...curr };
-    }, {});
+      const boothsObject = boothsByDepartment.reduce((acc, curr) => {
+        return { ...acc, ...curr };
+      }, {});
 
-    setBoothList(boothsObject);
+      setBoothList(boothsObject);
+      setIsLoading(false);
+    } catch (e) {
+      handleError(e as Error);
+      setIsLoading(false);
+    }
   };
 
   const filterSelectedDepartments = (selectedIds: string[]) => {
@@ -63,9 +73,17 @@ const BoothPage = () => {
 
   const isAnySelected = selectedDepartmentIdArr.length > 0;
 
+  const getCategoryNameById = (id: string) => {
+    const department = departmentList.find(
+      (department) => department.id === id
+    );
+    return department ? department.categoryName : '';
+  };
+
   return (
     <Wrapper>
       <Header path="/main" />
+      <LoadingSpinner isLoading={isLoading} />
       <Title>부스정보</Title>
       <P>
         각 대학별 부스정보를 한 눈에 쉽게 파악하고 즐겁게 <br />
@@ -105,6 +123,9 @@ const BoothPage = () => {
               ([departmentId, boothList]) => {
                 return (
                   <CategoryBox key={departmentId}>
+                    <CategoryName>
+                      {getCategoryNameById(departmentId)}
+                    </CategoryName>
                     {boothList.map((booth) => (
                       <BoothBox
                         key={booth.id}
@@ -130,6 +151,7 @@ const BoothPage = () => {
 
 const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.white100};
+  padding-bottom: 100px;
 `;
 const Title = styled.p`
   margin: 32px 20px 10px;
@@ -161,6 +183,7 @@ const Department = styled.div<{ $isChecked: boolean }>`
 `;
 const DeSelectButton = styled.div<{ $isChecked: boolean }>`
   width: 88px;
+  height: 30px;
   padding: 3px;
   display: flex;
   justify-content: center;
@@ -203,6 +226,15 @@ const CategoryBox = styled.div`
   flex-direction: column;
   align-items: center;
 `;
+const CategoryName = styled.div`
+  width: 200px;
+  padding-bottom: 6px;
+  margin: 38px 0;
+  text-align: center;
+  border-bottom: 1px solid ${({ theme }) => theme.colors.blue400};
+  color: ${({ theme }) => theme.colors.blue100};
+  ${({ theme }) => theme.typographies.title1};
+`;
 const BoothBox = styled.div`
   max-width: 350px;
   width: calc(100% - 20px);
@@ -225,6 +257,7 @@ const Name = styled.p`
   overflow-wrap: break-word;
   white-space: normal;
   margin-bottom: 8px;
+  padding-bottom: 10px;
   color: ${({ theme }) => theme.colors.blue100};
   ${({ theme }) => theme.typographies.title1};
   border-bottom: 1px solid ${({ theme }) => theme.colors.black30};

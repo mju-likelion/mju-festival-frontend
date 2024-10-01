@@ -6,7 +6,7 @@ import { ReactComponent as Refresh } from '../../assets/icons/qr_refresh.svg';
 import { ReactComponent as SmallQrImg } from '../../assets/imgs/sheet_small_qr.svg';
 import { BottomSheetPropTypes } from '../../types';
 
-const INITIAL_SECONDS = 60;
+const INITIAL_SECONDS = 30;
 
 const Content = ({
   qrCode,
@@ -15,33 +15,47 @@ const Content = ({
   fetchQr,
 }: BottomSheetPropTypes) => {
   const [seconds, setSeconds] = useState(INITIAL_SECONDS);
+  const [isTimerActive, setIsTimerActive] = useState(true);
 
-  const handleRefreshClick = (event: React.MouseEvent | React.TouchEvent) => {
+  const handleRefreshClick = async (
+    event: React.MouseEvent | React.TouchEvent
+  ) => {
     event.stopPropagation();
+    await fetchQr();
     setSeconds(INITIAL_SECONDS);
-    fetchQr();
+    setIsTimerActive(true);
   };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSeconds((prev) => {
-        if (prev > 0) {
-          return prev - 1;
-        }
-        // 타이머가 0이 되었을 때
-        fetchQr();
-        return INITIAL_SECONDS; // 다시 초기화
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [fetchQr]);
 
   const formatTime = (seconds: number) => {
     const minutes = String(Math.floor(seconds / 60)).padStart(2, '0');
     const secs = String(seconds % 60).padStart(2, '0');
     return `${minutes}:${secs}`;
   };
+
+  // 열릴 때 타이머 초기화
+  useEffect(() => {
+    if (isOpen) {
+      setSeconds(INITIAL_SECONDS);
+      setIsTimerActive(true);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isTimerActive) return;
+
+    const timer = setInterval(() => {
+      setSeconds((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          setIsTimerActive(false);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [isTimerActive]);
 
   return (
     <Wrapper $isOpen={isOpen}>

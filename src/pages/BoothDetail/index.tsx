@@ -5,6 +5,7 @@ import { getBoothDetail, getOwnership, getQrData } from '../../api/booth.ts';
 
 import { ReactComponent as LocationIcon } from '../../assets/icons/location_icon.svg';
 import Header from '../../components/Header.tsx';
+import LoadingSpinner from '../../components/LoadingSpinner.tsx';
 import BottomSheet from '../../components/QrBottomSheet/index.tsx';
 import { useAuthStore } from '../../store';
 import { BoothDetailInfo } from '../../types';
@@ -12,7 +13,7 @@ import { handleError } from '../../utils/errorUtil.ts';
 
 const BoothDetail = () => {
   const { role, token } = useAuthStore();
-
+  const [isLoading, setIsLoading] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
   const [qrCode, setQrCode] = useState('');
   const [boothDetailData, setBoothDetailData] = useState<BoothDetailInfo>({
@@ -79,16 +80,16 @@ const BoothDetail = () => {
   useEffect(() => {
     const initializeData = async () => {
       try {
+        setIsLoading(true);
         await fetchBoothDetailData();
         if (role === 'BOOTH_MANAGER') {
           const isOwner = await fetchOwnership();
           setIsOwner(isOwner);
-          if (isOwner) {
-            await fetchQr();
-          }
         }
+        setIsLoading(false);
       } catch (e) {
-        console.error(e);
+        handleError(e as Error);
+        setIsLoading(false);
       }
     };
     initializeData();
@@ -97,7 +98,8 @@ const BoothDetail = () => {
   return (
     <>
       <Wrapper $isOwner={isOwner}>
-        <Header path="/main" />
+        <Header path="/booths" />
+        <LoadingSpinner isLoading={isLoading} />
         <Box>
           <Title>부스정보</Title>
           <Department>{department}</Department>
@@ -116,8 +118,10 @@ const BoothDetail = () => {
         {role === 'STUDENT' && (
           <StudentAction>
             <Buttons>
-              <QRButton onClick={() => navigate(`/`)}>QR 촬영하기</QRButton>
-              <StampButton onClick={() => navigate(`/`)}>
+              <QRButton onClick={() => navigate(`/qr-reader`)}>
+                QR 촬영하기
+              </QRButton>
+              <StampButton onClick={() => navigate(`/stamps`)}>
                 도장판으로
               </StampButton>
             </Buttons>
@@ -151,7 +155,7 @@ const BoothDetail = () => {
 };
 
 const Wrapper = styled.div<{ $isOwner: boolean }>`
-  padding-bottom: ${({ $isOwner }) => ($isOwner ? `250px` : `40px`)};
+  padding-bottom: ${({ $isOwner }) => ($isOwner ? `150px` : `40px`)};
   background-color: ${({ theme }) => theme.colors.white100};
 `;
 const Box = styled.div`
@@ -186,7 +190,6 @@ const LocationBox = styled.div`
   margin-bottom: 30px;
   display: flex;
   align-items: center;
-  gap: 2px;
 `;
 const LocationTitle = styled.p`
   color: ${({ theme }) => theme.colors.text900};
@@ -210,14 +213,14 @@ const CreateAt = styled.p`
   ${({ theme }) => theme.typographies.caption1};
 `;
 const BoothImg = styled.img`
-  width: 350px;
+  width: 100%;
   height: 248px;
   margin-bottom: 16px;
   border-radius: 12px;
   object-fit: cover;
 `;
 const MapImg = styled.img`
-  width: 350px;
+  width: 100%;
   height: 182px;
   margin-bottom: 40px;
   border-radius: 12px;
