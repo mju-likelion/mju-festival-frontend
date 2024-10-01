@@ -102,6 +102,7 @@ const TeamName = styled.p`
   text-align: center;
   ${({ theme }) => theme.typographies.body1};
   flex: 1;
+  white-space: nowrap;
 `;
 
 const PerformanceList = styled.div`

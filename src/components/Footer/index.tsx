@@ -8,30 +8,30 @@ const Footer = () => {
       <PeopleLayout>
         <PeopleContainer>
           <PeopleBox>
-            <p>design</p>
-            <p>김소현</p>
+            <Position>design</Position>
+            <Name>김소현</Name>
           </PeopleBox>
           <PeopleBox>
-            <p>frontend</p>
-            <p>오현의 이진혁 정혜인</p>
+            <Position>frontend</Position>
+            <Name>오현의 이진혁 정혜인</Name>
           </PeopleBox>
           <PeopleBox>
-            <p>backend</p>
-            <p>김대현</p>
+            <Position>backend</Position>
+            <Name>김대현</Name>
           </PeopleBox>
         </PeopleContainer>
         <PeopleContainer>
           <PeopleBox>
-            <p>총학생회장</p>
-            <p>이승준</p>
+            <Position>총학생회장</Position>
+            <Name>이승준</Name>
           </PeopleBox>
           <PeopleBox>
-            <p>홍보국장</p>
-            <p>이우진</p>
+            <Position>홍보국장</Position>
+            <Name>이우진</Name>
           </PeopleBox>
           <PeopleBox>
-            <p>대외협력국장</p>
-            <p>이채영</p>
+            <Position>대외협력국장</Position>
+            <Name>이채영</Name>
           </PeopleBox>
         </PeopleContainer>
       </PeopleLayout>
@@ -42,35 +42,29 @@ const Footer = () => {
 const Wrapper = styled.div`
   width: 100%;
   height: 140px;
+  padding: 14px;
   background-color: ${({ theme }) => theme.colors.text900};
-  padding: 14px 14px 16px 20px;
 `;
-
 const PeopleLayout = styled.div`
   display: flex;
-  padding-right: 36px;
+  gap: 30px;
 `;
-
 const PeopleContainer = styled.div`
-  padding-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 `;
-
 const PeopleBox = styled.div`
   display: flex;
-  width: 167px;
-  height: 16px;
   gap: 4px;
-
-  p:nth-of-type(1) {
-    font-size: 11px;
-    font-weight: 600;
-    color: ${({ theme }) => theme.colors.white100};
-  }
-  p:nth-of-type(2) {
-    font-size: 11px;
-    font-weight: 400;
-    color: ${({ theme }) => theme.colors.white100};
-  }
+`;
+const Position = styled.p`
+  ${({ theme }) => theme.typographies.caption1};
+  color: ${({ theme }) => theme.colors.white100};
+`;
+const Name = styled.p`
+  ${({ theme }) => theme.typographies.caption2};
+  color: ${({ theme }) => theme.colors.white100};
 `;
 
 export default Footer;

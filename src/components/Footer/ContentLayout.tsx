@@ -32,22 +32,18 @@ const Wrapper = styled.div`
   justify-content: space-between;
   padding-bottom: 10px;
 `;
-
 const IconContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
 `;
-
 const IconBox = styled.div`
   display: flex;
   align-items: center;
   gap: 4px;
   cursor: pointer;
-
   p {
-    font-size: 13px;
-    font-weight: 400;
+    ${({ theme }) => theme.typographies.footer};
     color: ${({ theme }) => theme.colors.white100};
   }
 `;

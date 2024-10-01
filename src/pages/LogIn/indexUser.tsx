@@ -20,9 +20,7 @@ const UserLogIn = () => {
         <Modal>
           <Title>안내드립니다</Title>
           <Content>
-            본 서비스는 축제 기간 동안 <br />
-            사용하실 수 있으며, 축제 종료 후에는
-            <br />
+            본 서비스는 축제 기간 동안 사용하실 수 있으며, 축제 종료 후에는
             자동으로 탈퇴됩니다.
           </Content>
           <Button type="button" onClick={() => onClick()}>

@@ -88,6 +88,7 @@ const Name = styled.div`
   height: 66px;
   width: 100%;
   padding-left: 4px;
+  white-space: nowrap;
   ${({ theme }) => theme.typographies.title1};
   color: ${({ theme }) => theme.colors.blue100};
 `;
