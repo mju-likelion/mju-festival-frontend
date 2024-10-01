@@ -1,9 +1,10 @@
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import axios from 'axios';
 import { Axios } from '../../api/Axios';
-import { useAuthStore } from '../../store';
-import { DeleteNoticeModalProps } from '../../types';
+import { useAuthStore, useErrorStore } from '../../store';
+import { DeleteNoticeModalProps, ERRORS } from '../../types';
 import { ReactComponent as CloseBtnIcon } from '../../assets/icons/close.svg';
 import LoadingSpinner from '../../components/LoadingSpinner';
 
@@ -13,7 +14,7 @@ const DeleteNoticeModal = ({
   closeModal,
 }: DeleteNoticeModalProps) => {
   const { role, token } = useAuthStore();
-  const [error, setError] = useState<null | string>(null);
+  const { errorMessage, setErrorMessage } = useErrorStore();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -21,7 +22,7 @@ const DeleteNoticeModal = ({
 
   const handleDeleteClick = async () => {
     if (!token || role !== 'STUDENT_COUNCIL') {
-      setError('게시물 삭제 권한이 없습니다.');
+      setErrorMessage('게시물 삭제 권한이 없습니다.');
       return;
     }
 
@@ -32,8 +33,12 @@ const DeleteNoticeModal = ({
         headers: { Authorization: `Bearer ${token}` },
       });
       navigate('/view/all-notices');
-    } catch (error) {
-      setError('게시물 삭제 권한이 없습니다.');
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        if (!e.response || !ERRORS.has(e.response.data.errorCode)) {
+          setErrorMessage('작성 형식이 잘못되었습니다.');
+        }
+      }
     } finally {
       setIsLoading(false);
     }
@@ -46,10 +51,10 @@ const DeleteNoticeModal = ({
   return (
     <Wrapper $isOpen={isOpen}>
       <ModalLayout>
-        {error ? (
+        {errorMessage ? (
           <DeleteContainer>
             <ContentBox>
-              <p>{error}</p>
+              <p>{errorMessage}</p>
             </ContentBox>
             <Link to="/main">
               <ErrorBtn>메인으로 이동하기</ErrorBtn>
