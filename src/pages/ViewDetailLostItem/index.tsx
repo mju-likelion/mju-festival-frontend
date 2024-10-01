@@ -37,7 +37,7 @@ const DetailLostItem = () => {
 
   const handleFoundStatus = async () => {
     try {
-      if (!id || !token) return;
+      if (!id || !token || recipientName.length === 0) return;
       await patchLostItemAsFound(id, token, recipientName);
       setIsFoundModalOpen(false);
       navigate('/lost-items');
