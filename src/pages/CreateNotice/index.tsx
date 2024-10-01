@@ -180,8 +180,10 @@ const UploadImageContainer = styled.div<{ $imageUrl: string | null }>`
   border-radius: 12px;
   background-image: ${(props) =>
     props.$imageUrl ? `url(${props.$imageUrl})` : 'none'};
-  background-size: cover;
   background-color: rgba(0, 0, 0, 0.3);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 `;
 
 const UploadGuideBox = styled.div`
