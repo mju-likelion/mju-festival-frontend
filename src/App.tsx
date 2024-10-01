@@ -1,22 +1,49 @@
-import { ThemeProvider } from 'styled-components';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { theme } from './styles';
-import GlobalStyle from './styles/GlobalStyle';
-import RouteChangeTracker from './components/RouteChangeTracker.tsx';
-import Main from './pages/Main.tsx';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import styled from 'styled-components';
+import Landing from './pages/Landing/index.tsx';
+import Layout from './pages/Landing/Layout.tsx';
+
+const router = createBrowserRouter([
+  {
+    element: (
+      <>
+        <Layout />
+      </>
+    ),
+    children: [
+      {
+        path: '/',
+        element: <Landing />,
+      },
+    ],
+  },
+]);
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyle />
-      <RouteChangeTracker />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Main />} />
-        </Routes>
-      </BrowserRouter>
-    </ThemeProvider>
+    <MobileWrapper>
+      <RouterProvider router={router} />
+    </MobileWrapper>
   );
 }
+
+const MobileWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Pretendard Variable', Pretendard, sans-serif;
+  width: 100%;
+  max-width: 430px;
+  height: calc(var(--vh, 1vh) * 100);
+  margin: auto;
+  position: relative;
+  background-color: #ffffff;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`;
 
 export default App;

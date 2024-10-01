@@ -6,7 +6,7 @@ const GlobalStyle = createGlobalStyle`
   ${reset}
   * {
     box-sizing: border-box;
-    font-family: sans-serif;
+    font-family: "Pretendard Variable", Pretendard, sans-serif;
   }
 
   html {
@@ -14,14 +14,11 @@ const GlobalStyle = createGlobalStyle`
     height: 100%;
     margin: 0;
     padding: 0;
+    background-color: #e0e0e0;
   }
 
   body {
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
+    background-color: #e0e0e0;
     overflow-x: hidden;
   }
 
@@ -38,7 +35,6 @@ const GlobalStyle = createGlobalStyle`
   }
 
   input, textarea{
-    width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
@@ -48,6 +44,14 @@ const GlobalStyle = createGlobalStyle`
   }
   input:focus, textarea:focus {
     outline: none;
+  }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 1000px inset transparent;
+      box-shadow: 0 0 0 1000px inset transparent;
+      transition: background-color 5000s ease-in-out 0s;
   }
 `;
 
