@@ -53,7 +53,7 @@ const QrReader = () => {
         <SubTitle>각 부스별 QR을 촬영해서 도장을 모아보세요!</SubTitle>
       </TitleLayout>
       <Content>
-        카메라 초점에 QR 이미지를 맞춰 촬영해주세요 <br />
+        카메라 초점에 <b>QR 이미지</b>를 맞춰 촬영해주세요 <br />
         카메라에 인식이 안될 경우 촬영이 어려울 수도 있습니다
       </Content>
       <CameraLayout>
@@ -107,11 +107,13 @@ const SubTitle = styled.p`
 `;
 
 const Content = styled.p`
-  margin: auto;
+  margin: 52px 20px 0;
   text-align: center;
-  margin-top: 53px;
   ${({ theme }) => theme.typographies.subhead2};
   color: ${({ theme }) => theme.colors.text900};
+  & > b {
+    ${({ theme }) => theme.typographies.subhead1};
+  }
 `;
 
 const CameraLayout = styled.div`
