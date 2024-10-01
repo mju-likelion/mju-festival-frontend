@@ -1,6 +1,6 @@
+import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
 import { ReactComponent as BoothStatueImg } from '../../assets/imgs/boothStatue.svg';
 import { ReactComponent as InstagramIconImg } from '../../assets/imgs/instagram_icon.svg';
 import { ReactComponent as LostItemStatueImg } from '../../assets/imgs/lostitemStatue.svg';
@@ -12,13 +12,13 @@ import { ReactComponent as TicketIconImg } from '../../assets/imgs/ticket_icon.s
 import { ReactComponent as TimeTableStatueImg } from '../../assets/imgs/timetableStatue.svg';
 import FloatingButton from '../../components/FloatingButton/index.tsx';
 import InfoText from '../../components/InfoText.tsx';
+import { MainButtonBgImg } from '../../types/index.ts';
 import { getCurrentDate } from '../../utils/dateUtil';
 import { downloadAppByDevice } from '../../utils/downloadAppUtil.ts';
 import { openInstagram } from '../../utils/openLinkUtil.ts';
 import Header from './Header.tsx';
 import MainMenuButton from './MainMenuButton.tsx';
 import Weather from './Weather.tsx';
-import { MainButtonBgImg } from '../../types/index.ts';
 
 const Main = () => {
   const navigate = useNavigate();
@@ -28,7 +28,7 @@ const Main = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1 }}
+      transition={{ duration: 0.5 }}
     >
       <Header />
       <TitleLayout>
@@ -45,17 +45,11 @@ const Main = () => {
       <LinkLayout>
         <TicketFriendsContainer
           onClick={downloadAppByDevice}
-          initial={{
-            y: 100,
-            opacity: 0,
-          }}
-          animate={{
-            y: 0,
-            opacity: 1,
-            scale: 1,
-          }}
-          transition={{ duration: 0.4, ease: 'easeInOut' }}
-          whileTap={{ scale: 0.9 }}
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.4 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           <TicketIcon />
           <TicketFriendsBtn type="button">
@@ -64,17 +58,11 @@ const Main = () => {
         </TicketFriendsContainer>
         <InstagramContainer
           onClick={openInstagram}
-          initial={{
-            y: 100,
-            opacity: 0,
-          }}
-          animate={{
-            y: 0,
-            opacity: 1,
-            scale: 1,
-          }}
-          transition={{ duration: 0.4, ease: 'easeInOut' }}
-          whileTap={{ scale: 0.9 }}
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.4 }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           <InstagramIcon />
           <InstagramBtn>
@@ -122,18 +110,15 @@ const Main = () => {
           ].map((item, index) => (
             <ButtonBox
               key={item.text}
-              initial={{ x: index % 2 === 0 ? -100 : 100, opacity: 0 }}
-              whileInView={{ x: 0, opacity: 1 }}
-              viewport={{ once: true, amount: 0.5 }}
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
               transition={{
-                duration: 0.2,
-                ease: 'easeInOut',
+                duration: 0.5,
                 delay: index * 0.1,
-                type: 'spring',
-                stiffness: 400,
-                damping: 10,
+                ease: 'easeInOut',
               }}
-              whileTap={{ scale: 0.9 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
             >
               <Link to={item.to}>
                 <item.img />
