@@ -2,6 +2,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import styled from 'styled-components';
 import Landing from './pages/Landing/index.tsx';
 import Layout from './pages/Landing/Layout.tsx';
+import NotFound from './pages/NotFound/index.tsx';
 
 const router = createBrowserRouter([
   {
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Landing />,
+      },
+      {
+        path: '/*',
+        element: <NotFound />,
       },
     ],
   },
