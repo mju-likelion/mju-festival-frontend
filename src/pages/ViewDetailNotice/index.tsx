@@ -121,7 +121,6 @@ const DateLayout = styled.div`
 const ImageLayout = styled.div`
   display: flex;
   width: 100%;
-  height: 248px;
   padding: 0 20px;
 
   img {

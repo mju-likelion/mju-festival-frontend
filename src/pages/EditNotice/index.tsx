@@ -126,8 +126,8 @@ const EditNotice = () => {
       </TextLayout>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <UploadImageLayout>
-          <UploadImageContainer $imageUrl={imageUrl} onClick={handleClick}>
-            {!imageUrl && (
+          <UploadImageContainer bg={!imageUrl} onClick={handleClick}>
+            {!imageUrl ? (
               <UploadGuideBox>
                 <UploadImageIcon />
                 <p>이미지 업로드</p>
@@ -137,6 +137,15 @@ const EditNotice = () => {
                   (JPG,GIF,PNG,PDF)
                 </p>
               </UploadGuideBox>
+            ) : (
+              <img
+                src={imageUrl}
+                alt="게시글 사진"
+                width="100%"
+                style={{
+                  borderRadius: '12px',
+                }}
+              />
             )}
           </UploadImageContainer>
           <ImageInput
@@ -193,18 +202,15 @@ const Wrapper = styled.div`
 const UploadImageLayout = styled.div`
   display: flex;
   width: 100%;
-  height: 248px;
   padding: 0 20px;
 `;
 
-const UploadImageContainer = styled.div<{ $imageUrl: string | null }>`
+const UploadImageContainer = styled.div<{ bg?: boolean }>`
   width: 100%;
-  height: 248px;
-  padding: 76px 58px;
+  /* height: 248px; */
+  /* padding: 76px 58px; */
   border-radius: 12px;
-  background-image: ${(props) =>
-    props.$imageUrl ? `url(${props.$imageUrl})` : 'none'};
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: ${({ bg }) => (bg ? 'rgba(0, 0, 0, 0.3)' : 'none')};
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
