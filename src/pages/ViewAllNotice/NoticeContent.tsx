@@ -17,7 +17,7 @@ interface NoticeContentProps {
 }
 
 const NoticeContent = ({ currentPage, isSorted }: NoticeContentProps) => {
-  const [search, setSearch] = useSearchParams();
+  const [, setSearch] = useSearchParams();
   const { data, isPending, isError, error } = useQuery({
     queryKey: ['notices', currentPage, isSorted],
     queryFn: () => getNotices(isSorted, currentPage - 1, 4),
