@@ -69,6 +69,13 @@ const caption = {
   `,
 };
 
+const footer = {
+  footer: () => css`
+    font-size: 9px;
+    font-weight: 400;
+  `,
+};
+
 export const typographies = {
   ...largeTitle,
   ...title,
@@ -77,4 +84,5 @@ export const typographies = {
   ...callout,
   ...foot,
   ...caption,
+  ...footer,
 };
