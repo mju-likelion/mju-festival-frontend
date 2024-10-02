@@ -39,10 +39,11 @@ const Setting = () => {
         <SubTitle>설정하기</SubTitle>
       </TitleLayout>
       <ButtonLayout>
-        <LogInButton onClick={() => navigate('/login')}>
-          로그인 페이지
-        </LogInButton>
-
+        {role === '' && (
+          <LogInButton onClick={() => navigate('/login')}>
+            로그인 페이지
+          </LogInButton>
+        )}
         {role !== '' && (
           <LogOutButton onClick={() => logout()}>로그아웃</LogOutButton>
         )}
