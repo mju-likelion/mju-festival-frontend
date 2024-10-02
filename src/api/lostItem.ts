@@ -1,5 +1,9 @@
 import { AxiosResponse } from 'axios';
-import { GetLostItemResponse, LostItemRequest } from '../types/lostItem';
+import {
+  GetLostItemResponse,
+  LostItemRequest,
+  SimpleLostItem,
+} from '../types/lostItem';
 import { Axios } from './Axios';
 
 export const getLostItems = async (
@@ -9,6 +13,13 @@ export const getLostItems = async (
 ) => {
   const { data }: AxiosResponse<GetLostItemResponse> = await Axios.get(
     `/lost-items?sort=${sort}&page=${page}&size=${size}`
+  );
+  return data;
+};
+
+export const getDetailLostItem = async (id: string) => {
+  const { data }: AxiosResponse<SimpleLostItem> = await Axios.get(
+    `/lost-items/${id}`
   );
   return data;
 };
