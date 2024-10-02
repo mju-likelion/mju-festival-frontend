@@ -12,6 +12,7 @@ export interface BoothPreview {
   name: string;
   departmentName: string;
   imageUrl: string;
+  isEventBooth: boolean;
 }
 export interface BoothListObj {
   [key: string]: BoothPreview[];
@@ -29,6 +30,7 @@ export interface BoothInfo {
   name: string;
   description: string;
   imageUrl: string;
+  isEventBooth: boolean;
 }
 
 export interface BoothQrData {

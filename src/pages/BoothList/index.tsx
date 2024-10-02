@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { getBoothDepartments, getBooths } from '../../api/booth.ts';
 import { ReactComponent as CheckedIcon } from '../../assets/icons/booth-checked.svg';
 import { ReactComponent as UnCheckedIcon } from '../../assets/icons/booth-un-checked.svg';
+import { ReactComponent as StampIcon } from '../../assets/icons/stamp.svg';
 import Header from '../../components/Header.tsx';
 import LoadingSpinner from '../../components/LoadingSpinner.tsx';
 import { BoothDepartment, BoothListObj } from '../../types';
@@ -127,16 +128,20 @@ const BoothPage = () => {
                       {getCategoryNameById(departmentId)}
                     </CategoryName>
                     {boothList.map((booth) => (
-                      <BoothBox
-                        key={booth.id}
-                        onClick={() => navigate(`/booths/${booth.id}`)}
-                      >
-                        <TextBox>
-                          <Name>{booth.departmentName}</Name>
-                          <Description>{booth.name}</Description>
-                        </TextBox>
-                        <Img src={booth.imageUrl} alt="부스 이미지" />
-                      </BoothBox>
+                      <BoothContainer>
+                        {booth.isEventBooth && <StyledStampIcon />}
+                        <BoothBox
+                          key={booth.id}
+                          onClick={() => navigate(`/booths/${booth.id}`)}
+                          $isEventBooth={booth.isEventBooth}
+                        >
+                          <TextBox>
+                            <Name>{booth.departmentName}</Name>
+                            <Description>{booth.name}</Description>
+                          </TextBox>
+                          <Img src={booth.imageUrl} alt="부스 이미지" />
+                        </BoothBox>
+                      </BoothContainer>
                     ))}
                   </CategoryBox>
                 );
@@ -235,13 +240,23 @@ const CategoryName = styled.div`
   color: ${({ theme }) => theme.colors.blue100};
   ${({ theme }) => theme.typographies.title1};
 `;
-const BoothBox = styled.div`
-  max-width: 350px;
+const BoothContainer = styled.div`
+  width: 100%;
+  position: relative;
+`;
+const StyledStampIcon = styled(StampIcon)`
+  top: -24px;
+  right: 4px;
+  position: absolute;
+`;
+const BoothBox = styled.div<{ $isEventBooth: boolean }>`
   width: calc(100% - 20px);
-  height: 124px;
   margin: 0 10px 15px 10px;
   padding: 12px 11px;
   box-shadow: 2px 2px 9px rgba(36, 39, 46, 0.3);
+  border: 5px dashed
+    ${({ theme, $isEventBooth }) =>
+      $isEventBooth ? theme.colors.blue300 : 'transparent'};
   border-radius: 12px;
   display: flex;
   gap: 10px;
