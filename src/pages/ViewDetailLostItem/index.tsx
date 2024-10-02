@@ -1,28 +1,34 @@
-import { useMemo, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { deleteLostItem, patchLostItemAsFound } from '../../api/lostItem';
+import {
+  deleteLostItem,
+  getDetailLostItem,
+  patchLostItemAsFound,
+} from '../../api/lostItem';
 import { ReactComponent as PlaceIcon } from '../../assets/icons/place.svg';
 import Header from '../../components/Header';
 import { useAuthStore } from '../../store';
-import { formatDate } from '../../utils/dateUtil';
 import { handleError } from '../../utils/errorUtil';
 import Modal from './Modal';
+import { SimpleLostItem } from '../../types/lostItem.ts';
 
 const DetailLostItem = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isFoundModalOpen, setIsFoundModalOpen] = useState(false);
   const [recipientName, setRecipientName] = useState('');
-  const location = useLocation();
   const navigate = useNavigate();
   const { id } = useParams();
   const { token, role } = useAuthStore();
-  const { title, content, createdAt, imageUrl, isFounded } = location.state;
 
-  const formattedDate = useMemo(
-    () => formatDate(new Date(createdAt)),
-    [createdAt]
-  );
+  const [itemData, setItemData] = useState<SimpleLostItem>({
+    id: '',
+    title: '',
+    content: '',
+    imageUrl: '',
+    createdAt: '',
+    isFounded: false,
+  });
 
   const handleDelete = async () => {
     try {
@@ -46,6 +52,17 @@ const DetailLostItem = () => {
     }
   };
 
+  const fetchData = async () => {
+    if (id) {
+      const response = await getDetailLostItem(id);
+      setItemData(response);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [id]);
+
   return (
     <Wrapper>
       <Header path="/lost-items" />
@@ -54,11 +71,11 @@ const DetailLostItem = () => {
         <SubTitle>분실물 내용을 확인하고 찾아가세요!</SubTitle>
       </TitleLayout>
       <ContentLayout>
-        <RegisterDate>등록일: {formattedDate}</RegisterDate>
-        <ItemImg src={imageUrl} />
+        <RegisterDate>등록일: {itemData.createdAt}</RegisterDate>
+        <ItemImg src={itemData.imageUrl} />
         <ItemTextContainer>
-          <ItemTitle>제목 : {title}</ItemTitle>
-          <ItemContent>내용 : {content}</ItemContent>
+          <ItemTitle>제목 : {itemData.title}</ItemTitle>
+          <ItemContent>내용 : {itemData.content}</ItemContent>
         </ItemTextContainer>
         <PlaceContainer>
           찾아가는 위치:
@@ -69,11 +86,11 @@ const DetailLostItem = () => {
         {role === 'STUDENT_COUNCIL' && (
           <>
             <ButtonLayout>
-              {!isFounded && (
+              {!itemData.isFounded && (
                 <EditButton
                   onClick={() =>
                     navigate(`/lost-items/${id}/edit`, {
-                      state: location.state,
+                      state: itemData,
                     })
                   }
                 >
@@ -82,12 +99,12 @@ const DetailLostItem = () => {
               )}
               <DeleteButton
                 onClick={() => setIsModalOpen(true)}
-                $isFounded={isFounded}
+                $isFounded={itemData.isFounded}
               >
                 삭제하기
               </DeleteButton>
             </ButtonLayout>
-            {!isFounded && (
+            {!itemData.isFounded && (
               <FoundedButton onClick={() => setIsFoundModalOpen(true)}>
                 분실물 찾음
               </FoundedButton>
