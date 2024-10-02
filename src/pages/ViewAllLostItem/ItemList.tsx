@@ -6,6 +6,7 @@ import LostItemCard from './LostItemCard';
 interface ItemListProps {
   lostItems: SimpleLostItem[];
 }
+
 const ItemList = ({ lostItems }: ItemListProps) => {
   return (
     <Wrapper>
@@ -31,6 +32,7 @@ const Wrapper = styled.div`
   flex-direction: column;
   gap: 15px;
   color: ${({ theme }) => theme.colors.gray100};
+  background-color: ${({ theme }) => theme.colors.gray100};
 `;
 
 const NoDataLayout = styled.div`

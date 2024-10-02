@@ -14,7 +14,6 @@ import { postLostItemImg } from '../../api/lostItem.ts';
 import Header from '../../components/Header.tsx';
 import usePreventRefresh from '../../hooks/usePreventRefresh.ts';
 import ImageUploader from '../EditLostItem/ImageUploader.tsx';
-import LoadingSpinner from '../../components/LoadingSpinner.tsx';
 
 const BoothEdit = () => {
   usePreventRefresh();
@@ -22,7 +21,6 @@ const BoothEdit = () => {
   const locationData = useLocation();
   const { id, name, department, description, location, imageUrl } =
     locationData.state;
-  const [isLoading, setIsLoading] = useState(false);
   const [editImgUrl, setEditImgUrl] = useState('');
 
   const { token } = useAuthStore();
@@ -60,7 +58,6 @@ const BoothEdit = () => {
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
-      setIsLoading(true);
       const updateFields: Partial<BoothEditData> = {};
       Object.entries(formData).forEach(([key, value]) => {
         const fieldKey = key as keyof BoothEditData;
@@ -74,17 +71,14 @@ const BoothEdit = () => {
         await patchBoothDetail(id, updateFields, token);
       }
       navigate(`/booths`);
-      setIsLoading(false);
     } catch (e) {
       handleError(e as Error);
-      setIsLoading(false);
     }
   });
 
   return (
     <>
       <Header path={`/booths/${id}`} />
-      <LoadingSpinner isLoading={isLoading} />
       <Wrapper>
         <Title>부스정보</Title>
         <Department>{department}</Department>

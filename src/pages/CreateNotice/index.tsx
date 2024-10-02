@@ -1,23 +1,21 @@
+import axios from 'axios';
 import { ChangeEvent, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
 import { Axios } from '../../api/Axios';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
+import ErrorMessage from '../../components/ErrorMessage';
 import { useAuthStore, useErrorStore } from '../../store';
 import { ERRORS, ImageNoticeType } from '../../types';
 import { getCurrentDate } from '../../utils/dateUtil';
 import Header from '../ViewDetailNotice/Header';
-import ErrorMessage from '../../components/ErrorMessage';
-import LoadingSpinner from '../../components/LoadingSpinner';
 
 const CreateNotice = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const navigate = useNavigate();
   const { role, token } = useAuthStore();
-  const [isLoading, setIsLoading] = useState(false);
   const { errorMessage, setErrorMessage } = useErrorStore();
   const formData = new FormData();
   const imageData = new FormData();
@@ -49,14 +47,12 @@ const CreateNotice = () => {
   };
 
   const handleFormSubmit = async (data: ImageNoticeType) => {
-    setIsLoading(true);
     formData.append('title', data.title);
     formData.append('content', data.content);
     if (imageUrl) {
       formData.append('imageUrl', imageUrl);
     }
     if (role !== 'STUDENT_COUNCIL') {
-      setIsLoading(false);
       setErrorMessage('공지 작성 권한이 없습니다.');
       return;
     }
@@ -75,14 +71,8 @@ const CreateNotice = () => {
           setErrorMessage('작성 형식이 잘못되었습니다.');
         }
       }
-    } finally {
-      setIsLoading(false);
     }
   };
-
-  if (isLoading) {
-    return <LoadingSpinner isLoading={isLoading} />;
-  }
 
   if (errorMessage) {
     return <ErrorMessage>{errorMessage}</ErrorMessage>;

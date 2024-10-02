@@ -63,7 +63,7 @@ const DetailLostItem = () => {
         <PlaceContainer>
           찾아가는 위치:
           <PlaceIcon />
-          명진당
+          총학생회 부스
         </PlaceContainer>
 
         {role === 'STUDENT_COUNCIL' && (

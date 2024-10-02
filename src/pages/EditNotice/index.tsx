@@ -1,16 +1,15 @@
-import styled from 'styled-components';
+import axios from 'axios';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import styled from 'styled-components';
 import { Axios } from '../../api/Axios';
+import { fetchNotice } from '../../api/notice.ts';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
+import ErrorMessage from '../../components/ErrorMessage.tsx';
+import Header from '../../components/Header.tsx';
 import { useAuthStore, useErrorStore } from '../../store';
 import { DetailNoticeType, ERRORS, ImageNoticeType } from '../../types';
-import { fetchNotice } from '../../api/notice.ts';
-import Header from '../../components/Header.tsx';
-import LoadingSpinner from '../../components/LoadingSpinner.tsx';
-import ErrorMessage from '../../components/ErrorMessage.tsx';
 
 const EditNotice = () => {
   const [notice, setNotice] = useState<DetailNoticeType>({
@@ -24,7 +23,6 @@ const EditNotice = () => {
   const { id } = useParams();
   const { role, token } = useAuthStore();
   const { errorMessage, setErrorMessage } = useErrorStore();
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formData = new FormData();
@@ -74,7 +72,6 @@ const EditNotice = () => {
   };
 
   const handleFormSubmit = async (data: ImageNoticeType) => {
-    setIsLoading(true);
     if (data.title) {
       formData.append('title', data.title);
     }
@@ -85,7 +82,6 @@ const EditNotice = () => {
       formData.append('imageUrl', imageUrl);
     }
     if (role !== 'STUDENT_COUNCIL') {
-      setIsLoading(false);
       setErrorMessage('공지 작성 권한이 없습니다.');
       return;
     }
@@ -104,14 +100,8 @@ const EditNotice = () => {
           setErrorMessage('작성 형식이 잘못되었습니다.');
         }
       }
-    } finally {
-      setIsLoading(false);
     }
   };
-
-  if (isLoading) {
-    return <LoadingSpinner isLoading={isLoading} />;
-  }
 
   if (errorMessage) {
     return <ErrorMessage>{errorMessage}</ErrorMessage>;

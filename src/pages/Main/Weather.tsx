@@ -161,8 +161,4 @@ const ErrorMessage = styled.p`
   ${({ theme }) => theme.typographies.callout};
 `;
 
-const LoadingMessage = styled.p`
-  font-size: 16px;
-`;
-
 export default Weather;
