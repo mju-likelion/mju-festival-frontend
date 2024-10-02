@@ -1,49 +1,82 @@
 import styled from 'styled-components';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import axios from 'axios';
 import { Axios } from '../../api/Axios';
-import { useAuthStore } from '../../store';
-import { DeleteNoticeModalProps } from '../../types';
+import { useAuthStore, useErrorStore } from '../../store';
+import { DeleteNoticeModalProps, ERRORS } from '../../types';
 import { ReactComponent as CloseBtnIcon } from '../../assets/icons/close.svg';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const DeleteNoticeModal = ({
   noticeId,
   isOpen,
   closeModal,
 }: DeleteNoticeModalProps) => {
-  const { token } = useAuthStore();
+  const { role, token } = useAuthStore();
+  const { errorMessage, setErrorMessage } = useErrorStore();
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   if (!isOpen) return null;
 
   const handleDeleteClick = async () => {
+    if (!token || role !== 'STUDENT_COUNCIL') {
+      setErrorMessage('게시물 삭제 권한이 없습니다.');
+      return;
+    }
+
+    setIsLoading(true);
+
     try {
       await Axios.delete(`/announcements/${noticeId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       navigate('/view/all-notices');
-    } catch (error) {
-      console.error('삭제실패', error);
+    } catch (e) {
+      if (axios.isAxiosError(e)) {
+        if (!e.response || !ERRORS.has(e.response.data.errorCode)) {
+          setErrorMessage('작성 형식이 잘못되었습니다.');
+        }
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  if (isLoading) {
+    return <LoadingSpinner isLoading={isLoading} />;
+  }
 
   return (
     <Wrapper $isOpen={isOpen}>
       <ModalLayout>
-        <CloseBtn onClick={closeModal} />
-        <TextContainer>
-          <Title>삭제하기 전 유의사항</Title>
-          <Content>
-            게시물 삭제 후 게시물
-            <br />
-            복구가 되지 않습니다.
-            <br />
-            <br />
-            확인하신 후 삭제해주시길 바랍니다
-          </Content>
-        </TextContainer>
-        <DeleteButton onClick={() => handleDeleteClick()}>
-          확인하기
-        </DeleteButton>
+        {errorMessage ? (
+          <DeleteContainer>
+            <ContentBox>
+              <p>{errorMessage}</p>
+            </ContentBox>
+            <Link to="/main">
+              <ErrorBtn>메인으로 이동하기</ErrorBtn>
+            </Link>
+          </DeleteContainer>
+        ) : (
+          <>
+            <CloseBtn onClick={closeModal} />
+            <TextContainer>
+              <Title>삭제하기 전 유의사항</Title>
+              <Content>
+                게시물 삭제 후 게시물
+                <br />
+                복구가 되지 않습니다.
+                <br />
+                <br />
+                확인하신 후 삭제해주시길 바랍니다
+              </Content>
+            </TextContainer>
+            <DeleteButton onClick={handleDeleteClick}>확인하기</DeleteButton>
+          </>
+        )}
       </ModalLayout>
     </Wrapper>
   );
@@ -109,4 +142,32 @@ const DeleteButton = styled.button`
   border-radius: 12px;
 `;
 
+const DeleteContainer = styled.div`
+  background-color: ${({ theme }) => theme.colors.white100};
+`;
+
+const ContentBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0;
+
+  p {
+    color: ${({ theme }) => theme.colors.black50};
+    ${({ theme }) => theme.typographies.callout};
+  }
+`;
+
+const ErrorBtn = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-radius: 12px;
+  height: 52px;
+  background-color: ${({ theme }) => theme.colors.blue100};
+  color: ${({ theme }) => theme.colors.white100};
+  margin-top: 20px;
+`;
 export default DeleteNoticeModal;

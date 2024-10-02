@@ -2,12 +2,15 @@ import styled from 'styled-components';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 import { Axios } from '../../api/Axios';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
-import { useAuthStore } from '../../store';
-import { DetailNoticeType, ImageNoticeType } from '../../types';
+import { useAuthStore, useErrorStore } from '../../store';
+import { DetailNoticeType, ERRORS, ImageNoticeType } from '../../types';
 import { fetchNotice } from '../../api/notice.ts';
 import Header from '../../components/Header.tsx';
+import LoadingSpinner from '../../components/LoadingSpinner.tsx';
+import ErrorMessage from '../../components/ErrorMessage.tsx';
 
 const EditNotice = () => {
   const [notice, setNotice] = useState<DetailNoticeType>({
@@ -19,7 +22,9 @@ const EditNotice = () => {
   });
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const { id } = useParams();
-  const { token } = useAuthStore();
+  const { role, token } = useAuthStore();
+  const { errorMessage, setErrorMessage } = useErrorStore();
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formData = new FormData();
@@ -59,12 +64,17 @@ const EditNotice = () => {
         );
         setImageUrl(data.url);
       } catch (error) {
-        console.error('이미지 업로드 오류', error);
+        if (axios.isAxiosError(e)) {
+          if (!e.response || !ERRORS.has(e.response.data.errorCode)) {
+            setErrorMessage('잘못된 이미지 형식입니다.');
+          }
+        }
       }
     }
   };
 
   const handleFormSubmit = async (data: ImageNoticeType) => {
+    setIsLoading(true);
     if (data.title) {
       formData.append('title', data.title);
     }
@@ -73,6 +83,11 @@ const EditNotice = () => {
     }
     if (imageUrl) {
       formData.append('imageUrl', imageUrl);
+    }
+    if (role !== 'STUDENT_COUNCIL') {
+      setIsLoading(false);
+      setErrorMessage('공지 작성 권한이 없습니다.');
+      return;
     }
 
     try {
@@ -84,12 +99,23 @@ const EditNotice = () => {
       });
       navigate(`/view/detail-notice/${id}`);
     } catch (e) {
-      alert('올바른 업로드를 해주세요');
+      if (axios.isAxiosError(e)) {
+        if (!e.response || !ERRORS.has(e.response.data.errorCode)) {
+          setErrorMessage('작성 형식이 잘못되었습니다.');
+        }
+      }
+    } finally {
+      setIsLoading(false);
     }
-    /**
-     * @Todo finally 추가
-     */
   };
+
+  if (isLoading) {
+    return <LoadingSpinner isLoading={isLoading} />;
+  }
+
+  if (errorMessage) {
+    return <ErrorMessage>{errorMessage}</ErrorMessage>;
+  }
 
   return (
     <Wrapper>
@@ -100,8 +126,8 @@ const EditNotice = () => {
       </TextLayout>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <UploadImageLayout>
-          <UploadImageContainer $imageUrl={imageUrl} onClick={handleClick}>
-            {!imageUrl && (
+          <UploadImageContainer bg={!imageUrl} onClick={handleClick}>
+            {!imageUrl ? (
               <UploadGuideBox>
                 <UploadImageIcon />
                 <p>이미지 업로드</p>
@@ -111,6 +137,15 @@ const EditNotice = () => {
                   (JPG,GIF,PNG,PDF)
                 </p>
               </UploadGuideBox>
+            ) : (
+              <img
+                src={imageUrl}
+                alt="게시글 사진"
+                width="100%"
+                style={{
+                  borderRadius: '12px',
+                }}
+              />
             )}
           </UploadImageContainer>
           <ImageInput
@@ -129,6 +164,7 @@ const EditNotice = () => {
               defaultValue={notice.title}
               maxLength={30}
               placeholder="제목을 입력해주세요"
+              required
             />
             <TitleLength>
               <p>({titleCount?.length}/30)</p>
@@ -141,6 +177,7 @@ const EditNotice = () => {
               defaultValue={notice.content}
               maxLength={1000}
               placeholder="내용을 입력해주세요"
+              required
             />
             <ContentLength>
               <p>({contentCount?.length}/1000)</p>
@@ -165,19 +202,18 @@ const Wrapper = styled.div`
 const UploadImageLayout = styled.div`
   display: flex;
   width: 100%;
-  height: 248px;
   padding: 0 20px;
 `;
 
-const UploadImageContainer = styled.div<{ $imageUrl: string | null }>`
+const UploadImageContainer = styled.div<{ bg?: boolean }>`
   width: 100%;
-  height: 248px;
-  padding: 76px 58px;
+  /* height: 248px; */
+  /* padding: 76px 58px; */
   border-radius: 12px;
-  background-image: ${(props) =>
-    props.$imageUrl ? `url(${props.$imageUrl})` : 'none'};
-  background-size: cover;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: ${({ bg }) => (bg ? 'rgba(0, 0, 0, 0.3)' : 'none')};
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 `;
 
 const UploadGuideBox = styled.div`

@@ -2,21 +2,25 @@ import { ChangeEvent, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from 'axios';
 import { Axios } from '../../api/Axios';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
-import { useAuthStore } from '../../store';
-import { ImageNoticeType } from '../../types';
+import { useAuthStore, useErrorStore } from '../../store';
+import { ERRORS, ImageNoticeType } from '../../types';
 import { getCurrentDate } from '../../utils/dateUtil';
 import Header from '../ViewDetailNotice/Header';
+import ErrorMessage from '../../components/ErrorMessage';
+import LoadingSpinner from '../../components/LoadingSpinner';
 
 const CreateNotice = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { token } = useAuthStore();
+  const { role, token } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(false);
+  const { errorMessage, setErrorMessage } = useErrorStore();
   const formData = new FormData();
   const imageData = new FormData();
-
   const { register, handleSubmit, watch } = useForm<ImageNoticeType>();
   const titleCount = watch('title', '');
   const contentCount = watch('content', '');
@@ -39,16 +43,22 @@ const CreateNotice = () => {
         });
         setImageUrl(url);
       } catch (error) {
-        console.error('이미지 업로드 오류', error);
+        setErrorMessage('잘못된 이미지 형식입니다.');
       }
     }
   };
 
   const handleFormSubmit = async (data: ImageNoticeType) => {
+    setIsLoading(true);
     formData.append('title', data.title);
     formData.append('content', data.content);
     if (imageUrl) {
       formData.append('imageUrl', imageUrl);
+    }
+    if (role !== 'STUDENT_COUNCIL') {
+      setIsLoading(false);
+      setErrorMessage('공지 작성 권한이 없습니다.');
+      return;
     }
 
     try {
@@ -60,12 +70,23 @@ const CreateNotice = () => {
       });
       navigate('/view/all-notices');
     } catch (e) {
-      alert('올바른 업로드를 해주세요');
+      if (axios.isAxiosError(e)) {
+        if (!e.response || !ERRORS.has(e.response.data.errorCode)) {
+          setErrorMessage('작성 형식이 잘못되었습니다.');
+        }
+      }
+    } finally {
+      setIsLoading(false);
     }
-    /**
-     * @Todo finally 추가
-     */
   };
+
+  if (isLoading) {
+    return <LoadingSpinner isLoading={isLoading} />;
+  }
+
+  if (errorMessage) {
+    return <ErrorMessage>{errorMessage}</ErrorMessage>;
+  }
 
   return (
     <Wrapper>
@@ -159,8 +180,10 @@ const UploadImageContainer = styled.div<{ $imageUrl: string | null }>`
   border-radius: 12px;
   background-image: ${(props) =>
     props.$imageUrl ? `url(${props.$imageUrl})` : 'none'};
-  background-size: cover;
   background-color: rgba(0, 0, 0, 0.3);
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
 `;
 
 const UploadGuideBox = styled.div`

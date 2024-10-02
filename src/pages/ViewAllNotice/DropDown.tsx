@@ -5,24 +5,15 @@ import { ReactComponent as UpArrowIcon } from '../../assets/icons/up_arrow.svg';
 import { SortKey, SortOptions } from '../../types';
 
 interface DropDownProps {
+  isSorted: SortKey;
   setIsSorted: React.Dispatch<React.SetStateAction<SortKey>>;
   setPage: () => void;
 }
 
-const DropDown = ({ setIsSorted, setPage }: DropDownProps) => {
+const DropDown = ({ setIsSorted, isSorted, setPage }: DropDownProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const sortOptions: SortOptions = { desc: '최신순', asc: '나중순' };
-  const [sortOption, setSortOption] = useState<SortKey>('desc');
   const SelectContainerRef = useRef<HTMLDivElement | null>(null);
-
-  const handleClickOutside = (e: MouseEvent) => {
-    if (
-      SelectContainerRef.current &&
-      !SelectContainerRef.current.contains(e.target as Node)
-    ) {
-      setIsOpen(false);
-    }
-  };
 
   const handleOpen = () => {
     setIsOpen((prev) => !prev);
@@ -31,11 +22,18 @@ const DropDown = ({ setIsSorted, setPage }: DropDownProps) => {
   const handleSorted = (option: SortKey) => {
     setIsSorted(option);
     setPage();
-    setSortOption(option);
     setIsOpen(false);
   };
 
   useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (
+        SelectContainerRef.current &&
+        !SelectContainerRef.current.contains(e.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -43,13 +41,13 @@ const DropDown = ({ setIsSorted, setPage }: DropDownProps) => {
   }, []);
 
   const availableOptions = Object.entries(sortOptions).filter(
-    ([key]) => key !== sortOption
+    ([key]) => key !== isSorted
   );
 
   return (
     <Wrapper ref={SelectContainerRef}>
       <DefaultLayout onClick={handleOpen}>
-        <DefaultValue>{sortOptions[sortOption]}</DefaultValue>
+        <DefaultValue>{sortOptions[isSorted]}</DefaultValue>
         {isOpen ? <UpArrowIcon /> : <DownArrowIcon />}
       </DefaultLayout>
       {isOpen && (

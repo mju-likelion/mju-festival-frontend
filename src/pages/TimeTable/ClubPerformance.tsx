@@ -6,6 +6,7 @@ import { TimeTableDate, TimeTableInfo } from '../../types';
 
 interface ClubPerformanceProps {
   date: TimeTableDate;
+  time: string;
 }
 
 const ClubPerformData: TimeTableInfo = {
@@ -43,7 +44,7 @@ const ClubPerformData: TimeTableInfo = {
   ],
 };
 
-const ClubPerformance = ({ date }: ClubPerformanceProps) => {
+const ClubPerformance = ({ date, time }: ClubPerformanceProps) => {
   const performances = ClubPerformData[date] || [];
 
   return (
@@ -51,7 +52,7 @@ const ClubPerformance = ({ date }: ClubPerformanceProps) => {
       <InfoLayout>
         <Title>동아리 공연</Title>
         <TimetableHr />
-        <Time>18:40 ~ 20:20</Time>
+        <Time>{time}</Time>
       </InfoLayout>
       <PerformanceList>
         {performances.map((performance) => (

@@ -9,7 +9,7 @@ const LoadingSpinner = ({ isLoading }: LoadingSpinnerProps) => {
 
   return (
     <LoadingOverlay>
-      <FadeLoader color="#9EC7FF" />
+      <FadeLoader color="#969ba2" />
     </LoadingOverlay>
   );
 };

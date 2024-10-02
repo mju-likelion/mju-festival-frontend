@@ -51,7 +51,7 @@ const TimeTable = () => {
             <UniversityContainer>
               <InfoTitle>학교 내부 공연</InfoTitle>
               <UnivPerformance title="백마 체전 시상식" time="18:20 ~ 18:30" />
-              <ClubPerformance date="10월 07일" />
+              <ClubPerformance date="10월 07일" time="18:40 ~ 20:20" />
             </UniversityContainer>
             <CelebrityContainer>
               <InfoTitle>연예인 공연</InfoTitle>
@@ -67,7 +67,7 @@ const TimeTable = () => {
                 title="명지대 응원단 연합"
                 time="18:05 ~ 18:25"
               />
-              <ClubPerformance date="10월 08일" />
+              <ClubPerformance date="10월 08일" time="18:25 ~ 19:10" />
               <UnivPerformance title="유끼즈" time="19:10 ~ 19:50" />
             </UniversityContainer>
             <CelebrityContainer>
