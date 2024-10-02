@@ -13,7 +13,6 @@ import { GroupedWeatherData, WeatherForecast } from '../../types';
 const Weather = () => {
   const [forecasts, setForecasts] = useState<WeatherForecast[]>([]);
   const [forecastsError, setForecastsError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
 
   const groupForecast = (forecasts: GroupedWeatherData[]) => {
     const groupedForecasts: Record<string, WeatherForecast> = {};
@@ -44,15 +43,12 @@ const Weather = () => {
   };
 
   const fetchWeather = async () => {
-    setIsLoading(true);
     try {
       const forecasts = await getWeather();
       groupForecast(forecasts);
       setForecastsError(null);
     } catch (error) {
       setForecastsError('날씨 정보를 불러오지 못했습니다.');
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -92,17 +88,6 @@ const Weather = () => {
   useEffect(() => {
     fetchWeather();
   }, []);
-
-  // 로딩중일 때 UI
-  if (isLoading) {
-    return (
-      <Wrapper>
-        <TempLayout>
-          <LoadingMessage>여기에 로딩 컴포넌트 넣기</LoadingMessage>
-        </TempLayout>
-      </Wrapper>
-    );
-  }
 
   // 날씨 데이터를 불러오지 못했을 때 UI
   if (forecastsError) {

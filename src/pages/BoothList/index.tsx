@@ -11,7 +11,6 @@ import { handleError } from '../../utils/errorUtil.ts';
 
 const BoothPage = () => {
   const [departmentList, setDepartmentList] = useState<BoothDepartment[]>([]);
-  useState<BoothDepartment[]>();
   const [selectedDepartmentIdArr, setSelectedDepartmentIdArr] = useState<
     string[]
   >([]);
