@@ -214,14 +214,12 @@ const CreateAt = styled.p`
 `;
 const BoothImg = styled.img`
   width: 100%;
-  height: 248px;
   margin-bottom: 16px;
   border-radius: 12px;
   object-fit: cover;
 `;
 const MapImg = styled.img`
   width: 100%;
-  height: 182px;
   margin-bottom: 40px;
   border-radius: 12px;
   object-fit: cover;
