@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { useSearchParams } from 'react-router-dom';
 import { ReactComponent as DownArrowIcon } from '../../assets/icons/down_arrow.svg';
 import { ReactComponent as UpArrowIcon } from '../../assets/icons/up_arrow.svg';
 import { SortKey, SortOptions } from '../../types';
@@ -7,13 +8,13 @@ import { SortKey, SortOptions } from '../../types';
 interface DropDownProps {
   isSorted: SortKey;
   setIsSorted: React.Dispatch<React.SetStateAction<SortKey>>;
-  setPage: () => void;
 }
 
-const DropDown = ({ setIsSorted, isSorted, setPage }: DropDownProps) => {
+const DropDown = ({ setIsSorted, isSorted }: DropDownProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const sortOptions: SortOptions = { desc: '최신순', asc: '나중순' };
   const SelectContainerRef = useRef<HTMLDivElement | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const handleOpen = () => {
     setIsOpen((prev) => !prev);
@@ -21,7 +22,10 @@ const DropDown = ({ setIsSorted, isSorted, setPage }: DropDownProps) => {
 
   const handleSorted = (option: SortKey) => {
     setIsSorted(option);
-    setPage();
+
+    searchParams.set('page', '1');
+    setSearchParams(searchParams, { replace: true });
+
     setIsOpen(false);
   };
 
