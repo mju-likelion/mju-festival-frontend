@@ -45,7 +45,7 @@ const LostItem = () => {
       setLostItems(simpleLostItems);
       setTotalPage(totalPage);
     } catch (error) {
-      console.error(error);
+      handleError(error as Error);
     }
   };
 

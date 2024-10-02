@@ -3,10 +3,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { fetchNotice } from '../../api/notice.ts';
 import { ReactComponent as InstaArrowIconImg } from '../../assets/icons/backIcon.svg';
-import ErrorMessage from '../../components/ErrorMessage.tsx';
 import Header from '../../components/Header.tsx';
 import { useAuthStore } from '../../store';
 import { DetailNoticeType } from '../../types';
+import { handleError } from '../../utils/errorUtil.ts';
 import { openInstagram } from '../../utils/openLinkUtil.ts';
 import DeleteNoticeModal from './DeleteNoticeModal';
 import NoImage from './NoImage.tsx';
@@ -21,7 +21,6 @@ const ViewDetailNotice = () => {
   });
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [error, setError] = useState<null | string>(null);
   const navigate = useNavigate();
   const { id } = useParams();
   const { role } = useAuthStore();
@@ -34,18 +33,14 @@ const ViewDetailNotice = () => {
       const response = await fetchNotice(id);
       setNotice(response);
       setImageUrl(response.imageUrl || null);
-    } catch (err) {
-      setError('공지사항의 상세 정보를 불러오는 중 오류가 발생했습니다.');
+    } catch (error) {
+      handleError(error as Error);
     }
   }, [id]);
 
   useEffect(() => {
     getNotice();
   }, [getNotice]);
-
-  if (error) {
-    return <ErrorMessage>{error}</ErrorMessage>;
-  }
 
   return (
     <Wrapper>
@@ -193,10 +188,9 @@ const ButtonLayout = styled.div`
 
   button {
     width: 100%;
-    height: 42px;
     border-radius: 12px;
-    font-size: 17px;
-    font-weight: 600;
+    padding: 16px 11px;
+    ${({ theme }) => theme.typographies.body1};
   }
 `;
 

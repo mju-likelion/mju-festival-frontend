@@ -1,22 +1,21 @@
-import axios from 'axios';
 import { ChangeEvent, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { Axios } from '../../api/Axios';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
-import ErrorMessage from '../../components/ErrorMessage';
-import { useAuthStore, useErrorStore } from '../../store';
-import { ERRORS, ImageNoticeType } from '../../types';
+import { useAuthStore } from '../../store';
+import { ImageNoticeType } from '../../types';
 import { getCurrentDate } from '../../utils/dateUtil';
+import { handleError } from '../../utils/errorUtil';
 import Header from '../ViewDetailNotice/Header';
 
 const CreateNotice = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const navigate = useNavigate();
-  const { role, token } = useAuthStore();
-  const { errorMessage, setErrorMessage } = useErrorStore();
+  const { token } = useAuthStore();
+
   const formData = new FormData();
   const imageData = new FormData();
   const { register, handleSubmit, watch } = useForm<ImageNoticeType>();
@@ -41,7 +40,7 @@ const CreateNotice = () => {
         });
         setImageUrl(url);
       } catch (error) {
-        setErrorMessage('잘못된 이미지 형식입니다.');
+        handleError(error as Error);
       }
     }
   };
@@ -52,10 +51,6 @@ const CreateNotice = () => {
     if (imageUrl) {
       formData.append('imageUrl', imageUrl);
     }
-    if (role !== 'STUDENT_COUNCIL') {
-      setErrorMessage('공지 작성 권한이 없습니다.');
-      return;
-    }
 
     try {
       await Axios.post('/announcements', formData, {
@@ -65,18 +60,10 @@ const CreateNotice = () => {
         },
       });
       navigate('/view/all-notices');
-    } catch (e) {
-      if (axios.isAxiosError(e)) {
-        if (!e.response || !ERRORS.has(e.response.data.errorCode)) {
-          setErrorMessage('작성 형식이 잘못되었습니다.');
-        }
-      }
+    } catch (error) {
+      handleError(error as Error);
     }
   };
-
-  if (errorMessage) {
-    return <ErrorMessage>{errorMessage}</ErrorMessage>;
-  }
 
   return (
     <Wrapper>

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -6,10 +5,10 @@ import styled from 'styled-components';
 import { Axios } from '../../api/Axios';
 import { fetchNotice } from '../../api/notice.ts';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
-import ErrorMessage from '../../components/ErrorMessage.tsx';
 import Header from '../../components/Header.tsx';
-import { useAuthStore, useErrorStore } from '../../store';
-import { DetailNoticeType, ERRORS, ImageNoticeType } from '../../types';
+import { useAuthStore } from '../../store';
+import { DetailNoticeType, ImageNoticeType } from '../../types';
+import { handleError } from '../../utils/errorUtil.ts';
 
 const EditNotice = () => {
   const [notice, setNotice] = useState<DetailNoticeType>({
@@ -21,8 +20,7 @@ const EditNotice = () => {
   });
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const { id } = useParams();
-  const { role, token } = useAuthStore();
-  const { errorMessage, setErrorMessage } = useErrorStore();
+  const { token } = useAuthStore();
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formData = new FormData();
@@ -62,11 +60,7 @@ const EditNotice = () => {
         );
         setImageUrl(data.url);
       } catch (error) {
-        if (axios.isAxiosError(e)) {
-          if (!e.response || !ERRORS.has(e.response.data.errorCode)) {
-            setErrorMessage('잘못된 이미지 형식입니다.');
-          }
-        }
+        handleError(error as Error);
       }
     }
   };
@@ -81,10 +75,6 @@ const EditNotice = () => {
     if (imageUrl) {
       formData.append('imageUrl', imageUrl);
     }
-    if (role !== 'STUDENT_COUNCIL') {
-      setErrorMessage('공지 작성 권한이 없습니다.');
-      return;
-    }
 
     try {
       await Axios.patch(`/announcements/${id}`, formData, {
@@ -94,18 +84,10 @@ const EditNotice = () => {
         },
       });
       navigate(`/view/detail-notice/${id}`);
-    } catch (e) {
-      if (axios.isAxiosError(e)) {
-        if (!e.response || !ERRORS.has(e.response.data.errorCode)) {
-          setErrorMessage('작성 형식이 잘못되었습니다.');
-        }
-      }
+    } catch (error) {
+      handleError(error as Error);
     }
   };
-
-  if (errorMessage) {
-    return <ErrorMessage>{errorMessage}</ErrorMessage>;
-  }
 
   return (
     <Wrapper>
