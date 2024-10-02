@@ -132,7 +132,9 @@ const BoothPage = () => {
                         {booth.isEventBooth && <StyledStampIcon />}
                         <BoothBox
                           key={booth.id}
-                          onClick={() => navigate(`/booths/${booth.id}`)}
+                          onClick={() =>
+                            navigate(`/booths/${booth.id}`, { state: booth })
+                          }
                           $isEventBooth={booth.isEventBooth}
                         >
                           <TextBox>

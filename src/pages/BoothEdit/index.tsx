@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -20,7 +20,7 @@ const BoothEdit = () => {
 
   const locationData = useLocation();
   const { id, name, department, description, location, imageUrl } =
-    locationData.state;
+    locationData.state || {};
   const [isLoading, setIsLoading] = useState(false);
 
   const { token } = useAuthStore();
@@ -50,47 +50,56 @@ const BoothEdit = () => {
     }
   });
 
+  useEffect(() => {
+    if (!locationData.state) {
+      alert('이전 페이지에서 데이터를 가져올 수 없습니다. 다시 시도해주세요.');
+      navigate('/booths');
+    }
+  }, [locationData.state]);
+
   return (
     <>
       <Header path={`/booths/${id}`} />
       <LoadingSpinner isLoading={isLoading} />
-      <Wrapper>
-        <Title>부스정보</Title>
-        <Department>{department}</Department>
-        <EditForm onSubmit={onSubmit}>
-          <BoothImg src={imageUrl} alt="부스 이미지" />
-          <Name>{name}</Name>
-          <DescriptionTextarea>
-            <FieldTitle>내용:</FieldTitle>
-            <Textarea
-              {...register('description')}
-              defaultValue={description}
-              maxLength={1000}
-              placeholder="부스소개를 입력해주세요"
-            />
-          </DescriptionTextarea>
-          <LengthCount>({descriptionWatch.length}/1000)</LengthCount>
-          <p>{errors.description?.message}</p>
-          <LocationBox>
-            <LocationTitle>부스위치:</LocationTitle>
-            <StyledLocationIcon />
-            <Location>{location}</Location>
-          </LocationBox>
-          <Buttons>
-            <EditButton type="submit">완료하기</EditButton>
-            <CancelButton
-              type="button"
-              onClick={(event) => {
-                event.preventDefault();
-                event.stopPropagation();
-                navigate(-1);
-              }}
-            >
-              취소하기
-            </CancelButton>
-          </Buttons>
-        </EditForm>
-      </Wrapper>
+      {locationData.state && (
+        <Wrapper>
+          <Title>부스정보</Title>
+          <Department>{department}</Department>
+          <EditForm onSubmit={onSubmit}>
+            <BoothImg src={imageUrl} alt="부스 이미지" />
+            <Name>{name}</Name>
+            <DescriptionTextarea>
+              <FieldTitle>내용:</FieldTitle>
+              <Textarea
+                {...register('description')}
+                defaultValue={description}
+                maxLength={1000}
+                placeholder="부스소개를 입력해주세요"
+              />
+            </DescriptionTextarea>
+            <LengthCount>({descriptionWatch.length}/1000)</LengthCount>
+            <p>{errors.description?.message}</p>
+            <LocationBox>
+              <LocationTitle>부스위치:</LocationTitle>
+              <StyledLocationIcon />
+              <Location>{location}</Location>
+            </LocationBox>
+            <Buttons>
+              <EditButton type="submit">완료하기</EditButton>
+              <CancelButton
+                type="button"
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  navigate(-1);
+                }}
+              >
+                취소하기
+              </CancelButton>
+            </Buttons>
+          </EditForm>
+        </Wrapper>
+      )}
     </>
   );
 };
