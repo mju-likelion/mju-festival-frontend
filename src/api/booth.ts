@@ -2,7 +2,6 @@ import { AxiosResponse } from 'axios';
 import {
   BoothDepartment,
   BoothDetailInfo,
-  BoothEditFields,
   BoothList,
   BoothQrData,
   Ownership,
@@ -40,10 +39,10 @@ export const getOwnership = async (token: string, boothId: string) => {
 
 export const patchBoothDetail = async (
   boothId: string,
-  updateData: Partial<BoothEditFields>,
+  description: { description: string },
   token: string
 ) => {
-  const { data } = await Axios.patch(`/booths/${boothId}`, updateData, {
+  const { data } = await Axios.patch(`/booths/${boothId}`, description, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

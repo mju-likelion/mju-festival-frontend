@@ -1,20 +1,19 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { ChangeEvent, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { patchBoothDetail } from '../../api/booth.ts';
-import { useAuthStore } from '../../store';
-import { BoothEditData, BoothEditFields } from '../../types';
 import { handleError } from '../../utils/errorUtil.ts';
+import { useAuthStore } from '../../store';
 import { boothSchema } from '../../validation/schema.ts';
 
-import { postLostItemImg } from '../../api/lostItem.ts';
 import Header from '../../components/Header.tsx';
 import usePreventRefresh from '../../hooks/usePreventRefresh.ts';
-import ImageUploader from '../EditLostItem/ImageUploader.tsx';
 import LoadingSpinner from '../../components/LoadingSpinner.tsx';
+
+import { ReactComponent as LocationIcon } from '../../assets/icons/location_icon.svg';
 
 const BoothEdit = () => {
   usePreventRefresh();
@@ -23,7 +22,6 @@ const BoothEdit = () => {
   const { id, name, department, description, location, imageUrl } =
     locationData.state;
   const [isLoading, setIsLoading] = useState(false);
-  const [editImgUrl, setEditImgUrl] = useState('');
 
   const { token } = useAuthStore();
   const navigate = useNavigate();
@@ -31,49 +29,20 @@ const BoothEdit = () => {
   const {
     register,
     handleSubmit,
-    setValue,
     watch,
     formState: { errors },
-  } = useForm<BoothEditFields>({
+  } = useForm<{ description: string }>({
     resolver: yupResolver(boothSchema),
     mode: 'onChange',
   });
 
-  const nameWatch = watch('name', name);
   const descriptionWatch = watch('description', description);
-  const locationWatch = watch('location', location);
 
-  const handleImgFile = async (e: ChangeEvent<HTMLInputElement>) => {
-    try {
-      if (e.target.files && e.target.files.length > 0) {
-        const formData = new FormData();
-        formData.append('image', e.target.files[0]);
-        const imgUrl = await postLostItemImg(formData, token);
-
-        setEditImgUrl(imgUrl);
-        setValue('file', e.target.files[0]);
-      }
-    } catch (error) {
-      handleError(error as Error);
-    }
-  };
-
-  const onSubmit = handleSubmit(async (formData) => {
+  const onSubmit = handleSubmit(async (description) => {
     try {
       setIsLoading(true);
-      const updateFields: Partial<BoothEditData> = {};
-      Object.entries(formData).forEach(([key, value]) => {
-        const fieldKey = key as keyof BoothEditData;
-        if (value !== locationData.state[key]) {
-          updateFields[fieldKey] = value;
-        }
-      });
-      updateFields.imageUrl = editImgUrl || imageUrl;
-
-      if (Object.keys(updateFields).length > 0 && token) {
-        await patchBoothDetail(id, updateFields, token);
-      }
-      navigate(`/booths`);
+      await patchBoothDetail(id, description, token);
+      navigate(`/booths/${id}`);
       setIsLoading(false);
     } catch (e) {
       handleError(e as Error);
@@ -89,24 +58,8 @@ const BoothEdit = () => {
         <Title>부스정보</Title>
         <Department>{department}</Department>
         <EditForm onSubmit={onSubmit}>
-          <ImageUploader
-            imageUrl={imageUrl}
-            editImgUrl={editImgUrl}
-            handleImgFile={handleImgFile}
-          />
-
-          <NameInputBox>
-            <FieldTitle>제목:</FieldTitle>
-            <Input
-              {...register('name')}
-              defaultValue={name}
-              maxLength={30}
-              placeholder="부스명을 입력해주세요"
-            />
-          </NameInputBox>
-          <LengthCount>({nameWatch.length}/30)</LengthCount>
-
-          <p>{errors.name?.message}</p>
+          <BoothImg src={imageUrl} alt="부스 이미지" />
+          <Name>{name}</Name>
           <DescriptionTextarea>
             <FieldTitle>내용:</FieldTitle>
             <Textarea
@@ -117,22 +70,24 @@ const BoothEdit = () => {
             />
           </DescriptionTextarea>
           <LengthCount>({descriptionWatch.length}/1000)</LengthCount>
-
           <p>{errors.description?.message}</p>
-          <LocationInputBox>
-            <FieldTitle>위치:</FieldTitle>
-            <Input
-              {...register('location')}
-              defaultValue={location}
-              maxLength={100}
-              placeholder="위치를 입력해주세요"
-            />
-          </LocationInputBox>
-          <LengthCount>({locationWatch.length}/30)</LengthCount>
-          <p>{errors.location?.message}</p>
+          <LocationBox>
+            <LocationTitle>부스위치:</LocationTitle>
+            <StyledLocationIcon />
+            <Location>{location}</Location>
+          </LocationBox>
           <Buttons>
             <EditButton type="submit">완료하기</EditButton>
-            <CancelButton onClick={() => navigate(-1)}>취소하기</CancelButton>
+            <CancelButton
+              type="button"
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                navigate(-1);
+              }}
+            >
+              취소하기
+            </CancelButton>
           </Buttons>
         </EditForm>
       </Wrapper>
@@ -157,24 +112,23 @@ const EditForm = styled.form`
   width: 100%;
   padding-bottom: 40px;
 `;
-const NameInputBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: start;
+const BoothImg = styled.img`
+  width: 100%;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  object-fit: cover;
+`;
+const Name = styled.p`
+  margin-bottom: 12px;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.title1};
-  & > * {
-    color: ${({ theme }) => theme.colors.text900};
-    ${({ theme }) => theme.typographies.title1};
-  }
+  overflow-wrap: break-word;
+  white-space: normal;
 `;
 const FieldTitle = styled.p`
   display: block;
   margin-right: 10px;
   white-space: nowrap;
-`;
-const Input = styled.input`
-  width: 100%;
 `;
 const LengthCount = styled.p`
   margin-bottom: 12px;
@@ -188,22 +142,32 @@ const Textarea = styled.textarea`
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.body2};
 `;
-const LocationInputBox = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  color: ${({ theme }) => theme.colors.text900};
-  ${({ theme }) => theme.typographies.body2};
-  & > * {
-    color: ${({ theme }) => theme.colors.text900};
-    ${({ theme }) => theme.typographies.body2};
-  }
-`;
 const DescriptionTextarea = styled.div`
   display: flex;
   flex-direction: column;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.body2};
+`;
+const Location = styled.p`
+  width: 100%;
+  color: ${({ theme }) => theme.colors.text900};
+  ${({ theme }) => theme.typographies.body2};
+  overflow-wrap: break-word;
+  white-space: normal;
+`;
+const LocationBox = styled.div`
+  height: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+`;
+const LocationTitle = styled.p`
+  color: ${({ theme }) => theme.colors.text900};
+  ${({ theme }) => theme.typographies.body2};
+  white-space: nowrap;
+`;
+const StyledLocationIcon = styled(LocationIcon)`
+  flex-shrink: 0;
 `;
 const Buttons = styled.button`
   width: 100%;

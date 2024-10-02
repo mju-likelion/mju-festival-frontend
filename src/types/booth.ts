@@ -31,19 +31,6 @@ export interface BoothInfo {
   imageUrl: string;
 }
 
-export interface BoothEditFields {
-  name: string;
-  description: string;
-  location: string;
-  file?: File;
-}
-export interface BoothEditData {
-  name: string;
-  description: string;
-  location: string;
-  imageUrl: string;
-}
-
 export interface BoothQrData {
   qrCode: string;
   department: string;
