@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { getNotices } from '../../api/notice.ts';
@@ -6,7 +6,8 @@ import { ReactComponent as BigDelete } from '../../assets/icons/big_delete.svg';
 import { ReactComponent as LeftArrowActive } from '../../assets/icons/left_arrow_active.svg';
 import { ReactComponent as RightArrowActive } from '../../assets/icons/right_arrow_active.svg';
 import { useAuthStore } from '../../store';
-import { SortKey } from '../../types/notice.ts';
+import { SimpleNotice, SortKey } from '../../types/notice.ts';
+import { handleError } from '../../utils/errorUtil.ts';
 import NoticeCard from './NoticeCard';
 
 interface NoticeContentProps {
@@ -16,13 +17,27 @@ interface NoticeContentProps {
 
 const NoticeContent = ({ currentPage, isSorted }: NoticeContentProps) => {
   const [, setSearch] = useSearchParams();
+  const [notices, setNotices] = useState<SimpleNotice[]>([]);
+  const [totalPage, setTotalPage] = useState(0);
+
   const { token, role } = useAuthStore();
   const navigate = useNavigate();
 
-  const { data } = useQuery({
-    queryKey: ['notices', currentPage, isSorted],
-    queryFn: () => getNotices(isSorted, currentPage - 1, 4),
-  });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getNotices(isSorted, currentPage - 1, 4);
+        const { simpleAnnouncements, totalPage } = response;
+
+        setNotices(simpleAnnouncements);
+        setTotalPage(totalPage);
+      } catch (error) {
+        handleError(error as Error);
+      }
+    };
+
+    fetchData();
+  }, [currentPage, isSorted]);
 
   const handleClick = () => {
     if (token && role === 'STUDENT_COUNCIL') {
@@ -30,19 +45,6 @@ const NoticeContent = ({ currentPage, isSorted }: NoticeContentProps) => {
     }
   };
 
-  if (!data) {
-    return (
-      <NoticeLayout>
-        <NoDataLayout>
-          <BigDelete />
-          <NoDataText>데이터가 없습니다.</NoDataText>
-        </NoDataLayout>
-      </NoticeLayout>
-    );
-  }
-
-  const notices = data.simpleAnnouncements || [];
-  const { totalPage } = data;
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === totalPage;
   const isEmptyNoticeList = !notices.length;

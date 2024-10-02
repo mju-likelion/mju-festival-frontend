@@ -11,10 +11,8 @@ Axios.interceptors.response.use(
   },
   (error) => {
     const statusCode = error.response?.status;
-    const errorMessage = error.response?.data?.message || '알 수 없는 에러';
 
     if (statusCode === 401) {
-      alert(errorMessage);
       useAuthStore.setState({
         token: '',
         role: '',
