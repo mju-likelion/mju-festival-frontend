@@ -17,7 +17,7 @@ const DetailLostItem = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { token, role } = useAuthStore();
-  const { title, content, createdAt, imageUrl } = location.state;
+  const { title, content, createdAt, imageUrl, isFounded } = location.state;
 
   const formattedDate = useMemo(
     () => formatDate(new Date(createdAt)),
@@ -37,7 +37,7 @@ const DetailLostItem = () => {
 
   const handleFoundStatus = async () => {
     try {
-      if (!id || !token) return;
+      if (!id || !token || recipientName.length === 0) return;
       await patchLostItemAsFound(id, token, recipientName);
       setIsFoundModalOpen(false);
       navigate('/lost-items');
@@ -69,20 +69,29 @@ const DetailLostItem = () => {
         {role === 'STUDENT_COUNCIL' && (
           <>
             <ButtonLayout>
-              <EditButton
-                onClick={() =>
-                  navigate(`/lost-items/${id}/edit`, { state: location.state })
-                }
+              {!isFounded && (
+                <EditButton
+                  onClick={() =>
+                    navigate(`/lost-items/${id}/edit`, {
+                      state: location.state,
+                    })
+                  }
+                >
+                  수정하기
+                </EditButton>
+              )}
+              <DeleteButton
+                onClick={() => setIsModalOpen(true)}
+                $isFounded={isFounded}
               >
-                수정하기
-              </EditButton>
-              <DeleteButton onClick={() => setIsModalOpen(true)}>
                 삭제하기
               </DeleteButton>
             </ButtonLayout>
-            <FoundedButton onClick={() => setIsFoundModalOpen(true)}>
-              분실물 찾음
-            </FoundedButton>
+            {!isFounded && (
+              <FoundedButton onClick={() => setIsFoundModalOpen(true)}>
+                분실물 찾음
+              </FoundedButton>
+            )}
           </>
         )}
       </ContentLayout>
@@ -212,9 +221,13 @@ const EditButton = styled(Button)`
   background-color: ${({ theme }) => theme.colors.blue100};
 `;
 
-const DeleteButton = styled(Button)`
-  color: ${({ theme }) => theme.colors.blue100};
-  border: 1px solid ${({ theme }) => theme.colors.blue100};
+const DeleteButton = styled(Button)<{ $isFounded: boolean }>`
+  color: ${({ theme, $isFounded }) =>
+    $isFounded ? theme.colors.white100 : theme.colors.blue100};
+  background-color: ${({ theme, $isFounded }) =>
+    $isFounded ? theme.colors.blue100 : theme.colors.white100};
+  border: 1px solid
+    ${({ theme, $isFounded }) => !$isFounded && theme.colors.blue100};
 `;
 
 const FoundedButton = styled(Button)`
