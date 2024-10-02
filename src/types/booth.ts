@@ -4,13 +4,15 @@ export interface BoothDepartment {
   categoryName: string;
 }
 
+export interface BoothList {
+  simpleBoothResponseList: BoothPreview[];
+}
 export interface BoothPreview {
   id: string;
   name: string;
   departmentName: string;
   imageUrl: string;
 }
-
 export interface BoothListObj {
   [key: string]: BoothPreview[];
 }
