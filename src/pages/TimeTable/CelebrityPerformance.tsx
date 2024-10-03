@@ -110,6 +110,7 @@ const Badege = styled.div`
 
 const CelebrityImg = styled.img`
   border-radius: 8px;
+  height: 100px;
 `;
 
 export default CelebrityPerformance;
