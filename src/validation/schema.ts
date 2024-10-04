@@ -11,19 +11,10 @@ export const loginSchema = yup.object().shape({
 });
 
 export const boothSchema = yup.object().shape({
-  name: yup
-    .string()
-    .required(boothValidationMessages.REQUIRED)
-    .max(30, boothValidationMessages.NAME_MAX_LENGTH),
   description: yup
     .string()
     .required(boothValidationMessages.REQUIRED)
     .max(1000, boothValidationMessages.DESCRIPTION_MAX_LENGTH),
-  location: yup
-    .string()
-    .required(boothValidationMessages.REQUIRED)
-    .max(100, boothValidationMessages.LOCATION_MAX_LENGTH),
-  file: yup.mixed<File>(),
 });
 
 export const lostItemSchema = yup.object().shape({

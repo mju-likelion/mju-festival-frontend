@@ -23,6 +23,7 @@ const BoothDetail = () => {
     location: '',
     locationImageUrl: '',
     name: '',
+    isEventBooth: false,
   });
   const {
     name,
@@ -32,19 +33,11 @@ const BoothDetail = () => {
     imageUrl,
     locationImageUrl,
     createdAt,
+    isEventBooth,
   } = boothDetailData;
 
   const params = useParams();
   const navigate = useNavigate();
-
-  function formatDate(dateString: string): string {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월은 0부터 시작하므로 +1
-    const day = String(date.getDate()).padStart(2, '0');
-
-    return `${year}.${month}.${day}`;
-  }
 
   const fetchOwnership = async () => {
     if (!params.boothId) {
@@ -90,6 +83,8 @@ const BoothDetail = () => {
     initializeData();
   }, []);
 
+  const date = createdAt.split(' ')[0];
+
   return (
     <>
       <Wrapper $isOwner={isOwner}>
@@ -97,7 +92,7 @@ const BoothDetail = () => {
         <Box>
           <Title>부스정보</Title>
           <Department>{department}</Department>
-          <CreateAt>등록일: {formatDate(createdAt)}</CreateAt>
+          <CreateAt>등록일: {date}</CreateAt>
 
           <BoothImg src={imageUrl} alt="부스 이미지" />
           <Name>{name}</Name>
@@ -112,9 +107,11 @@ const BoothDetail = () => {
         {role === 'STUDENT' && (
           <StudentAction>
             <Buttons>
-              <QRButton onClick={() => navigate(`/qr-reader`)}>
-                QR 촬영하기
-              </QRButton>
+              {isEventBooth && (
+                <QRButton onClick={() => navigate(`/qr-reader`)}>
+                  QR 촬영하기
+                </QRButton>
+              )}
               <StampButton onClick={() => navigate(`/stamps`)}>
                 도장판으로
               </StampButton>
@@ -136,11 +133,13 @@ const BoothDetail = () => {
                 </QRButton>
               </Buttons>
             </AdminAction>
-            <BottomSheet
-              qrCode={qrCode}
-              department={department}
-              fetchQr={fetchQr}
-            />
+            {isEventBooth && (
+              <BottomSheet
+                qrCode={qrCode}
+                department={department}
+                fetchQr={fetchQr}
+              />
+            )}
           </>
         )}
       </Wrapper>
@@ -208,14 +207,12 @@ const CreateAt = styled.p`
 `;
 const BoothImg = styled.img`
   width: 100%;
-  height: 248px;
   margin-bottom: 16px;
   border-radius: 12px;
   object-fit: cover;
 `;
 const MapImg = styled.img`
   width: 100%;
-  height: 182px;
   margin-bottom: 40px;
   border-radius: 12px;
   object-fit: cover;

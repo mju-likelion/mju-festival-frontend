@@ -2,8 +2,7 @@ import { AxiosResponse } from 'axios';
 import {
   BoothDepartment,
   BoothDetailInfo,
-  BoothEditFields,
-  BoothPreview,
+  BoothList,
   BoothQrData,
   Ownership,
 } from '../types';
@@ -15,11 +14,10 @@ export const getBoothDepartments = async () => {
 };
 
 export const getBooths = async (boothId: string) => {
-  const { data } = await Axios.get<BoothPreview[]>(
+  const { data } = await Axios.get<BoothList>(
     `/booths?affiliation_id=${boothId}`
   );
-
-  return data;
+  return data.simpleBoothResponseList;
 };
 
 export const getBoothDetail = async (boothId: string) => {
@@ -41,10 +39,10 @@ export const getOwnership = async (token: string, boothId: string) => {
 
 export const patchBoothDetail = async (
   boothId: string,
-  updateData: Partial<BoothEditFields>,
+  description: { description: string },
   token: string
 ) => {
-  const { data } = await Axios.patch(`/booths/${boothId}`, updateData, {
+  const { data } = await Axios.patch(`/booths/${boothId}`, description, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

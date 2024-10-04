@@ -4,13 +4,16 @@ export interface BoothDepartment {
   categoryName: string;
 }
 
+export interface BoothList {
+  simpleBoothResponseList: BoothPreview[];
+}
 export interface BoothPreview {
   id: string;
   name: string;
   departmentName: string;
   imageUrl: string;
+  isEventBooth: boolean;
 }
-
 export interface BoothListObj {
   [key: string]: BoothPreview[];
 }
@@ -27,19 +30,7 @@ export interface BoothInfo {
   name: string;
   description: string;
   imageUrl: string;
-}
-
-export interface BoothEditFields {
-  name: string;
-  description: string;
-  location: string;
-  file?: File;
-}
-export interface BoothEditData {
-  name: string;
-  description: string;
-  location: string;
-  imageUrl: string;
+  isEventBooth: boolean;
 }
 
 export interface BoothQrData {

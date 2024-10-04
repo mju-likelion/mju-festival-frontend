@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { ChangeEvent, useMemo, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useState } from 'react';
 import { patchLostItem, postLostItemImg } from '../../api/lostItem';
 import Header from '../../components/Header';
 import usePreventRefresh from '../../hooks/usePreventRefresh';
@@ -23,7 +23,7 @@ const EditLostItem = () => {
   const navigate = useNavigate();
   const { token } = useAuthStore();
   const [editImgUrl, setEditImgUrl] = useState('');
-  const { id, title, content, imageUrl } = location.state;
+  const { id, title, content, imageUrl } = location.state || {};
   const todayDate = useMemo(() => getCurrentDate(), []);
 
   const { register, handleSubmit, setValue, watch } = useForm({
@@ -69,30 +69,39 @@ const EditLostItem = () => {
     }
   };
 
+  useEffect(() => {
+    if (!location.state) {
+      alert('이전 페이지에서 데이터를 가져올 수 없습니다. 다시 시도해주세요.');
+      navigate('/lost-items');
+    }
+  }, [location.state]);
+
   return (
     <Wrapper>
       <Header path={-1} />
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <TitleLayout>
-          <Title>분실물 등록하기</Title>
-          <SubTitle>분실물을 등록해주세요</SubTitle>
-          <RegisterDate>{todayDate}</RegisterDate>
-        </TitleLayout>
+      {location.state && (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TitleLayout>
+            <Title>분실물 등록하기</Title>
+            <SubTitle>분실물을 등록해주세요</SubTitle>
+            <RegisterDate>{todayDate}</RegisterDate>
+          </TitleLayout>
 
-        <ImageUploader
-          imageUrl={imageUrl}
-          editImgUrl={editImgUrl}
-          handleImgFile={handleImgFile}
-        />
-        <LostItemFormFields
-          title={title}
-          content={content}
-          register={register}
-          titleCount={titleCount}
-          contentCount={contentCount}
-        />
-        <FormActions />
-      </form>
+          <ImageUploader
+            imageUrl={imageUrl}
+            editImgUrl={editImgUrl}
+            handleImgFile={handleImgFile}
+          />
+          <LostItemFormFields
+            title={title}
+            content={content}
+            register={register}
+            titleCount={titleCount}
+            contentCount={contentCount}
+          />
+          <FormActions />
+        </form>
+      )}
     </Wrapper>
   );
 };

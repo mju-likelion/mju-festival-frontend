@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { fetchNotice } from '../../api/notice.ts';
@@ -6,6 +6,7 @@ import { ReactComponent as InstaArrowIconImg } from '../../assets/icons/backIcon
 import Header from '../../components/Header.tsx';
 import { useAuthStore } from '../../store';
 import { DetailNoticeType } from '../../types';
+import { formatDate } from '../../utils/dateUtil';
 import { handleError } from '../../utils/errorUtil.ts';
 import { openInstagram } from '../../utils/openLinkUtil.ts';
 import DeleteNoticeModal from './DeleteNoticeModal';
@@ -28,6 +29,11 @@ const ViewDetailNotice = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
+  const formattedDate = useMemo(
+    () => formatDate(new Date(notice.createdAt)),
+    [notice.createdAt]
+  );
+
   const getNotice = useCallback(async () => {
     try {
       const response = await fetchNotice(id);
@@ -49,14 +55,7 @@ const ViewDetailNotice = () => {
         <TopTitle>공지사항</TopTitle>
         <SubTitle>공지사항 내용</SubTitle>
       </TextLayout>
-      <DateLayout>
-        <p>
-          {`등록일 : ${notice.createdAt
-            .toString()
-            .split('T')[0]
-            .replace(/-/gi, ' . ')}`}
-        </p>
-      </DateLayout>
+      <RegisterDate>등록일: {formattedDate}</RegisterDate>
       <ImageLayout>
         {imageUrl ? <img src={imageUrl} alt="사진" /> : <NoImage />}
       </ImageLayout>
@@ -93,16 +92,12 @@ const Wrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.white100};
 `;
 
-const DateLayout = styled.div`
-  display: flex;
-  justify-content: end;
-  padding: 6px 20px 6px 0;
-
-  p {
-    font-size: 11px;
-    font-weight: 600;
-    color: #939da6;
-  }
+const RegisterDate = styled.p`
+  text-align: end;
+  margin-right: 20px;
+  margin-bottom: 10px;
+  ${({ theme }) => theme.typographies.caption1};
+  color: ${({ theme }) => theme.colors.gray400};
 `;
 
 const ImageLayout = styled.div`

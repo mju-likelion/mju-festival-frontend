@@ -10,7 +10,7 @@ import NoticeContent from './NoticeContent.tsx';
 
 const ViewAllNotice = () => {
   const [isSorted, setIsSorted] = useState<SortKey>('desc');
-  const [search, setSearch] = useSearchParams();
+  const [search] = useSearchParams();
   const currentPage = Math.max(parseInt(search.get('page') ?? '1', 10), 1);
 
   return (
@@ -21,11 +21,7 @@ const ViewAllNotice = () => {
         <InfoText>공지사항</InfoText>
       </InfoTextLayout>
       <DropDownLayout>
-        <DropDown
-          isSorted={isSorted}
-          setIsSorted={setIsSorted}
-          setPage={() => setSearch({ page: '1' })}
-        />
+        <DropDown isSorted={isSorted} setIsSorted={setIsSorted} />
       </DropDownLayout>
       <NoticeContent isSorted={isSorted} currentPage={currentPage} />
     </Wrapper>
