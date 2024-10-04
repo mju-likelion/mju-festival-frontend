@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/media-has-caption */
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useZxing } from 'react-zxing';
 import styled from 'styled-components';
@@ -8,14 +9,17 @@ import { ReactComponent as BottomRight } from '../../assets/imgs/camera_outline_
 import { ReactComponent as TopLeft } from '../../assets/imgs/camera_outline_top_left.svg';
 import { ReactComponent as TopRight } from '../../assets/imgs/camera_outline_top_right.svg';
 import Header from '../../components/Header';
+import LoadingSpinner from '../../components/LoadingSpinner';
 import { useAuthStore } from '../../store';
 import { handleError } from '../../utils/errorUtil';
 
 const QrReader = () => {
   const navigate = useNavigate();
   const { token } = useAuthStore();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleResult = async (qrUrl: string) => {
+    setIsLoading(true);
     try {
       const url = new URL(qrUrl);
       const qrId = url.pathname.split('/')[2];
@@ -28,6 +32,8 @@ const QrReader = () => {
     } catch (error) {
       handleError(error as Error);
       navigate(-1);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -42,6 +48,7 @@ const QrReader = () => {
   return (
     <Wrapper>
       <Header path={-1} />
+      <LoadingSpinner isLoading={isLoading} />
       <TitleLayout>
         <Title>QR 촬영</Title>
         <SubTitle>각 부스별 QR을 촬영해서 도장을 모아보세요!</SubTitle>
