@@ -6,8 +6,8 @@ import { Axios } from '../../api/Axios';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
 import { useAuthStore } from '../../store';
 import { ImageNoticeType } from '../../types';
-import { getCurrentDate } from '../../utils/dateUtil';
-import { handleError } from '../../utils/errorUtil';
+import { getCurrentDate } from '../../utils/date/dateUtil';
+import { DateAndTimeFormat } from '../../utils/date/format/DateAndTimeFormat';
 import Header from '../ViewDetailNotice/Header';
 
 const CreateNotice = () => {
@@ -69,7 +69,7 @@ const CreateNotice = () => {
     <Wrapper>
       <Header title="공지사항">공지사항 내용</Header>
       <DateLayout>
-        <p>등록일 : {getCurrentDate()}</p>
+        <p>등록일 : {getCurrentDate(DateAndTimeFormat)}</p>
       </DateLayout>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <UploadImageLayout>
