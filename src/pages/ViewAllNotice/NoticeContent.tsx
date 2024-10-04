@@ -1,15 +1,14 @@
+import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
 import styled from 'styled-components';
-import NoticeCard from './NoticeCard';
-import { useAuthStore } from '../../store';
-import LoadingSpinner from '../../components/LoadingSpinner.tsx';
-import ErrorMessage from '../../components/ErrorMessage.tsx';
 import { getNotices } from '../../api/notice.ts';
+import { ReactComponent as BigDelete } from '../../assets/icons/big_delete.svg';
 import { ReactComponent as LeftArrowActive } from '../../assets/icons/left_arrow_active.svg';
 import { ReactComponent as RightArrowActive } from '../../assets/icons/right_arrow_active.svg';
-import { ReactComponent as BigDelete } from '../../assets/icons/big_delete.svg';
-import { SortKey } from '../../types/notice.ts';
+import { useAuthStore } from '../../store';
+import { SimpleNotice, SortKey } from '../../types/notice.ts';
+import { handleError } from '../../utils/errorUtil.ts';
+import NoticeCard from './NoticeCard';
 
 interface NoticeContentProps {
   currentPage: number;
@@ -18,29 +17,34 @@ interface NoticeContentProps {
 
 const NoticeContent = ({ currentPage, isSorted }: NoticeContentProps) => {
   const [, setSearch] = useSearchParams();
-  const { data, isPending, isError, error } = useQuery({
-    queryKey: ['notices', currentPage, isSorted],
-    queryFn: () => getNotices(isSorted, currentPage - 1, 4),
-  });
-  const { token, role } = useAuthStore();
+  const [notices, setNotices] = useState<SimpleNotice[]>([]);
+  const [totalPage, setTotalPage] = useState(0);
 
+  const { token, role } = useAuthStore();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getNotices(isSorted, currentPage - 1, 4);
+        const { simpleAnnouncements, totalPage } = response;
+
+        setNotices(simpleAnnouncements);
+        setTotalPage(totalPage);
+      } catch (error) {
+        handleError(error as Error);
+      }
+    };
+
+    fetchData();
+  }, [currentPage, isSorted]);
+
   const handleClick = () => {
     if (token && role === 'STUDENT_COUNCIL') {
       navigate('/create/notice');
     }
   };
 
-  if (isPending) {
-    return <LoadingSpinner isLoading={isPending} />;
-  }
-
-  if (isError) {
-    return <ErrorMessage>{String(error)}</ErrorMessage>;
-  }
-
-  const notices = data.simpleAnnouncements;
-  const { totalPage } = data;
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === totalPage;
   const isEmptyNoticeList = !notices.length;

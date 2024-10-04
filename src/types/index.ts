@@ -1,6 +1,5 @@
 export * from './auth';
-export * from './notice';
 export * from './booth';
 export * from './main';
+export * from './notice';
 export * from './timetable';
-export * from './errorCode';

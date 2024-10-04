@@ -32,10 +32,11 @@ const DetailLostItem = () => {
 
   const handleDelete = async () => {
     try {
-      if (!id || !token) throw new Error('삭제를 위한 ID나 토큰이 없습니다.');
-      await deleteLostItem(id, token);
-      setIsModalOpen(false);
-      navigate('/lost-items');
+      if (id && token) {
+        await deleteLostItem(id, token);
+        setIsModalOpen(false);
+        navigate('/lost-items');
+      }
     } catch (error) {
       handleError(error as Error);
     }
@@ -80,7 +81,7 @@ const DetailLostItem = () => {
         <PlaceContainer>
           찾아가는 위치:
           <PlaceIcon />
-          명진당
+          총학생회 부스
         </PlaceContainer>
 
         {role === 'STUDENT_COUNCIL' && (

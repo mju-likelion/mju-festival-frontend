@@ -1,17 +1,16 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { patchBoothDetail } from '../../api/booth.ts';
-import { handleError } from '../../utils/errorUtil.ts';
 import { useAuthStore } from '../../store';
+import { handleError } from '../../utils/errorUtil.ts';
 import { boothSchema } from '../../validation/schema.ts';
 
 import Header from '../../components/Header.tsx';
 import usePreventRefresh from '../../hooks/usePreventRefresh.ts';
-import LoadingSpinner from '../../components/LoadingSpinner.tsx';
 
 import { ReactComponent as LocationIcon } from '../../assets/icons/location_icon.svg';
 
@@ -21,8 +20,6 @@ const BoothEdit = () => {
   const locationData = useLocation();
   const { id, name, department, description, location, imageUrl } =
     locationData.state || {};
-  const [isLoading, setIsLoading] = useState(false);
-
   const { token } = useAuthStore();
   const navigate = useNavigate();
 
@@ -40,13 +37,10 @@ const BoothEdit = () => {
 
   const onSubmit = handleSubmit(async (description) => {
     try {
-      setIsLoading(true);
       await patchBoothDetail(id, description, token);
       navigate(`/booths/${id}`);
-      setIsLoading(false);
     } catch (e) {
       handleError(e as Error);
-      setIsLoading(false);
     }
   });
 
@@ -60,7 +54,6 @@ const BoothEdit = () => {
   return (
     <>
       <Header path={`/booths/${id}`} />
-      <LoadingSpinner isLoading={isLoading} />
       {locationData.state && (
         <Wrapper>
           <Title>부스정보</Title>

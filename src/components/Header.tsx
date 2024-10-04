@@ -44,7 +44,7 @@ const Wrapper = styled.div`
   background-color: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(10px);
   z-index: 999;
-  padding: 4px 20px 0 11px; // bottom: 0 - 각자 페이지 조절
+  padding: 4px 20px 10px 11px; // bottom: 0 - 각자 페이지 조절
 `;
 
 const BackButton = styled.div`

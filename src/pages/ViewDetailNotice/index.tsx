@@ -1,17 +1,16 @@
-import styled from 'styled-components';
-import { useCallback, useEffect, useState, useMemo } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { DetailNoticeType } from '../../types';
-import DeleteNoticeModal from './DeleteNoticeModal';
+import styled from 'styled-components';
 import { fetchNotice } from '../../api/notice.ts';
-import { useAuthStore } from '../../store';
-import { formatDate } from '../../utils/dateUtil';
-import { openInstagram } from '../../utils/openLinkUtil.ts';
 import { ReactComponent as InstaArrowIconImg } from '../../assets/icons/backIcon.svg';
-import NoImage from './NoImage.tsx';
 import Header from '../../components/Header.tsx';
-import ErrorMessage from '../../components/ErrorMessage.tsx';
-import LoadingSpinner from '../../components/LoadingSpinner.tsx';
+import { useAuthStore } from '../../store';
+import { DetailNoticeType } from '../../types';
+import { formatDate } from '../../utils/dateUtil';
+import { handleError } from '../../utils/errorUtil.ts';
+import { openInstagram } from '../../utils/openLinkUtil.ts';
+import DeleteNoticeModal from './DeleteNoticeModal';
+import NoImage from './NoImage.tsx';
 
 const ViewDetailNotice = () => {
   const [notice, setNotice] = useState<DetailNoticeType>({
@@ -23,8 +22,6 @@ const ViewDetailNotice = () => {
   });
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [error, setError] = useState<null | string>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const { id } = useParams();
   const { role } = useAuthStore();
@@ -42,24 +39,14 @@ const ViewDetailNotice = () => {
       const response = await fetchNotice(id);
       setNotice(response);
       setImageUrl(response.imageUrl || null);
-    } catch (err) {
-      setError('공지사항의 상세 정보를 불러오는 중 오류가 발생했습니다.');
-    } finally {
-      setIsLoading(false);
+    } catch (error) {
+      handleError(error as Error);
     }
   }, [id]);
 
   useEffect(() => {
     getNotice();
   }, [getNotice]);
-
-  if (isLoading) {
-    return <LoadingSpinner isLoading={isLoading} />;
-  }
-
-  if (error) {
-    return <ErrorMessage>{error}</ErrorMessage>;
-  }
 
   return (
     <Wrapper>
@@ -196,10 +183,9 @@ const ButtonLayout = styled.div`
 
   button {
     width: 100%;
-    height: 42px;
     border-radius: 12px;
-    font-size: 17px;
-    font-weight: 600;
+    padding: 16px 11px;
+    ${({ theme }) => theme.typographies.body1};
   }
 `;
 

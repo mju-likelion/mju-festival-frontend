@@ -1,19 +1,20 @@
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import styled from 'styled-components';
 import { getTerms, postLogIn, requestKey } from '../../api/postLogIn.ts';
 import useDetermineRole from '../../hooks/useDetermineRole.ts';
 
-import { handleError } from '../../utils/errorUtil.ts';
-import { setEncryptData } from '../../utils/encryptionUtil.ts';
-import { useAuthStore } from '../../store';
-import LogInInput from './LogInInput.tsx';
-import LogInButton from './LogInButton.tsx';
-import CheckBox from './CheckBox.tsx';
 import { ReactComponent as RightArrowIcon } from '../../assets/icons/right_arrow.svg';
+import { useAuthStore } from '../../store';
+import { setEncryptData } from '../../utils/encryptionUtil.ts';
+import { handleError } from '../../utils/errorUtil.ts';
+import CheckBox from './CheckBox.tsx';
+import LogInButton from './LogInButton.tsx';
+import LogInInput from './LogInInput.tsx';
 
+import LoadingSpinner from '../../components/LoadingSpinner.tsx';
 import {
   AuthFormValues,
   EncryptKeyInfo,
@@ -31,6 +32,7 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
   const [termsList, setTermsList] = useState<Terms[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const { setRole, setToken } = useAuthStore();
   const navigate = useNavigate();
@@ -87,6 +89,8 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
+      setIsLoading(true);
+
       const encryptInfo = await requestKey();
       let encryptLogInData = setEncryptData(formData, encryptInfo, auth);
       if (formData.terms) {
@@ -95,6 +99,8 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
       await login(encryptLogInData, encryptInfo);
     } catch (e) {
       handleError(e as Error);
+    } finally {
+      setIsLoading(false);
     }
   });
 
@@ -119,62 +125,65 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
   const hasValueMessage = '입력을 완료했습니다.';
 
   return (
-    <Form onSubmit={onSubmit}>
-      <FieldWrapper>
-        <InputWrapper>
-          <LogInInput
-            type="text"
-            name="id"
-            placeholder={placeHolder}
-            register={register}
-          />
-          <HelperText $isActive={loginWatch.length > 0}>
-            {loginWatch.length > 0 ? hasValueMessage : errors.id?.message}
-          </HelperText>
-        </InputWrapper>
-        <InputWrapper>
-          <LogInInput
-            type={isOpen ? 'text' : 'password'}
-            name="password"
-            placeholder="비밀번호를 입력해주세요"
-            register={register}
-            toggleEye={toggleEye}
-            isOpen={isOpen}
-          />
-          <HelperText $isActive={passwordWatch.length > 0}>
-            {passwordWatch.length > 0
-              ? hasValueMessage
-              : errors.password?.message}
-          </HelperText>
-        </InputWrapper>
-      </FieldWrapper>
-      <LogInButton
-        $isActive={loginWatch.length > 0 && passwordWatch.length > 0}
-      />
-      {auth === 'USER' && (
-        <AdminLogin onClick={() => navigate('/admin/login')}>
-          관리자용 로그인
-          <RightArrowIcon />
-        </AdminLogin>
-      )}
-      {auth === 'USER' &&
-        termsList.map(({ id, title, content }) => (
-          <TermBox key={id}>
-            <TermTitle>{title}</TermTitle>
-            <TermContent>{content}</TermContent>
-            <CheckWrapper>
-              <P $isChecked={isChecked}>개인정보 수집동의</P>
-              <CheckBox
-                name={`terms.${id}`}
-                register={register}
-                isChecked={isChecked}
-                setIsChecked={setIsChecked}
-              />
-            </CheckWrapper>
-            <p>{errors.terms?.[id]?.message}</p>
-          </TermBox>
-        ))}
-    </Form>
+    <>
+      <LoadingSpinner isLoading={isLoading} />
+      <Form onSubmit={onSubmit}>
+        <FieldWrapper>
+          <InputWrapper>
+            <LogInInput
+              type="text"
+              name="id"
+              placeholder={placeHolder}
+              register={register}
+            />
+            <HelperText $isActive={loginWatch.length > 0}>
+              {loginWatch.length > 0 ? hasValueMessage : errors.id?.message}
+            </HelperText>
+          </InputWrapper>
+          <InputWrapper>
+            <LogInInput
+              type={isOpen ? 'text' : 'password'}
+              name="password"
+              placeholder="비밀번호를 입력해주세요"
+              register={register}
+              toggleEye={toggleEye}
+              isOpen={isOpen}
+            />
+            <HelperText $isActive={passwordWatch.length > 0}>
+              {passwordWatch.length > 0
+                ? hasValueMessage
+                : errors.password?.message}
+            </HelperText>
+          </InputWrapper>
+        </FieldWrapper>
+        <LogInButton
+          $isActive={loginWatch.length > 0 && passwordWatch.length > 0}
+        />
+        {auth === 'USER' && (
+          <AdminLogin onClick={() => navigate('/admin/login')}>
+            관리자용 로그인
+            <RightArrowIcon />
+          </AdminLogin>
+        )}
+        {auth === 'USER' &&
+          termsList.map(({ id, title, content }) => (
+            <TermBox key={id}>
+              <TermTitle>{title}</TermTitle>
+              <TermContent>{content}</TermContent>
+              <CheckWrapper>
+                <P $isChecked={isChecked}>개인정보 수집동의</P>
+                <CheckBox
+                  name={`terms.${id}`}
+                  register={register}
+                  isChecked={isChecked}
+                  setIsChecked={setIsChecked}
+                />
+              </CheckWrapper>
+              <p>{errors.terms?.[id]?.message}</p>
+            </TermBox>
+          ))}
+      </Form>
+    </>
   );
 };
 

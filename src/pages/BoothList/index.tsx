@@ -6,23 +6,19 @@ import { ReactComponent as CheckedIcon } from '../../assets/icons/booth-checked.
 import { ReactComponent as UnCheckedIcon } from '../../assets/icons/booth-un-checked.svg';
 import { ReactComponent as StampIcon } from '../../assets/icons/stamp.svg';
 import Header from '../../components/Header.tsx';
-import LoadingSpinner from '../../components/LoadingSpinner.tsx';
 import { BoothDepartment, BoothListObj } from '../../types';
 import { handleError } from '../../utils/errorUtil.ts';
 
 const BoothPage = () => {
   const [departmentList, setDepartmentList] = useState<BoothDepartment[]>([]);
-  useState<BoothDepartment[]>();
   const [selectedDepartmentIdArr, setSelectedDepartmentIdArr] = useState<
     string[]
   >([]);
   const [boothList, setBoothList] = useState<BoothListObj>({});
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const fetchData = async () => {
     try {
-      setIsLoading(true);
       const departments = await getBoothDepartments();
       setDepartmentList(departments);
 
@@ -38,10 +34,8 @@ const BoothPage = () => {
       }, {});
 
       setBoothList(boothsObject);
-      setIsLoading(false);
     } catch (e) {
       handleError(e as Error);
-      setIsLoading(false);
     }
   };
 
@@ -84,7 +78,6 @@ const BoothPage = () => {
   return (
     <Wrapper>
       <Header path="/main" />
-      <LoadingSpinner isLoading={isLoading} />
       <Title>부스정보</Title>
       <P>
         각 대학별 부스정보를 한 눈에 쉽게 파악하고 즐겁게 <br />

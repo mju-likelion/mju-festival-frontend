@@ -81,18 +81,12 @@ const Board = () => {
 
       <NumLayout>
         <StampNum>
-          현재까지 모은 도장 :
-          <span>
-            {Math.min(participatedBoothNames.length, boothsCountToComplete)}
-          </span>
-          개
+          현재까지 모은 도장 :{' '}
+          {Math.min(participatedBoothNames.length, boothsCountToComplete)}개
         </StampNum>
         <StampNum>
-          남은 도장의 개수 :
-          <span>
-            {Math.max(boothsCountToComplete - participatedBoothNames.length, 0)}
-          </span>
-          개
+          남은 도장의 개수 :{' '}
+          {Math.max(boothsCountToComplete - participatedBoothNames.length, 0)}개
         </StampNum>
       </NumLayout>
     </Wrapper>

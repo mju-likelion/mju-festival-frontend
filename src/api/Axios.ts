@@ -1,6 +1,5 @@
 import axios from 'axios';
-import { useAuthStore, useErrorStore } from '../store';
-import { ERRORS } from '../types';
+import { useAuthStore } from '../store';
 
 export const Axios = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -8,19 +7,18 @@ export const Axios = axios.create({
 
 Axios.interceptors.response.use(
   (response) => {
-    const { setErrorMessage } = useErrorStore.getState();
-    setErrorMessage(null);
     return response;
   },
   (error) => {
-    const { setErrorMessage } = useErrorStore.getState();
-    if (ERRORS.has(error.response.data.errorCode)) {
+    const statusCode = error.response?.status;
+
+    if (statusCode === 401) {
       useAuthStore.setState({
         token: '',
         role: '',
       });
-      setErrorMessage('인증 정보가 올바르지 않습니다. 다시 로그인해주세요');
     }
+
     return Promise.reject(error);
   }
 );
