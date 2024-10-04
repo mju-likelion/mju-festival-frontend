@@ -6,8 +6,8 @@ import { ReactComponent as InstaArrowIconImg } from '../../assets/icons/backIcon
 import Header from '../../components/Header.tsx';
 import { useAuthStore } from '../../store';
 import { DetailNoticeType } from '../../types';
-import { formatDate } from '../../utils/dateUtil';
-import { handleError } from '../../utils/errorUtil.ts';
+import { formatDate } from '../../utils/date/dateUtil.ts';
+import { DateAndTimeFormat } from '../../utils/date/format/DateAndTimeFormat.ts';
 import { openInstagram } from '../../utils/openLinkUtil.ts';
 import DeleteNoticeModal from './DeleteNoticeModal';
 import NoImage from './NoImage.tsx';
@@ -30,18 +30,14 @@ const ViewDetailNotice = () => {
   const closeModal = () => setIsModalOpen(false);
 
   const formattedDate = useMemo(
-    () => formatDate(new Date(notice.createdAt)),
+    () => formatDate(new Date(notice.createdAt), DateAndTimeFormat),
     [notice.createdAt]
   );
 
   const getNotice = useCallback(async () => {
-    try {
-      const response = await fetchNotice(id);
-      setNotice(response);
-      setImageUrl(response.imageUrl || null);
-    } catch (error) {
-      handleError(error as Error);
-    }
+    const response = await fetchNotice(id);
+    setNotice(response);
+    setImageUrl(response.imageUrl || null);
   }, [id]);
 
   useEffect(() => {

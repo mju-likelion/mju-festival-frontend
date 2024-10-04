@@ -9,7 +9,6 @@ import useDetermineRole from '../../hooks/useDetermineRole.ts';
 import { ReactComponent as RightArrowIcon } from '../../assets/icons/right_arrow.svg';
 import { useAuthStore } from '../../store';
 import { setEncryptData } from '../../utils/encryptionUtil.ts';
-import { handleError } from '../../utils/errorUtil.ts';
 import CheckBox from './CheckBox.tsx';
 import LogInButton from './LogInButton.tsx';
 import LogInInput from './LogInInput.tsx';
@@ -90,27 +89,22 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
   const onSubmit = handleSubmit(async (formData) => {
     try {
       setIsLoading(true);
-
       const encryptInfo = await requestKey();
       let encryptLogInData = setEncryptData(formData, encryptInfo, auth);
       if (formData.terms) {
         encryptLogInData = getUserTerms(formData.terms, encryptLogInData);
       }
       await login(encryptLogInData, encryptInfo);
-    } catch (e) {
-      handleError(e as Error);
+    } catch (error) {
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
   });
 
   const getTermsData = async () => {
-    try {
-      const termsList = await getTerms();
-      setTermsList(termsList);
-    } catch (e) {
-      handleError(e as Error);
-    }
+    const termsList = await getTerms();
+    setTermsList(termsList);
   };
 
   useEffect(() => {
@@ -189,7 +183,6 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
 
 const Form = styled.form``;
 const FieldWrapper = styled.div`
-  display: flex;
   flex-direction: column;
   gap: 20px;
 `;

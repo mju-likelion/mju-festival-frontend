@@ -8,8 +8,8 @@ import Header from '../../components/Header';
 import usePreventRefresh from '../../hooks/usePreventRefresh';
 import { useAuthStore } from '../../store';
 import { LostItemForm, LostItemRequest } from '../../types/lostItem';
-import { getCurrentDate } from '../../utils/dateUtil';
-import { handleError } from '../../utils/errorUtil';
+import { getCurrentDate } from '../../utils/date/dateUtil';
+import { DateAndTimeFormat } from '../../utils/date/format/DateAndTimeFormat';
 import { lostItemSchema } from '../../validation/schema';
 import FormActions from './FormActions';
 import ImageUploader from './ImageUploader';
@@ -21,7 +21,7 @@ const CreateLostItem = () => {
   const [imageUrl, setImageUrl] = useState<string>('');
   const { token } = useAuthStore();
   const navigate = useNavigate();
-  const todayDate = useMemo(() => getCurrentDate(), []);
+  const todayDate = useMemo(() => getCurrentDate(DateAndTimeFormat), []);
 
   const { register, handleSubmit, setValue, watch } = useForm({
     resolver: yupResolver(lostItemSchema),
@@ -30,17 +30,13 @@ const CreateLostItem = () => {
   const contentCount = watch('content', '');
 
   const handleImgFile = async (e: ChangeEvent<HTMLInputElement>) => {
-    try {
-      if (e.target.files && e.target.files.length > 0) {
-        const formData = new FormData();
-        formData.append('image', e.target.files[0]);
-        const imgUrl = await postLostItemImg(formData, token);
+    if (e.target.files && e.target.files.length > 0) {
+      const formData = new FormData();
+      formData.append('image', e.target.files[0]);
+      const imgUrl = await postLostItemImg(formData, token);
 
-        setImageUrl(imgUrl);
-        setValue('file', e.target.files[0]);
-      }
-    } catch (error) {
-      handleError(error as Error);
+      setImageUrl(imgUrl);
+      setValue('file', e.target.files[0]);
     }
   };
 
@@ -51,12 +47,8 @@ const CreateLostItem = () => {
       imageUrl,
     };
 
-    try {
-      await postLostItem(lostItemData, token);
-      navigate('/lost-items');
-    } catch (error) {
-      handleError(error as Error);
-    }
+    await postLostItem(lostItemData, token);
+    navigate('/lost-items');
   };
 
   return (

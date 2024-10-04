@@ -7,7 +7,6 @@ import { ReactComponent as LeftArrowActive } from '../../assets/icons/left_arrow
 import { ReactComponent as RightArrowActive } from '../../assets/icons/right_arrow_active.svg';
 import { useAuthStore } from '../../store';
 import { SimpleNotice, SortKey } from '../../types/notice.ts';
-import { handleError } from '../../utils/errorUtil.ts';
 import NoticeCard from './NoticeCard';
 
 interface NoticeContentProps {
@@ -25,15 +24,11 @@ const NoticeContent = ({ currentPage, isSorted }: NoticeContentProps) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const response = await getNotices(isSorted, currentPage - 1, 4);
-        const { simpleAnnouncements, totalPage } = response;
+      const response = await getNotices(isSorted, currentPage - 1, 4);
+      const { simpleAnnouncements, totalPage } = response;
 
-        setNotices(simpleAnnouncements);
-        setTotalPage(totalPage);
-      } catch (error) {
-        handleError(error as Error);
-      }
+      setNotices(simpleAnnouncements);
+      setTotalPage(totalPage);
     };
 
     fetchData();

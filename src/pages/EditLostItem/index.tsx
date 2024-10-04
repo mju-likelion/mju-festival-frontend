@@ -9,8 +9,8 @@ import Header from '../../components/Header';
 import usePreventRefresh from '../../hooks/usePreventRefresh';
 import { useAuthStore } from '../../store';
 import { LostItemForm, LostItemRequest } from '../../types/lostItem';
-import { getCurrentDate } from '../../utils/dateUtil';
-import { handleError } from '../../utils/errorUtil';
+import { getCurrentDate } from '../../utils/date/dateUtil';
+import { DateAndTimeFormat } from '../../utils/date/format/DateAndTimeFormat';
 import { lostItemEditSchema } from '../../validation/schema';
 import FormActions from './FormActions';
 import ImageUploader from './ImageUploader';
@@ -24,7 +24,7 @@ const EditLostItem = () => {
   const { token } = useAuthStore();
   const [editImgUrl, setEditImgUrl] = useState('');
   const { id, title, content, imageUrl } = location.state || {};
-  const todayDate = useMemo(() => getCurrentDate(), []);
+  const todayDate = useMemo(() => getCurrentDate(DateAndTimeFormat), []);
 
   const { register, handleSubmit, setValue, watch } = useForm({
     resolver: yupResolver(lostItemEditSchema),
@@ -34,39 +34,31 @@ const EditLostItem = () => {
   const contentCount = watch('content', '');
 
   const handleImgFile = async (e: ChangeEvent<HTMLInputElement>) => {
-    try {
-      if (e.target.files && e.target.files.length > 0) {
-        const formData = new FormData();
-        formData.append('image', e.target.files[0]);
-        const imgUrl = await postLostItemImg(formData, token);
+    if (e.target.files && e.target.files.length > 0) {
+      const formData = new FormData();
+      formData.append('image', e.target.files[0]);
+      const imgUrl = await postLostItemImg(formData, token);
 
-        setEditImgUrl(imgUrl);
-        setValue('file', e.target.files[0]);
-      }
-    } catch (error) {
-      handleError(error as Error);
+      setEditImgUrl(imgUrl);
+      setValue('file', e.target.files[0]);
     }
   };
 
   const onSubmit = async (formData: LostItemForm) => {
-    try {
-      const updateFields: Partial<LostItemRequest> = {};
+    const updateFields: Partial<LostItemRequest> = {};
 
-      Object.entries(formData).forEach(([key, value]) => {
-        const fieldKey = key as keyof LostItemRequest;
-        if (value !== location.state[key]) {
-          updateFields[fieldKey] = value;
-        }
-      });
-      updateFields.imageUrl = editImgUrl || imageUrl;
-
-      if (Object.keys(updateFields).length > 0 && token) {
-        await patchLostItem(id, updateFields, token);
+    Object.entries(formData).forEach(([key, value]) => {
+      const fieldKey = key as keyof LostItemRequest;
+      if (value !== location.state[key]) {
+        updateFields[fieldKey] = value;
       }
-      navigate('/lost-items');
-    } catch (error) {
-      handleError(error as Error);
+    });
+    updateFields.imageUrl = editImgUrl || imageUrl;
+
+    if (Object.keys(updateFields).length > 0 && token) {
+      await patchLostItem(id, updateFields, token);
     }
+    navigate('/lost-items');
   };
 
   useEffect(() => {

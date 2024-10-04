@@ -6,8 +6,8 @@ import { Axios } from '../../api/Axios';
 import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.svg';
 import { useAuthStore } from '../../store';
 import { ImageNoticeType } from '../../types';
-import { getCurrentDate } from '../../utils/dateUtil';
-import { handleError } from '../../utils/errorUtil';
+import { getCurrentDate } from '../../utils/date/dateUtil';
+import { DateAndTimeFormat } from '../../utils/date/format/DateAndTimeFormat';
 import Header from '../ViewDetailNotice/Header';
 
 const CreateNotice = () => {
@@ -32,16 +32,13 @@ const CreateNotice = () => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       imageData.append('image', file);
-      try {
-        const {
-          data: { url },
-        } = await Axios.post(`/images?type=ANNOUNCEMENT`, imageData, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setImageUrl(url);
-      } catch (error) {
-        handleError(error as Error);
-      }
+
+      const {
+        data: { url },
+      } = await Axios.post(`/images?type=ANNOUNCEMENT`, imageData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setImageUrl(url);
     }
   };
 
@@ -52,24 +49,20 @@ const CreateNotice = () => {
       formData.append('imageUrl', imageUrl);
     }
 
-    try {
-      await Axios.post('/announcements', formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      navigate('/view/all-notices');
-    } catch (error) {
-      handleError(error as Error);
-    }
+    await Axios.post('/announcements', formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    navigate('/view/all-notices');
   };
 
   return (
     <Wrapper>
       <Header title="공지사항">공지사항 내용</Header>
       <DateLayout>
-        <p>등록일 : {getCurrentDate()}</p>
+        <p>등록일 : {getCurrentDate(DateAndTimeFormat)}</p>
       </DateLayout>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <UploadImageLayout>

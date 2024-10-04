@@ -13,7 +13,8 @@ import { ReactComponent as TimeTableStatueImg } from '../../assets/imgs/timetabl
 import FloatingButton from '../../components/FloatingButton/index.tsx';
 import InfoText from '../../components/InfoText.tsx';
 import { MainButtonBgImg } from '../../types/index.ts';
-import { getCurrentDate } from '../../utils/dateUtil';
+import { getCurrentDate } from '../../utils/date/dateUtil.ts';
+import { DateOnlyFormat } from '../../utils/date/format/DateOnlyFormat.ts';
 import { downloadAppByDevice } from '../../utils/downloadAppUtil.ts';
 import { openInstagram } from '../../utils/openLinkUtil.ts';
 import Header from './Header.tsx';
@@ -36,7 +37,7 @@ const Main = () => {
           <MajestyLogo />
           <MajestySubLogo />
         </LogoLayout>
-        <p>{getCurrentDate().replace(/\./g, '/')}</p>
+        <p>{getCurrentDate(DateOnlyFormat).replace(/\./g, '/')}</p>
       </TitleLayout>
       <Weather />
       <InfoLayout>

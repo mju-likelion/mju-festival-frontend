@@ -8,7 +8,6 @@ import { ReactComponent as UploadImage } from '../../assets/imgs/image_upload.sv
 import Header from '../../components/Header.tsx';
 import { useAuthStore } from '../../store';
 import { DetailNoticeType, ImageNoticeType } from '../../types';
-import { handleError } from '../../utils/errorUtil.ts';
 
 const EditNotice = () => {
   const [notice, setNotice] = useState<DetailNoticeType>({
@@ -50,18 +49,14 @@ const EditNotice = () => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       imageData.append('image', file);
-      try {
-        const { data } = await Axios.post(
-          `/images?type=ANNOUNCEMENT`,
-          imageData,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        setImageUrl(data.url);
-      } catch (error) {
-        handleError(error as Error);
-      }
+      const { data } = await Axios.post(
+        `/images?type=ANNOUNCEMENT`,
+        imageData,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setImageUrl(data.url);
     }
   };
 
@@ -76,17 +71,13 @@ const EditNotice = () => {
       formData.append('imageUrl', imageUrl);
     }
 
-    try {
-      await Axios.patch(`/announcements/${id}`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      navigate(`/view/detail-notice/${id}`);
-    } catch (error) {
-      handleError(error as Error);
-    }
+    await Axios.patch(`/announcements/${id}`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    navigate(`/view/detail-notice/${id}`);
   };
 
   return (

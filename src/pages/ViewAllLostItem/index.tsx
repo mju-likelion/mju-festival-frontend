@@ -6,7 +6,6 @@ import Header from '../../components/Header';
 import InfoText from '../../components/InfoText';
 import { useAuthStore } from '../../store';
 import { SimpleLostItem, SortKey } from '../../types/lostItem';
-import { handleError } from '../../utils/errorUtil';
 import ItemList from './ItemList';
 import Modal from './Modal';
 import Page from './Page';
@@ -26,27 +25,20 @@ const LostItem = () => {
   const navigate = useNavigate();
 
   const fetchLostItems = async () => {
-    try {
-      const data = await getLostItems(sorted, page, SIZE);
-      const { simpleLostItems, totalPage } = data;
+    const data = await getLostItems(sorted, page, SIZE);
 
-      setLostItems(simpleLostItems);
-      setTotalPage(totalPage);
-    } catch (error) {
-      handleError(error as Error);
-    }
+    const { simpleLostItems, totalPage } = data;
+
+    setLostItems(simpleLostItems);
+    setTotalPage(totalPage);
   };
 
   const searchLostItems = async () => {
-    try {
-      const data = await getSearchLostItems(sorted, keyword, page, SIZE);
-      const { simpleLostItems, totalPage } = data;
+    const data = await getSearchLostItems(sorted, keyword, page, SIZE);
+    const { simpleLostItems, totalPage } = data;
 
-      setLostItems(simpleLostItems);
-      setTotalPage(totalPage);
-    } catch (error) {
-      handleError(error as Error);
-    }
+    setLostItems(simpleLostItems);
+    setTotalPage(totalPage);
   };
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -60,11 +52,12 @@ const LostItem = () => {
   };
 
   useEffect(() => {
-    fetchLostItems();
-  }, []);
-
-  useEffect(() => {
-    searchLostItems();
+    if (keyword.trim() !== '') {
+      setPage(0);
+      searchLostItems();
+    } else {
+      fetchLostItems();
+    }
   }, [sorted, page]);
 
   return (

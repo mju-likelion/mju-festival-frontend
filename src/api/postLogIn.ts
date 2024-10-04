@@ -1,5 +1,5 @@
-import { Axios } from './Axios.ts';
 import { Auth, EncryptKeyInfo, LogInFormDataValues, Terms } from '../types';
+import { Axios } from './Axios.ts';
 
 export const requestKey = async () => {
   const response = await Axios.get<EncryptKeyInfo>('/auth/key');
