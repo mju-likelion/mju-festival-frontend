@@ -32,16 +32,13 @@ const CreateNotice = () => {
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       imageData.append('image', file);
-      try {
-        const {
-          data: { url },
-        } = await Axios.post(`/images?type=ANNOUNCEMENT`, imageData, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setImageUrl(url);
-      } catch (error) {
-        handleError(error as Error);
-      }
+
+      const {
+        data: { url },
+      } = await Axios.post(`/images?type=ANNOUNCEMENT`, imageData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      setImageUrl(url);
     }
   };
 
@@ -52,17 +49,13 @@ const CreateNotice = () => {
       formData.append('imageUrl', imageUrl);
     }
 
-    try {
-      await Axios.post('/announcements', formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      navigate('/view/all-notices');
-    } catch (error) {
-      handleError(error as Error);
-    }
+    await Axios.post('/announcements', formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+    navigate('/view/all-notices');
   };
 
   return (

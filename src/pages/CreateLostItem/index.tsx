@@ -30,17 +30,13 @@ const CreateLostItem = () => {
   const contentCount = watch('content', '');
 
   const handleImgFile = async (e: ChangeEvent<HTMLInputElement>) => {
-    try {
-      if (e.target.files && e.target.files.length > 0) {
-        const formData = new FormData();
-        formData.append('image', e.target.files[0]);
-        const imgUrl = await postLostItemImg(formData, token);
+    if (e.target.files && e.target.files.length > 0) {
+      const formData = new FormData();
+      formData.append('image', e.target.files[0]);
+      const imgUrl = await postLostItemImg(formData, token);
 
-        setImageUrl(imgUrl);
-        setValue('file', e.target.files[0]);
-      }
-    } catch (error) {
-      handleError(error as Error);
+      setImageUrl(imgUrl);
+      setValue('file', e.target.files[0]);
     }
   };
 
@@ -51,12 +47,8 @@ const CreateLostItem = () => {
       imageUrl,
     };
 
-    try {
-      await postLostItem(lostItemData, token);
-      navigate('/lost-items');
-    } catch (error) {
-      handleError(error as Error);
-    }
+    await postLostItem(lostItemData, token);
+    navigate('/lost-items');
   };
 
   return (

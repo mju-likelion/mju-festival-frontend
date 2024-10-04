@@ -6,7 +6,6 @@ import styled from 'styled-components';
 
 import { patchBoothDetail } from '../../api/booth.ts';
 import { useAuthStore } from '../../store';
-import { handleError } from '../../utils/errorUtil.ts';
 import { boothSchema } from '../../validation/schema.ts';
 
 import Header from '../../components/Header.tsx';
@@ -36,12 +35,8 @@ const BoothEdit = () => {
   const descriptionWatch = watch('description', description);
 
   const onSubmit = handleSubmit(async (description) => {
-    try {
-      await patchBoothDetail(id, description, token);
-      navigate(`/booths/${id}`);
-    } catch (e) {
-      handleError(e as Error);
-    }
+    await patchBoothDetail(id, description, token);
+    navigate(`/booths/${id}`);
   });
 
   useEffect(() => {

@@ -8,7 +8,6 @@ import Header from '../../components/Header.tsx';
 import BottomSheet from '../../components/QrBottomSheet/index.tsx';
 import { useAuthStore } from '../../store';
 import { BoothDetailInfo } from '../../types';
-import { handleError } from '../../utils/errorUtil.ts';
 
 const BoothDetail = () => {
   const { role, token } = useAuthStore();
@@ -47,16 +46,12 @@ const BoothDetail = () => {
   };
 
   const fetchQr = async () => {
-    try {
-      if (!params.boothId) {
-        return;
-      }
-      const data = await getQrData(token, params.boothId);
-      if (data) {
-        setQrCode(data);
-      }
-    } catch (error) {
-      handleError(error as Error);
+    if (!params.boothId) {
+      return;
+    }
+    const data = await getQrData(token, params.boothId);
+    if (data) {
+      setQrCode(data);
     }
   };
 
@@ -70,14 +65,10 @@ const BoothDetail = () => {
 
   useEffect(() => {
     const initializeData = async () => {
-      try {
-        await fetchBoothDetailData();
-        if (role === 'BOOTH_MANAGER') {
-          const isOwner = await fetchOwnership();
-          setIsOwner(isOwner);
-        }
-      } catch (e) {
-        handleError(e as Error);
+      await fetchBoothDetailData();
+      if (role === 'BOOTH_MANAGER') {
+        const isOwner = await fetchOwnership();
+        setIsOwner(isOwner);
       }
     };
     initializeData();

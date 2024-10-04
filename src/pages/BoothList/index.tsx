@@ -7,7 +7,6 @@ import { ReactComponent as UnCheckedIcon } from '../../assets/icons/booth-un-che
 import { ReactComponent as StampIcon } from '../../assets/icons/stamp.svg';
 import Header from '../../components/Header.tsx';
 import { BoothDepartment, BoothListObj } from '../../types';
-import { handleError } from '../../utils/errorUtil.ts';
 
 const BoothPage = () => {
   const [departmentList, setDepartmentList] = useState<BoothDepartment[]>([]);
@@ -18,25 +17,21 @@ const BoothPage = () => {
   const navigate = useNavigate();
 
   const fetchData = async () => {
-    try {
-      const departments = await getBoothDepartments();
-      setDepartmentList(departments);
+    const departments = await getBoothDepartments();
+    setDepartmentList(departments);
 
-      const boothsByDepartment = await Promise.all(
-        departments.map(async (department) => {
-          const booths = await getBooths(department.id);
-          return { [department.id]: booths };
-        })
-      );
+    const boothsByDepartment = await Promise.all(
+      departments.map(async (department) => {
+        const booths = await getBooths(department.id);
+        return { [department.id]: booths };
+      })
+    );
 
-      const boothsObject = boothsByDepartment.reduce((acc, curr) => {
-        return { ...acc, ...curr };
-      }, {});
+    const boothsObject = boothsByDepartment.reduce((acc, curr) => {
+      return { ...acc, ...curr };
+    }, {});
 
-      setBoothList(boothsObject);
-    } catch (e) {
-      handleError(e as Error);
-    }
+    setBoothList(boothsObject);
   };
 
   const filterSelectedDepartments = (selectedIds: string[]) => {
@@ -121,7 +116,7 @@ const BoothPage = () => {
                       {getCategoryNameById(departmentId)}
                     </CategoryName>
                     {boothList.map((booth) => (
-                      <BoothContainer>
+                      <BoothContainer key={booth.id}>
                         {booth.isEventBooth && <StyledStampIcon />}
                         <BoothBox
                           key={booth.id}

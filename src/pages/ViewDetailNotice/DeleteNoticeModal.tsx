@@ -4,7 +4,6 @@ import { Axios } from '../../api/Axios';
 import { ReactComponent as CloseBtnIcon } from '../../assets/icons/close.svg';
 import { useAuthStore } from '../../store';
 import { DeleteNoticeModalProps } from '../../types';
-import { handleError } from '../../utils/errorUtil';
 
 const DeleteNoticeModal = ({
   noticeId,
@@ -17,14 +16,10 @@ const DeleteNoticeModal = ({
   if (!isOpen) return null;
 
   const handleDeleteClick = async () => {
-    try {
-      await Axios.delete(`/announcements/${noticeId}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      navigate('/view/all-notices');
-    } catch (error) {
-      handleError(error as Error);
-    }
+    await Axios.delete(`/announcements/${noticeId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    navigate('/view/all-notices');
   };
 
   return (

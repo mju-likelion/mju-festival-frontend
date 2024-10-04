@@ -11,7 +11,6 @@ import { ReactComponent as TopRight } from '../../assets/imgs/camera_outline_top
 import Header from '../../components/Header';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { useAuthStore } from '../../store';
-import { handleError } from '../../utils/errorUtil';
 
 const QrReader = () => {
   const navigate = useNavigate();
@@ -30,7 +29,6 @@ const QrReader = () => {
       }
       navigate(`/stamps`);
     } catch (error) {
-      handleError(error as Error);
       navigate(-1);
     } finally {
       setIsLoading(false);

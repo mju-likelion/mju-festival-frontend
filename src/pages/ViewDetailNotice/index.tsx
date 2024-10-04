@@ -35,13 +35,9 @@ const ViewDetailNotice = () => {
   );
 
   const getNotice = useCallback(async () => {
-    try {
-      const response = await fetchNotice(id);
-      setNotice(response);
-      setImageUrl(response.imageUrl || null);
-    } catch (error) {
-      handleError(error as Error);
-    }
+    const response = await fetchNotice(id);
+    setNotice(response);
+    setImageUrl(response.imageUrl || null);
   }, [id]);
 
   useEffect(() => {

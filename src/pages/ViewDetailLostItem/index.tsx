@@ -9,9 +9,8 @@ import {
 import { ReactComponent as PlaceIcon } from '../../assets/icons/place.svg';
 import Header from '../../components/Header';
 import { useAuthStore } from '../../store';
-import { handleError } from '../../utils/errorUtil';
-import Modal from './Modal';
 import { SimpleLostItem } from '../../types/lostItem.ts';
+import Modal from './Modal';
 
 const DetailLostItem = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,26 +30,18 @@ const DetailLostItem = () => {
   });
 
   const handleDelete = async () => {
-    try {
-      if (id && token) {
-        await deleteLostItem(id, token);
-        setIsModalOpen(false);
-        navigate('/lost-items');
-      }
-    } catch (error) {
-      handleError(error as Error);
+    if (id && token) {
+      await deleteLostItem(id, token);
+      setIsModalOpen(false);
+      navigate('/lost-items');
     }
   };
 
   const handleFoundStatus = async () => {
-    try {
-      if (!id || !token || recipientName.length === 0) return;
-      await patchLostItemAsFound(id, token, recipientName);
-      setIsFoundModalOpen(false);
-      navigate('/lost-items');
-    } catch (error) {
-      handleError(error as Error);
-    }
+    if (!id || !token || recipientName.length === 0) return;
+    await patchLostItemAsFound(id, token, recipientName);
+    setIsFoundModalOpen(false);
+    navigate('/lost-items');
   };
 
   const fetchData = async () => {

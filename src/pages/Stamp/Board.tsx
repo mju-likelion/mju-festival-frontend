@@ -5,7 +5,6 @@ import { getStamp } from '../../api/stamp.ts';
 import { ReactComponent as StampActive } from '../../assets/icons/stamp_active.svg';
 import { ReactComponent as StampDisabled } from '../../assets/icons/stamp_disabled.svg';
 import { useAuthStore } from '../../store';
-import { handleError } from '../../utils/errorUtil';
 
 const Board = () => {
   const [participatedBoothNames, setParticipatedBoothNames] = useState([]);
@@ -33,7 +32,6 @@ const Board = () => {
         setBoothsCountToComplete(stampData.boothsCountToComplete);
       }
     } catch (error) {
-      handleError(error as Error);
       navigate(-1);
     }
   };

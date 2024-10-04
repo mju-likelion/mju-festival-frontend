@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { deleteUser } from '../../api/setting';
 import { useAuthStore } from '../../store';
-import { handleError } from '../../utils/errorUtil';
 import Header from './Header';
 import Modal from './Modal';
 
@@ -21,14 +20,10 @@ const Setting = () => {
   };
 
   const handleWithdraw = async () => {
-    try {
-      await deleteUser(token);
-      setToken('');
-      setRole('');
-      navigate('/');
-    } catch (error) {
-      handleError(error as Error);
-    }
+    await deleteUser(token);
+    setToken('');
+    setRole('');
+    navigate('/');
   };
 
   return (
