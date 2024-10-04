@@ -26,6 +26,7 @@ const handleUnauthorizedError = (error: CustomError) => {
   alert(
     `인증 정보가 올바르지 않습니다. 다시 로그인해주세요\n${error.response?.data.message}`
   );
+  window.location.href = '/login';
 };
 
 const isServerError = (error: CustomError) => {
