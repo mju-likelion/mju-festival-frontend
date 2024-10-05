@@ -59,12 +59,7 @@ const Wrapper = motion(styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.5) 20.37%,
-      rgba(0, 0, 0, 0) 100%
-    ),
-    url(${landingBg});
+  background: url(${landingBg});
   background-size: cover;
   background-position: center;
   width: 100%;
