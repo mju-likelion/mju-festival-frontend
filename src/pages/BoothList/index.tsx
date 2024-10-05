@@ -235,18 +235,17 @@ const BoothContainer = styled.div`
   position: relative;
 `;
 const StyledStampIcon = styled(StampIcon)`
-  top: -24px;
-  right: 4px;
+  top: -16px;
+  right: 2px;
   position: absolute;
 `;
 const BoothBox = styled.div<{ $isEventBooth: boolean }>`
   width: calc(100% - 20px);
   margin: 0 10px 15px 10px;
   padding: 12px 11px;
-  box-shadow: 2px 2px 9px rgba(36, 39, 46, 0.3);
-  border: 5px dashed
+  box-shadow: 2px 2px 9px
     ${({ theme, $isEventBooth }) =>
-      $isEventBooth ? theme.colors.blue300 : 'transparent'};
+      $isEventBooth ? theme.colors.blue300 : `rgba(36, 39, 46, 0.3)`};
   border-radius: 12px;
   display: flex;
   gap: 10px;

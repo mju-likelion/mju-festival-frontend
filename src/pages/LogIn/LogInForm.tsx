@@ -185,6 +185,7 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
 
 const Form = styled.form``;
 const FieldWrapper = styled.div`
+  display: flex;
   flex-direction: column;
   gap: 20px;
 `;
@@ -200,6 +201,7 @@ const TermBox = styled.div`
   ${({ theme }) => theme.typographies.footnote};
 `;
 const AdminLogin = styled.div`
+  margin-top: 16px;
   display: flex;
   justify-content: end;
   align-items: center;
