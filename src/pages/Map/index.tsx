@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import Header from '../../components/Header.tsx';
 
@@ -12,14 +13,34 @@ const Map = () => {
         </TitleLayout>
         <MapImgLayout>
           <MapImg
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 1.2,
+              ease: [0.6, -0.05, 0.01, 0.99],
+            }}
             src="https://image.mju-majesty.com/9adde7ca-7c5b-4627-b23e-e6aefd6a1405 "
             alt="mapImg"
           />
           <MapImg
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 1.2,
+              delay: 0.2,
+              ease: [0.6, -0.05, 0.01, 0.99],
+            }}
             src="https://image.mju-majesty.com/a54a34d0-f119-4057-8322-0aa1c4641adf"
             alt="mapImg"
           />
           <MapImg
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 1.2,
+              delay: 0.4,
+              ease: [0.6, -0.05, 0.01, 0.99],
+            }}
             src="https://image.mju-majesty.com/34265d8b-9950-41e2-8507-f57dfda87b08 "
             alt="mapImg"
           />
@@ -59,8 +80,8 @@ const MapImgLayout = styled.div`
   padding-top: 30px;
 `;
 
-const MapImg = styled.img`
+const MapImg = motion(styled.img`
   width: 100%;
-`;
+`);
 
 export default Map;
