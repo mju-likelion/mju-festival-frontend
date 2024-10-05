@@ -244,9 +244,11 @@ const FoundedButton = styled(Button)`
 `;
 
 const RecipientInput = styled.input`
+  width: 100%;
   padding: 10px;
-  ${({ theme }) => theme.typographies.body2};
+  ${({ theme }) => theme.typographies.footnote};
   border: 1px solid ${({ theme }) => theme.colors.black10};
+
   border-radius: 12px;
   line-height: 20px;
   white-space: pre-wrap;
