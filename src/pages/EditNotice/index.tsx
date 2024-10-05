@@ -170,8 +170,6 @@ const UploadImageLayout = styled.div`
 
 const UploadImageContainer = styled.div<{ bg?: boolean }>`
   width: 100%;
-  height: 248px;
-  padding: 76px 58px;
   border-radius: 12px;
   background-color: ${({ bg }) => (bg ? 'rgba(0, 0, 0, 0.3)' : 'none')};
   background-size: contain;
@@ -183,6 +181,8 @@ const UploadGuideBox = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  height: 248px;
+  padding: 76px 58px;
 
   p:nth-of-type(1) {
     margin-top: 4px;
