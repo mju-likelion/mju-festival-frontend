@@ -97,8 +97,8 @@ const LogInBtn = motion(styled.button`
 `);
 
 const MainBtn = styled.button`
+  margin-top: 16px;
   display: flex;
-
   align-items: center;
   color: ${({ theme }) => theme.colors.white100};
   ${({ theme }) => theme.typographies.footnote};
