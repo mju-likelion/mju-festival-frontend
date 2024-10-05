@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useForm } from 'react-hook-form';
+import { FieldErrors, useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -61,6 +61,13 @@ const EditLostItem = () => {
     navigate('/lost-items');
   };
 
+  const onError = (errors: FieldErrors<LostItemForm>) => {
+    const firstErrorField = Object.keys(errors)[0] as keyof LostItemForm;
+    if (firstErrorField) {
+      alert(errors[firstErrorField]?.message);
+    }
+  };
+
   useEffect(() => {
     if (!location.state) {
       alert('이전 페이지에서 데이터를 가져올 수 없습니다. 다시 시도해주세요.');
@@ -72,7 +79,7 @@ const EditLostItem = () => {
     <Wrapper>
       <Header path={-1} />
       {location.state && (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit, onError)}>
           <TitleLayout>
             <Title>분실물 등록하기</Title>
             <SubTitle>분실물을 등록해주세요</SubTitle>

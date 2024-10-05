@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ChangeEvent, useMemo, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldErrors, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { postLostItem, postLostItemImg } from '../../api/lostItem';
@@ -51,10 +51,17 @@ const CreateLostItem = () => {
     navigate('/lost-items');
   };
 
+  const onError = (errors: FieldErrors<LostItemForm>) => {
+    const firstErrorField = Object.keys(errors)[0] as keyof LostItemForm;
+    if (firstErrorField) {
+      alert(errors[firstErrorField]?.message);
+    }
+  };
+
   return (
     <Wrapper>
       <Header path="/lost-items" />
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit, onError)}>
         <TitleLayout>
           <Title>분실물 등록하기</Title>
           <SubTitle>분실물을 등록해주세요</SubTitle>
