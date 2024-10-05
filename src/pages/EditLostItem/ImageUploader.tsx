@@ -62,13 +62,14 @@ const UploadImageLayout = styled.div<{
   $imageUrl: string;
 }>`
   width: 100%;
-  height: 248px;
   padding: 76px 58px;
   border-radius: 12px;
   background-image: ${({ $editImgUrl, $imageUrl }) =>
     `url(${$editImgUrl || $imageUrl || ''})`};
-  background-size: cover;
+  background-size: contain;
   background-color: rgba(0, 0, 0, 0.3);
+  background-repeat: no-repeat;
+  background-position: center;
   cursor: pointer;
 `;
 

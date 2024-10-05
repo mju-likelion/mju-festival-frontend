@@ -179,8 +179,7 @@ const RegisterDate = styled.p`
 
 const ItemImg = styled.img`
   border-radius: 12px;
-  height: 248px;
-  object-fit: cover;
+  object-fit: contain;
   margin: 9px 0 17px 0;
 `;
 
