@@ -23,29 +23,24 @@ const SearchInput = ({ setKeyword }: SearchInputProps) => {
 
 const Wrapper = styled.label`
   display: flex;
+  justify-content: space-between;
   align-items: center;
   padding: 12px 10px;
   margin-top: 34px;
   background-color: ${({ theme }) => theme.colors.black10};
   border-radius: 8px;
-  gap: 8px;
 `;
 
 const Input = styled.input`
-  flex-grow: 1;
-  background-color: transparent;
+  max-width: 150px;
   color: ${({ theme }) => theme.colors.text500};
   ${({ theme }) => theme.typographies.body2}
-
   &:focus {
     color: ${({ theme }) => theme.colors.text900};
   }
 `;
 
 const SubmitButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   -webkit-tap-highlight-color: transparent;
 `;
 
