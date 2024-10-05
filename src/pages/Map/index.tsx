@@ -1,8 +1,5 @@
 import styled from 'styled-components';
 import Header from '../../components/Header.tsx';
-import map1 from '../../assets/imgs/map1.webp';
-import map2 from '../../assets/imgs/map2_1.webp';
-import map3 from '../../assets/imgs/map3_1.webp';
 
 const Map = () => {
   return (
@@ -14,9 +11,18 @@ const Map = () => {
           <p>각 부스 및 행사장 위치를 파악하고 즐기세요!</p>
         </TitleLayout>
         <MapImgLayout>
-          <MapImg src={map1} alt="mapImg" />
-          <MapImg src={map2} alt="mapImg" />
-          <MapImg src={map3} alt="mapImg" />
+          <MapImg
+            src="https://image.mju-majesty.com/9adde7ca-7c5b-4627-b23e-e6aefd6a1405 "
+            alt="mapImg"
+          />
+          <MapImg
+            src="https://image.mju-majesty.com/a54a34d0-f119-4057-8322-0aa1c4641adf"
+            alt="mapImg"
+          />
+          <MapImg
+            src="https://image.mju-majesty.com/34265d8b-9950-41e2-8507-f57dfda87b08 "
+            alt="mapImg"
+          />
         </MapImgLayout>
       </Wrapper>
     </>
