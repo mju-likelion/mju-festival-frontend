@@ -250,6 +250,7 @@ const BoothBox = styled.div<{ $isEventBooth: boolean }>`
   border-radius: 12px;
   display: flex;
   gap: 10px;
+  cursor: pointer;
 `;
 const TextBox = styled.div`
   width: calc(100% - 100px - 10px);
