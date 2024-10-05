@@ -89,7 +89,7 @@ const EditNotice = () => {
       </TextLayout>
       <form onSubmit={handleSubmit(handleFormSubmit)}>
         <UploadImageLayout>
-          <UploadImageContainer bg={!imageUrl} onClick={handleClick}>
+          <UploadImageContainer $bg={!imageUrl} onClick={handleClick}>
             {!imageUrl ? (
               <UploadGuideBox>
                 <UploadImageIcon />
@@ -168,10 +168,10 @@ const UploadImageLayout = styled.div`
   padding: 0 20px;
 `;
 
-const UploadImageContainer = styled.div<{ bg?: boolean }>`
+const UploadImageContainer = styled.div<{ $bg?: boolean }>`
   width: 100%;
   border-radius: 12px;
-  background-color: ${({ bg }) => (bg ? 'rgba(0, 0, 0, 0.3)' : 'none')};
+  background-color: ${({ $bg }) => ($bg ? 'rgba(0, 0, 0, 0.3)' : 'none')};
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
