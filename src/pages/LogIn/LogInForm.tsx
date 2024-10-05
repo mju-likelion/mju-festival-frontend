@@ -108,7 +108,9 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
   };
 
   useEffect(() => {
-    getTermsData();
+    if (auth === 'USER') {
+      getTermsData();
+    }
   }, []);
 
   const placeHolder =
