@@ -201,6 +201,7 @@ const TermBox = styled.div`
   ${({ theme }) => theme.typographies.footnote};
 `;
 const AdminLogin = styled.div`
+  margin-top: 16px;
   display: flex;
   justify-content: end;
   align-items: center;
