@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Landing from './pages/Landing/index.tsx';
 import Layout from './pages/Landing/Layout.tsx';
 import NotFound from './pages/NotFound/index.tsx';
+import useRouteTracker from './hooks/useRouteTracker.tsx';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,8 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  useRouteTracker();
+
   return (
     <MobileWrapper>
       <RouterProvider router={router} />
