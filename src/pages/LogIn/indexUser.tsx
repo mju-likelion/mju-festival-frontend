@@ -49,6 +49,7 @@ const LogoWrapper = styled.div`
   padding-top: 58px;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 `;
 const LogIn = styled.p`
   margin: 80px 0 32px;
