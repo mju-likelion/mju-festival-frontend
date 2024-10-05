@@ -170,8 +170,8 @@ const UploadImageLayout = styled.div`
 
 const UploadImageContainer = styled.div<{ bg?: boolean }>`
   width: 100%;
-  /* height: 248px; */
-  /* padding: 76px 58px; */
+  height: 248px;
+  padding: 76px 58px;
   border-radius: 12px;
   background-color: ${({ bg }) => (bg ? 'rgba(0, 0, 0, 0.3)' : 'none')};
   background-size: contain;
