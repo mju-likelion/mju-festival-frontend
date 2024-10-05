@@ -1,11 +1,11 @@
-import styled from 'styled-components';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { ReactComponent as LandingContent } from '../../assets/imgs/landing_header_content.svg';
-import { ReactComponent as LandingTitleLogo } from '../../assets/imgs/landing_title.svg';
+import styled from 'styled-components';
 import { ReactComponent as RightArrow } from '../../assets/icons/landing_right_arrow.svg';
-import { ReactComponent as MJULogo } from '../../assets/imgs/landing_mju_logo.svg';
 import landingBg from '../../assets/imgs/landing_Bg.webp';
+import { ReactComponent as LandingContent } from '../../assets/imgs/landing_header_content.svg';
+import { ReactComponent as MJULogo } from '../../assets/imgs/landing_mju_logo.svg';
+import { ReactComponent as LandingTitleLogo } from '../../assets/imgs/landing_title.svg';
 
 const Landing = () => {
   const navigate = useNavigate();

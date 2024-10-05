@@ -24,34 +24,27 @@ const FloatingButton = () => {
   };
 
   return (
-    <Container>
-      <Wrapper>
-        {isButtonOpen && (
-          <>
-            <MenuAnimatedButton
-              as={MenuStampIcon}
-              onClick={() => handleNavigate('/stamps')}
-            />
-            <MenuAnimatedButton
-              as={MenuCameraIcon}
-              onClick={() => handleNavigate('/qr-reader')}
-            />
-          </>
-        )}
-        <MenuButton src={menuDefault} onClick={handleButton} />
-      </Wrapper>
-    </Container>
+    <Wrapper>
+      {isButtonOpen && (
+        <>
+          <MenuAnimatedButton
+            as={MenuStampIcon}
+            onClick={() => handleNavigate('/stamps')}
+          />
+          <MenuAnimatedButton
+            as={MenuCameraIcon}
+            onClick={() => handleNavigate('/qr-reader')}
+          />
+        </>
+      )}
+      <MenuButton src={menuDefault} onClick={handleButton} />
+    </Wrapper>
   );
 };
 
-const Container = styled.div`
-  max-width: 430px;
-  position: relative;
-`;
-
 const Wrapper = styled.div`
   width: 66px;
-  position: absolute;
+  position: fixed;
   bottom: 49px;
   right: 24px;
 
