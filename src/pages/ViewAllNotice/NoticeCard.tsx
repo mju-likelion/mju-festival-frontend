@@ -12,6 +12,7 @@ const NoticeCard = ({ title, content, onClick }: NoticeCardPropType) => {
 };
 
 const Wrapper = styled.div`
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   gap: 10px;

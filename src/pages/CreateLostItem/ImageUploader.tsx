@@ -55,7 +55,9 @@ const UploadImageLayout = styled.div<{ $imageUrl: string | null }>`
   border-radius: 12px;
   background-image: ${({ $imageUrl }) =>
     $imageUrl ? `url(${$imageUrl})` : 'none'};
-  background-size: cover;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
   background-color: rgba(0, 0, 0, 0.3);
   cursor: pointer;
 `;

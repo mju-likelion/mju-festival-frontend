@@ -52,6 +52,7 @@ const BackButton = styled.div`
 const LogoWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 `;
 const LogIn = styled.p`
   margin: 80px 0 32px;
