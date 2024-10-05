@@ -185,6 +185,7 @@ const LogInForm = ({ setIsModalOpen }: LogInFormProps) => {
 
 const Form = styled.form``;
 const FieldWrapper = styled.div`
+  display: flex;
   flex-direction: column;
   gap: 20px;
 `;
