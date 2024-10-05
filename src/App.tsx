@@ -4,7 +4,6 @@ import {
   ScrollRestoration,
 } from 'react-router-dom';
 import styled from 'styled-components';
-import useRouteTracker from './hooks/useRouteTracker.tsx';
 import useScreenSize from './hooks/useScreenSize.ts';
 import BoothDetail from './pages/BoothDetail';
 import BoothEdit from './pages/BoothEdit';
@@ -19,6 +18,7 @@ import AdminLogIn from './pages/LogIn/indexAdmin.tsx';
 import UserLogIn from './pages/LogIn/indexUser.tsx';
 import Main from './pages/Main/index.tsx';
 import Map from './pages/Map/index.tsx';
+import NotFound from './pages/NotFound';
 import QrReader from './pages/QrReader/index.tsx';
 import Setting from './pages/Setting/index.tsx';
 import Stamp from './pages/Stamp/index.tsx';
@@ -28,7 +28,6 @@ import LostItem from './pages/ViewAllLostItem/index.tsx';
 import ViewAllNotice from './pages/ViewAllNotice/index.tsx';
 import DetailLostItem from './pages/ViewDetailLostItem/index.tsx';
 import ViewDetailNotice from './pages/ViewDetailNotice/index.tsx';
-import NotFound from './pages/NotFound';
 
 const router = createBrowserRouter([
   {
@@ -132,7 +131,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  useRouteTracker();
+  // useRouteTracker();
   useScreenSize();
 
   return (
