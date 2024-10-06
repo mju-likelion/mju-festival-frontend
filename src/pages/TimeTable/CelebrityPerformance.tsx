@@ -14,6 +14,10 @@ interface CelebrityInfoProps {
 const CelebrityPerformData: CelebrityInfo = {
   '10월 07일': [
     {
+      name: '카더가든',
+      img: carthegarden,
+    },
+    {
       name: '10센치',
       img: tencm,
     },
@@ -21,19 +25,15 @@ const CelebrityPerformData: CelebrityInfo = {
       name: '최예나',
       img: yena,
     },
-    {
-      name: '카더가든',
-      img: carthegarden,
-    },
   ],
   '10월 08일': [
     {
-      name: '창모',
-      img: changmo,
-    },
-    {
       name: '헤이즈',
       img: heize,
+    },
+    {
+      name: '창모',
+      img: changmo,
     },
     {
       name: '펀치',
