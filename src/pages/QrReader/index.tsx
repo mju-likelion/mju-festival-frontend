@@ -18,6 +18,7 @@ const QrReader = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleResult = async (qrUrl: string) => {
+    if (isLoading) return;
     setIsLoading(true);
     try {
       const url = new URL(qrUrl);
@@ -36,9 +37,9 @@ const QrReader = () => {
   };
 
   const { ref } = useZxing({
-    onDecodeResult(result) {
+    async onDecodeResult(result) {
       if (result) {
-        handleResult(result.getText());
+        await handleResult(result.getText());
       }
     },
   });

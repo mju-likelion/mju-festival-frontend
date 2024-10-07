@@ -15,8 +15,8 @@ const Setting = () => {
     if (window.confirm('로그아웃 할까요?')) {
       setRole('');
       setToken('');
+      navigate('/');
     }
-    navigate('/');
   };
 
   const handleWithdraw = async () => {
