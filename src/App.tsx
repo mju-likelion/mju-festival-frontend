@@ -4,6 +4,7 @@ import {
   ScrollRestoration,
 } from 'react-router-dom';
 import styled from 'styled-components';
+import useRouteTracker from './hooks/useRouteTracker.tsx';
 import useScreenSize from './hooks/useScreenSize.ts';
 import BoothDetail from './pages/BoothDetail';
 import BoothEdit from './pages/BoothEdit';
@@ -131,7 +132,7 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  // useRouteTracker();
+  useRouteTracker();
   useScreenSize();
 
   return (

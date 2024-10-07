@@ -33,10 +33,11 @@ const Stamp = () => {
         </TitleContainer>
         {isListOpen && (
           <ListContent>
-            카페 마제스팅, 수아정, 추억의 간식 롤팝 & 나초까지 솜사탕 카페,
-            화학공학과 물약상점, 아날로그 집적 타르트 설계 오늘은 건축왕!,
-            라떼는 슈감자, 예체대부스, 균형 마스터 건축학부, 나랑 두바이 갈래?,
-            ICeTime,상금은 타자 치고 마제스티조인
+            예체대(예술편)부스, ICeTime, 추억의 간식 콜팝 & 나초까지 먹을래연~
+            말래연?, 만쥬만져, 오늘은 건축왕 !, 마제스티조인, 수아정, 나랑
+            두바이 갈래?, 라떼는 슈감자, 솜사탕카페, 아날로그 집적 타르트 설계,
+            균형 마스터: 흔들림 없는 도전, 상금은 타자 치고, 화학공학과
+            물약상점, 카페 마제스팅, 건축학부
           </ListContent>
         )}
       </BoothListLayout>
@@ -74,7 +75,7 @@ const BoothListLayout = styled.div`
   align-items: center;
   gap: 12px;
   margin-top: 27px;
-  min-height: 140px;
+  min-height: 170px;
   padding: 0 30px;
   color: ${({ theme }) => theme.colors.blue100};
 `;

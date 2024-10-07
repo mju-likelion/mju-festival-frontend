@@ -167,7 +167,7 @@ const Description = styled.p`
   ${({ theme }) => theme.typographies.body2};
   line-height: 20px;
   overflow-wrap: break-word;
-  white-space: normal;
+  white-space: pre-wrap;
 `;
 const LocationBox = styled.div`
   height: 30px;

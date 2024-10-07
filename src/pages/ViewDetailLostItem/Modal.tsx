@@ -22,7 +22,6 @@ const Modal = ({ setIsModalOpen, title, content, onConfirm }: ModalProps) => {
     </OverlayWrapper>
   );
 };
-
 const OverlayWrapper = styled.div`
   position: fixed;
   top: 0;
@@ -63,9 +62,7 @@ const Title = styled.p`
 `;
 
 const Content = styled.div`
-  ${({ theme }) => theme.typographies.body2};
-  line-height: 20px;
-  white-space: pre-wrap;
+  width: 100%;
 `;
 
 const Button = styled.button`

@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { getBoothDepartments, getBooths } from '../../api/booth.ts';
 import { ReactComponent as CheckedIcon } from '../../assets/icons/booth-checked.svg';
 import { ReactComponent as UnCheckedIcon } from '../../assets/icons/booth-un-checked.svg';
-import { ReactComponent as StampIcon } from '../../assets/icons/stamp.svg';
+import { ReactComponent as StampIcon } from '../../assets/icons/boothStampIcon.svg';
 import Header from '../../components/Header.tsx';
 import { BoothDepartment, BoothListObj } from '../../types';
 
@@ -235,18 +235,20 @@ const BoothContainer = styled.div`
   position: relative;
 `;
 const StyledStampIcon = styled(StampIcon)`
-  top: -16px;
-  right: 2px;
+  top: 6px;
+  right: 15px;
   position: absolute;
+  opacity: 0.9;
 `;
 const BoothBox = styled.div<{ $isEventBooth: boolean }>`
   width: calc(100% - 20px);
   margin: 0 10px 15px 10px;
   padding: 12px 11px;
-  box-shadow: 2px 2px 9px
-    ${({ theme, $isEventBooth }) =>
-      $isEventBooth ? theme.colors.blue300 : `rgba(36, 39, 46, 0.3)`};
+  box-shadow: 2px 2px 9px rgba(36, 39, 46, 0.3);
   border-radius: 12px;
+  border: 1px solid
+    ${({ theme, $isEventBooth }) =>
+      $isEventBooth ? theme.colors.blue100 : 'transparent'};
   display: flex;
   gap: 10px;
   cursor: pointer;
