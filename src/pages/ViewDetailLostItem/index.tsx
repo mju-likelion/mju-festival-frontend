@@ -198,6 +198,7 @@ const ItemTitle = styled.p`
 const ItemContent = styled.p`
   height: 158px;
   ${({ theme }) => theme.typographies.body2};
+  line-height: 22px;
   color: ${({ theme }) => theme.colors.text900};
 `;
 
