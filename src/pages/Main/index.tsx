@@ -1,15 +1,15 @@
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { ReactComponent as BoothStatueImg } from '../../assets/imgs/boothStatue.svg';
+import BoothStatueImg from '../../assets/imgs/boothStatue.webp';
+import LostItemStatueImg from '../../assets/imgs/lostitemStatue.webp';
+import NoticeStatueImg from '../../assets/imgs/noticeStatue.webp';
+import TimeTableStatueImg from '../../assets/imgs/timetableStatue.webp';
+import MapStatueImg from '../../assets/imgs/mapStatue.webp';
 import { ReactComponent as InstagramIconImg } from '../../assets/imgs/instagram_icon.svg';
-import { ReactComponent as LostItemStatueImg } from '../../assets/imgs/lostitemStatue.svg';
 import { ReactComponent as MajestyLogo } from '../../assets/imgs/majesty_logo.svg';
 import { ReactComponent as MajestySubLogo } from '../../assets/imgs/majesty_sub_logo.svg';
-import { ReactComponent as MapStatueImg } from '../../assets/imgs/mapStatue.svg';
-import { ReactComponent as NoticeStatueImg } from '../../assets/imgs/noticeStatue.svg';
 import { ReactComponent as TicketIconImg } from '../../assets/imgs/ticket_icon.svg';
-import { ReactComponent as TimeTableStatueImg } from '../../assets/imgs/timetableStatue.svg';
 import FloatingButton from '../../components/FloatingButton/index.tsx';
 import InfoText from '../../components/InfoText.tsx';
 import { MainButtonBgImg } from '../../types/index.ts';
@@ -81,30 +81,35 @@ const Main = () => {
             {
               to: '/map',
               img: MapStatue,
+              src: MapStatueImg,
               text: '지도',
               bgimg: 'map' as MainButtonBgImg,
             },
             {
               to: '/booths',
               img: BoothStatue,
+              src: BoothStatueImg,
               text: '부스정보',
               bgimg: 'booth' as MainButtonBgImg,
             },
             {
               to: '/timetable',
               img: TimeTableStatue,
+              src: TimeTableStatueImg,
               text: '타임테이블',
               bgimg: 'timetable' as MainButtonBgImg,
             },
             {
               to: '/view/all-notices',
               img: NoticeStatue,
+              src: NoticeStatueImg,
               text: '공지사항',
               bgimg: 'notice' as MainButtonBgImg,
             },
             {
               to: '/lost-items',
               img: LostItemStatue,
+              src: LostItemStatueImg,
               text: '분실물 찾기',
               bgimg: 'lostItem' as MainButtonBgImg,
             },
@@ -122,7 +127,12 @@ const Main = () => {
               whileTap={{ scale: 0.95 }}
             >
               <Link to={item.to}>
-                <item.img />
+                <item.img
+                  src={item.src}
+                  alt={item.src}
+                  width="104px"
+                  height="104px"
+                />
               </Link>
               <MainMenuButton
                 bgimg={item.bgimg}
@@ -279,36 +289,35 @@ const ButtonBox = motion(styled.div`
   height: 104px;
 `);
 
-const MapStatue = styled(MapStatueImg)`
+const MapStatue = styled.img`
   position: absolute;
   bottom: -3px;
   left: -1px;
-  /* transform: scaleX(-1); */
   z-index: 20;
 `;
 
-const BoothStatue = styled(BoothStatueImg)`
-  position: absolute;
-  right: -2px;
-  bottom: -3px;
-  z-index: 20;
-`;
-
-const TimeTableStatue = styled(TimeTableStatueImg)`
-  position: absolute;
-  left: -2px;
-  bottom: -3px;
-  z-index: 20;
-`;
-
-const NoticeStatue = styled(NoticeStatueImg)`
+const BoothStatue = styled.img`
   position: absolute;
   right: -2px;
   bottom: -4px;
   z-index: 20;
 `;
 
-const LostItemStatue = styled(LostItemStatueImg)`
+const TimeTableStatue = styled.img`
+  position: absolute;
+  left: -2px;
+  bottom: -3px;
+  z-index: 20;
+`;
+
+const NoticeStatue = styled.img`
+  position: absolute;
+  right: -2px;
+  bottom: -3px;
+  z-index: 20;
+`;
+
+const LostItemStatue = styled.img`
   position: absolute;
   z-index: 20;
 `;
