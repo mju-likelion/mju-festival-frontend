@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { ReactComponent as FooterHomeIcon } from '../../assets/icons/footer_home_icon.svg';
-import { ReactComponent as FooterLinkIcon } from '../../assets/icons/footer_link_icon.svg';
-import { ReactComponent as FooterMJUIcon } from '../../assets/icons/footer_mju_logo.svg';
+import FooterHomeIcon from '../../assets/icons/footer_home_icon.webp';
+import FooterLinkIcon from '../../assets/icons/footer_link_icon.webp';
+import FooterMJUIcon from '../../assets/icons/footer_mju_logo.webp';
 import { openHyperlink } from '../../utils/openLinkUtil';
 
 const ContentLayout = () => {
@@ -11,17 +11,27 @@ const ContentLayout = () => {
         <IconBox
           onClick={() => openHyperlink('https://www.mju.ac.kr/mjukr/index.do')}
         >
-          <FooterHomeIcon />
+          <img
+            src={FooterHomeIcon}
+            alt="FooterHomeIcon"
+            width="24px"
+            height="24px"
+          />
           <p>https://www.mju.ac.kr/mjukr/index.do</p>
         </IconBox>
         <IconBox
           onClick={() => openHyperlink('https://open.kakao.com/o/sneAIT0f')}
         >
-          <FooterLinkIcon />
+          <img
+            src={FooterLinkIcon}
+            alt="FooterLinkIcon"
+            width="24px"
+            height="24px"
+          />
           <p>https://open.kakao.com/o/sneAIT0f</p>
         </IconBox>
       </IconContainer>
-      <FooterMJUIcon />
+      <img src={FooterMJUIcon} alt="FooterMJUIcon" width="94px" height="45px" />
     </Wrapper>
   );
 };
