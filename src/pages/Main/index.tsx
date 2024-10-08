@@ -6,10 +6,10 @@ import LostItemStatueImg from '../../assets/imgs/lostitemStatue.webp';
 import NoticeStatueImg from '../../assets/imgs/noticeStatue.webp';
 import TimeTableStatueImg from '../../assets/imgs/timetableStatue.webp';
 import MapStatueImg from '../../assets/imgs/mapStatue.webp';
-import { ReactComponent as InstagramIconImg } from '../../assets/imgs/instagram_icon.svg';
+import InstagramIconImg from '../../assets/icons/instagram_icon.webp';
+import TicketIconImg from '../../assets/icons/ticket_icon.webp';
 import { ReactComponent as MajestyLogo } from '../../assets/imgs/majesty_logo.svg';
-import { ReactComponent as MajestySubLogo } from '../../assets/imgs/majesty_sub_logo.svg';
-import { ReactComponent as TicketIconImg } from '../../assets/imgs/ticket_icon.svg';
+import MajestySubLogo from '../../assets/imgs/majesty_sub_logo.webp';
 import FloatingButton from '../../components/FloatingButton/index.tsx';
 import InfoText from '../../components/InfoText.tsx';
 import { MainButtonBgImg } from '../../types/index.ts';
@@ -35,7 +35,12 @@ const Main = () => {
       <TitleLayout>
         <LogoLayout>
           <MajestyLogo />
-          <MajestySubLogo />
+          <img
+            src={MajestySubLogo}
+            alt="MajestySubLogo"
+            width="78px"
+            height="15px"
+          />
         </LogoLayout>
         <p>{getCurrentDate(DateOnlyFormat).replace(/\./g, '/')}</p>
       </TitleLayout>
@@ -52,7 +57,12 @@ const Main = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <TicketIcon />
+          <img
+            src={TicketIconImg}
+            alt="TicketIconImg"
+            width="24px"
+            height="24px"
+          />
           <TicketFriendsBtn type="button">
             <p>티켓프렌즈</p>
           </TicketFriendsBtn>
@@ -65,7 +75,12 @@ const Main = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          <InstagramIcon />
+          <img
+            src={InstagramIconImg}
+            alt="InstagramIconImg"
+            width="24px"
+            height="24px"
+          />
           <InstagramBtn>
             <p>학생회 인스타</p>
           </InstagramBtn>
@@ -215,7 +230,7 @@ const TicketFriendsBtn = styled.button`
   }
 `;
 
-const TicketIcon = styled(TicketIconImg)`
+const TicketIcon = styled.img`
   width: 24px;
   height: 24px;
   flex-shrink: 0;
@@ -250,7 +265,7 @@ const InstagramBtn = styled.button`
   }
 `;
 
-const InstagramIcon = styled(InstagramIconImg)`
+const InstagramIcon = styled.img`
   width: 24px;
   height: 24px;
   flex-shrink: 0;

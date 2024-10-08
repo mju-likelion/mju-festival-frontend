@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 import { CelebrityInfo, TimeTableDate } from '../../types';
-import tencm from '../../assets/team_imgs/10cm.png';
-import carthegarden from '../../assets/team_imgs/carthegarden.png';
-import yena from '../../assets/team_imgs/yena.png';
-import changmo from '../../assets/team_imgs/changmo.png';
-import heize from '../../assets/team_imgs/heize.png';
-import punch from '../../assets/team_imgs/punch.png';
+import tencm from '../../assets/team_imgs/10cm.webp';
+import carthegarden from '../../assets/team_imgs/carthegarden.webp';
+import yena from '../../assets/team_imgs/yena.webp';
+import changmo from '../../assets/team_imgs/changmo.webp';
+import heize from '../../assets/team_imgs/heize.webp';
+import punch from '../../assets/team_imgs/punch.webp';
 
 interface CelebrityInfoProps {
   date: TimeTableDate;
@@ -53,7 +53,12 @@ const CelebrityPerformance = ({ date }: CelebrityInfoProps) => {
             <Name>{performance.name}</Name>
             <Badege>연예인</Badege>
           </TextContainer>
-          <CelebrityImg src={performance.img} alt={performance.name} />
+          <CelebrityImg
+            src={performance.img}
+            alt={performance.name}
+            width="181px"
+            height="100px"
+          />
         </InformLayout>
       ))}
     </Wrapper>
