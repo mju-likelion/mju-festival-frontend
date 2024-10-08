@@ -140,6 +140,7 @@ const Content = styled.div`
   height: 145px;
   font-size: 17px;
   font-weight: 400;
+  line-height: 22px;
   white-space: pre-wrap;
   overflow-y: auto;
 

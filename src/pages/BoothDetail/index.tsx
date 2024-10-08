@@ -165,7 +165,7 @@ const Description = styled.p`
   margin-bottom: 20px;
   color: ${({ theme }) => theme.colors.text900};
   ${({ theme }) => theme.typographies.body2};
-  line-height: 20px;
+  line-height: 22px;
   overflow-wrap: break-word;
   white-space: pre-wrap;
 `;
