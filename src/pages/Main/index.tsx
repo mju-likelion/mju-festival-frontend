@@ -230,12 +230,6 @@ const TicketFriendsBtn = styled.button`
   }
 `;
 
-const TicketIcon = styled.img`
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-`;
-
 const InstagramContainer = motion(styled.div`
   display: flex;
   width: 100%;
@@ -263,13 +257,6 @@ const InstagramBtn = styled.button`
     text-align: center;
     white-space: nowrap;
   }
-`;
-
-const InstagramIcon = styled.img`
-  width: 24px;
-  height: 24px;
-  flex-shrink: 0;
-  z-index: 20;
 `;
 
 // 축제 정보

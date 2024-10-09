@@ -52,7 +52,11 @@ const NoticeContent = ({ currentPage, isSorted }: NoticeContentProps) => {
             <NoticeCard
               key={notice.id}
               title={notice.title}
-              content={notice.content}
+              content={
+                notice.content.length > 55
+                  ? notice.content.substring(0, 58)
+                  : notice.content
+              }
               onClick={() => navigate(`/view/detail-notice/${notice.id}`)}
             />
           ))
