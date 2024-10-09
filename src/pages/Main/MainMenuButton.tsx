@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import mapBgImg from '../../assets/imgs/mapBtnBgImg.png';
-import boothBgImg from '../../assets/imgs/boothBtnBgImg.png';
-import timetableBgImg from '../../assets/imgs/timetableBtnBgImg.png';
-import noticeBgImg from '../../assets/imgs/noticeBtnBgImg.png';
-import lostitemBgImg from '../../assets/imgs/lostitemBtnBgImg.png';
+import mapBgImg from '../../assets/imgs/mapBtnBgImg.webp';
+import boothBgImg from '../../assets/imgs/boothBtnBgImg.webp';
+import timetableBgImg from '../../assets/imgs/timetableBtnBgImg.webp';
+import noticeBgImg from '../../assets/imgs/noticeBtnBgImg.webp';
+import lostitemBgImg from '../../assets/imgs/lostitemBtnBgImg.webp';
 import { MainButtonBgImg, ButtonProps } from '../../types';
 
 const MainMenuButton = ({ bgimg, type, onClick, children }: ButtonProps) => {
