@@ -1,3 +1,58 @@
+# 서비스
+<a href="https://mju-majesty.com">MJU Majesty 서비스 바로가기</a>
+
+# 기능 소개
+
+### 랜딩 페이지 / 메인페이지 / 로그인
+
+<table>
+    <td><p>랜딩</p><img src="src/assets/docs/랜딩.gif" alt="랜딩 페이지"></td>
+    <td><p>메인</p><img src="src/assets/docs/메인페이지 목업.png" alt="메인 페이지"></td>
+    <td><p>로그인</p><img src="src/assets/docs/로그인.gif" alt="로그인 페이지"></td>
+</table>
+
+### 부스 및 도장판
+
+<table>
+  <tr>
+    <td><p>QR 발급(관리자)</p><img src="src/assets/docs/부스 QR 발급.gif" alt="부스 QR 발급"></td>
+    <td><p>QR 촬영 및 도장판(학생)</p><img src="src/assets/docs/QR 촬영.gif" alt="부스 QR 촬영 후 도장판으로 이동"></td>
+    <td><p>QR 시연 이미지</p><img src="src/assets/docs/QR 시연.png" alt="부스 QR 촬영 시연 이미지"></td>
+  </tr>
+  <tr>
+    <td><p>부스 정보 수정</p><img src="src/assets/docs/부스 수정.gif" alt="부스 정보 수정"></td>
+    <td><p>부스 리스트 조회</p><img src="src/assets/docs/부스 리스트.gif" alt="부스 리스트 조회"></td>
+    <td><p>부스 필터</p><img src="src/assets/docs/부스 필터.gif" alt="부스 필터 조회"></td>
+  </tr>
+</table>
+
+### 분실물
+
+<table>
+  <td><p>분실물 찾기</p><img src="src/assets/docs/분실물.gif" alt="분실물 찾기"></td>
+</table>
+
+### 타임테이블
+
+<table>
+  <td><p>타임테이블 조회</p><img src="src/assets/docs/타임테이블.gif" alt="타임테이블 조회"></td>
+</table>
+
+### 공지사항
+
+<table>
+  <td><p>공지사항</p><img src="src/assets/docs/공지사항.gif" alt="공지사항 조회"></td>
+</table>
+
+### 지도
+
+<table>
+  <td><p>지도</p><img src="src/assets/docs/지도.gif" alt="지도 조회" ></td>
+</table>
+
+---
+
+
 # 📠 Convention
 
 ## 🤝 Branch Naming Convention
